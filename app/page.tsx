@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ArrowRight, CheckCircle2, ChevronRight, Star } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -12,6 +12,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { TestimonialSlider } from "@/components/TestimonialSlider";
 import { ServicesSection } from "@/components/ServicesSection";
+import { OurWorksPCB } from "@/components/OurWorksPCB";
 import {
   bindPremiumHover,
   bindServiceCardHover,
@@ -30,6 +31,7 @@ import {
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [startVisual, setStartVisual] = useState(false);
 
   // Global premium GSAP bindings for hovers
   useGSAP(() => {
@@ -86,6 +88,7 @@ export default function Home() {
         scale: 1,
         clearProps: "all"
       });
+      setStartVisual(true);
     } else {
       const tl = gsap.timeline();
 
@@ -145,6 +148,9 @@ export default function Home() {
         { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "power3.out" },
         "-=1.0"
       );
+      tl.call(() => {
+        setStartVisual(true);
+      });
     }
 
     return () => {
@@ -232,7 +238,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative z-10 hero-visual-container opacity-0">
-              <EngineeringVisual />
+              <EngineeringVisual startAnimation={startVisual} />
             </div>
           </div>
         </section>
@@ -261,80 +267,7 @@ export default function Home() {
         </section>
 
         {/* Our Works Section */}
-        <section id="our-works" className="bg-bg-secondary border-b border-border-primary px-5 py-20 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div data-reveal className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-              <div>
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Our Works</p>
-                <h2 className="mt-3 max-w-3xl text-4xl font-black text-text-primary md:text-5xl">Real projects. Proven engineering outcomes.</h2>
-              </div>
-              <Link href="/our-works" className="inline-flex items-center gap-2 font-bold text-signal transition hover:opacity-85">
-                View all works <ArrowRight size={18} />
-              </Link>
-            </div>
-            <div className="grid gap-7 lg:grid-cols-3">
-              {works.map((work) => {
-                const Icon = work.icon;
-                return (
-                  <Link
-                    data-reveal
-                    href={`/our-works/${work.slug}`}
-                    key={work.slug}
-                    className="project-card-premium group flex flex-col overflow-hidden rounded-2xl border border-border-primary bg-bg-card shadow-crisp transition duration-300"
-                  >
-                    {/* Project Image */}
-                    <div className="relative h-[280px] w-full flex items-center justify-center bg-bg-secondary border-b border-border-primary overflow-hidden">
-                      <Image
-                        src={work.image}
-                        alt={work.title}
-                        fill
-                        className="project-card-image object-contain p-4 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      {/* Premium Green Overlay */}
-                      <div className="project-card-overlay absolute inset-0 bg-[#00FF88] opacity-0 transition-opacity duration-300 pointer-events-none" />
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="project-card-body flex flex-1 flex-col p-6">
-                      {/* Icon + category + client row */}
-                      <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded bg-bg-secondary text-text-primary transition duration-300 group-hover:bg-signal group-hover:text-white">
-                          <Icon size={19} />
-                        </div>
-                        <div className="flex flex-col gap-0.5">
-                          <span className="rounded-full border border-signal/30 bg-signal/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-signal">
-                            {work.category}
-                          </span>
-                          <p className="text-xs font-bold uppercase tracking-[0.1em] text-text-secondary">
-                            Client: <span className="text-text-primary">{work.client}</span>
-                          </p>
-                        </div>
-                      </div>
-
-                      <h3 className="text-xl font-black text-text-primary">{work.title}</h3>
-                      <p className="mt-3 flex-1 text-sm leading-7 text-text-secondary">{work.short}</p>
-
-                      {/* Service tags */}
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {work.services.map((svc) => (
-                          <span key={svc} className="flex items-center gap-1.5 text-xs font-semibold text-text-secondary">
-                            <CheckCircle2 className="shrink-0 text-signal" size={13} />
-                            {svc}
-                          </span>
-                        ))}
-                      </div>
-
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-signal">
-                        View project <ArrowRight size={15} />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <OurWorksPCB />
 
         {/* Services Section */}
         <ServicesSection />

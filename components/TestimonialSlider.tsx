@@ -37,7 +37,7 @@ function InitialsAvatar({
       <defs>
         <radialGradient id={`avatar-glow-${id}`} cx="35%" cy="35%" r="65%">
           <stop offset="0%" stopColor={accent} stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#050816" stopOpacity="1" />
+          <stop offset="100%" stopColor="#000000" stopOpacity="1" />
         </radialGradient>
       </defs>
       <circle cx="32" cy="32" r="32" fill={`url(#avatar-glow-${id})`} />

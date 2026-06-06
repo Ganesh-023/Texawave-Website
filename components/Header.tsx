@@ -28,8 +28,6 @@ import {
   PackageCheck,
   CircuitBoard,
   RadioTower,
-  Sun,
-  Moon,
 } from "lucide-react";
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
@@ -182,41 +180,7 @@ export function Header() {
   const [mobileMegaOpen, setMobileMegaOpen] = useState(false);
   const [mobileWorksOpen, setMobileWorksOpen] = useState(false);
 
-  /* Theme state & logic */
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    const localTheme = localStorage.getItem('tw-theme') as 'light' | 'dark' | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const activeTheme = localTheme || (systemPrefersDark ? 'dark' : 'light');
-    setTheme(activeTheme);
-
-    // Ensure correct classes on documentElement at mount
-    if (activeTheme === 'dark') {
-      document.documentElement.classList.add('dark', 'dark-theme');
-      document.documentElement.classList.remove('light-theme');
-    } else {
-      document.documentElement.classList.add('light-theme');
-      document.documentElement.classList.remove('dark', 'dark-theme');
-    }
-
-    setMounted(true);
-  }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    localStorage.setItem('tw-theme', nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark', 'dark-theme');
-      document.documentElement.classList.remove('light-theme');
-    } else {
-      document.documentElement.classList.add('light-theme');
-      document.documentElement.classList.remove('dark', 'dark-theme');
-    }
-  };
 
   /* ── Set initial opacity=0 synchronously before paint (GSAP entrance) ── */
   useLayoutEffect(() => {
@@ -550,8 +514,8 @@ export function Header() {
 
   /* ── Themed Background classes ── */
   const headerBgCls = scrolled
-    ? "border-b border-[#00E676]/20 bg-[#0A0A0A]/95 backdrop-blur-md shadow-premium"
-    : "border-b border-white/5 bg-[#0A0A0A]/90 backdrop-blur-sm";
+    ? "border-b border-[#00E676]/20 bg-black/95 backdrop-blur-md shadow-premium"
+    : "border-b border-white/5 bg-black/90 backdrop-blur-sm";
 
   /* ─────────────────────────────── RENDER ──────────────────────────────── */
   return (
@@ -648,7 +612,7 @@ export function Header() {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-[#0A0A0A]" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-black" />
                       </div>
                       <div className="overflow-hidden rounded-2xl border border-[#00E676]/20 shadow-premium"
                         style={{
@@ -755,7 +719,7 @@ export function Header() {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-[#0A0A0A]" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-black" />
                       </div>
 
                       <div className="overflow-hidden rounded-2xl border border-[#00E676]/20 shadow-premium"
@@ -857,33 +821,6 @@ export function Header() {
 
           {/* ── Right Controls ── */}
           <div className="flex items-center gap-2.5">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              type="button"
-              className={[
-                "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676]",
-                theme === "dark"
-                  ? "border border-white/20 text-white bg-transparent hover:bg-white/5"
-                  : "border border-white bg-white text-[#111111] hover:bg-white/90 shadow-crisp"
-              ].join(" ")}
-              aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-            >
-              {mounted && (
-                <>
-                  {/* Sun icon */}
-                  <span className={`absolute transform transition-all duration-300 ${theme === "dark" ? "scale-0 rotate-90 opacity-0" : "scale-100 rotate-0 opacity-100"
-                    }`}>
-                    <Sun size={18} />
-                  </span>
-                  {/* Moon icon */}
-                  <span className={`absolute transform transition-all duration-300 ${theme === "dark" ? "scale-100 rotate-0 opacity-100" : "scale-0 -rotate-90 opacity-0"
-                    }`}>
-                    <Moon size={18} />
-                  </span>
-                </>
-              )}
-            </button>
 
             {/* Book a Meeting CTA (desktop) */}
             <Link
@@ -948,7 +885,7 @@ export function Header() {
       <div
         id="mobile-menu"
         ref={mobileMenuRef}
-        className="fixed inset-0 z-40 flex-col bg-[#0A0A0A] lg:hidden"
+        className="fixed inset-0 z-40 flex-col bg-black lg:hidden"
         style={{ display: "none", opacity: 0 }}
         role="dialog"
         aria-modal="true"

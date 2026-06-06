@@ -49,15 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      {/* Anti-flash: reads localStorage before React hydrates */}
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('tw-theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;var theme=(t==='dark'||(t===null&&d))?'dark':'light';document.documentElement.setAttribute('data-theme',theme);if(theme==='dark'){document.documentElement.classList.add('dark','dark-theme');document.documentElement.classList.remove('light-theme')}else{document.documentElement.classList.add('light-theme');document.documentElement.classList.remove('dark','dark-theme')}}catch(e){}})();`
-          }}
-        />
-      </head>
+    <html lang="en" className="dark dark-theme" data-theme="dark">
       <body className={`${inter.variable} font-sans antialiased`}>{children}</body>
     </html>
   );

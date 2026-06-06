@@ -510,7 +510,7 @@ export function WhyTexawave() {
       ref={sectionRef}
       id="why-texawave"
       aria-labelledby="why-texawave-heading"
-      style={{ background: "#0A0A0A", position: "relative" }}
+      style={{ background: "#000000", position: "relative" }}
     >
       {/* Background layers */}
       <BlueprintGrid />
