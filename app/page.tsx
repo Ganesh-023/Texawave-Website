@@ -7,12 +7,12 @@ import { ArrowRight, CheckCircle2, ChevronRight, Star } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { AnimatedShell } from "@/components/AnimatedShell";
-import { EngineeringVisual } from "@/components/EngineeringVisual";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { TestimonialSlider } from "@/components/TestimonialSlider";
 import { ServicesSection } from "@/components/ServicesSection";
 import { OurWorksPCB } from "@/components/OurWorksPCB";
+import { TexawaveLoader } from "@/components/TexawaveLoader";
 import {
   bindPremiumHover,
   bindServiceCardHover,
@@ -31,15 +31,36 @@ import {
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const [startVisual, setStartVisual] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+  const [isLoaderActive, setIsLoaderActive] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+
+    // Skip loading animation on subsequent session visits or if reduced-motion is requested
+    const skipLoader = sessionStorage.getItem("texawave-loaded") === "true" || mediaQuery.matches;
+    if (!skipLoader) {
+      setShowLoader(true);
+      setIsLoaderActive(true);
+    }
+
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
 
   // Global premium GSAP bindings for hovers
   useGSAP(() => {
+    if (isLoaderActive) return;
+
     // 1. Bind Service Cards
     const serviceCards = document.querySelectorAll(".service-card-premium");
     const serviceCleanups = Array.from(serviceCards).map((card) =>
       bindServiceCardHover(card as HTMLElement, {
-        glowColor: "rgba(0, 255, 136, 0.18)"
+        glowColor: "rgba(0, 89, 0, 0.25)"
       })
     );
 
@@ -82,13 +103,12 @@ export default function Home() {
     // 4. Custom Hero Entrance Timeline Sequence
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
-      gsap.set(".hero-subheading, .hero-title-line, .hero-description, .hero-ctas, .hero-tags, .hero-visual-container", {
+      gsap.set(".hero-subheading, .hero-title-line, .hero-description, .hero-ctas, .hero-tags", {
         opacity: 1,
         y: 0,
         scale: 1,
         clearProps: "all"
       });
-      setStartVisual(true);
     } else {
       const tl = gsap.timeline();
 
@@ -114,7 +134,7 @@ export default function Home() {
               text: text,
               chars: "upperAndLowerCase",
               revealDelay: 0.2,
-              tweenLength: true
+              tweenLength: false
             }
           },
           index === 0 ? "-=0.3" : "-=2.4"
@@ -141,16 +161,6 @@ export default function Home() {
         { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
         "-=0.6"
       );
-
-      // Right-side engineering visual slides and fades into view
-      tl.fromTo(".hero-visual-container",
-        { opacity: 0, scale: 0.96, y: 30 },
-        { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "power3.out" },
-        "-=1.0"
-      );
-      tl.call(() => {
-        setStartVisual(true);
-      });
     }
 
     return () => {
@@ -158,7 +168,7 @@ export default function Home() {
       projectCleanups.forEach((cleanup) => cleanup && cleanup());
       ctaCleanups.forEach((cleanup) => cleanup && cleanup());
     };
-  }, []);
+  }, [isLoaderActive]);
 
   // Parallax floating coordinates inside hero section
   const handleHeroMouseMove = (e: React.MouseEvent) => {
@@ -175,6 +185,16 @@ export default function Home() {
       ease: "power2.out",
       stagger: 0.12
     });
+
+    if (!prefersReducedMotion) {
+      gsap.to(".hero-video-bg", {
+        x: (x / rect.width) * -15,
+        y: (y / rect.height) * -15,
+        scale: 1.05,
+        duration: 1.2,
+        ease: "power2.out"
+      });
+    }
   };
 
   const handleHeroMouseLeave = () => {
@@ -184,39 +204,86 @@ export default function Home() {
       duration: 1.2,
       ease: "power3.out"
     });
+
+    if (!prefersReducedMotion) {
+      gsap.to(".hero-video-bg", {
+        x: 0,
+        y: 0,
+        scale: 1.02,
+        duration: 1.8,
+        ease: "power3.out"
+      });
+    }
   };
 
   return (
-    <AnimatedShell>
-      <Header />
-      <main className="overflow-hidden pt-[110px]">
+    <>
+      {showLoader && isLoaderActive && (
+        <TexawaveLoader
+          onComplete={() => {
+            setIsLoaderActive(false);
+            sessionStorage.setItem("texawave-loaded", "true");
+          }}
+        />
+      )}
+      <AnimatedShell>
+        <Header delayEntrance={showLoader && isLoaderActive} />
+        <main className="overflow-hidden pt-[110px]">
         {/* Hero Section */}
         <section
+          id="home"
           ref={heroRef}
           onMouseMove={handleHeroMouseMove}
           onMouseLeave={handleHeroMouseLeave}
-          className="relative bg-bg-secondary border-b border-border-primary overflow-hidden z-[1]"
+          className="relative bg-black border-b border-border-primary overflow-hidden z-[1] min-h-[calc(100vh-110px)] flex items-center"
         >
-          <div className="absolute inset-0 grid-pattern opacity-70" aria-hidden="true" />
-          
-          {/* Interactive Floating Glowing Shapes */}
-          <div className="hero-floating-element pointer-events-none absolute left-[8%] top-[15%] h-56 w-56 rounded-full bg-[#00FF88]/6 blur-3xl" />
-          <div className="hero-floating-element pointer-events-none absolute right-[12%] bottom-[10%] h-72 w-72 rounded-full bg-[#00D4FF]/5 blur-3xl" />
+          {/* Video / Poster Background */}
+          {prefersReducedMotion || videoError ? (
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out z-0 hero-video-bg"
+              style={{ backgroundImage: `url('/hero_video_poster.png')`, transform: 'scale(1.02)' }}
+            />
+          ) : (
+            <video
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 hero-video-bg transition-transform duration-1000 ease-out"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/hero_video_poster.png"
+              onError={() => setVideoError(true)}
+              style={{ transform: 'scale(1.02)' }}
+              aria-hidden="true"
+            >
+              <source src="/Create_a_Cinematic_Hero_Video.mp4" type="video/mp4" />
+            </video>
+          )}
 
-          <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-7xl gap-12 px-5 py-16 md:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:px-8">
-            <div className="relative z-10">
-              <p className="hero-subheading opacity-0 mb-5 inline-flex rounded-full border border-border-primary bg-bg-primary px-4 py-2 text-sm font-bold text-text-primary shadow-crisp">
+          {/* Subtle dark overlay for text readability (55% opacity) */}
+          <div className="absolute inset-0 bg-black/55 z-[2] pointer-events-none" aria-hidden="true" />
+
+          {/* Grid pattern overlay (very subtle, z-2) */}
+          <div className="absolute inset-0 grid-pattern opacity-25 z-[2] pointer-events-none" aria-hidden="true" />
+
+          {/* Interactive Floating Glowing Shapes (z-3) */}
+          <div className="hero-floating-element pointer-events-none absolute left-[8%] top-[15%] h-56 w-56 rounded-full bg-[#005900]/12 blur-3xl z-[3]" />
+          <div className="hero-floating-element pointer-events-none absolute right-[12%] bottom-[10%] h-72 w-72 rounded-full bg-[#00D4FF]/4 blur-3xl z-[3]" />
+
+          {/* Left-aligned Content Container (z-10) */}
+          <div className="relative z-10 mx-auto w-full max-w-7xl px-5 py-20 md:py-28 lg:px-8">
+            <div className="flex w-full flex-col items-start text-left md:max-w-[60%] lg:max-w-[50%]">
+              <p className="hero-subheading opacity-0 mb-6 inline-flex rounded-full border border-border-primary bg-black/80 px-4 py-2 text-sm font-bold text-text-primary shadow-crisp backdrop-blur-md">
                 Hardware product development for global clients
               </p>
-              <h1 className="max-w-4xl text-balance text-5xl font-black leading-[1.02] text-text-primary md:text-7xl">
+              <h1 className="text-balance text-5xl font-black leading-[1.05] text-[#EEEEEE] md:text-7xl">
                 <span className="hero-title-line block opacity-0" data-text="From Idea to">From Idea to</span>
                 <span className="hero-title-line block opacity-0" data-text="Market-Ready">Market-Ready</span>
                 <span className="hero-title-line block opacity-0" data-text="Hardware Product">Hardware Product</span>
               </h1>
-              <p className="hero-description opacity-0 mt-6 max-w-2xl text-lg leading-8 text-text-secondary md:text-xl">
+              <p className="hero-description opacity-0 mt-6 max-w-2xl text-lg leading-8 text-[#EEEEEE]/85 md:text-xl">
                 Texawave helps global startups and manufacturers design, prototype, source, and launch reliable hardware products.
               </p>
-              <div className="hero-ctas opacity-0 mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="hero-ctas opacity-0 mt-10 flex flex-col gap-4 sm:flex-row justify-start w-full sm:w-auto">
                 <Link
                   href="/contact"
                   className="cta-magnetic inline-flex items-center justify-center gap-2 rounded bg-signal px-6 py-4 font-bold text-white shadow-crisp border border-transparent"
@@ -225,20 +292,17 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-bg-primary px-6 py-4 font-bold text-text-primary transition hover:border-signal"
+                  className="inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-black/40 backdrop-blur-sm px-6 py-4 font-bold text-text-primary transition hover:border-signal"
                 >
                   Explore Services <ChevronRight size={18} />
                 </Link>
               </div>
-              <div className="hero-tags opacity-0 mt-8 flex flex-wrap gap-3 text-sm font-semibold text-steel">
-                <span>Mechanical design</span>
-                <span>PCB & embedded</span>
-                <span>Component sourcing</span>
-                <span>IoT software</span>
+              <div className="hero-tags opacity-0 mt-10 flex flex-wrap justify-start gap-4 text-sm font-semibold text-steel">
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Mechanical design</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">PCB & embedded</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Component sourcing</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">IoT software</span>
               </div>
-            </div>
-            <div className="relative z-10 hero-visual-container opacity-0">
-              <EngineeringVisual startAnimation={startVisual} />
             </div>
           </div>
         </section>
@@ -321,7 +385,7 @@ export default function Home() {
         </section>
 
         {/* Why Texawave Section */}
-        <section className="bg-bg-primary px-5 py-20 lg:px-8">
+        <section id="about" className="bg-bg-primary px-5 py-20 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div data-reveal>
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Why Texawave</p>
@@ -358,7 +422,7 @@ export default function Home() {
         <TestimonialSlider />
 
         {/* Insights/Blog Section */}
-        <section className="bg-bg-secondary border-b border-border-primary px-5 py-20 lg:px-8">
+        <section id="blog" className="bg-bg-secondary border-b border-border-primary px-5 py-20 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div data-reveal className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
               <div>
@@ -382,7 +446,7 @@ export default function Home() {
         </section>
 
         {/* Feasibility CTA Section */}
-        <section className="relative bg-bg-secondary border-t border-border-primary px-5 py-20 text-text-primary lg:px-8">
+        <section id="contact" className="relative bg-bg-secondary border-t border-border-primary px-5 py-20 text-text-primary lg:px-8">
           <Image
             src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1800&q=80"
             alt="Engineering workspace with hardware product prototype"
@@ -404,6 +468,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-    </AnimatedShell>
+      </AnimatedShell>
+    </>
   );
 }

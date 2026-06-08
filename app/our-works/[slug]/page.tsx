@@ -9,7 +9,7 @@ import { Header } from "@/components/Header";
 import { works } from "@/lib/content";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const work = works.find((w) => w.slug === params.slug);
+  const { slug } = await params;
+  const work = works.find((w) => w.slug === slug);
   if (!work) return {};
   return {
     title: work.title,
@@ -25,8 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function WorkDetailPage({ params }: Props) {
-  const work = works.find((w) => w.slug === params.slug);
+export default async function WorkDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const work = works.find((w) => w.slug === slug);
   if (!work) notFound();
 
   const Icon = work.icon;
@@ -65,7 +67,7 @@ export default function WorkDetailPage({ params }: Props) {
 
               {/* Icon block */}
               <div className="flex-shrink-0">
-                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-signal text-white shadow-[0_0_48px_rgba(15,159,143,0.35)]">
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-signal text-white shadow-[0_0_48px_rgba(0,89,0,0.45)]">
                   <Icon size={36} />
                 </div>
               </div>

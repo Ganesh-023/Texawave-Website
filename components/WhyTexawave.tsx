@@ -25,7 +25,7 @@ const CARDS = [
     title: "End-to-End Solutions",
     description:
       "Full lifecycle delivery from concept validation through mass production—one partner, zero gaps.",
-    accent: "#00FF88",
+    accent: "#008000",
     size: "large", // spans more cells
   },
   {
@@ -43,7 +43,7 @@ const CARDS = [
     title: "Embedded Systems",
     description:
       "Bare-metal to RTOS firmware developed alongside hardware so integration is seamless from day one.",
-    accent: "#00FF88",
+    accent: "#008000",
     size: "normal",
   },
   {
@@ -61,7 +61,7 @@ const CARDS = [
     title: "Product Development",
     description:
       "Mechanical, electrical, and software streams unified under a single product manager.",
-    accent: "#00FF88",
+    accent: "#008000",
     size: "large",
   },
   {
@@ -79,7 +79,7 @@ const CARDS = [
     title: "Testing & Validation",
     description:
       "Functional, EMC, environmental, and safety testing aligned to IEC, CE, UL, and FCC standards.",
-    accent: "#00FF88",
+    accent: "#008000",
     size: "normal",
   },
   {
@@ -106,7 +106,7 @@ function Particles() {
             height: `${2 + (i % 3)}px`,
             left: `${(i * 4.1 + 3) % 100}%`,
             top: `${(i * 7.3 + 10) % 100}%`,
-            background: i % 2 === 0 ? "#00FF88" : "#00D9FF",
+            background: i % 2 === 0 ? "#005900" : "#00D9FF",
             opacity: 0,
           }}
         />
@@ -128,7 +128,7 @@ function BlueprintGrid() {
           <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00D9FF" strokeWidth="0.6" />
         </pattern>
         <pattern id="wtx-grid-lg" width="180" height="180" patternUnits="userSpaceOnUse">
-          <path d="M 180 0 L 0 0 0 180" fill="none" stroke="#00FF88" strokeWidth="1" />
+          <path d="M 180 0 L 0 0 0 180" fill="none" stroke="#008000" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#wtx-grid)" />
@@ -150,7 +150,7 @@ function BeamLines() {
           width: "120%",
           height: "1px",
           background:
-            "linear-gradient(90deg, transparent 0%, #00D9FF 40%, #00FF88 60%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, #00D9FF 40%, #008000 60%, transparent 100%)",
           transform: "rotate(-8deg)",
           opacity: 0.18,
         }}
@@ -164,7 +164,7 @@ function BeamLines() {
           width: "120%",
           height: "1px",
           background:
-            "linear-gradient(90deg, transparent 0%, #00FF88 30%, #00D9FF 70%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, #008000 30%, #00D9FF 70%, transparent 100%)",
           transform: "rotate(5deg)",
           opacity: 0.13,
         }}
@@ -191,7 +191,7 @@ function BeamLines() {
           width: "50vw",
           height: "50vw",
           background:
-            "radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 65%)",
+            "radial-gradient(circle, rgba(0,89,0,0.15) 0%, transparent 65%)",
           borderRadius: "50%",
         }}
       />
@@ -563,13 +563,13 @@ export function WhyTexawave() {
                 <span
                   className="wtx-word wtx-texawave-word inline-block"
                   style={{
-                    background: "linear-gradient(90deg, #00FF88 0%, #00D9FF 60%, #00FF88 120%)",
+                    background: "linear-gradient(90deg, #008000 0%, #00D9FF 60%, #008000 120%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                     backgroundSize: "200% 100%",
                     animation: "wtx-shimmer 4s linear infinite",
-                    filter: "drop-shadow(0 0 18px rgba(0,255,136,0.35))",
+                    filter: "drop-shadow(0 0 18px rgba(0,89,0,0.55))",
                   }}
                 >
                   Texawave
@@ -613,16 +613,16 @@ export function WhyTexawave() {
             >
               <div
                 className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-500"
-                style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(0,255,136,0.12) 0%, transparent 65%)" }}
+                style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(0,89,0,0.25) 0%, transparent 65%)" }}
               />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,255,136,0.25), 0 0 32px rgba(0,255,136,0.1)" }} />
-              <div className="absolute left-7 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, #00FF88, transparent)", opacity: 0.8 }} />
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.2)", boxShadow: "0 0 24px rgba(0,255,136,0.1)" }}>
-                <Layers size={26} style={{ color: "#00FF88" }} strokeWidth={1.7} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,89,0,0.45), 0 0 32px rgba(0,89,0,0.2)" }} />
+              <div className="absolute left-7 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, #005900, transparent)", opacity: 0.8 }} />
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,89,0,0.25)", border: "1px solid rgba(0,89,0,0.35)", boxShadow: "0 0 24px rgba(0,89,0,0.2)" }}>
+                <Layers size={26} style={{ color: "#008000" }} strokeWidth={1.7} />
               </div>
               <h3 className="mb-3 text-xl font-bold leading-snug text-white" style={{ letterSpacing: "-0.01em" }}>End-to-End Solutions</h3>
               <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Full lifecycle delivery from concept validation through mass production—one partner, zero gaps in expertise or accountability.</p>
-              <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 transition-opacity duration-300 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00FF88", borderBottom: "1.5px solid #00FF88", borderRadius: "0 0 4px 0" }} />
+              <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 transition-opacity duration-300 group-hover:opacity-50" style={{ borderRight: "1.5px solid #005900", borderBottom: "1.5px solid #005900", borderRadius: "0 0 4px 0" }} />
             </div>
 
             {/* Card 1: Industrial Automation */}
@@ -664,15 +664,15 @@ export function WhyTexawave() {
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(0,255,136,0.12) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,255,136,0.25), 0 0 32px rgba(0,255,136,0.1)" }} />
-              <div className="absolute left-6 top-0 h-[2px] w-12 rounded-b" style={{ background: "linear-gradient(90deg, #00FF88, transparent)", opacity: 0.7 }} />
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.2)", boxShadow: "0 0 20px rgba(0,255,136,0.1)" }}>
-                <Cpu size={22} style={{ color: "#00FF88" }} strokeWidth={1.8} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(0,89,0,0.25) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,89,0,0.45), 0 0 32px rgba(0,89,0,0.2)" }} />
+              <div className="absolute left-6 top-0 h-[2px] w-12 rounded-b" style={{ background: "linear-gradient(90deg, #005900, transparent)", opacity: 0.7 }} />
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,89,0,0.25)", border: "1px solid rgba(0,89,0,0.35)", boxShadow: "0 0 20px rgba(0,89,0,0.2)" }}>
+                <Cpu size={22} style={{ color: "#008000" }} strokeWidth={1.8} />
               </div>
               <h3 className="mb-2 text-base font-bold leading-snug text-white">Embedded Systems</h3>
               <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Bare-metal to RTOS firmware developed alongside hardware so integration is seamless from day one.</p>
-              <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00FF88", borderBottom: "1.5px solid #00FF88", borderRadius: "0 0 4px 0" }} />
+              <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #005900", borderBottom: "1.5px solid #005900", borderRadius: "0 0 4px 0" }} />
             </div>
 
             {/* Row 2: PCB Design, Product Development (large), Manufacturing */}
@@ -707,31 +707,31 @@ export function WhyTexawave() {
               data-card-id="product-development"
               data-card-index={4}
               style={{
-                background: "rgba(0,255,136,0.04)",
+                background: "hsla(120, 100%, 15%, 0.1)",
                 backdropFilter: "blur(18px) saturate(140%)",
                 WebkitBackdropFilter: "blur(18px) saturate(140%)",
-                borderColor: "rgba(0,255,136,0.12)",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,255,136,0.06), inset 0 1px 0 rgba(255,255,255,0.06)",
+                borderColor: "hsla(120, 100%, 20%, 0.25)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.45), 0 0 0 1px hsla(120, 100%, 15%, 0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(0,255,136,0.16) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,255,136,0.3), 0 0 40px rgba(0,255,136,0.12)" }} />
-              <div className="absolute left-7 top-0 h-[2px] w-20 rounded-b" style={{ background: "linear-gradient(90deg, #00FF88, #00D9FF, transparent)", opacity: 0.9 }} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-500" style={{ background: "radial-gradient(ellipse at 60% 40%, hsla(120, 100%, 20%, 0.22) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px hsla(120, 100%, 20%, 0.45), 0 0 40px hsla(120, 100%, 15%, 0.25)" }} />
+              <div className="absolute left-7 top-0 h-[2px] w-20 rounded-b" style={{ background: "linear-gradient(90deg, hsl(120, 100%, 20%), #00D9FF, transparent)", opacity: 0.9 }} />
 
               {/* Floating dots decoration */}
               <div className="pointer-events-none absolute right-8 top-8 flex gap-1.5 opacity-20">
                 {[0, 1, 2].map((d) => (
-                  <span key={d} className="h-1.5 w-1.5 rounded-full" style={{ background: "#00FF88" }} />
+                  <span key={d} className="h-1.5 w-1.5 rounded-full" style={{ background: "#008000" }} />
                 ))}
               </div>
 
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,255,136,0.14)", border: "1px solid rgba(0,255,136,0.25)", boxShadow: "0 0 28px rgba(0,255,136,0.14)" }}>
-                <Package size={26} style={{ color: "#00FF88" }} strokeWidth={1.7} />
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "hsla(120, 100%, 20%, 0.14)", border: "1px solid hsla(120, 100%, 15%, 0.45)", boxShadow: "0 0 28px hsla(120, 100%, 20%, 0.14)" }}>
+                <Package size={26} style={{ color: "#008000" }} strokeWidth={1.7} />
               </div>
               <h3 className="mb-3 text-xl font-bold leading-snug text-white">Product Development</h3>
               <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Mechanical, electrical, and software streams unified under a single product manager. No silos, no handoff friction—just coordinated execution.</p>
-              <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 group-hover:opacity-60" style={{ borderRight: "1.5px solid #00FF88", borderBottom: "1.5px solid #00FF88", borderRadius: "0 0 4px 0" }} />
+              <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 group-hover:opacity-60" style={{ borderRight: "1.5px solid #005900", borderBottom: "1.5px solid #005900", borderRadius: "0 0 4px 0" }} />
             </div>
 
             {/* Card 5: Manufacturing Support */}
@@ -774,19 +774,19 @@ export function WhyTexawave() {
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(0,255,136,0.12) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,255,136,0.25), 0 0 32px rgba(0,255,136,0.1)" }} />
-              <div className="absolute left-6 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, #00FF88, #00D9FF, transparent)", opacity: 0.75 }} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(0,89,0,0.25) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(0,89,0,0.45), 0 0 32px rgba(0,89,0,0.2)" }} />
+              <div className="absolute left-6 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, #008000, #00D9FF, transparent)", opacity: 0.75 }} />
               <div className="flex items-start gap-5">
-                <div className="mb-0 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.2)", boxShadow: "0 0 20px rgba(0,255,136,0.1)" }}>
-                  <FlaskConical size={22} style={{ color: "#00FF88" }} strokeWidth={1.8} />
+                <div className="mb-0 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,89,0,0.25)", border: "1px solid rgba(0,89,0,0.35)", boxShadow: "0 0 20px rgba(0,89,0,0.2)" }}>
+                  <FlaskConical size={22} style={{ color: "#008000" }} strokeWidth={1.8} />
                 </div>
                 <div>
                   <h3 className="mb-2 text-base font-bold leading-snug text-white">Testing & Validation</h3>
                   <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Functional, EMC, environmental, and safety testing aligned to IEC, CE, UL, and FCC standards. Pass first time with our validation framework.</p>
                 </div>
               </div>
-              <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00FF88", borderBottom: "1.5px solid #00FF88", borderRadius: "0 0 4px 0" }} />
+              <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #005900", borderBottom: "1.5px solid #005900", borderRadius: "0 0 4px 0" }} />
             </div>
 
             {/* Card 7: Deployment & Maintenance – spans 2 */}

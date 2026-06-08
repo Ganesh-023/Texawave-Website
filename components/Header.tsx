@@ -6,7 +6,14 @@ import { useEffect, useRef, useState, useCallback, useLayoutEffect } from "react
 import { usePathname } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { createEaseReverseTimeline, bindPremiumHover } from "@/lib/gsap-utils";
+
+// Register ScrollTrigger and ScrollToPlugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+}
 import {
   ChevronDown,
   ArrowUpRight,
@@ -147,7 +154,11 @@ function useScrolled(threshold = 40) {
 
 /* ─── Component ─────────────────────────────────────────────────────────── */
 
-export function Header() {
+interface HeaderProps {
+  delayEntrance?: boolean;
+}
+
+export function Header({ delayEntrance = false }: HeaderProps) {
   const pathname = usePathname();
   const scrolled = useScrolled(40);
 
@@ -180,6 +191,18 @@ export function Header() {
   const [mobileMegaOpen, setMobileMegaOpen] = useState(false);
   const [mobileWorksOpen, setMobileWorksOpen] = useState(false);
 
+  /* scroll sync states */
+  const [activeNavItem, setActiveNavItem] = useState<string>("Home");
+  const [hoveredNavItem, setHoveredNavItem] = useState<string | null>(null);
+
+  /* scroll progress & interaction refs */
+  const progressLineRef = useRef<HTMLDivElement>(null);
+  const verticalProgressRef = useRef<HTMLDivElement>(null);
+  const underlineRef = useRef<HTMLDivElement>(null);
+  const logoPulseRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const isFirstRender = useRef(true);
+
 
 
   /* ── Set initial opacity=0 synchronously before paint (GSAP entrance) ── */
@@ -189,6 +212,7 @@ export function Header() {
 
   /* ── GSAP entrance animation ─────────────────────────────────────────── */
   useGSAP(() => {
+    if (delayEntrance) return;
     gsap.to(headerRef.current, {
       opacity: 1,
       y: 0,
@@ -196,7 +220,7 @@ export function Header() {
       ease: "power3.out",
       delay: 0.12,
     });
-  });
+  }, [delayEntrance]);
 
   /* ── GSAP scroll: shrink height + scale logo ─────────────────────────── */
   useEffect(() => {
@@ -212,6 +236,170 @@ export function Header() {
       gsap.to(logo, { scale: 1, duration: 0.4, ease: "power2.out", transformOrigin: "left center" });
     }
   }, [scrolled]);
+
+  // ── Scroll Progress and Section Tracking ──
+  useGSAP(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    // 1. Horizontal Scroll Progress
+    if (progressLineRef.current) {
+      gsap.fromTo(
+        progressLineRef.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.1,
+          },
+        }
+      );
+    }
+
+    // 2. Vertical Scroll Progress
+    if (verticalProgressRef.current) {
+      gsap.fromTo(
+        verticalProgressRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.1,
+          },
+        }
+      );
+    }
+
+    // 3. Homepage Section Triggers
+    if (pathname === "/") {
+      const sections = [
+        { id: "home", label: "Home" },
+        { id: "our-works", label: "Our Works" },
+        { id: "services", label: "Services" },
+        { id: "about", label: "About Us" },
+        { id: "blog", label: "Blog" },
+        { id: "contact", label: "Contact" },
+      ];
+
+      sections.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (!el) return;
+
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 45%",
+          end: "bottom 45%",
+          onToggle: (self) => {
+            if (self.isActive) {
+              setActiveNavItem(sec.label);
+            }
+          },
+        });
+      });
+    } else {
+      // For non-homepage, lock activeNavItem to current route
+      const currentItem = NAV_ITEMS.find((item) => isActive(item.href));
+      if (currentItem) {
+        setActiveNavItem(currentItem.label);
+      }
+    }
+  }, { dependencies: [pathname], scope: headerRef });
+
+  // ── Sliding Underline Animation ──
+  useEffect(() => {
+    const underline = underlineRef.current;
+    const nav = navRef.current;
+    if (!underline || !nav) return;
+
+    const targetLabel = hoveredNavItem || activeNavItem;
+    const activeEl = nav.querySelector(`[data-nav-label="${targetLabel}"]`) as HTMLElement;
+
+    if (activeEl) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const padding = 16;
+      const targetLeft = activeEl.offsetLeft + padding;
+      const targetWidth = activeEl.offsetWidth - padding * 2;
+
+      if (reduceMotion) {
+        gsap.set(underline, {
+          left: targetLeft,
+          width: targetWidth,
+          opacity: 1,
+        });
+      } else {
+        gsap.to(underline, {
+          left: targetLeft,
+          width: targetWidth,
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      }
+    } else {
+      gsap.to(underline, {
+        opacity: 0,
+        duration: 0.35,
+        overwrite: "auto",
+      });
+    }
+  }, [activeNavItem, hoveredNavItem]);
+
+  // ── Wave Pulse Logo Ripple Effect on Section Changes ──
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const pulse = logoPulseRef.current;
+    if (!pulse) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    gsap.killTweensOf(pulse);
+    gsap.fromTo(
+      pulse,
+      { scale: 0.95, opacity: 0.85 },
+      { scale: 1.35, opacity: 0, duration: 0.9, ease: "power2.out" }
+    );
+  }, [activeNavItem]);
+
+  // ── Smooth Scroll Handler for Desktop Navigation on Homepage ──
+  const handleNavClick = (e: React.MouseEvent, href: string, label: string) => {
+    if (pathname === "/") {
+      const sectionId = href === "/" ? "home" : href.replace("/", "");
+      const targetEl = document.getElementById(sectionId);
+      if (targetEl) {
+        e.preventDefault();
+        closeMobile();
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduceMotion) {
+          window.scrollTo({
+            top: targetEl.offsetTop - 80,
+            behavior: "auto"
+          });
+          setActiveNavItem(label);
+        } else {
+          gsap.to(window, {
+            scrollTo: { y: targetEl, offsetY: 80, autoKill: false },
+            duration: 1.15,
+            ease: "power3.out",
+          });
+        }
+      }
+    }
+  };
 
   /* ── GSAP Custom easeReverse Timelines setup ─────────────────────────── */
   useGSAP(() => {
@@ -514,8 +702,8 @@ export function Header() {
 
   /* ── Themed Background classes ── */
   const headerBgCls = scrolled
-    ? "border-b border-[#00E676]/20 bg-black/95 backdrop-blur-md shadow-premium"
-    : "border-b border-white/5 bg-black/90 backdrop-blur-sm";
+    ? "border-b border-[#005900]/20 bg-black/95 backdrop-blur-md shadow-premium"
+    : "border-b border-transparent bg-transparent backdrop-blur-none";
 
   /* ─────────────────────────────── RENDER ──────────────────────────────── */
   return (
@@ -529,6 +717,14 @@ export function Header() {
         ].join(" ")}
         role="banner"
       >
+        {/* Continuous horizontal progress bar */}
+        <div className="absolute bottom-0 left-0 h-[2.5px] w-full bg-white/5 overflow-hidden">
+          <div
+            ref={progressLineRef}
+            className="h-full w-full bg-[#005900] origin-left scale-x-0 shadow-[0_0_8px_#005900]"
+          />
+        </div>
+
         {/* ── Nav inner (GSAP controls height) ── */}
         <div
           ref={navInnerRef}
@@ -543,7 +739,13 @@ export function Header() {
             className="relative z-10 flex flex-shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded"
             aria-label="Texawave home"
             style={{ transformOrigin: "left center" }}
+            onClick={(e) => handleNavClick(e, "/", "Home")}
           >
+            {/* Wave pulse ripple element */}
+            <div
+              ref={logoPulseRef}
+              className="absolute inset-0 rounded-lg border border-[#008000]/50 pointer-events-none opacity-0 scale-100"
+            />
             <Image
               src="/texawave_logo.png"
               alt="Texawave"
@@ -556,9 +758,21 @@ export function Header() {
 
           {/* ── Desktop Navigation ── */}
           <nav
-            className="hidden items-center gap-0.5 lg:flex"
+            ref={navRef}
+            className="hidden items-center gap-0.5 lg:flex relative"
             aria-label="Primary navigation"
           >
+            {/* Sliding Underline Bar */}
+            <div
+              ref={underlineRef}
+              className="absolute bottom-1.5 h-[2px] bg-[#005900] shadow-[0_0_8px_#005900] pointer-events-none rounded-full"
+              style={{
+                left: 0,
+                width: 0,
+                opacity: 0,
+              }}
+            />
+
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.href);
 
@@ -568,18 +782,25 @@ export function Header() {
                   <div
                     key={item.label}
                     className="relative"
-                    onMouseEnter={handleWorksEnter}
-                    onMouseLeave={handleWorksLeave}
+                    onMouseEnter={() => {
+                      handleWorksEnter();
+                      setHoveredNavItem("Our Works");
+                    }}
+                    onMouseLeave={() => {
+                      handleWorksLeave();
+                      setHoveredNavItem(null);
+                    }}
                   >
                     <button
                       ref={worksButtonRef}
                       type="button"
                       className={[
-                        "group relative flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
+                        "group relative desktop-nav-link flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
                         active || worksOpen
                           ? "navbar-link-active"
                           : "navbar-link",
                       ].join(" ")}
+                      data-nav-label="Our Works"
                       aria-haspopup="true"
                       aria-expanded={worksOpen}
                       onClick={() => setWorksOpen((v) => !v)}
@@ -588,17 +809,8 @@ export function Header() {
                       <ChevronDown
                         ref={worksChevronRef}
                         size={13}
-                        className="opacity-70 group-hover:text-[#00E676] transition-colors duration-300"
+                        className="opacity-70 group-hover:text-[#008000] transition-colors duration-300"
                         aria-hidden="true"
-                      />
-                      {/* Center-origin underline */}
-                      <span
-                        className={[
-                          "absolute bottom-1.5 left-4 right-4 h-px bg-[#00E676] origin-center transition-transform duration-300",
-                          active
-                            ? "scale-x-100"
-                            : "scale-x-0 group-hover:scale-x-100",
-                        ].join(" ")}
                       />
                     </button>
 
@@ -612,13 +824,13 @@ export function Header() {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-black" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#005900]/20 bg-black" />
                       </div>
-                      <div className="overflow-hidden rounded-2xl border border-[#00E676]/20 shadow-premium"
+                      <div className="overflow-hidden rounded-2xl border border-[#005900]/20 shadow-premium"
                         style={{
                           background: "rgba(10, 10, 10, 0.98)",
                           backdropFilter: "blur(20px)",
-                          border: "1px solid rgba(0, 230, 118, 0.2)"
+                          border: "1px solid rgba(0, 89, 0, 0.25)"
                         }}>
                         <div className="p-2">
                           {WORKS.map((work) => {
@@ -629,13 +841,13 @@ export function Header() {
                                 href={work.href}
                                 role="menuitem"
                                 onClick={() => setWorksOpen(false)}
-                                className="group/item flex items-start gap-3.5 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676]"
+                                className="group/item flex items-start gap-3.5 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
                               >
-                                <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#00E676]/10 text-[#00E676] transition-colors duration-200 group-hover/item:bg-[#00E676]/20">
+                                <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/10 text-[#008000] transition-colors duration-200 group-hover/item:bg-[#005900]/20">
                                   <Icon size={15} aria-hidden="true" />
                                 </span>
                                 <div>
-                                  <p className="text-[13px] font-semibold text-white group-hover/item:text-[#00E676] transition-colors duration-300">
+                                  <p className="text-[13px] font-semibold text-white group-hover/item:text-[#008000] transition-colors duration-300">
                                     {work.label}
                                   </p>
                                   <p className="mt-0.5 text-[11.5px] leading-snug" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
@@ -646,11 +858,11 @@ export function Header() {
                             );
                           })}
                         </div>
-                        <div className="border-t border-[#00E676]/10 px-4 py-3">
+                        <div className="border-t border-[#005900]/10 px-4 py-3">
                           <Link
                             href="/our-works"
                             onClick={() => setWorksOpen(false)}
-                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#00E676] transition-all duration-200 hover:opacity-80 focus-visible:outline-none"
+                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#008000] transition-all duration-200 hover:opacity-80 focus-visible:outline-none"
                           >
                             View all works
                             <ArrowUpRight
@@ -672,17 +884,24 @@ export function Header() {
                   <div
                     key={item.label}
                     className="relative"
-                    onMouseEnter={handleServicesEnter}
-                    onMouseLeave={handleServicesLeave}
+                    onMouseEnter={() => {
+                      handleServicesEnter();
+                      setHoveredNavItem("Services");
+                    }}
+                    onMouseLeave={() => {
+                      handleServicesLeave();
+                      setHoveredNavItem(null);
+                    }}
                   >
                     <button
                       type="button"
                       className={[
-                        "group relative flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
+                        "group relative desktop-nav-link flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
                         active || megaOpen
                           ? "navbar-link-active"
                           : "navbar-link",
                       ].join(" ")}
+                      data-nav-label="Services"
                       aria-haspopup="true"
                       aria-expanded={megaOpen}
                       onClick={() => setMegaOpen((v) => !v)}
@@ -691,16 +910,8 @@ export function Header() {
                       <ChevronDown
                         ref={servicesChevronRef}
                         size={13}
-                        className="opacity-70 group-hover:text-[#00E676] transition-colors duration-300"
+                        className="opacity-70 group-hover:text-[#008000] transition-colors duration-300"
                         aria-hidden="true"
-                      />
-                      <span
-                        className={[
-                          "absolute bottom-1.5 left-4 right-4 h-px bg-[#00E676] origin-center transition-transform duration-300",
-                          active || megaOpen
-                            ? "scale-x-100"
-                            : "scale-x-0 group-hover:scale-x-100",
-                        ].join(" ")}
                       />
                     </button>
 
@@ -719,14 +930,14 @@ export function Header() {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#00E676]/20 bg-black" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#005900]/20 bg-black" />
                       </div>
 
-                      <div className="overflow-hidden rounded-2xl border border-[#00E676]/20 shadow-premium"
+                      <div className="overflow-hidden rounded-2xl border border-[#005900]/20 shadow-premium"
                         style={{
                           background: "rgba(10, 10, 10, 0.98)",
                           backdropFilter: "blur(20px)",
-                          border: "1px solid rgba(0, 230, 118, 0.2)"
+                          border: "1px solid rgba(0, 89, 0, 0.25)"
                         }}>
                         <div className="p-2">
                           {SERVICES.map((svc) => {
@@ -734,7 +945,7 @@ export function Header() {
                             return (
                               <div
                                 key={svc.href}
-                                className="group/svc mb-1 last:mb-0 overflow-hidden rounded-xl border border-transparent transition-all duration-200 hover:border-[#00E676]/10 hover:bg-white/5"
+                                className="group/svc mb-1 last:mb-0 overflow-hidden rounded-xl border border-transparent transition-all duration-200 hover:border-[#005900]/10 hover:bg-white/5"
                               >
                                 {/* Card top: icon + title + desc */}
                                 <Link
@@ -743,11 +954,11 @@ export function Header() {
                                   onClick={() => setMegaOpen(false)}
                                   className="flex items-start gap-3.5 px-3.5 pt-3.5 pb-2.5 focus-visible:outline-none"
                                 >
-                                  <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#00E676]/10 text-[#00E676] transition-colors duration-200 group-hover/svc:bg-[#00E676]/20">
+                                  <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/10 text-[#008000] transition-colors duration-200 group-hover/svc:bg-[#005900]/20">
                                     <Icon size={15} aria-hidden="true" />
                                   </span>
                                   <div>
-                                    <p className="text-[13px] font-semibold text-white group-hover/svc:text-[#00E676] transition-colors duration-200">
+                                    <p className="text-[13px] font-semibold text-white group-hover/svc:text-[#008000] transition-colors duration-200">
                                       {svc.label}
                                     </p>
                                     <p className="mt-0.5 text-[11.5px] leading-snug" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
@@ -757,16 +968,16 @@ export function Header() {
                                 </Link>
 
                                 {/* Divider + Explore link */}
-                                <div className="border-t border-[#00E676]/10 px-3.5 py-2">
+                                <div className="border-t border-[#005900]/10 px-3.5 py-2">
                                   <Link
                                     href={svc.href}
                                     onClick={() => setMegaOpen(false)}
-                                    className="group/explore flex items-center gap-1.5 text-[11.5px] font-bold text-[#00E676] transition-all duration-200 hover:gap-2.5 focus-visible:outline-none"
+                                    className="group/explore flex items-center gap-1.5 text-[11.5px] font-bold text-[#008000] transition-all duration-200 hover:gap-2.5 focus-visible:outline-none"
                                   >
                                     Explore
                                     <ArrowUpRight
                                       size={12}
-                                      className="transition-transform duration-200 group-hover/explore:translate-x-0.5 group-hover/explore:-translate-y-0.5 text-[#00E676]"
+                                      className="transition-transform duration-200 group-hover/explore:translate-x-0.5 group-hover/explore:-translate-y-0.5 text-[#008000]"
                                       aria-hidden="true"
                                     />
                                   </Link>
@@ -777,17 +988,17 @@ export function Header() {
                         </div>
 
                         {/* Footer link */}
-                        <div className="border-t border-[#00E676]/10 px-4 py-3">
+                        <div className="border-t border-[#005900]/10 px-4 py-3">
                           <Link
                             href="/services"
                             onClick={() => setMegaOpen(false)}
-                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#00E676] transition-all duration-200 hover:opacity-85 focus-visible:outline-none"
+                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#008000] transition-all duration-200 hover:opacity-85 focus-visible:outline-none"
                           >
                             View all services
                             <ArrowUpRight
                               size={12}
                               aria-hidden="true"
-                              className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 text-[#00E676]"
+                              className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 text-[#008000]"
                             />
                           </Link>
                         </div>
@@ -803,17 +1014,15 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={[
-                    "group relative rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
+                    "group relative desktop-nav-link rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
                     active ? "navbar-link-active" : "navbar-link",
                   ].join(" ")}
+                  data-nav-label={item.label}
+                  onMouseEnter={() => setHoveredNavItem(item.label)}
+                  onMouseLeave={() => setHoveredNavItem(null)}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
                 >
                   {item.label}
-                  <span
-                    className={[
-                      "absolute bottom-1.5 left-4 right-4 h-px bg-[#00E676] origin-center transition-transform duration-300",
-                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
-                    ].join(" ")}
-                  />
                 </Link>
               );
             })}
@@ -827,14 +1036,14 @@ export function Header() {
               ref={bookMeetingRef}
               href="/contact"
               id="header-cta-btn"
-              className="group relative hidden h-[38px] items-center justify-center overflow-hidden rounded-full border border-[#00E676] bg-transparent px-5 text-[12.5px] font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#00E676] hover:text-black hover:shadow-[0_0_24px_rgba(0,230,118,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] focus-visible:ring-offset-2 lg:inline-flex"
+              className="group relative hidden h-[38px] items-center justify-center overflow-hidden rounded-full border border-[#005900] bg-transparent px-5 text-[12.5px] font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#005900] hover:text-white hover:shadow-[0_0_24px_rgba(0,89,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] focus-visible:ring-offset-2 lg:inline-flex"
               aria-label="Book a meeting with Texawave"
             >
               <div className="relative flex items-center justify-center overflow-hidden">
                 {/* Non-hover state */}
                 <div className="flex items-center gap-1.5 transition-all duration-300 ease-out group-hover:-translate-x-[110%] group-hover:opacity-0">
                   <span>Book a Meeting</span>
-                  <ArrowUpRight size={13} className="transition-transform duration-300 text-[#00E676]" />
+                  <ArrowUpRight size={13} className="transition-transform duration-300 text-[#008000]" />
                 </div>
 
                 {/* Hover state (slides in from right) */}
@@ -849,7 +1058,7 @@ export function Header() {
             <button
               type="button"
               id="mobile-menu-toggle"
-              className="flex h-10 w-10 flex-col items-center justify-center rounded-xl border border-white/20 transition-colors duration-200 hover:bg-white/5 lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676]"
+              className="flex h-10 w-10 flex-col items-center justify-center rounded-xl border border-white/20 transition-colors duration-200 hover:bg-white/5 lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileOpen}
@@ -904,8 +1113,8 @@ export function Header() {
                   href="/"
                   onClick={closeMobile}
                   className={[
-                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] uppercase",
-                    isActive("/") ? "text-[#00E676]" : "text-white hover:text-[#00E676]",
+                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
+                    isActive("/") ? "text-[#008000]" : "text-white hover:text-[#008000]",
                   ].join(" ")}
                 >
                   Home
@@ -917,8 +1126,8 @@ export function Header() {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] uppercase",
-                    mobileWorksOpen ? "text-[#00E676]" : "text-white hover:text-[#00E676]",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
+                    mobileWorksOpen ? "text-[#008000]" : "text-white hover:text-[#008000]",
                   ].join(" ")}
                   onClick={() => setMobileWorksOpen((v) => !v)}
                   aria-expanded={mobileWorksOpen}
@@ -927,7 +1136,7 @@ export function Header() {
                   <ChevronDown
                     size={16}
                     className={[
-                      "text-[#00E676] transition-transform duration-300",
+                      "text-[#008000] transition-transform duration-300",
                       mobileWorksOpen ? "rotate-180" : "",
                     ].join(" ")}
                     aria-hidden="true"
@@ -947,9 +1156,9 @@ export function Header() {
                           key={work.href}
                           href={work.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676]"
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
                         >
-                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#00E676]/15 text-[#00E676]">
+                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
                             <Icon size={14} aria-hidden="true" />
                           </span>
                           <div>
@@ -964,7 +1173,7 @@ export function Header() {
                     <Link
                       href="/our-works"
                       onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#00E676] hover:opacity-75 focus-visible:outline-none"
+                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#008000] hover:opacity-75 focus-visible:outline-none"
                     >
                       All works <ArrowUpRight size={12} aria-hidden="true" />
                     </Link>
@@ -977,8 +1186,8 @@ export function Header() {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] uppercase",
-                    mobileMegaOpen ? "text-[#00E676]" : "text-white hover:text-[#00E676]",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
+                    mobileMegaOpen ? "text-[#008000]" : "text-white hover:text-[#008000]",
                   ].join(" ")}
                   onClick={() => setMobileMegaOpen((v) => !v)}
                   aria-expanded={mobileMegaOpen}
@@ -987,7 +1196,7 @@ export function Header() {
                   <ChevronDown
                     size={16}
                     className={[
-                      "text-[#00E676] transition-transform duration-300",
+                      "text-[#008000] transition-transform duration-300",
                       mobileMegaOpen ? "rotate-180" : "",
                     ].join(" ")}
                     aria-hidden="true"
@@ -1007,9 +1216,9 @@ export function Header() {
                           key={svc.href}
                           href={svc.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676]"
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
                         >
-                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#00E676]/15 text-[#00E676]">
+                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
                             <Icon size={14} aria-hidden="true" />
                           </span>
                           <div>
@@ -1024,7 +1233,7 @@ export function Header() {
                     <Link
                       href="/services"
                       onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#00E676] hover:opacity-75 focus-visible:outline-none"
+                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#008000] hover:opacity-75 focus-visible:outline-none"
                     >
                       All services <ArrowUpRight size={12} aria-hidden="true" />
                     </Link>
@@ -1043,8 +1252,8 @@ export function Header() {
                     href={item.href}
                     onClick={closeMobile}
                     className={[
-                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] uppercase",
-                      isActive(item.href) ? "text-[#00E676] font-bold" : "text-white hover:text-[#00E676]",
+                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
+                      isActive(item.href) ? "text-[#008000] font-bold" : "text-white hover:text-[#008000]",
                     ].join(" ")}
                   >
                     {item.label}
@@ -1062,7 +1271,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={closeMobile}
-              className="group flex items-center justify-center gap-2 rounded-2xl bg-[#00E676] px-6 py-4 text-[15px] font-bold text-black shadow-[0_0_32px_rgba(0,230,118,0.25)] transition-all duration-300 hover:shadow-[0_0_52px_rgba(0,230,118,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
+              className="group flex items-center justify-center gap-2 rounded-2xl bg-[#005900] px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_32px_rgba(0,89,0,0.35)] transition-all duration-300 hover:shadow-[0_0_52px_rgba(0,89,0,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
             >
               BOOK A MEETING
               <ArrowUpRight
@@ -1077,6 +1286,82 @@ export function Header() {
           <p className="mt-auto pt-8 text-center text-[10.5px] font-medium tracking-[0.2em] text-white/20 uppercase select-none">
             Texawave · Engineering Excellence
           </p>
+        </div>
+      </div>
+
+      {/* ══════════════════════ VERTICAL PROGRESS INDICATOR (RIGHT) ══════════════════════════ */}
+      <div
+        className="fixed right-6 top-1/2 -translate-y-1/2 z-[9999] hidden md:flex flex-col items-center gap-6 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        {/* Telemetry panel */}
+        <div className="text-[9px] font-mono text-[#005900] tracking-[0.2em] font-semibold mb-2 rotate-90 origin-center translate-y-4 whitespace-nowrap">
+          SYS_PROG_VAL: ACTIVE
+        </div>
+
+        <div className="relative h-[320px] w-[20px] flex flex-col justify-between items-center py-2">
+          {/* Background Track Line */}
+          <div className="absolute top-0 bottom-0 w-[1px] bg-white/10 left-1/2 -translate-x-1/2" />
+
+          {/* Active Fill Line */}
+          <div
+            ref={verticalProgressRef}
+            className="absolute top-0 w-[2px] bg-[#005900] left-1/2 -translate-x-1/2 origin-top scale-y-0 h-full shadow-[0_0_8px_rgba(0,89,0,0.7)]"
+          />
+
+          {/* Section indicators/ticks */}
+          {[
+            { label: "Home", href: "/" },
+            { label: "Our Works", href: "/our-works" },
+            { label: "Services", href: "/services" },
+            { label: "About Us", href: "/about" },
+            { label: "Blog", href: "/blog" },
+            { label: "Contact", href: "/contact" },
+          ].map((sec, idx) => {
+            const isCurrent = activeNavItem === sec.label;
+            return (
+              <button
+                key={sec.label}
+                onClick={(e) => handleNavClick(e, sec.href, sec.label)}
+                className="group/vert relative flex items-center justify-center w-6 h-6 rounded-full border border-transparent hover:border-[#005900]/40 pointer-events-auto cursor-pointer focus:outline-none transition-colors"
+                title={sec.label}
+              >
+                {/* Pulsing ring around active node */}
+                {isCurrent && (
+                  <span className="absolute inset-0 rounded-full border border-[#005900] animate-ping opacity-60 scale-75" />
+                )}
+
+                {/* Central Node Circle */}
+                <div
+                  className={[
+                    "w-2 h-2 rounded-full border transition-all duration-300",
+                    isCurrent
+                      ? "bg-[#008000] border-[#008000] scale-125 shadow-[0_0_8px_#008000]"
+                      : "bg-black border-white/30 group-hover/vert:border-[#005900]"
+                  ].join(" ")}
+                />
+
+                {/* Tech label to the left */}
+                <div className="absolute right-8 opacity-0 group-hover/vert:opacity-100 transition-all duration-300 bg-black/90 border border-[#005900]/30 px-2.5 py-1 rounded text-[10px] font-mono text-[#EEEEEE] whitespace-nowrap pointer-events-none flex items-center gap-1.5 shadow-premium translate-x-2 group-hover/vert:translate-x-0">
+                  <span className="text-[#008000]">0{idx + 1}</span>
+                  <span className="w-1 h-1 rounded-full bg-[#008000]" />
+                  <span>{sec.label.toUpperCase()}</span>
+                </div>
+
+                {/* Label displayed on the sidebar continuously in tiny text */}
+                <span className={[
+                  "absolute left-8 text-[9px] font-mono transition-colors duration-300",
+                  isCurrent ? "text-[#008000] font-bold" : "text-white/30"
+                ].join(" ")}>
+                  0{idx + 1}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="text-[8px] font-mono text-white/20 tracking-widest mt-2 select-none">
+          [0xFF]
         </div>
       </div>
     </>

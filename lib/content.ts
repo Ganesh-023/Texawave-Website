@@ -351,7 +351,7 @@ export const testimonials = [
     company: "AeroTech Solutions",
     initials: "AC",
     blueprintId: "TXW-TS-01",
-    accentColor: "#00E676",
+    accentColor: "#008000",
   },
   {
     quote:
@@ -371,7 +371,7 @@ export const testimonials = [
     company: "Lumen Robotics",
     initials: "MS",
     blueprintId: "TXW-TS-03",
-    accentColor: "#00E676",
+    accentColor: "#008000",
   },
   {
     quote:
@@ -391,7 +391,7 @@ export const testimonials = [
     company: "Apex Automations",
     initials: "RC",
     blueprintId: "TXW-TS-05",
-    accentColor: "#00E676",
+    accentColor: "#008000",
   }
 ];
 

@@ -249,8 +249,8 @@ export function ServicesSection() {
                       <div 
                         className="flex h-12 w-12 items-center justify-center rounded-2xl"
                         style={{
-                          background: "rgba(0, 210, 106, 0.08)",
-                          border: "1px solid rgba(0, 210, 106, 0.2)",
+                          background: "rgba(0, 89, 0, 0.15)",
+                          border: "1px solid rgba(0, 89, 0, 0.45)",
                           color: "var(--accent)"
                         }}
                       >
@@ -324,8 +324,8 @@ export function ServicesSection() {
                     <div 
                       className="flex h-11 w-11 items-center justify-center rounded-xl"
                       style={{
-                        background: "rgba(0, 210, 106, 0.08)",
-                        border: "1px solid rgba(0, 210, 106, 0.2)",
+                        background: "rgba(0, 89, 0, 0.15)",
+                        border: "1px solid rgba(0, 89, 0, 0.45)",
                         color: "var(--accent)"
                       }}
                     >

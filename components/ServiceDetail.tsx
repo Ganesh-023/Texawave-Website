@@ -29,12 +29,12 @@ export function ServiceDetail({ slug }: { slug: string }) {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(15,159,143,0.18) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(0, 89, 0, 0.3) 0%, transparent 70%)" }}
         />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(15,159,143,0.12) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(0, 89, 0, 0.2) 0%, transparent 70%)" }}
         />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_auto] lg:items-start">

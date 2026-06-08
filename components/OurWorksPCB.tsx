@@ -141,8 +141,8 @@ export function OurWorksPCB() {
             onEnter: () => {
               document.getElementById("dt-flow-2")?.classList.add("is-active");
               gsap.fromTo(metrics1Ref.current, 
-                { boxShadow: "0 0 0px rgba(0, 210, 106, 0)" },
-                { boxShadow: "0 0 25px rgba(0, 210, 106, 0.15)", duration: 0.6, yoyo: true, repeat: 1 }
+                { boxShadow: "0 0 0px rgba(0, 89, 0, 0)" },
+                { boxShadow: "0 0 25px rgba(0, 89, 0, 0.25)", duration: 0.6, yoyo: true, repeat: 1 }
               );
             }
           }
@@ -247,8 +247,8 @@ export function OurWorksPCB() {
             onEnter: () => {
               document.getElementById("dt-flow-4")?.classList.add("is-active");
               gsap.fromTo(metrics2Ref.current, 
-                { boxShadow: "0 0 0px rgba(0, 210, 106, 0)" },
-                { boxShadow: "0 0 25px rgba(0, 210, 106, 0.15)", duration: 0.6, yoyo: true, repeat: 1 }
+                { boxShadow: "0 0 0px rgba(0, 89, 0, 0)" },
+                { boxShadow: "0 0 25px rgba(0, 89, 0, 0.25)", duration: 0.6, yoyo: true, repeat: 1 }
               );
             }
           }
@@ -435,8 +435,8 @@ export function OurWorksPCB() {
         {/* Section Header */}
         <div className="mb-20 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#00FF88] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00FF88] animate-pulse" />
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#008000] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#008000] animate-pulse" />
               Our Works
             </p>
             <h2 className="mt-3 max-w-3xl text-4xl font-black text-[#EEEEEE] md:text-5xl tracking-tight">
@@ -445,7 +445,7 @@ export function OurWorksPCB() {
           </div>
           <Link 
             href="/our-works" 
-            className="inline-flex items-center gap-2 font-bold text-[#00D26A] transition duration-300 hover:text-[#00FF88] hover:translate-x-1"
+            className="inline-flex items-center gap-2 font-bold text-[#008000] transition duration-300 hover:text-[#008000] hover:translate-x-1"
           >
             View all works <ArrowRight size={18} />
           </Link>
@@ -611,14 +611,14 @@ export function OurWorksPCB() {
           <path 
             className="pcb-trace-path mob-path-draw" 
             d="M 10 0 L 10 2380" 
-            style={{ stroke: 'rgba(0, 210, 106, 0.2)', strokeWidth: '3px' }}
+            style={{ stroke: 'rgba(0, 89, 0, 0.25)', strokeWidth: '3px' }}
           />
 
           {/* Flow path */}
           <path 
             className="pcb-flow-path is-active" 
             d="M 10 0 L 10 2380" 
-            style={{ stroke: '#00FF88', strokeWidth: '2.5px' }}
+            style={{ stroke: '#008000', strokeWidth: '2.5px' }}
           />
 
           {/* Branch Traces shooting to nodes */}
@@ -677,7 +677,7 @@ export function OurWorksPCB() {
           id="metrics-container-1"
           className="relative z-20 mx-auto max-w-xl my-24 lg:my-32 p-6 lg:p-8 rounded-xl border border-border-primary bg-[#080808]/90 backdrop-blur-md transition-all duration-500 hover:border-accent/40"
         >
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-[#00D26A] rounded-full uppercase">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-[#008000] rounded-full uppercase">
             BUS MONITOR 01
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
@@ -735,7 +735,7 @@ export function OurWorksPCB() {
           id="metrics-container-2"
           className="relative z-20 mx-auto max-w-xl my-24 lg:my-32 p-6 lg:p-8 rounded-xl border border-border-primary bg-[#080808]/90 backdrop-blur-md transition-all duration-500 hover:border-accent/40"
         >
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-[#00D26A] rounded-full uppercase">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-[#008000] rounded-full uppercase">
             BUS MONITOR 02
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
@@ -796,7 +796,7 @@ export function OurWorksPCB() {
 
           {/* Central convergence node label */}
           <div className="mb-12 text-center relative">
-            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#00FF88] bg-black/80 px-4 py-1.5 border border-accent/20 rounded-md">
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#008000] bg-black/80 px-4 py-1.5 border border-accent/20 rounded-md">
               SYSTEM CONVERGENCE NODE
             </span>
           </div>
@@ -804,7 +804,7 @@ export function OurWorksPCB() {
           {/* Premium Glassmorphic CTA Panel */}
           <div className="glassmorphism-hub-panel w-full max-w-4xl p-8 md:p-12 rounded-2xl flex flex-col items-center text-center opacity-0 scale-95 transition-all duration-300">
             <div className="w-12 h-12 rounded-full border border-accent/40 bg-accent/5 flex items-center justify-center mb-6">
-              <Workflow className="text-[#00FF88] animate-spin-slow" size={24} />
+              <Workflow className="text-[#008000] animate-spin-slow" size={24} />
             </div>
 
             <h3 className="text-3xl md:text-5xl font-black text-[#EEEEEE] tracking-tight">
@@ -832,11 +832,11 @@ export function OurWorksPCB() {
                     href={option.href}
                     className={`hub-option-btn p-5 rounded-lg flex flex-col items-center justify-center gap-3 text-center ${
                       option.highlight 
-                        ? 'border-accent/40 bg-accent/5 hover:bg-accent/15 !text-[#00FF88]' 
+                        ? 'border-accent/40 bg-accent/5 hover:bg-accent/15 !text-[#008000]' 
                         : ''
                     }`}
                   >
-                    <div className="w-10 h-10 rounded-full bg-black border border-border-primary flex items-center justify-center text-[#00FF88]">
+                    <div className="w-10 h-10 rounded-full bg-black border border-border-primary flex items-center justify-center text-[#008000]">
                       <OptionIcon size={18} />
                     </div>
                     <span className="text-sm font-bold tracking-wide">{option.label}</span>
@@ -885,18 +885,18 @@ function ProjectCard({ work, index, isActiveHover, setActiveHover }: ProjectCard
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {/* Subtle Accent Glow Overlay */}
-          <div className="absolute inset-0 bg-[#00FF88] opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-[0.03]" />
+          <div className="absolute inset-0 bg-[#008000] opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-[0.03]" />
         </div>
 
         {/* Card Body */}
         <div className="flex flex-1 flex-col p-6">
           {/* Category Tag & Client */}
           <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded bg-[#080808] text-[#EEEEEE] border border-border-primary transition duration-300 group-hover:bg-[#00D26A] group-hover:text-black">
+            <div className="flex h-10 w-10 items-center justify-center rounded bg-[#080808] text-[#EEEEEE] border border-border-primary transition duration-300 group-hover:bg-[#005900] group-hover:text-black">
               <Icon size={19} />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="pcb-tag rounded-full border border-accent/20 bg-accent/5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#00D26A]">
+              <span className="pcb-tag rounded-full border border-accent/20 bg-accent/5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#008000]">
                 {work.category}
               </span>
               <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#999999]">
@@ -905,7 +905,7 @@ function ProjectCard({ work, index, isActiveHover, setActiveHover }: ProjectCard
             </div>
           </div>
 
-          <h3 className="text-xl font-black text-[#EEEEEE] group-hover:text-[#00FF88] transition-colors duration-300">
+          <h3 className="text-xl font-black text-[#EEEEEE] group-hover:text-[#008000] transition-colors duration-300">
             {work.title}
           </h3>
           <p className="mt-3 flex-1 text-sm leading-relaxed text-[#999999]">
@@ -919,13 +919,13 @@ function ProjectCard({ work, index, isActiveHover, setActiveHover }: ProjectCard
                 key={svc} 
                 className="pcb-tag flex items-center gap-1.5 border border-border-primary bg-black/40 px-2 py-1 rounded text-xs font-semibold text-[#999999]"
               >
-                <CheckCircle2 className="shrink-0 text-[#00D26A] group-hover:text-[#00FF88]" size={12} />
+                <CheckCircle2 className="shrink-0 text-[#008000] group-hover:text-[#008000]" size={12} />
                 {svc}
               </span>
             ))}
           </div>
 
-          <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#00D26A] group-hover:text-[#00FF88] transition-colors duration-300">
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#008000] group-hover:text-[#008000] transition-colors duration-300">
             View project <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
           </span>
         </div>
@@ -945,21 +945,21 @@ function SchemaVisual({ title, subtitle, specs, isActive }: SchemaVisualProps) {
   return (
     <div className={`border border-border-primary rounded-xl p-6 bg-[#080808]/40 backdrop-blur-sm transition-all duration-700 ${
       isActive 
-        ? 'border-accent/40 bg-accent/[0.02] shadow-[0_0_20px_rgba(0,210,106,0.05)]' 
+        ? 'border-accent/40 bg-accent/[0.02] shadow-[0_0_20px_rgba(0,89,0,0.15)]' 
         : 'opacity-50'
     }`}>
       {/* Dynamic tech terminal bar */}
       <div className="flex items-center justify-between border-b border-border-primary pb-3 mb-4">
         <span className="text-[10px] font-mono text-[#999999] tracking-wider">{subtitle}</span>
         <div className="flex gap-1.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#00FF88] animate-pulse' : 'bg-zinc-800'}`} />
+          <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#008000] animate-pulse' : 'bg-zinc-800'}`} />
           <span className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
           <span className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
         </div>
       </div>
 
       <h4 className={`text-base font-black tracking-wide font-mono transition-colors duration-500 ${
-        isActive ? 'text-[#00FF88]' : 'text-[#EEEEEE]'
+        isActive ? 'text-[#008000]' : 'text-[#EEEEEE]'
       }`}>
         {title}
       </h4>
@@ -968,7 +968,7 @@ function SchemaVisual({ title, subtitle, specs, isActive }: SchemaVisualProps) {
       <ul className="mt-4 flex flex-col gap-2 font-mono text-xs">
         {specs.map((spec, i) => (
           <li key={i} className="flex items-start gap-2.5 py-1 text-[#999999]">
-            <span className="text-[#00D26A] font-bold">0{i+1}_</span>
+            <span className="text-[#008000] font-bold">0{i+1}_</span>
             <span className="tracking-tight text-zinc-400">{spec}</span>
           </li>
         ))}

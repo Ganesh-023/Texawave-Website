@@ -6,6 +6,7 @@ export interface EaseReverseTimelineOptions {
   easeReverse?: string | gsap.EaseFunction; // Exit animation easing
   onComplete?: () => void;
   onReverseComplete?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -29,7 +30,7 @@ export function createEaseReverseTimeline(options: EaseReverseTimelineOptions = 
   });
 
   // Track original eases to restore during play
-  const originalEases = new Map<gsap.core.Tween, any>();
+  const originalEases = new Map<gsap.core.Tween, string | gsap.EaseFunction>();
 
   // A helper function to scan and dynamically swap tween eases
   // NOTE: We intentionally do NOT call tl.invalidate() here —
@@ -47,13 +48,13 @@ export function createEaseReverseTimeline(options: EaseReverseTimelineOptions = 
 
         // Apply correct ease depending on direction
         const nextEase = isReversing
-          ? ((child.vars as any).easeReverse || easeReverse)
+          ? ((child.vars as gsap.TweenVars & { easeReverse?: string | gsap.EaseFunction }).easeReverse || easeReverse)
           : originalEases.get(child);
 
         // Swap ease in vars and the compiled ease function
         child.vars.ease = nextEase;
         const parsedEase = typeof nextEase === "string" ? gsap.parseEase(nextEase) : nextEase;
-        (child as any)._ease = parsedEase;
+        (child as unknown as { _ease: string | gsap.EaseFunction | undefined })._ease = parsedEase;
       }
     });
     // ⚠️ Do NOT call tl.invalidate() — it resets from-values and breaks reverse.
@@ -123,7 +124,7 @@ export function bindPremiumHover(
     glowRef,
   } = options;
 
-  let hoverTl = createEaseReverseTimeline({
+  const hoverTl = createEaseReverseTimeline({
     reverseTimeScale,
     easeReverse,
   });
@@ -261,8 +262,8 @@ export function bindServiceCardHover(
 
   // Resolve glow shadow and borders dynamically at runtime based on active theme
   const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
-  const resolvedGlow = isDark ? (glowColor || "rgba(34, 197, 94, 0.18)") : "rgba(17, 17, 17, 0.08)";
-  const resolvedBorder = isDark ? "rgba(34, 197, 94, 0.4)" : "rgba(17, 17, 17, 0.35)";
+  const resolvedGlow = isDark ? (glowColor || "rgba(0, 89, 0, 0.25)") : "rgba(17, 17, 17, 0.08)";
+  const resolvedBorder = isDark ? "rgba(0, 89, 0, 0.45)" : "rgba(17, 17, 17, 0.35)";
 
   tl.to(element, {
     scale,
@@ -346,7 +347,7 @@ export function bindProjectCardHover(
 
   // Resolve hovered-state values based on active theme.
   const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
-  const resolvedBorder = isDark ? "rgba(34, 197, 94, 0.3)" : "rgba(17, 17, 17, 0.25)";
+  const resolvedBorder = isDark ? "rgba(0, 89, 0, 0.4)" : "rgba(17, 17, 17, 0.25)";
   const resolvedShadow = isDark ? "0 20px 48px rgba(0, 0, 0, 0.45)" : "0 20px 48px rgba(17, 17, 17, 0.12)";
 
   const exitDuration = duration / reverseTimeScale;
@@ -425,9 +426,18 @@ export interface ScrambleTextVars {
   tweenLength?: boolean;
 }
 
+interface ScrambleTextInstance {
+  _target: HTMLElement;
+  _text: string;
+  _chars: string;
+  _revealDelay: number;
+  _tweenLength: boolean;
+  _original: string;
+}
+
 export const ScrambleTextPlugin = {
   name: "scrambleText",
-  init(target: any, value: string | ScrambleTextVars, tween: any) {
+  init(this: ScrambleTextInstance, target: HTMLElement, value: string | ScrambleTextVars, _tween: gsap.core.Animation) {
     this._target = target;
     
     let text = "";
@@ -458,7 +468,7 @@ export const ScrambleTextPlugin = {
     this._tweenLength = tweenLength;
     this._original = target.innerText || target.textContent || "";
   },
-  render(ratio: number, data: any) {
+  render(ratio: number, data: ScrambleTextInstance) {
     const target = data._target;
     const text = data._text;
     const chars = data._chars;
@@ -501,5 +511,5 @@ export const ScrambleTextPlugin = {
 };
 
 // Register the custom scramble text plugin with GSAP
-gsap.registerPlugin(ScrambleTextPlugin as any);
+gsap.registerPlugin(ScrambleTextPlugin as unknown as object);
 
