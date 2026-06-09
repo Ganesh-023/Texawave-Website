@@ -59,6 +59,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "About Us", href: "/about" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const MEGA_COLUMNS = [
@@ -114,10 +115,10 @@ const WORKS: DropdownItem[] = [
 
 const SERVICES: DropdownItem[] = [
   {
-    label: "Mechanical Engineering",
-    href: "/mechanical-engineering",
-    icon: Wrench,
-    desc: "CAD, assemblies & production-ready systems",
+    label: "Software Engineering",
+    href: "/software-iot",
+    icon: RadioTower,
+    desc: "IoT, dashboards & connected product software",
   },
   {
     label: "Electrical Engineering",
@@ -126,16 +127,16 @@ const SERVICES: DropdownItem[] = [
     desc: "PCB design, firmware & embedded systems",
   },
   {
-    label: "Component Sourcing",
-    href: "/component-sourcing",
-    icon: PackageCheck,
-    desc: "Global sourcing for quality & cost control",
+    label: "Mechanical Engineering",
+    href: "/mechanical-engineering",
+    icon: Wrench,
+    desc: "CAD, assemblies & production-ready systems",
   },
   {
-    label: "Software Development",
-    href: "/software-iot",
-    icon: RadioTower,
-    desc: "IoT, dashboards & connected product software",
+    label: "Procurement",
+    href: "/procurement",
+    icon: PackageCheck,
+    desc: "BOM purchasing, vendor coordination & logistics",
   },
 ];
 
@@ -744,7 +745,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             {/* Wave pulse ripple element */}
             <div
               ref={logoPulseRef}
-              className="absolute inset-0 rounded-lg border border-[#008000]/50 pointer-events-none opacity-0 scale-100"
+              className="absolute inset-0 rounded-lg border border-signal/50 pointer-events-none opacity-0 scale-100"
             />
             <Image
               src="/texawave_logo.png"
@@ -765,7 +766,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             {/* Sliding Underline Bar */}
             <div
               ref={underlineRef}
-              className="absolute bottom-1.5 h-[2px] bg-[#005900] shadow-[0_0_8px_#005900] pointer-events-none rounded-full"
+              className="absolute bottom-1.5 h-[2px] bg-signal shadow-[0_0_8px_var(--primary-green)] pointer-events-none rounded-full"
               style={{
                 left: 0,
                 width: 0,
@@ -807,10 +808,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     >
                       {item.label}
                       <ChevronDown
-                        ref={worksChevronRef}
-                        size={13}
-                        className="opacity-70 group-hover:text-[#008000] transition-colors duration-300"
-                        aria-hidden="true"
+                      ref={worksChevronRef}
+                      size={13}
+                      className="opacity-70 group-hover:text-signal transition-colors duration-300"
+                      aria-hidden="true"
                       />
                     </button>
 
@@ -824,13 +825,13 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#005900]/20 bg-black" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-signal/20 bg-black" />
                       </div>
-                      <div className="overflow-hidden rounded-2xl border border-[#005900]/20 shadow-premium"
+                      <div className="overflow-hidden rounded-2xl border border-signal/20 shadow-premium"
                         style={{
                           background: "rgba(10, 10, 10, 0.98)",
                           backdropFilter: "blur(20px)",
-                          border: "1px solid rgba(0, 89, 0, 0.25)"
+                          border: "1px solid rgba(155, 223, 131, 0.25)"
                         }}>
                         <div className="p-2">
                           {WORKS.map((work) => {
@@ -841,13 +842,13 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                 href={work.href}
                                 role="menuitem"
                                 onClick={() => setWorksOpen(false)}
-                                className="group/item flex items-start gap-3.5 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
+                                className="group/item flex items-start gap-3.5 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                               >
-                                <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/10 text-[#008000] transition-colors duration-200 group-hover/item:bg-[#005900]/20">
+                                <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-signal/10 text-signal transition-colors duration-200 group-hover/item:bg-signal/20">
                                   <Icon size={15} aria-hidden="true" />
                                 </span>
                                 <div>
-                                  <p className="text-[13px] font-semibold text-white group-hover/item:text-[#008000] transition-colors duration-300">
+                                  <p className="text-[13px] font-semibold text-white group-hover/item:text-signal transition-colors duration-300">
                                     {work.label}
                                   </p>
                                   <p className="mt-0.5 text-[11.5px] leading-snug" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
@@ -858,11 +859,11 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             );
                           })}
                         </div>
-                        <div className="border-t border-[#005900]/10 px-4 py-3">
+                        <div className="border-t border-signal/10 px-4 py-3">
                           <Link
                             href="/our-works"
                             onClick={() => setWorksOpen(false)}
-                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#008000] transition-all duration-200 hover:opacity-80 focus-visible:outline-none"
+                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-signal transition-all duration-200 hover:opacity-80 focus-visible:outline-none"
                           >
                             View all works
                             <ArrowUpRight
@@ -910,7 +911,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                       <ChevronDown
                         ref={servicesChevronRef}
                         size={13}
-                        className="opacity-70 group-hover:text-[#008000] transition-colors duration-300"
+                        className="opacity-70 group-hover:text-signal transition-colors duration-300"
                         aria-hidden="true"
                       />
                     </button>
@@ -930,10 +931,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-[#005900]/20 bg-black" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-signal/20 bg-black" />
                       </div>
 
-                      <div className="overflow-hidden rounded-2xl border border-[#005900]/20 shadow-premium"
+                      <div className="overflow-hidden rounded-2xl border border-signal/20 shadow-premium"
                         style={{
                           background: "rgba(10, 10, 10, 0.98)",
                           backdropFilter: "blur(20px)",
@@ -945,7 +946,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             return (
                               <div
                                 key={svc.href}
-                                className="group/svc mb-1 last:mb-0 overflow-hidden rounded-xl border border-transparent transition-all duration-200 hover:border-[#005900]/10 hover:bg-white/5"
+                                className="group/svc mb-1 last:mb-0 overflow-hidden rounded-xl border border-transparent transition-all duration-200 hover:border-signal/10 hover:bg-white/5"
                               >
                                 {/* Card top: icon + title + desc */}
                                 <Link
@@ -954,11 +955,11 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                   onClick={() => setMegaOpen(false)}
                                   className="flex items-start gap-3.5 px-3.5 pt-3.5 pb-2.5 focus-visible:outline-none"
                                 >
-                                  <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/10 text-[#008000] transition-colors duration-200 group-hover/svc:bg-[#005900]/20">
+                                  <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-signal/10 text-signal transition-colors duration-200 group-hover/svc:bg-signal/20">
                                     <Icon size={15} aria-hidden="true" />
                                   </span>
                                   <div>
-                                    <p className="text-[13px] font-semibold text-white group-hover/svc:text-[#008000] transition-colors duration-200">
+                                    <p className="text-[13px] font-semibold text-white group-hover/svc:text-signal transition-colors duration-200">
                                       {svc.label}
                                     </p>
                                     <p className="mt-0.5 text-[11.5px] leading-snug" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
@@ -968,16 +969,16 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                 </Link>
 
                                 {/* Divider + Explore link */}
-                                <div className="border-t border-[#005900]/10 px-3.5 py-2">
+                                <div className="border-t border-signal/10 px-3.5 py-2">
                                   <Link
                                     href={svc.href}
                                     onClick={() => setMegaOpen(false)}
-                                    className="group/explore flex items-center gap-1.5 text-[11.5px] font-bold text-[#008000] transition-all duration-200 hover:gap-2.5 focus-visible:outline-none"
+                                    className="group/explore flex items-center gap-1.5 text-[11.5px] font-bold text-signal transition-all duration-200 hover:gap-2.5 focus-visible:outline-none"
                                   >
                                     Explore
                                     <ArrowUpRight
                                       size={12}
-                                      className="transition-transform duration-200 group-hover/explore:translate-x-0.5 group-hover/explore:-translate-y-0.5 text-[#008000]"
+                                      className="transition-transform duration-200 group-hover/explore:translate-x-0.5 group-hover/explore:-translate-y-0.5 text-signal"
                                       aria-hidden="true"
                                     />
                                   </Link>
@@ -988,17 +989,17 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                         </div>
 
                         {/* Footer link */}
-                        <div className="border-t border-[#005900]/10 px-4 py-3">
+                        <div className="border-t border-signal/10 px-4 py-3">
                           <Link
                             href="/services"
                             onClick={() => setMegaOpen(false)}
-                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-[#008000] transition-all duration-200 hover:opacity-85 focus-visible:outline-none"
+                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-signal transition-all duration-200 hover:opacity-85 focus-visible:outline-none"
                           >
                             View all services
                             <ArrowUpRight
                               size={12}
                               aria-hidden="true"
-                              className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 text-[#008000]"
+                              className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 text-signal"
                             />
                           </Link>
                         </div>
@@ -1113,8 +1114,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   href="/"
                   onClick={closeMobile}
                   className={[
-                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
-                    isActive("/") ? "text-[#008000]" : "text-white hover:text-[#008000]",
+                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    isActive("/") ? "text-signal" : "text-white hover:text-signal",
                   ].join(" ")}
                 >
                   Home
@@ -1126,8 +1127,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
-                    mobileWorksOpen ? "text-[#008000]" : "text-white hover:text-[#008000]",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    mobileWorksOpen ? "text-signal" : "text-white hover:text-signal",
                   ].join(" ")}
                   onClick={() => setMobileWorksOpen((v) => !v)}
                   aria-expanded={mobileWorksOpen}
@@ -1136,7 +1137,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   <ChevronDown
                     size={16}
                     className={[
-                      "text-[#008000] transition-transform duration-300",
+                      "text-signal transition-transform duration-300",
                       mobileWorksOpen ? "rotate-180" : "",
                     ].join(" ")}
                     aria-hidden="true"
@@ -1156,9 +1157,9 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           key={work.href}
                           href={work.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                         >
-                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
+                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-signal/15 text-signal">
                             <Icon size={14} aria-hidden="true" />
                           </span>
                           <div>
@@ -1173,7 +1174,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     <Link
                       href="/our-works"
                       onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#008000] hover:opacity-75 focus-visible:outline-none"
+                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-signal hover:opacity-75 focus-visible:outline-none"
                     >
                       All works <ArrowUpRight size={12} aria-hidden="true" />
                     </Link>
@@ -1186,8 +1187,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
-                    mobileMegaOpen ? "text-[#008000]" : "text-white hover:text-[#008000]",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    mobileMegaOpen ? "text-signal" : "text-white hover:text-signal",
                   ].join(" ")}
                   onClick={() => setMobileMegaOpen((v) => !v)}
                   aria-expanded={mobileMegaOpen}
@@ -1196,7 +1197,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   <ChevronDown
                     size={16}
                     className={[
-                      "text-[#008000] transition-transform duration-300",
+                      "text-signal transition-transform duration-300",
                       mobileMegaOpen ? "rotate-180" : "",
                     ].join(" ")}
                     aria-hidden="true"
@@ -1216,9 +1217,9 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           key={svc.href}
                           href={svc.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900]"
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                         >
-                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
+                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-signal/15 text-signal">
                             <Icon size={14} aria-hidden="true" />
                           </span>
                           <div>
@@ -1233,7 +1234,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     <Link
                       href="/services"
                       onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-[#008000] hover:opacity-75 focus-visible:outline-none"
+                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-signal hover:opacity-75 focus-visible:outline-none"
                     >
                       All services <ArrowUpRight size={12} aria-hidden="true" />
                     </Link>
@@ -1246,14 +1247,15 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 { label: "About Us", href: "/about" },
                 { label: "Blog", href: "/blog" },
                 { label: "Contact", href: "/contact" },
+                { label: "Careers", href: "/careers" },
               ] as const).map((item) => (
                 <li key={item.href} className="mobile-nav-item">
                   <Link
                     href={item.href}
                     onClick={closeMobile}
                     className={[
-                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] uppercase",
-                      isActive(item.href) ? "text-[#008000] font-bold" : "text-white hover:text-[#008000]",
+                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                      isActive(item.href) ? "text-signal font-bold" : "text-white hover:text-signal",
                     ].join(" ")}
                   >
                     {item.label}
@@ -1271,7 +1273,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             <Link
               href="/contact"
               onClick={closeMobile}
-              className="group flex items-center justify-center gap-2 rounded-2xl bg-[#005900] px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_32px_rgba(0,89,0,0.35)] transition-all duration-300 hover:shadow-[0_0_52px_rgba(0,89,0,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
+              className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(155,223,131,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(155,223,131,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
             >
               BOOK A MEETING
               <ArrowUpRight

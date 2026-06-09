@@ -38,7 +38,7 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
           <p className="mt-6 text-lg leading-8 text-text-secondary">{post.excerpt}</p>
           <div className="prose prose-lg mt-10 max-w-none text-text-secondary">
             <p>
-              Successful hardware development starts with clear product intent, measurable requirements, and early alignment between design, electronics, sourcing, software, and production. Texawave helps teams identify technical risk before it becomes schedule risk.
+              Successful hardware development starts with clear product intent, measurable requirements, and early alignment between design, electronics, procurement, software, and production. Texawave helps teams identify technical risk before it becomes schedule risk.
             </p>
             <p>
               The strongest programs validate the hardest assumptions first: enclosure fit, PCB architecture, firmware behavior, supplier availability, thermal behavior, assembly method, and test strategy. This reduces avoidable redesign and gives stakeholders a practical view of cost and timeline.

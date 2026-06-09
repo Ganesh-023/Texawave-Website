@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "Mechanical design services",
     "PCB design and prototyping",
     "Embedded systems development",
-    "Component sourcing services",
+    "Procurement services",
     "IoT product development company",
     "Product design company India for global clients"
   ],

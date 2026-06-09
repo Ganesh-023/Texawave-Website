@@ -27,7 +27,7 @@ const FEATURES = [
     icon: Gauge,
     title: "Cost Efficient Solutions",
     desc: "Engineering-grade outcomes optimised for budget without compromising reliability or performance.",
-    accent: "#008000",
+    accent: "#9BDF83",
   },
   {
     icon: BadgeCheck,
@@ -39,7 +39,7 @@ const FEATURES = [
     icon: Layers3,
     title: "End-to-End Solutions",
     desc: "From concept and CAD through manufacturing, testing, and launch — one team, one roof.",
-    accent: "#008000",
+    accent: "#9BDF83",
   },
   {
     icon: BrainCircuit,
@@ -51,7 +51,7 @@ const FEATURES = [
     icon: PenTool,
     title: "Custom Build",
     desc: "Purpose-built solutions tailored to your exact specifications, constraints, and market needs.",
-    accent: "#008000",
+    accent: "#9BDF83",
   },
 ];
 
@@ -220,7 +220,7 @@ export function ConveyorBelt() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(0,89,0,0.18) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(155, 223, 131, 0.18) 0%, transparent 70%)" }}
       />
 
       {/* ── Decorative SVG schematic lines ── */}
@@ -233,13 +233,13 @@ export function ConveyorBelt() {
         {/* Diagonal schematic rails */}
         <line x1="0" y1="580" x2="1200" y2="180" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.35" />
         <line x1="0" y1="620" x2="1200" y2="220" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.2" />
-        <line x1="0" y1="540" x2="1200" y2="140" stroke="#008000" strokeWidth="0.5" strokeDasharray="4 20" strokeOpacity="0.2" />
+        <line x1="0" y1="540" x2="1200" y2="140" stroke="var(--primary-green)" strokeWidth="0.5" strokeDasharray="4 20" strokeOpacity="0.2" />
 
         {/* Corner tech brackets */}
         <polyline points="24,24 24,56 56,56" fill="none" stroke="#00D4FF" strokeWidth="1.5" strokeOpacity="0.5" />
         <polyline points="1176,24 1176,56 1144,56" fill="none" stroke="#00D4FF" strokeWidth="1.5" strokeOpacity="0.5" />
-        <polyline points="24,676 24,644 56,644" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.5" />
-        <polyline points="1176,676 1176,644 1144,644" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.5" />
+        <polyline points="24,676 24,644 56,644" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.5" />
+        <polyline points="1176,676 1176,644 1144,644" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.5" />
 
         {/* Floating particles */}
         {particles.map((p, i) => (
@@ -259,7 +259,7 @@ export function ConveyorBelt() {
           className="mx-auto mt-2 max-w-3xl text-4xl font-black leading-tight md:text-5xl text-text-primary"
         >
           Why Companies Choose{" "}
-          <span style={{ background: "linear-gradient(90deg,#00D4FF,#008000)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ background: "linear-gradient(90deg,#00D4FF,var(--primary-green))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Texawave
           </span>
         </h2>
@@ -288,7 +288,7 @@ export function ConveyorBelt() {
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-[58%]"
           style={{ transform: "translateX(-50%) rotateX(72deg) rotateZ(-18deg)", width: "85%", height: "2px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(0,89,0,0.4) 30%, rgba(0,89,0,0.4) 70%, transparent 100%)" }}
+            background: "linear-gradient(90deg, transparent 0%, rgba(155, 223, 131, 0.4) 30%, rgba(155, 223, 131, 0.4) 70%, transparent 100%)" }}
         />
 
         {/* Cards container */}

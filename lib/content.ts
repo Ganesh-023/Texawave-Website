@@ -40,39 +40,31 @@ export const navItems = [
   { label: "Process", href: "/#process" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" }
+  { label: "Contact", href: "/contact" },
+  { label: "Careers", href: "/careers" }
 ];
 
 export const services = [
   {
-    slug: "mechanical-engineering",
-    title: "Mechanical Engineering",
+    slug: "software-iot",
+    title: "Software Engineering",
     short:
-      "With a focus on innovation and quality, our team delivers end-to-end hardware and design solutions that exceed expectations.",
-    icon: Wrench,
+      "Connected product software, dashboards, mobile apps, cloud platforms, and IoT operations for smart devices.",
+    icon: RadioTower,
     image:
-      "https://images.unsplash.com/photo-1581092335878-2d9ff86ca2bf?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
     deliverables: [
-      "New Product Development",
-      "3D & 2D CAD Design",
-      "Plastic and Sheet Metal Design",
-      "BOM Generation",
-      "Assembly Drawings",
-      "Reverse Engineering",
-      "Value Engineering",
-      "SPM Design",
-      "Prototyping",
-      "Production Support"
+      "Mobile App Development",
+      "Website Development",
+      "Cloud Platform Management",
+      "IoT Platform Management",
+      "Device Dashboards",
+      "Connected Product Software"
     ],
     subServices: [
-      { icon: PenTool,           title: "3D & 2D CAD Design",                  desc: "Our expert team creates detailed 3D models and precise 2D drawings that align with industry standards. We ensure accuracy, clarity, and manufacturability in every design." },
-      { icon: Layers3,           title: "Plastic & Sheet Metal Design",        desc: "We design efficient, cost-effective plastic and sheet metal parts tailored to manufacturing processes. Optimized for injection molding, stamping, bending, and more." },
-      { icon: FileText,          title: "BOM Generation & Assembly Drawings",  desc: "Comprehensive Bill of Materials and clear assembly drawings that ensure smooth production and procurement with well-structured documentation." },
-      { icon: Repeat,            title: "Reverse Engineering",                  desc: "We reverse engineer physical products with high accuracy, enabling redesign, replication, or improvement using CAD and analysis tools." },
-      { icon: Gauge,             title: "Value Engineering",                   desc: "Cut costs without compromising quality. We analyze and refine existing designs to improve performance, reduce materials, and optimize functionality." },
-      { icon: Cog,               title: "SPM Design",                          desc: "Custom special purpose machine design for unique industrial needs, increasing automation, speed, and productivity." },
-      { icon: Box,               title: "Prototyping",                         desc: "Bring your design to life with rapid, functional prototyping. Proof-of-concept builds and working models to validate form, fit, and function." },
-      { icon: Factory,           title: "Production Support",                  desc: "From small batches to full-scale manufacturing, we support seamless production with quality-focused engineering and technical documentation." },
+      { icon: Smartphone,        title: "Mobile App Development",             desc: "Develop scalable iOS and Android applications with intuitive user experiences and high performance." },
+      { icon: Globe2,            title: "Website Development",                desc: "Build responsive, secure, and modern websites and web applications using the latest technologies." },
+      { icon: Cloud,             title: "Cloud & IoT Platform Management",    desc: "Manage cloud infrastructure and IoT ecosystems with seamless integration, automation, and monitoring." },
     ]
   },
   {
@@ -108,52 +100,60 @@ export const services = [
     ]
   },
   {
-    slug: "component-sourcing",
-    title: "Component Sourcing",
+    slug: "mechanical-engineering",
+    title: "Mechanical Engineering",
     short:
-      "Global component sourcing support that balances availability, cost, quality, and production continuity.",
+      "With a focus on innovation and quality, our team delivers end-to-end hardware and design solutions that exceed expectations.",
+    icon: Wrench,
+    image:
+      "https://images.unsplash.com/photo-1581092335878-2d9ff86ca2bf?auto=format&fit=crop&w=1200&q=80",
+    deliverables: [
+      "New Product Development",
+      "3D & 2D CAD Design",
+      "Plastic and Sheet Metal Design",
+      "BOM Generation",
+      "Assembly Drawings",
+      "Reverse Engineering",
+      "Value Engineering",
+      "SPM Design",
+      "Prototyping",
+      "Production Support"
+    ],
+    subServices: [
+      { icon: PenTool,           title: "3D & 2D CAD Design",                  desc: "Our expert team creates detailed 3D models and precise 2D drawings that align with industry standards. We ensure accuracy, clarity, and manufacturability in every design." },
+      { icon: Layers3,           title: "Plastic & Sheet Metal Design",        desc: "We design efficient, cost-effective plastic and sheet metal parts tailored to manufacturing processes. Optimized for injection molding, stamping, bending, and more." },
+      { icon: FileText,          title: "BOM Generation & Assembly Drawings",  desc: "Comprehensive Bill of Materials and clear assembly drawings that ensure smooth production and procurement with well-structured documentation." },
+      { icon: Repeat,            title: "Reverse Engineering",                  desc: "We reverse engineer physical products with high accuracy, enabling redesign, replication, or improvement using CAD and analysis tools." },
+      { icon: Gauge,             title: "Value Engineering",                   desc: "Cut costs without compromising quality. We analyze and refine existing designs to improve performance, reduce materials, and optimize functionality." },
+      { icon: Cog,               title: "SPM Design",                          desc: "Custom special purpose machine design for unique industrial needs, increasing automation, speed, and productivity." },
+      { icon: Box,               title: "Prototyping",                         desc: "Bring your design to life with rapid, functional prototyping. Proof-of-concept builds and working models to validate form, fit, and function." },
+      { icon: Factory,           title: "Production Support",                  desc: "From small batches to full-scale manufacturing, we support seamless production with quality-focused engineering and technical documentation." },
+    ]
+  },
+  {
+    slug: "procurement",
+    title: "Procurement",
+    short:
+      "End-to-end component procurement, supplier management, cost optimization, and supply chain coordination to ensure seamless manufacturing continuity.",
     icon: PackageCheck,
     image:
       "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
     deliverables: [
-      "Electromechanical Components",
-      "Passive Components",
-      "Semiconductors",
-      "Oscillators",
-      "Filters",
-      "RF/Microwave Components",
-      "Power Sources",
-      "Optoelectronics"
+      "Supplier ID & Management",
+      "Vendor Coordination",
+      "BOM-based Purchasing",
+      "Component & Material Procurement",
+      "Cost Optimization",
+      "Supply Chain Coordination",
+      "Logistics & Sourcing Support"
     ],
     subServices: [
-      { icon: Blocks,            title: "Electromechanical Components",       desc: "Sourcing relays, connectors, switches, motors, and other critical industrial components." },
-      { icon: Component,         title: "Passive Components",                 desc: "Reliable sourcing of resistors, capacitors, inductors, and other passive electronic parts." },
-      { icon: Cpu,               title: "Semiconductors",                     desc: "Microcontrollers, sensors, logic ICs, SoCs, and semiconductor solutions aligned with project requirements." },
-      { icon: Waves,             title: "Oscillators, Filters & RF/Microwave", desc: "Precision frequency control and RF components for wireless communication and signal processing." },
-      { icon: Zap,               title: "Power Sources",                      desc: "DC-DC converters, batteries, power modules, and efficient power management solutions." },
-      { icon: Lightbulb,         title: "Optoelectronics",                    desc: "LEDs, photodiodes, optical sensors, display modules, and related components." },
-    ]
-  },
-  {
-    slug: "software-iot",
-    title: "Software & IoT",
-    short:
-      "Connected product software, dashboards, mobile apps, cloud platforms, and IoT operations for smart devices.",
-    icon: RadioTower,
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
-    deliverables: [
-      "Mobile App Development",
-      "Website Development",
-      "Cloud Platform Management",
-      "IoT Platform Management",
-      "Device Dashboards",
-      "Connected Product Software"
-    ],
-    subServices: [
-      { icon: Smartphone,        title: "Mobile App Development",             desc: "Develop scalable iOS and Android applications with intuitive user experiences and high performance." },
-      { icon: Globe2,            title: "Website Development",                desc: "Build responsive, secure, and modern websites and web applications using the latest technologies." },
-      { icon: Cloud,             title: "Cloud & IoT Platform Management",    desc: "Manage cloud infrastructure and IoT ecosystems with seamless integration, automation, and monitoring." },
+      { icon: Blocks,            title: "Supplier Identification & Management", desc: "Rigorous vetting, selection, and performance monitoring of global manufacturing partners and component distributors." },
+      { icon: Component,         title: "BOM-Based Purchasing",                 desc: "Full-scale procurement matching bill-of-materials requirements with optimized lead times and strict quality control." },
+      { icon: Cpu,               title: "Component & Material Procurement",    desc: "Direct procurement of passives, semiconductors, electromechanical parts, custom enclosures, and materials." },
+      { icon: Waves,             title: "Cost Optimization & Negotiation",      desc: "Strategic sourcing to reduce unit economics, minimize component risk, and lock in volume pricing." },
+      { icon: Zap,               title: "Supply Chain & Logistics Support",     desc: "End-to-end supply chain coordination, customs clearances, global logistics management, and production continuity." },
+      { icon: Lightbulb,         title: "Vendor Coordination",                  desc: "Managing communications, quality agreements, production runs, and engineering change orders with manufacturing partners." },
     ]
   }
 ];
@@ -165,7 +165,7 @@ export const processSteps = [
   },
   {
     title: "Design & Engineering",
-    copy: "Mechanical, electrical, embedded, sourcing, and software teams convert the brief into manufacturable product architecture."
+    copy: "Mechanical, electrical, embedded, procurement, and software teams convert the brief into manufacturable product architecture."
   },
   {
     title: "Prototyping & Testing",
@@ -351,7 +351,7 @@ export const testimonials = [
     company: "AeroTech Solutions",
     initials: "AC",
     blueprintId: "TXW-TS-01",
-    accentColor: "#008000",
+    accentColor: "#9BDF83",
   },
   {
     quote:
@@ -371,7 +371,7 @@ export const testimonials = [
     company: "Lumen Robotics",
     initials: "MS",
     blueprintId: "TXW-TS-03",
-    accentColor: "#008000",
+    accentColor: "#9BDF83",
   },
   {
     quote:
@@ -391,7 +391,7 @@ export const testimonials = [
     company: "Apex Automations",
     initials: "RC",
     blueprintId: "TXW-TS-05",
-    accentColor: "#008000",
+    accentColor: "#9BDF83",
   }
 ];
 
@@ -402,21 +402,21 @@ export const blogPosts = [
     title: "Hardware Product Development Process: From Concept to Prototype in 2025",
     excerpt:
       "A practical roadmap for turning early product intent into CAD, electronics, firmware, prototypes, and supplier-ready documentation.",
-    category: "Product Development"
+    category: "Industry Insights"
   },
   {
     slug: "mechanical-design-smart-devices",
     title: "Mechanical Design for Smart Devices: 5 Key Factors in Hardware Product Development",
     excerpt:
       "How enclosure strategy, material choices, thermal behavior, assembly, and manufacturing constraints shape connected products.",
-    category: "Mechanical Design"
+    category: "Mechanical"
   },
   {
     slug: "iot-software-development-smart-hardware",
     title: "IoT Software Development for Smart Hardware: How Connected Devices Work Seamlessly",
     excerpt:
       "What global product teams should align across firmware, cloud, dashboards, mobile apps, and device monitoring.",
-    category: "Software & IoT"
+    category: "Software"
   }
 ];
 

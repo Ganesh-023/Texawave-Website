@@ -45,7 +45,7 @@ export function Footer() {
       <div className="border-t border-border-primary px-5 py-5">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 text-sm text-text-secondary md:flex-row md:items-center md:justify-between lg:px-8">
           <p>Copyright 2026 Texawave Technologies. All rights reserved.</p>
-          <p>contact@Texawavetechnologies.com | +91 9361360821</p>
+          <p>contact@texawave.com | +91 8680845604</p>
         </div>
       </div>
     </footer>

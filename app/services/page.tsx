@@ -6,7 +6,7 @@ import { services } from "@/lib/content";
 export const metadata = {
   title: "Services",
   description:
-    "Texawave provides mechanical design services, PCB design and prototyping, embedded systems development, component sourcing services, and IoT product development."
+    "Texawave provides mechanical design services, PCB design and prototyping, embedded systems development, procurement services, and IoT product development."
 };
 
 export default function ServicesPage() {
@@ -17,7 +17,7 @@ export default function ServicesPage() {
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Services</p>
           <h1 className="mt-3 max-w-4xl text-5xl font-black text-text-primary md:text-7xl">End-to-end engineering for market-ready hardware products.</h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary">
-            Texawave helps global clients connect mechanical engineering, electrical systems, sourcing, software, IoT, prototyping, and production support into one practical product development path.
+            Texawave helps global clients connect software engineering, electrical engineering, mechanical engineering, procurement, prototyping, and production support into one practical product development path.
           </p>
         </div>
       </section>

@@ -54,7 +54,7 @@ export default function OurWorksPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       {/* Premium Green Overlay */}
-                      <div className="project-card-overlay absolute inset-0 bg-[#005900] opacity-0 transition-opacity duration-300 pointer-events-none" />
+                      <div className="project-card-overlay absolute inset-0 bg-signal opacity-0 transition-opacity duration-300 pointer-events-none" />
                     </div>
 
                     {/* Card body */}

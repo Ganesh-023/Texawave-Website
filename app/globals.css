@@ -4,15 +4,20 @@
 
 /* ─── Permanent Dark Theme Variables ──────────────────────────────────────── */
 :root {
-  --signal: #005900;
+  --primary-green: #9BDF83;
+  --primary-green-dark: #62ba46;
+  --primary-green-darker: #2b521e;
+  --primary-green-glow: 0 0 20px rgba(155, 223, 131, 0.35);
+
+  --signal: var(--primary-green);
   --bg-primary: #000000;
   --bg-secondary: #080808;
   --bg-card: #111111;
   --text-primary: #EEEEEE;
   --text-secondary: #999999;
-  --accent: #005900;
-  --accent-hover: #007300;
-  --accent-light: #008000;
+  --accent: var(--primary-green);
+  --accent-hover: #b4eb9f;
+  --accent-light: var(--primary-green);
   --border-color: rgba(255, 255, 255, 0.08);
   --grid-color: rgba(255, 255, 255, 0.04);
   --background: var(--bg-primary);
@@ -79,7 +84,7 @@ textarea {
 
 .pcb-trace {
   background:
-    radial-gradient(circle at 18% 24%, rgba(0, 89, 0, 0.35), transparent 18%),
+    radial-gradient(circle at 18% 24%, rgba(155, 223, 131, 0.35), transparent 18%),
     radial-gradient(circle at 72% 28%, rgba(200, 117, 55, 0.18), transparent 16%),
     linear-gradient(135deg, rgba(18, 59, 83, 0.95), rgba(16, 19, 24, 0.98));
 }
@@ -120,7 +125,7 @@ textarea {
 
 /* Dropdown item tint */
 .hover\:bg-signal\/25:hover {
-  background-color: rgba(0, 89, 0, 0.35);
+  background-color: rgba(155, 223, 131, 0.35);
 }
 
 /* Ensure backdrop-blur-0 is generated */
@@ -165,9 +170,9 @@ textarea {
   pointer-events: none;
   z-index: 99999;
   border: 2px solid transparent;
-  background: #005900;
-  border-color: #005900;
-  box-shadow: 0 0 20px rgba(0, 89, 0, 0.45);
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  box-shadow: var(--primary-green-glow);
   transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
               height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
               background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -182,8 +187,8 @@ textarea {
   width: 36px;
   height: 36px;
   background: transparent !important;
-  border-color: #008000 !important;
-  box-shadow: 0 0 25px rgba(0, 128, 0, 0.4) !important;
+  border-color: var(--primary-green) !important;
+  box-shadow: 0 0 25px rgba(155, 223, 131, 0.4) !important;
 }
 
 /* ─── Custom Cursor Trail Particles ─────────────────────────────────────── */
@@ -197,9 +202,9 @@ textarea {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   background: rgba(13, 17, 23, 0.55);
-  border: 1px solid rgba(0, 89, 0, 0.35);
-  box-shadow: 0 0 15px rgba(0, 89, 0, 0.25);
-  color: #008000;
+  border: 1px solid rgba(155, 223, 131, 0.35);
+  box-shadow: 0 0 15px rgba(155, 223, 131, 0.25);
+  color: var(--primary-green);
 }
 
 /* ─── Premium Header Navigation Links ───────────────────────────────────── */
@@ -212,16 +217,16 @@ textarea {
 }
 
 .navbar-link:hover {
-  color: #008000 !important;
-  background-color: rgba(0, 89, 0, 0.15) !important;
-  box-shadow: 0 0 15px rgba(0, 89, 0, 0.3) !important;
-  text-shadow: 0 0 12px rgba(0, 128, 0, 0.6);
+  color: var(--primary-green) !important;
+  background-color: rgba(155, 223, 131, 0.15) !important;
+  box-shadow: 0 0 15px rgba(155, 223, 131, 0.3) !important;
+  text-shadow: 0 0 12px rgba(155, 223, 131, 0.6);
 }
 
 .navbar-link-active {
-  color: #008000 !important;
+  color: var(--primary-green) !important;
   font-weight: 700 !important;
-  text-shadow: 0 0 12px rgba(0, 128, 0, 0.4);
+  text-shadow: 0 0 12px rgba(155, 223, 131, 0.4);
   transition: color 0.3s ease, text-shadow 0.3s ease !important;
 }
 
@@ -246,7 +251,7 @@ textarea {
 .services-card-custom:hover {
   transform: translateY(-4px) scale(1.02);
   border-color: var(--accent) !important;
-  box-shadow: 0 20px 40px rgba(0, 89, 0, 0.3), 0 0 0 1px rgba(0, 89, 0, 0.4) !important;
+  box-shadow: 0 20px 40px rgba(155, 223, 131, 0.25), 0 0 0 1px rgba(155, 223, 131, 0.35) !important;
 }
 
 /* Animated Arrow in Service cards */
@@ -269,7 +274,7 @@ textarea {
 
 .pcb-grid-overlay {
   background-image: 
-    radial-gradient(rgba(0, 89, 0, 0.08) 1px, transparent 1px),
+    radial-gradient(rgba(155, 223, 131, 0.08) 1px, transparent 1px),
     linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 24px 24px, 96px 96px, 96px 96px;
@@ -279,7 +284,7 @@ textarea {
 /* Base Trace Style */
 .pcb-trace-path {
   fill: none;
-  stroke: rgba(0, 89, 0, 0.15);
+  stroke: rgba(155, 223, 131, 0.15);
   stroke-width: 2px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -288,21 +293,21 @@ textarea {
 
 /* Active/Highlighted Trace */
 .pcb-trace-path.is-active {
-  stroke: rgba(0, 89, 0, 0.8);
+  stroke: rgba(155, 223, 131, 0.8);
   stroke-width: 2.5px;
-  filter: drop-shadow(0 0 4px rgba(0, 89, 0, 0.7));
+  filter: drop-shadow(0 0 4px rgba(155, 223, 131, 0.7));
 }
 
 .pcb-trace-path.is-hovered {
-  stroke: rgba(0, 128, 0, 1) !important;
+  stroke: rgba(155, 223, 131, 1) !important;
   stroke-width: 3px !important;
-  filter: drop-shadow(0 0 8px rgba(0, 128, 0, 0.9)) !important;
+  filter: drop-shadow(0 0 8px rgba(155, 223, 131, 0.9)) !important;
 }
 
 /* Flowing Current / Energy Particles */
 .pcb-flow-path {
   fill: none;
-  stroke: #008000;
+  stroke: var(--primary-green);
   stroke-width: 2px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -321,7 +326,7 @@ textarea {
   stroke: #ffffff !important;
   stroke-width: 2.5px !important;
   opacity: 1 !important;
-  filter: drop-shadow(0 0 6px #008000) !important;
+  filter: drop-shadow(0 0 6px var(--primary-green)) !important;
 }
 
 @keyframes pcb-flow-anim {
@@ -333,34 +338,34 @@ textarea {
 /* Circuit Nodes */
 .pcb-node {
   fill: #111111;
-  stroke: rgba(0, 89, 0, 0.45);
+  stroke: rgba(155, 223, 131, 0.45);
   stroke-width: 2px;
   transition: stroke 0.4s ease, fill 0.4s ease, r 0.4s ease, filter 0.4s ease;
   transform-origin: center;
 }
 
 .pcb-node.is-active {
-  fill: #005900;
-  stroke: #008000;
+  fill: var(--primary-green-darker);
+  stroke: var(--primary-green);
   stroke-width: 3px;
-  filter: drop-shadow(0 0 6px rgba(0, 128, 0, 0.8));
+  filter: drop-shadow(0 0 6px rgba(155, 223, 131, 0.8));
   animation: pcb-node-pulse-anim 2s infinite ease-in-out;
 }
 
 .pcb-node.is-hovered {
-  fill: #008000 !important;
+  fill: var(--primary-green) !important;
   stroke: #ffffff !important;
-  filter: drop-shadow(0 0 10px #008000) !important;
+  filter: drop-shadow(0 0 10px var(--primary-green)) !important;
 }
 
 @keyframes pcb-node-pulse-anim {
   0%, 100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 5px rgba(0, 128, 0, 0.6));
+    filter: drop-shadow(0 0 5px rgba(155, 223, 131, 0.6));
   }
   50% {
     transform: scale(1.25);
-    filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.9));
+    filter: drop-shadow(0 0 10px rgba(155, 223, 131, 0.9));
   }
 }
 
@@ -380,15 +385,15 @@ textarea {
 .pcb-project-card.is-active {
   opacity: 1;
   transform: scale(1);
-  border-color: rgba(0, 89, 0, 0.5);
-  box-shadow: 0 0 30px rgba(0, 89, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.8);
+  border-color: rgba(155, 223, 131, 0.5);
+  box-shadow: 0 0 30px rgba(155, 223, 131, 0.25), 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .pcb-project-card:hover {
   transform: translateY(-8px) scale(1.02) !important;
   opacity: 1 !important;
-  border-color: rgba(0, 128, 0, 0.65) !important;
-  box-shadow: 0 0 40px rgba(0, 128, 0, 0.35), 0 20px 40px rgba(0, 0, 0, 0.9) !important;
+  border-color: rgba(155, 223, 131, 0.65) !important;
+  box-shadow: 0 0 40px rgba(155, 223, 131, 0.35), 0 20px 40px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Dynamic Tags */
@@ -398,16 +403,16 @@ textarea {
 
 .pcb-project-card:hover .pcb-tag {
   transform: translateY(-1px) scale(1.03);
-  border-color: rgba(0, 128, 0, 0.4);
-  background-color: rgba(0, 89, 0, 0.15);
-  color: #008000;
+  border-color: rgba(155, 223, 131, 0.4);
+  background-color: rgba(155, 223, 131, 0.15);
+  color: var(--primary-green);
 }
 
 /* Central Hub and Convergence elements */
 .pcb-hub-glow {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 128, 0, 0.3) 0%, rgba(0, 89, 0, 0.1) 50%, transparent 100%);
+  background: radial-gradient(circle, rgba(155, 223, 131, 0.3) 0%, rgba(155, 223, 131, 0.1) 50%, transparent 100%);
   filter: blur(40px);
   pointer-events: none;
   opacity: 0;
@@ -436,17 +441,17 @@ textarea {
   background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(0, 89, 0, 0.3);
+  border: 1px solid rgba(155, 223, 131, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
-              0 0 40px rgba(0, 89, 0, 0.15),
+              0 0 40px rgba(155, 223, 131, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .glassmorphism-hub-panel:hover {
-  border-color: rgba(0, 128, 0, 0.45);
+  border-color: rgba(155, 223, 131, 0.45);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 
-              0 0 50px rgba(0, 128, 0, 0.25),
+              0 0 50px rgba(155, 223, 131, 0.25),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
@@ -457,10 +462,25 @@ textarea {
 }
 
 .hub-option-btn:hover {
-  background: rgba(0, 89, 0, 0.15);
-  border-color: rgba(0, 128, 0, 0.4);
+  background: rgba(155, 223, 131, 0.15);
+  border-color: rgba(155, 223, 131, 0.4);
   color: #EEEEEE;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 20px rgba(0, 128, 0, 0.25);
+  box-shadow: 0 0 20px rgba(155, 223, 131, 0.25);
 }
+
+/* ─── Premium Vision & Mission Animations ─────────────────────────────── */
+.animate-connection-flow {
+  animation: connection-flow-anim 2s linear infinite;
+}
+
+@keyframes connection-flow-anim {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 

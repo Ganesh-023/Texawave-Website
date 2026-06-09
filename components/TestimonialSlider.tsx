@@ -61,15 +61,15 @@ function InitialsAvatar({
 /* ─── Deterministic Drifting Particles ───────────────────────────────────── */
 
 const PARTICLES_DATA = [
-  { left: "5%", top: "40%", size: 6, driftX: 40, driftY: -80, duration: "12s", delay: "0s", opacity: 0.4, color: "#008000" },
+  { left: "5%", top: "40%", size: 6, driftX: 40, driftY: -80, duration: "12s", delay: "0s", opacity: 0.4, color: "#9BDF83" },
   { left: "15%", top: "70%", size: 4, driftX: -30, driftY: -60, duration: "16s", delay: "3s", opacity: 0.3, color: "#00D4FF" },
-  { left: "25%", top: "20%", size: 5, driftX: 50, driftY: -100, duration: "14s", delay: "1s", opacity: 0.4, color: "#008000" },
+  { left: "25%", top: "20%", size: 5, driftX: 50, driftY: -100, duration: "14s", delay: "1s", opacity: 0.4, color: "#9BDF83" },
   { left: "40%", top: "85%", size: 7, driftX: 20, driftY: -70, duration: "18s", delay: "5s", opacity: 0.3, color: "#00D4FF" },
-  { left: "50%", top: "15%", size: 4, driftX: -20, driftY: -90, duration: "15s", delay: "2s", opacity: 0.5, color: "#008000" },
+  { left: "50%", top: "15%", size: 4, driftX: -20, driftY: -90, duration: "15s", delay: "2s", opacity: 0.5, color: "#9BDF83" },
   { left: "60%", top: "75%", size: 5, driftX: 30, driftY: -50, duration: "13s", delay: "4s", opacity: 0.4, color: "#00D4FF" },
-  { left: "75%", top: "30%", size: 6, driftX: -40, driftY: -80, duration: "17s", delay: "6s", opacity: 0.3, color: "#008000" },
+  { left: "75%", top: "30%", size: 6, driftX: -40, driftY: -80, duration: "17s", delay: "6s", opacity: 0.3, color: "#9BDF83" },
   { left: "85%", top: "80%", size: 5, driftX: 20, driftY: -60, duration: "14s", delay: "2.5s", opacity: 0.4, color: "#00D4FF" },
-  { left: "95%", top: "45%", size: 4, driftX: -30, driftY: -70, duration: "15.5s", delay: "1.5s", opacity: 0.3, color: "#008000" },
+  { left: "95%", top: "45%", size: 4, driftX: -30, driftY: -70, duration: "15.5s", delay: "1.5s", opacity: 0.3, color: "#9BDF83" },
   { left: "30%", top: "50%", size: 5, driftX: 30, driftY: -90, duration: "13.5s", delay: "4.5s", opacity: 0.4, color: "#00D4FF" }
 ];
 
@@ -174,14 +174,14 @@ function TestimonialCard({
         style={{
           background: "var(--testimonial-card-bg)",
           border: isHoverActive
-            ? "1px solid #008000"
+            ? "1px solid var(--primary-green)"
             : isActive
-              ? "1px solid rgba(0, 89, 0, 0.45)"
+              ? "1px solid rgba(155, 223, 131, 0.45)"
               : "var(--conveyor-card-border)",
           boxShadow: isHoverActive
-            ? "0 20px 40px rgba(0, 89, 0, 0.45), 0 0 15px rgba(0, 89, 0, 0.3), 0 0 0 1px rgba(0, 89, 0, 0.35)"
+            ? "0 20px 40px rgba(155, 223, 131, 0.45), 0 0 15px rgba(155, 223, 131, 0.3), 0 0 0 1px rgba(155, 223, 131, 0.35)"
             : isActive
-              ? "0 10px 30px rgba(0, 89, 0, 0.3), 0 0 0 1px rgba(0, 89, 0, 0.2)"
+              ? "0 10px 30px rgba(155, 223, 131, 0.3), 0 0 0 1px rgba(155, 223, 131, 0.2)"
               : "var(--conveyor-card-shadow)",
         }}
       >
@@ -189,16 +189,16 @@ function TestimonialCard({
         {isActive && (
           <>
             <svg className="pointer-events-none absolute left-3.5 top-3.5" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <polyline points="0,16 0,0 16,0" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.75" />
+              <polyline points="0,16 0,0 16,0" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.75" />
             </svg>
             <svg className="pointer-events-none absolute right-3.5 top-3.5" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <polyline points="0,0 16,0 16,16" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.75" />
+              <polyline points="0,0 16,0 16,16" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.75" />
             </svg>
             <svg className="pointer-events-none absolute bottom-3.5 left-3.5" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <polyline points="0,0 0,16 16,16" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.75" />
+              <polyline points="0,0 0,16 16,16" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.75" />
             </svg>
             <svg className="pointer-events-none absolute bottom-3.5 right-3.5" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <polyline points="16,0 16,16 0,16" fill="none" stroke="#008000" strokeWidth="1.5" strokeOpacity="0.75" />
+              <polyline points="16,0 16,16 0,16" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.75" />
             </svg>
           </>
         )}
@@ -207,13 +207,13 @@ function TestimonialCard({
         <div className="mb-5 flex items-center justify-between">
           <span
             className="font-mono text-[10px] font-bold tracking-[0.2em]"
-            style={{ color: isActive ? "#008000" : "var(--text-secondary)", opacity: isActive ? 1 : 0.6 }}
+            style={{ color: isActive ? "var(--primary-green)" : "var(--text-secondary)", opacity: isActive ? 1 : 0.6 }}
           >
             {testimonial.blueprintId}
           </span>
           {isActive && (
             <span
-              className="flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-[#005900]/15 border border-[#005900]/30 text-[#008000]"
+              className="flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-signal/15 border border-signal/30 text-signal"
             >
               <ShieldCheck size={11} /> Verified Partner
             </span>
@@ -227,7 +227,7 @@ function TestimonialCard({
               key={i}
               size={13}
               aria-hidden="true"
-              style={{ color: "#008000", fill: "#008000", opacity: isActive ? 1 : 0.4 }}
+              style={{ color: "var(--primary-green)", fill: "var(--primary-green)", opacity: isActive ? 1 : 0.4 }}
             />
           ))}
         </div>
@@ -255,7 +255,7 @@ function TestimonialCard({
           className="my-5 h-px w-full"
           style={{
             background: isActive
-              ? "linear-gradient(90deg, transparent, rgba(0, 230, 118, 0.4), transparent)"
+              ? "linear-gradient(90deg, transparent, rgba(155, 223, 131, 0.4), transparent)"
               : "linear-gradient(90deg, transparent, var(--border-color), transparent)",
             transition: "background 0.4s ease",
           }}
@@ -422,7 +422,7 @@ export function TestimonialSlider() {
         }
         @keyframes pulseOpacityFast {
           0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.95; filter: drop-shadow(0 0 6px #008000); }
+          50% { opacity: 0.95; filter: drop-shadow(0 0 6px var(--primary-green)); }
         }
         @keyframes pulseOpacitySlow {
           0%, 100% { opacity: 0.2; }
@@ -460,7 +460,7 @@ export function TestimonialSlider() {
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 89, 0, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 89, 0, 0.1) 1px, transparent 1px)",
+            "linear-gradient(rgba(155, 223, 131, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(155, 223, 131, 0.1) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -510,13 +510,13 @@ export function TestimonialSlider() {
           <defs>
             <linearGradient id="glow-line-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#005900" stopOpacity="0.85" />
+              <stop offset="50%" stopColor="#2b521e" stopOpacity="0.85" />
               <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
             </linearGradient>
             <linearGradient id="glow-line-grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#005900" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#2b521e" stopOpacity="0.1" />
               <stop offset="50%" stopColor="#00D4FF" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#005900" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="#2b521e" stopOpacity="0.1" />
             </linearGradient>
           </defs>
 
@@ -538,18 +538,18 @@ export function TestimonialSlider() {
           />
 
           {/* Circuit nodes (dots at key path intersections) */}
-          <circle cx="380" cy="220" r="4.5" fill="#008000" className="node-pulse-fast" />
+          <circle cx="380" cy="220" r="4.5" fill="#9BDF83" className="node-pulse-fast" />
           <circle cx="440" cy="280" r="4" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="960" cy="280" r="4" fill="#008000" className="node-pulse-fast" />
+          <circle cx="960" cy="280" r="4" fill="#9BDF83" className="node-pulse-fast" />
           <circle cx="1020" cy="220" r="4.5" fill="#00D4FF" className="node-pulse-slow" />
 
           <circle cx="350" cy="160" r="3.5" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="410" cy="100" r="4" fill="#008000" className="node-pulse-fast" />
+          <circle cx="410" cy="100" r="4" fill="#9BDF83" className="node-pulse-fast" />
           <circle cx="990" cy="100" r="4" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="1050" cy="160" r="3.5" fill="#008000" className="node-pulse-fast" />
+          <circle cx="1050" cy="160" r="3.5" fill="#9BDF83" className="node-pulse-fast" />
 
           {/* Running electrical currents */}
-          <circle r="3" fill="#008000">
+          <circle r="3" fill="#9BDF83">
             <animateMotion dur="6s" repeatCount="indefinite" path="M 50,220 L 380,220 L 440,280 L 960,280 L 1020,220 L 1350,220" />
           </circle>
           <circle r="2.5" fill="#00D4FF">
@@ -564,18 +564,18 @@ export function TestimonialSlider() {
         {/* Section heading */}
         <div className="mb-10 text-center">
           <div
-            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-4.5 py-1 text-[11px] font-mono font-bold uppercase tracking-[0.22em] border border-[#005900]/30 text-[#008000] bg-[#005900]/15"
+            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-4.5 py-1 text-[11px] font-mono font-bold uppercase tracking-[0.22em] border border-signal/30 text-signal bg-signal/15"
           >
             Client Success Stories
           </div>
           <h2 className="testimonial-fade-el mx-auto mt-2 max-w-4xl text-3xl font-black leading-tight text-text-primary md:text-5xl tracking-tight">
             Engineering Partnerships That{" "}
-            <span className="text-[#008000] inline-block font-black">
+            <span className="text-signal inline-block font-black">
               Deliver Results
             </span>
           </h2>
           <p className="testimonial-fade-el mx-auto mt-4 max-w-3xl text-sm leading-7 md:text-base text-text-secondary">
-            From concept development and PCB design to manufacturing support and product sourcing, Texawave helps businesses transform ideas into market-ready products.
+            From concept development and PCB design to manufacturing support and procurement, Texawave helps businesses transform ideas into market-ready products.
           </p>
         </div>
 
@@ -583,8 +583,8 @@ export function TestimonialSlider() {
         <div className="testimonial-fade-el mx-auto mb-12 flex flex-wrap justify-center gap-6 sm:gap-10 md:gap-14 border-y border-border-primary/50 py-5 max-w-4xl w-full">
           {/* Stat 1 */}
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
-              <Star size={17} fill="#008000" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal/15 text-signal">
+              <Star size={17} fill="var(--primary-green)" />
             </span>
             <div>
               <p className="text-xl md:text-2xl font-black text-text-primary font-mono leading-none">
@@ -615,7 +615,7 @@ export function TestimonialSlider() {
 
           {/* Stat 3 */}
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#005900]/15 text-[#008000]">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal/15 text-signal">
               <Factory size={17} />
             </span>
             <div>
@@ -639,7 +639,7 @@ export function TestimonialSlider() {
           <div
             className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] rounded-full opacity-35 blur-[90px] transition-all duration-800"
             style={{
-              background: "radial-gradient(circle, #005900 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(155, 223, 131, 0.2) 0%, transparent 70%)",
             }}
           />
 
@@ -675,10 +675,10 @@ export function TestimonialSlider() {
                   width: idx === active ? "32px" : "8px",
                   height: "8px",
                   background: idx === active
-                    ? "#008000"
+                    ? "var(--primary-green)"
                     : "rgba(128,128,128,0.25)",
                   boxShadow: idx === active
-                    ? "0 0 10px rgba(0, 89, 0, 0.65)"
+                    ? "0 0 10px rgba(155, 223, 131, 0.65)"
                     : "none",
                 }}
               />
@@ -691,7 +691,7 @@ export function TestimonialSlider() {
               type="button"
               onClick={prev}
               aria-label="Previous testimonial"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-[#008000]/40 hover:text-[#008000] hover:shadow-[0_0_12px_rgba(0,89,0,0.25)]"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/40 hover:text-signal hover:shadow-[0_0_12px_rgba(155,223,131,0.25)]"
             >
               <ChevronLeft size={18} />
             </button>

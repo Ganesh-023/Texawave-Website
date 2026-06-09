@@ -122,7 +122,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
         y: () => gsap.utils.random(-100, 100),
         rotation: () => gsap.utils.random(-90, 90),
         opacity: 0,
-        stroke: "#00A000",
+        stroke: "#9BDF83",
         strokeWidth: 2,
         transformOrigin: "50% 50%",
         transformBox: "fill-box"
@@ -201,7 +201,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
         opacity: 0,
         scale: 0.8,
         y: 15,
-        stroke: "#00A000",
+        stroke: "#9BDF83",
         strokeWidth: 2,
         transformOrigin: "50% 50%",
         transformBox: "fill-box"
@@ -286,7 +286,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
         ref={glowRef}
         className="absolute w-[350px] h-[350px] rounded-full blur-3xl pointer-events-none opacity-0"
         style={{
-          background: "radial-gradient(circle, rgba(0, 122, 0, 0.4) 0%, rgba(0, 89, 0, 0.1) 50%, rgba(0,0,0,0) 70%)"
+          background: "radial-gradient(circle, rgba(155, 223, 131, 0.4) 0%, rgba(155, 223, 131, 0.1) 50%, rgba(0,0,0,0) 70%)"
         }}
       />
 
@@ -295,13 +295,13 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
         ref={soundWaveRef}
         className="absolute flex items-center justify-center gap-[6px] h-20 opacity-0 pointer-events-none"
       >
-        <div className="sound-bar w-[3px] h-[20px] bg-[#005900] rounded-full origin-center" />
-        <div className="sound-bar w-[3px] h-[35px] bg-[#007A00] rounded-full origin-center" />
-        <div className="sound-bar w-[3px] h-[55px] bg-[#00A000] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[20px] bg-[#2b521e] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[35px] bg-[#62ba46] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[55px] bg-[#9BDF83] rounded-full origin-center" />
         <div className="sound-bar w-[3px] h-[70px] bg-[#EEEEEE] rounded-full origin-center" />
-        <div className="sound-bar w-[3px] h-[55px] bg-[#00A000] rounded-full origin-center" />
-        <div className="sound-bar w-[3px] h-[35px] bg-[#007A00] rounded-full origin-center" />
-        <div className="sound-bar w-[3px] h-[20px] bg-[#005900] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[55px] bg-[#9BDF83] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[35px] bg-[#62ba46] rounded-full origin-center" />
+        <div className="sound-bar w-[3px] h-[20px] bg-[#2b521e] rounded-full origin-center" />
       </div>
 
       {/* ─── Scene 2 Laser scan beam and background engineering tracks ─── */}
@@ -310,16 +310,16 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
         className="absolute top-0 bottom-0 w-[1.5px] opacity-0 pointer-events-none origin-center"
         style={{
           left: "50%",
-          background: "linear-gradient(to bottom, rgba(0,89,0,0.1), #EEEEEE 20%, #EEEEEE 80%, rgba(0,89,0,0.1))",
-          boxShadow: "0 0 15px rgba(0, 160, 0, 0.9), 0 0 30px rgba(0, 89, 0, 0.7)"
+          background: "linear-gradient(to bottom, rgba(155, 223, 131, 0.1), #EEEEEE 20%, #EEEEEE 80%, rgba(155, 223, 131, 0.1))",
+          boxShadow: "0 0 15px rgba(155, 223, 131, 0.9), 0 0 30px rgba(155, 223, 131, 0.7)"
         }}
       />
       
       <div ref={sideTracksRef} className="absolute inset-0 pointer-events-none">
-        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[#005900]/25 origin-center" style={{ left: "40%" }} />
-        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[#005900]/15 origin-center" style={{ left: "45%" }} />
-        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[#005900]/15 origin-center" style={{ left: "55%" }} />
-        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[#005900]/25 origin-center" style={{ left: "60%" }} />
+        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[rgba(155,223,131,0.25)] origin-center" style={{ left: "40%" }} />
+        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[rgba(155,223,131,0.15)] origin-center" style={{ left: "45%" }} />
+        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[rgba(155,223,131,0.15)] origin-center" style={{ left: "55%" }} />
+        <div className="track-line absolute top-0 bottom-0 w-[1px] bg-[rgba(155,223,131,0.25)] origin-center" style={{ left: "60%" }} />
       </div>
 
       {/* ─── Main Logo Wrapper ─── */}
@@ -362,7 +362,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
             <linearGradient id="text-sweep-gradient" ref={gradientRef} gradientUnits="userSpaceOnUse" x1="-820" y1="0" x2="0" y2="0">
               <stop offset="0%" stopColor="#EEEEEE" />
               <stop offset="40%" stopColor="#EEEEEE" />
-              <stop offset="50%" stopColor="#00A000" />
+              <stop offset="50%" stopColor="#9BDF83" />
               <stop offset="65%" stopColor="#EEEEEE" />
               <stop offset="100%" stopColor="#EEEEEE" />
             </linearGradient>
@@ -379,7 +379,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
             ref={horizontalWaveGlowRef}
             d="M 20 115 Q 117.5 95, 215 115 T 410 115 T 605 115 T 800 115"
             fill="none"
-            stroke="#00A000"
+            stroke="#9BDF83"
             strokeWidth="5"
             strokeLinecap="round"
             filter="url(#wave-glow)"
@@ -390,13 +390,13 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
             ref={horizontalWaveRef}
             d="M 20 115 Q 117.5 95, 215 115 T 410 115 T 605 115 T 800 115"
             fill="none"
-            stroke="#005900"
+            stroke="#2b521e"
             strokeWidth="4"
             strokeLinecap="round"
           />
 
           {/* ─── Word "TEXA" (Assembles in Scene 3) ─── */}
-          <g ref={texaGroupRef} stroke="#00A000" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none">
+          <g ref={texaGroupRef} stroke="#9BDF83" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none">
             {/* Letter T */}
             <g id="loader-letter-t">
               <path className="loader-path" d="M 20 25 L 100 25" />
@@ -424,7 +424,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
 
           {/* ─── Word "WAVE" (Emerges via Sweep Mask in Scenes 4-5) ─── */}
           <g clipPath="url(#reveal-wave-clip)">
-            <g ref={waveGroupRef} stroke="#00A000" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none">
+            <g ref={waveGroupRef} stroke="#9BDF83" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" fill="none">
               {/* Letter W */}
               <g id="loader-letter-w">
                 <path className="loader-path" d="M 420 25 L 438 95" />
@@ -458,7 +458,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
             ref={travelingWaveRef}
             d="M 0 -10 Q 25 30, -25 65 T 0 140"
             fill="none"
-            stroke="#00A000"
+            stroke="#9BDF83"
             strokeWidth="3.5"
             filter="url(#laser-glow)"
           />

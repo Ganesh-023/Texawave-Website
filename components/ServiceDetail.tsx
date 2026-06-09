@@ -135,7 +135,7 @@ export function ServiceDetail({ slug }: { slug: string }) {
             </h2>
             <p className="mt-5 leading-8 text-graphite">
               Texawave can support a single technical workstream or operate as an integrated product
-              development partner across requirements, design, sourcing, prototype validation, and
+              development partner across requirements, design, procurement, prototype validation, and
               manufacturing documentation.
             </p>
             <Link

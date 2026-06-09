@@ -60,7 +60,7 @@ export default function Home() {
     const serviceCards = document.querySelectorAll(".service-card-premium");
     const serviceCleanups = Array.from(serviceCards).map((card) =>
       bindServiceCardHover(card as HTMLElement, {
-        glowColor: "rgba(0, 89, 0, 0.25)"
+        glowColor: "rgba(155, 223, 131, 0.25)"
       })
     );
 
@@ -266,7 +266,7 @@ export default function Home() {
           <div className="absolute inset-0 grid-pattern opacity-25 z-[2] pointer-events-none" aria-hidden="true" />
 
           {/* Interactive Floating Glowing Shapes (z-3) */}
-          <div className="hero-floating-element pointer-events-none absolute left-[8%] top-[15%] h-56 w-56 rounded-full bg-[#005900]/12 blur-3xl z-[3]" />
+          <div className="hero-floating-element pointer-events-none absolute left-[8%] top-[15%] h-56 w-56 rounded-full bg-[var(--primary-green)]/12 blur-3xl z-[3]" />
           <div className="hero-floating-element pointer-events-none absolute right-[12%] bottom-[10%] h-72 w-72 rounded-full bg-[#00D4FF]/4 blur-3xl z-[3]" />
 
           {/* Left-aligned Content Container (z-10) */}
@@ -298,10 +298,10 @@ export default function Home() {
                 </Link>
               </div>
               <div className="hero-tags opacity-0 mt-10 flex flex-wrap justify-start gap-4 text-sm font-semibold text-steel">
-                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Mechanical design</span>
-                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">PCB & embedded</span>
-                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Component sourcing</span>
-                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">IoT software</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Software Engineering</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Electrical Engineering</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Mechanical Engineering</span>
+                <span className="px-3 py-1.5 rounded border border-white/5 bg-white/2">Procurement</span>
               </div>
             </div>
           </div>
@@ -390,7 +390,7 @@ export default function Home() {
             <div data-reveal>
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Why Texawave</p>
               <h2 className="mt-3 text-4xl font-black text-text-primary md:text-5xl">Built for founders and manufacturers who need dependable execution.</h2>
-              <p className="mt-5 leading-8 text-text-secondary">Texawave combines product thinking, engineering depth, sourcing awareness, and launch support so decisions stay connected across the full hardware lifecycle.</p>
+              <p className="mt-5 leading-8 text-text-secondary">Texawave combines product thinking, engineering depth, procurement awareness, and launch support so decisions stay connected across the full hardware lifecycle.</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {reasons.map(([label, Icon]) => (
@@ -406,7 +406,12 @@ export default function Home() {
         </section>
 
         {/* Clients Section */}
-        <section className="border-y border-border-primary bg-bg-secondary py-10">
+        <section className="border-y border-border-primary bg-bg-secondary py-16">
+          <div className="mx-auto max-w-7xl px-5 mb-10 lg:px-8 text-center" data-reveal>
+            <h2 className="text-2xl font-black tracking-tight text-text-primary sm:text-3xl md:text-4xl">
+              Our Trusted Companies
+            </h2>
+          </div>
           <div className="overflow-hidden">
             <div className="logo-marquee flex w-max gap-4">
               {[...clients, ...clients].map((client, index) => (

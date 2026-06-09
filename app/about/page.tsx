@@ -3,10 +3,11 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
 import { reasons } from "@/lib/content";
+import { VisionMission } from "@/components/VisionMission";
 
 export const metadata = {
   title: "About",
-  description: "Texawave is a product design company in India serving global clients with mechanical, electrical, sourcing, software, IoT, and production support."
+  description: "Texawave is a product design company in India serving global clients with software engineering, electrical engineering, mechanical engineering, procurement, and production support."
 };
 
 export default function AboutPage() {
@@ -22,12 +23,13 @@ export default function AboutPage() {
           </p>
         </div>
       </section>
+      <VisionMission />
       <section className="bg-bg-primary px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div data-reveal>
             <h2 className="text-4xl font-black text-text-primary">What makes the engagement different</h2>
             <p className="mt-5 leading-8 text-text-secondary">
-              Hardware programs fail when mechanical, electronics, sourcing, firmware, and production decisions happen in isolation. Texawave keeps those choices connected, documented, and aligned to cost, timeline, and manufacturability.
+              Hardware programs fail when mechanical, electronics, procurement, firmware, and production decisions happen in isolation. Texawave keeps those choices connected, documented, and aligned to cost, timeline, and manufacturability.
             </p>
             <Link href="/contact" className="cta-magnetic mt-7 inline-flex items-center gap-2 rounded bg-signal px-6 py-4 font-bold text-white border border-transparent">
               Book Free Feasibility Call <ArrowRight size={18} />

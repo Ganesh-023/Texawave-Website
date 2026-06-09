@@ -1,9 +1,10 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
+import { MapCard } from "@/components/MapCard";
 
 export const metadata = {
   title: "Contact and Book a Call",
-  description: "Book a free feasibility call with Texawave for hardware product development, mechanical design, PCB design, sourcing, embedded systems, and IoT."
+  description: "Book a free feasibility call with Texawave for hardware product development, mechanical design, PCB design, procurement, embedded systems, and IoT."
 };
 
 const fields = [
@@ -27,9 +28,16 @@ export default function ContactPage() {
             <h1 className="mt-3 text-5xl font-black text-ink md:text-7xl">Ready to validate your hardware idea?</h1>
             <p className="mt-6 text-lg leading-8 text-graphite">Share your project stage, technical needs, and launch goals. Texawave&apos;s engineering team will help you identify feasibility, risks, and the best next step.</p>
             <div className="mt-8 grid gap-4">
-              <p className="flex gap-3 font-semibold text-graphite"><Mail className="text-signal" size={22} /> contact@Texawavetechnologies.com</p>
-              <p className="flex gap-3 font-semibold text-graphite"><Phone className="text-signal" size={22} /> +91 9361360821</p>
-              <p className="flex gap-3 leading-7 text-graphite"><MapPin className="mt-1 shrink-0 text-signal" size={22} /> 93/206, Canal bank road, Indira Nagar, Adyar, Chennai - 600020</p>
+              <p className="flex gap-3 font-semibold text-graphite"><Mail className="text-signal" size={22} /> contact@texawave.com</p>
+              <p className="flex gap-3 font-semibold text-graphite"><Phone className="text-signal" size={22} /> +91 8680845604</p>
+              <p className="flex gap-3 leading-7 text-graphite"><MapPin className="mt-1 shrink-0 text-signal" size={22} />
+                93/206, Canal Bank Road,<br />
+                Indira Nagar, Adyar,
+                <br />Chennai - 600020
+              </p>
+            </div>
+            <div data-reveal>
+              <MapCard />
             </div>
           </div>
           <form className="rounded border border-border-primary bg-bg-card p-6 shadow-premium md:p-8">

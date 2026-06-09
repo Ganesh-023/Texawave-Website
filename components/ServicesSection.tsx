@@ -12,15 +12,15 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const SERVICES_DATA = [
   {
-    slug: "mechanical-engineering",
-    title: "Mechanical Engineering",
-    desc: "From concept CAD to DFM-ready assembly drawings. We design plastic, sheet metal, and electromechanical components for robust performance.",
-    icon: Wrench,
+    slug: "software-iot",
+    title: "Software Engineering",
+    desc: "End-to-end device connectivity. We develop responsive mobile apps, secure web dashboards, cloud infrastructure, and device-management software.",
+    icon: RadioTower,
     deliverables: [
-      "New Product Development",
-      "3D & 2D CAD Design",
-      "Plastic & Sheet Metal Design",
-      "BOM Generation"
+      "Mobile App Development",
+      "Website Development",
+      "Cloud Platform Management",
+      "IoT Platform Management"
     ]
   },
   {
@@ -36,27 +36,27 @@ const SERVICES_DATA = [
     ]
   },
   {
-    slug: "component-sourcing",
-    title: "Component Sourcing",
-    desc: "Mitigate supply chain risks. We source passive components, semiconductors, electromechanical parts, and coordinate with qualified manufacturers.",
-    icon: PackageCheck,
+    slug: "mechanical-engineering",
+    title: "Mechanical Engineering",
+    desc: "From concept CAD to DFM-ready assembly drawings. We design plastic, sheet metal, and electromechanical components for robust performance.",
+    icon: Wrench,
     deliverables: [
-      "Electromechanical Components",
-      "Passive Components",
-      "Semiconductors",
-      "Oscillators"
+      "New Product Development",
+      "3D & 2D CAD Design",
+      "Plastic & Sheet Metal Design",
+      "BOM Generation"
     ]
   },
   {
-    slug: "software-iot",
-    title: "Software & IoT",
-    desc: "End-to-end device connectivity. We develop responsive mobile apps, secure web dashboards, cloud infrastructure, and device-management software.",
-    icon: RadioTower,
+    slug: "procurement",
+    title: "Procurement",
+    desc: "Mitigate supply chain risks and optimize BOM costs. We handle supplier identification, vendor coordination, BOM-based purchasing, and logistics support.",
+    icon: PackageCheck,
     deliverables: [
-      "Mobile App Development",
-      "Website Development",
-      "Cloud Platform Management",
-      "IoT Platform Management"
+      "Supplier Identification",
+      "Vendor Coordination",
+      "BOM-based Purchasing",
+      "Supply Chain & Logistics"
     ]
   }
 ];
@@ -249,8 +249,8 @@ export function ServicesSection() {
                       <div 
                         className="flex h-12 w-12 items-center justify-center rounded-2xl"
                         style={{
-                          background: "rgba(0, 89, 0, 0.15)",
-                          border: "1px solid rgba(0, 89, 0, 0.45)",
+                          background: "rgba(155, 223, 131, 0.15)",
+                          border: "1px solid rgba(155, 223, 131, 0.45)",
                           color: "var(--accent)"
                         }}
                       >
@@ -324,8 +324,8 @@ export function ServicesSection() {
                     <div 
                       className="flex h-11 w-11 items-center justify-center rounded-xl"
                       style={{
-                        background: "rgba(0, 89, 0, 0.15)",
-                        border: "1px solid rgba(0, 89, 0, 0.45)",
+                        background: "rgba(155, 223, 131, 0.15)",
+                        border: "1px solid rgba(155, 223, 131, 0.45)",
                         color: "var(--accent)"
                       }}
                     >
