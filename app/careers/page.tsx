@@ -357,16 +357,16 @@ export default function CareersPage() {
   return (
     <PageChrome>
       <div ref={pageContainerRef} className="relative w-full overflow-hidden bg-black text-text-primary">
-        
+
         {/* ══════════════════════════ 1. HERO SECTION ══════════════════════════ */}
         <section className="relative min-h-[85vh] flex items-center justify-center px-6 py-20 border-b border-border-primary overflow-hidden">
           {/* Blueprint Engineering Grid Background */}
           <div className="absolute inset-0 grid-pattern opacity-20 pointer-events-none" aria-hidden="true" />
-          
+
           {/* Subtle Floating Dots and Tech Circle */}
           <div className="absolute left-[15%] top-[25%] w-[400px] h-[400px] rounded-full bg-[var(--primary-green)]/8 blur-3xl pointer-events-none" />
           <div className="absolute right-[10%] bottom-[20%] w-[350px] h-[350px] rounded-full bg-[#00D4FF]/3 blur-3xl pointer-events-none" />
-          
+
           {/* Wave SVG Animation Path (similar to main loader screen) */}
           <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none pointer-events-none h-40 opacity-30 select-none">
             <svg className="relative block w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -386,15 +386,15 @@ export default function CareersPage() {
               <Activity size={12} className="animate-pulse" />
               Careers at Texawave
             </div>
-            
+
             <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-none text-white max-w-4xl mx-auto" data-reveal>
               Build the Future of Engineering with TEXAWAVE
             </h1>
-            
+
             <p className="mt-6 text-base md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed" data-reveal>
               Join a team that delivers Software, Electrical, Mechanical, and Procurement solutions for global industries.
             </p>
-            
+
             <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4" data-reveal>
               <button
                 onClick={() => handleScrollTo("#open-positions")}
@@ -402,7 +402,7 @@ export default function CareersPage() {
               >
                 View Open Positions <ArrowRight size={16} />
               </button>
-              
+
               <button
                 onClick={() => handleScrollTo("#apply-form")}
                 className="btn-premium inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-black/40 backdrop-blur-sm px-7 py-4 font-bold text-text-primary transition hover:border-signal w-full sm:w-auto"
@@ -569,15 +569,13 @@ export default function CareersPage() {
                         const filterLabel = dept.name.split(" ")[0]; // Software, Electrical, Mechanical, Procurement
                         setActiveFilter(filterLabel);
                       }}
-                      className={`flex items-center gap-4 rounded-xl p-5 text-left border transition-all duration-300 ${
-                        isSelected
+                      className={`flex items-center gap-4 rounded-xl p-5 text-left border transition-all duration-300 ${isSelected
                           ? "border-signal bg-signal/10 shadow-[0_0_15px_rgba(155,223,131,0.15)]"
                           : "border-border-primary bg-bg-card hover:border-neutral-700"
-                      }`}
+                        }`}
                     >
-                      <span className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${
-                        isSelected ? "bg-signal/25 text-white border-signal" : "bg-bg-primary text-text-secondary border-border-primary"
-                      }`}>
+                      <span className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${isSelected ? "bg-signal/25 text-white border-signal" : "bg-bg-primary text-text-secondary border-border-primary"
+                        }`}>
                         <DeptIcon size={20} />
                       </span>
                       <div>
@@ -663,11 +661,10 @@ export default function CareersPage() {
                 <button
                   key={tab}
                   onClick={() => setActiveFilter(tab)}
-                  className={`px-5 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all duration-300 ${
-                    activeFilter === tab
+                  className={`px-5 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all duration-300 ${activeFilter === tab
                       ? "bg-signal text-white"
                       : "bg-black text-text-secondary border border-border-primary hover:border-neutral-700"
-                  }`}
+                    }`}
                 >
                   {tab}
                 </button>
@@ -694,7 +691,7 @@ export default function CareersPage() {
                     </div>
 
                     <h3 className="text-lg font-black text-white group-hover:text-signal transition-colors">{job.title}</h3>
-                    
+
                     <div className="flex items-center gap-3 mt-4 text-xs text-text-secondary">
                       <span className="flex items-center gap-1">
                         <Briefcase size={12} />
@@ -859,15 +856,14 @@ export default function CareersPage() {
             </div>
 
             <div className="rounded-2xl border border-border-primary bg-bg-card p-6 md:p-10 shadow-premium relative overflow-hidden" data-reveal>
-              
+
               {/* Option Selector tabs */}
               <div className="flex border-b border-border-primary pb-6 mb-8 gap-4">
                 <button
                   type="button"
                   onClick={() => setFormType("role")}
-                  className={`text-sm font-bold uppercase tracking-wider pb-2 border-b-2 transition-all ${
-                    formType === "role" ? "border-signal text-white" : "border-transparent text-text-secondary hover:text-white"
-                  }`}
+                  className={`text-sm font-bold uppercase tracking-wider pb-2 border-b-2 transition-all ${formType === "role" ? "border-signal text-white" : "border-transparent text-text-secondary hover:text-white"
+                    }`}
                 >
                   Apply for Open Position
                 </button>
@@ -877,9 +873,8 @@ export default function CareersPage() {
                     setFormType("general");
                     setFormData((p) => ({ ...p, position: "General Sourcing / Talent Pool" }));
                   }}
-                  className={`text-sm font-bold uppercase tracking-wider pb-2 border-b-2 transition-all ${
-                    formType === "general" ? "border-signal text-white" : "border-transparent text-text-secondary hover:text-white"
-                  }`}
+                  className={`text-sm font-bold uppercase tracking-wider pb-2 border-b-2 transition-all ${formType === "general" ? "border-signal text-white" : "border-transparent text-text-secondary hover:text-white"
+                    }`}
                 >
                   General Talent Pool
                 </button>
@@ -1040,7 +1035,7 @@ export default function CareersPage() {
                         className={`text-accent-light transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
                       />
                     </button>
-                    
+
                     {/* Collapsible panel body */}
                     <div className={`transition-all duration-400 ease-out overflow-hidden ${isOpen ? "max-h-[300px] opacity-100 border-t border-border-primary" : "max-h-0 opacity-0"}`}>
                       <p className="p-6 text-sm text-text-secondary leading-relaxed bg-black/30">
@@ -1068,7 +1063,7 @@ export default function CareersPage() {
             <p className="mt-5 max-w-xl text-sm md:text-base text-text-secondary leading-relaxed">
               Accelerate your engineering path and build complex hardware solutions with us.
             </p>
-            
+
             <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
               <button
                 onClick={() => handleScrollTo("#apply-form")}
@@ -1076,7 +1071,7 @@ export default function CareersPage() {
               >
                 Apply Now <ArrowRight size={16} />
               </button>
-              
+
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-black/40 backdrop-blur-sm px-7 py-4 font-bold text-text-primary transition hover:border-signal w-full sm:w-auto"

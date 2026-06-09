@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
@@ -861,7 +861,7 @@ interface ProjectCardProps {
   setActiveHover: (hover: boolean) => void;
 }
 
-function ProjectCard({ work, index, isActiveHover, setActiveHover }: ProjectCardProps) {
+function ProjectCard({ work, index, setActiveHover }: ProjectCardProps) {
   const Icon = work.icon;
   
   return (

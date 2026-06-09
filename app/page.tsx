@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
-import { ArrowRight, CheckCircle2, ChevronRight, Star } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { AnimatedShell } from "@/components/AnimatedShell";
@@ -24,9 +24,7 @@ import {
   clients,
   processSteps,
   reasons,
-  services,
-  stats,
-  works
+  stats
 } from "@/lib/content";
 
 export default function Home() {
@@ -119,47 +117,38 @@ export default function Home() {
         0.4
       );
 
-      // Heading lines scramble and reveal sequentially
-      const titleLines = document.querySelectorAll(".hero-title-line");
-      titleLines.forEach((line, index) => {
-        const text = line.getAttribute("data-text") || "";
-        tl.fromTo(line,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 3.0,
-            ease: "power2.out",
-            scrambleText: {
-              text: text,
-              chars: "upperAndLowerCase",
-              revealDelay: 0.2,
-              tweenLength: false
-            }
-          },
-          index === 0 ? "-=0.3" : "-=2.4"
-        );
-      });
+      // Heading lines fade and slide up sequentially
+      tl.fromTo(".hero-title-line",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.15
+        },
+        "-=0.25"
+      );
 
       // Description fades in
       tl.fromTo(".hero-description",
         { opacity: 0, y: 15 },
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-        "-=1.5"
+        "-=0.4"
       );
 
       // CTA buttons slide up
       tl.fromTo(".hero-ctas",
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-        "-=0.9"
+        "-=0.5"
       );
 
       // Tech tags fade in
       tl.fromTo(".hero-tags",
         { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-        "-=0.6"
+        "-=0.4"
       );
     }
 

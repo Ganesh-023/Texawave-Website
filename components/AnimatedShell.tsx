@@ -4,7 +4,6 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect } from "react";
-import { CursorTrail } from "@/components/CursorTrail";
 import {
   createEaseReverseTimeline,
   bindPremiumHover,
@@ -159,7 +158,6 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <CursorTrail />
     </>
   );
 }

@@ -120,7 +120,6 @@ export function bindPremiumHover(
     ease = "back.out(2)",
     easeReverse = "power2.out",
     reverseTimeScale = 2.5,
-    magnetic = false,
     glowRef,
   } = options;
 
@@ -163,61 +162,17 @@ export function bindPremiumHover(
 
   const handleMouseLeave = () => {
     hoverTl.reverse();
-    if (magnetic) {
-      // Settle magnetic button back to absolute center
-      gsap.to(element, {
-        x: 0,
-        y: 0,
-        duration: duration * 1.5,
-        ease: easeReverse,
-        overwrite: "auto",
-      });
-    }
   };
 
   element.addEventListener("mouseenter", handleMouseEnter);
   element.addEventListener("mouseleave", handleMouseLeave);
 
-  // Magnetic coordinate tracking
-  let handleMouseMove: ((e: MouseEvent) => void) | null = null;
-  if (magnetic) {
-    handleMouseMove = (e: MouseEvent) => {
-      const rect = element.getBoundingClientRect();
-      const relativeX = e.clientX - rect.left - rect.width / 2;
-      const relativeY = e.clientY - rect.top - rect.height / 2;
-      
-      // Pull magnet at a subtle strength
-      gsap.to(element, {
-        x: relativeX * 0.35,
-        y: relativeY * 0.35,
-        duration: 0.2,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-    };
-    element.addEventListener("mousemove", handleMouseMove);
-  }
-
   // Return destructor for React cleanup
   return () => {
     element.removeEventListener("mouseenter", handleMouseEnter);
     element.removeEventListener("mouseleave", handleMouseLeave);
-    if (magnetic && handleMouseMove) {
-      element.removeEventListener("mousemove", handleMouseMove);
-    }
     hoverTl.kill();
   };
-}
-
-export function usePremiumHover(
-  ref: RefObject<HTMLElement | null>,
-  options: Parameters<typeof bindPremiumHover>[1] = {}
-) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    return bindPremiumHover(el, options);
-  }, [ref, options]);
 }
 
 /**
