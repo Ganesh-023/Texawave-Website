@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap"
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"]
 });
 
-const spaceGrotesk = Space_Grotesk({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap"
+  variable: "--font-sora",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"]
 });
 
 export const metadata: Metadata = {
@@ -39,9 +41,9 @@ export const metadata: Metadata = {
     type: "website"
   },
   icons: {
-    icon: "/texawave_logo.png",
-    shortcut: "/texawave_logo.png",
-    apple: "/texawave_logo.png"
+    icon: "/texawave_logo.webp",
+    shortcut: "/texawave_logo.webp",
+    apple: "/texawave_logo.webp"
   },
   robots: {
     index: true,
@@ -56,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark dark-theme" data-theme="dark">
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>{children}</body>
+      <body className={`${inter.variable} ${sora.variable} font-sans antialiased`}>{children}</body>
     </html>
   );
 }

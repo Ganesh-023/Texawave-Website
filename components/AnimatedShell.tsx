@@ -24,6 +24,9 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
       smoothWheel: true
     });
 
+    // Sync Lenis scroll events with GSAP ScrollTrigger updates
+    lenis.on("scroll", ScrollTrigger.update);
+
     const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);

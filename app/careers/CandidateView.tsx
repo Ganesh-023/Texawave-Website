@@ -85,6 +85,38 @@ export function CandidateView({
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Status check states
+  const [statusEmail, setStatusEmail] = useState("");
+  const [statusResults, setStatusResults] = useState<any[] | null>(null);
+  const [statusChecked, setStatusChecked] = useState(false);
+  const [statusError, setStatusError] = useState("");
+
+  const handleCheckStatus = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!statusEmail.trim()) {
+      setStatusError("Please enter a valid email address.");
+      return;
+    }
+    setStatusError("");
+    
+    const localApps = localStorage.getItem("texawave_applications");
+    const apps = localApps ? JSON.parse(localApps) : [];
+    const matched = apps.filter(
+      (a: any) => a.email.toLowerCase() === statusEmail.trim().toLowerCase()
+    );
+
+    const localNotes = localStorage.getItem("texawave_hr_notes");
+    const notes = localNotes ? JSON.parse(localNotes) : {};
+
+    const matchedWithNotes = matched.map((a: any) => ({
+      ...a,
+      notes: notes[a.id] || []
+    }));
+
+    setStatusResults(matchedWithNotes);
+    setStatusChecked(true);
+  };
+
   // Counter logic
   const [liveCount, setLiveCount] = useState(0);
   const targetCount = jobs.filter(j => j.status === "Open").length;
@@ -217,20 +249,14 @@ export function CandidateView({
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#00D4FF]/4 blur-3xl pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-20 px-6 max-w-7xl mx-auto z-10 flex flex-col items-center justify-center text-center">
-        <button
-          onClick={onToggleAdmin}
-          className="fade-in-up-hero inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 hover:border-signal/50 bg-white/5 hover:bg-signal/10 transition-colors text-xs text-text-secondary hover:text-white mb-6 uppercase font-bold tracking-wider"
-        >
-          <Lock size={12} className="text-signal" />
-          HR/Admin Panel
-        </button>
+      <section className="relative pt-12 pb-20 z-10">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] flex flex-col items-center justify-center text-center">
         
-        <h1 className="fade-in-up-hero text-4xl sm:text-6xl md:text-7xl font-black text-white leading-none tracking-tight max-w-5xl">
+        <h1 className="fade-in-up-hero text-hero text-white max-w-5xl">
           Build Your Future <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-green)] to-[#00D4FF]">at TEXAWAVE</span>
         </h1>
         
-        <p className="fade-in-up-hero text-text-secondary text-base sm:text-xl max-w-2xl mt-6 leading-relaxed">
+        <p className="fade-in-up-hero text-body-large text-text-secondary max-w-2xl mt-6">
           We combine hardware, software, and global supply chains to build state-of-the-art systems. Join our team of interdisciplinary engineering professionals.
         </p>
 
@@ -261,12 +287,74 @@ export function CandidateView({
             Open Positions Available
           </div>
         </div>
+
+        {/* Application Status Checker */}
+        <div className="fade-in-up-hero mt-8 w-full max-w-xl bg-bg-card/60 border border-border-primary rounded-2xl p-6 shadow-crisp backdrop-blur-sm">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-2 font-mono flex items-center justify-center gap-1.5">
+            🔍 Check Application Status
+          </h3>
+          <p className="text-xs text-text-secondary mb-4">Track your submission status in real-time.</p>
+          <form onSubmit={handleCheckStatus} className="flex gap-2">
+            <input
+              type="email"
+              required
+              placeholder="Enter your applied email address..."
+              value={statusEmail}
+              onChange={(e) => setStatusEmail(e.target.value)}
+              className="flex-1 bg-black border border-border-primary rounded-xl px-3 py-2 text-xs text-white placeholder-text-secondary/50 focus:border-signal focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-signal text-black px-4 py-2 rounded-xl text-xs font-bold font-sans uppercase hover:bg-opacity-90 transition-all font-mono"
+            >
+              Verify
+            </button>
+          </form>
+
+          {statusError && (
+            <p className="text-[11px] text-red-400 mt-2 font-mono">{statusError}</p>
+          )}
+
+          {statusChecked && statusResults && (
+            <div className="mt-4 border-t border-white/5 pt-4 text-left space-y-3.5">
+              {statusResults.length > 0 ? (
+                statusResults.map((app) => (
+                  <div key={app.id} className="p-3 bg-black/40 border border-border-primary rounded-xl space-y-1.5">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-bold text-white">{app.jobTitle}</span>
+                      <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-mono ${
+                        app.status === "New" ? "bg-blue-950/45 text-blue-400 border border-blue-500/20" :
+                        app.status === "Shortlisted" ? "bg-amber-950/45 text-amber-400 border border-amber-500/20" :
+                        app.status === "Interview Scheduled" ? "bg-purple-950/45 text-purple-400 border border-purple-500/20" :
+                        app.status === "Selected" ? "bg-signal/25 text-signal border border-signal/40" :
+                        "bg-red-950/45 text-red-400 border border-red-500/20"
+                      }`}>
+                        {app.status}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-text-secondary font-mono">Applied Date: {app.dateApplied}</p>
+                    
+                    {app.notes && app.notes.length > 0 && (
+                      <div className="mt-2 pl-2 border-l-2 border-signal text-[11px] text-text-secondary italic">
+                        Feedback: "{app.notes[app.notes.length - 1]}"
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="text-[11px] text-text-secondary font-mono italic text-center">No applications found matching this email.</p>
+              )}
+            </div>
+          )}
+        </div>
+        </div>
       </section>
 
       {/* Featured Jobs Section */}
       {featuredJobs.length > 0 && (
-        <section className="relative py-12 px-6 max-w-7xl mx-auto z-10">
-          <div className="flex items-center gap-2 mb-8">
+        <section className="relative py-12 z-10">
+          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+            <div className="flex items-center gap-2 mb-8">
             <Sparkles className="text-signal" size={18} />
             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-signal">Featured Opportunities</h2>
           </div>
@@ -296,11 +384,11 @@ export function CandidateView({
                   </span>
                 </div>
                 
-                <h3 className="text-xl md:text-2xl font-black text-white group-hover:text-signal transition-colors">
+                <h3 className="text-card text-white group-hover:text-signal transition-colors">
                   {job.title}
                 </h3>
                 
-                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 mt-3 text-xs text-text-secondary font-medium">
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 mt-3 text-small-text text-text-secondary font-medium">
                   <span className="flex items-center gap-1">
                     {getDeptIcon(job.department)}
                     {job.department} Division
@@ -315,7 +403,7 @@ export function CandidateView({
                   </span>
                 </div>
                 
-                <p className="mt-4 text-sm leading-relaxed text-text-secondary line-clamp-2">
+                <p className="mt-4 text-body-normal text-text-secondary line-clamp-2">
                   {job.description}
                 </p>
 
@@ -344,15 +432,17 @@ export function CandidateView({
               </div>
             ))}
           </div>
+          </div>
         </section>
       )}
 
       {/* Main Jobs Section & Interactive filters */}
-      <section id="job-feed-section" className="py-16 px-6 max-w-7xl mx-auto z-10 relative scroll-mt-24">
-        <div className="text-center md:text-left mb-10">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-signal">Job Feed</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white mt-3">Explore Careers</h2>
-          <p className="text-text-secondary text-sm md:text-base mt-2">Find active technical vacancies across our engineering divisions.</p>
+      <section id="job-feed-section" className="py-16 z-10 relative scroll-mt-24">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+          <div className="text-center md:text-left mb-10">
+          <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Job Feed</span>
+          <h2 className="text-section text-white mt-3">Explore Careers</h2>
+          <p className="text-body-large text-text-secondary mt-2">Find active technical vacancies across our engineering divisions.</p>
         </div>
 
         {/* Filter Toolbar */}
@@ -414,11 +504,11 @@ export function CandidateView({
                   </span>
                 </div>
                 
-                <h3 className="text-lg font-black text-white group-hover:text-signal transition-colors line-clamp-1">
+                <h3 className="text-card text-white group-hover:text-signal transition-colors line-clamp-1">
                   {job.title}
                 </h3>
                 
-                <div className="flex flex-col gap-1.5 mt-3 text-xs text-text-secondary font-medium">
+                <div className="flex flex-col gap-1.5 mt-3 text-small-text text-text-secondary font-medium">
                   <span className="flex items-center gap-1.5">
                     <MapPin size={12} className="text-signal" />
                     {job.location}
@@ -470,41 +560,49 @@ export function CandidateView({
             </div>
           )}
         </div>
+        </div>
       </section>
 
       {/* Internship Corner */}
-      <section className="bg-bg-secondary py-20 px-6 border-y border-border-primary">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-bg-secondary py-20 border-y border-border-primary">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-signal">Special Section</span>
-            <h2 className="text-3xl md:text-5xl font-black text-white mt-3">Internship Corner</h2>
-            <p className="text-text-secondary mt-3 max-w-2xl mx-auto text-sm md:text-base">
+            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Special Section</span>
+            <h2 className="text-section text-white mt-3">Internship Corner</h2>
+            <p className="text-body-large text-text-secondary mt-3 max-w-2xl mx-auto">
               TEXAWAVE is a hub for talented engineering students. Apply for structured internships to gain real hardware lab experience.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
-                title: "Summer Internship",
-                duration: "3 Months (June - August)",
-                desc: "An intensive learning accelerator. Work under senior mentors on circuit design, mechanical drafting, or dashboard creation.",
-                skills: "Pre-Final / Final Year Students",
-                benefit: "Structured Mentorship & Stipend"
+                title: "Mechanical Design Intern",
+                duration: "3 - 6 Months",
+                desc: "Design premium sheet metal and injection molded enclosures using SolidWorks. Perform FEA thermal & stress simulations in Ansys.",
+                skills: "SolidWorks, GD&T, FEA Analysis",
+                benefit: "Hands-on Prototyping & Lab Access"
               },
               {
-                title: "Industrial Training",
-                duration: "6 Months Cohort",
-                desc: "Deep dive into product development cycles. Participate directly in hardware bring-up, supply validations, and integration test runs.",
-                skills: "Engineering Grads / PostGrads",
-                benefit: "Full Hands-on Lab Operations"
+                title: "Embedded Systems Intern",
+                duration: "3 - 6 Months",
+                desc: "Develop firmware drivers for ESP32 and STM32 MCUs in C/C++. soldering, diagnostic tests, logic analyzer bring-up.",
+                skills: "Embedded C, Microcontrollers, UART/SPI",
+                benefit: "Stipend, Hardware Labs Bring-up"
               },
               {
-                title: "Final Year Project Internship",
-                duration: "6 Months (Academic Project)",
-                desc: "Convert your academic project requirements into real engineering prototypes. Solve industrial challenges utilizing our high-tech equipment.",
-                skills: "B.E. / B.Tech / M.Tech Students",
-                benefit: "Project Validation & Lab Access"
+                title: "Software Developer Intern",
+                duration: "3 - 6 Months",
+                desc: "Build animated web interfaces with React, Next.js, and TypeScript. Set up real-time telemetry graphs and MQTT streams.",
+                skills: "Next.js, TypeScript, TailwindCSS, APIs",
+                benefit: "Wfh kit, structured coding cohorts"
+              },
+              {
+                title: "Electronics Design Intern",
+                duration: "3 - 6 Months",
+                desc: "PCB schematic design, layout optimization, signal integrity analysis, EMI/EMC compliance, board soldering & diagnosis.",
+                skills: "Altium Designer, PCB Layouts, Multimeter",
+                benefit: "Altium workshops, lab equipment access"
               }
             ].map((intern, index) => (
               <div 
@@ -512,12 +610,12 @@ export function CandidateView({
                 className="rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp hover:border-signal transition-colors flex flex-col justify-between"
               >
                 <div>
-                  <span className="text-xs font-mono font-bold text-signal">{"0" + (index + 1) + " // PROGRAM"}</span>
-                  <h3 className="text-xl font-black text-white mt-3">{intern.title}</h3>
-                  <p className="text-xs font-semibold text-accent-light bg-signal/10 rounded px-2.5 py-1 w-fit mt-2">
+                  <span className="text-small-text font-mono font-bold text-signal">{"0" + (index + 1) + " // PROGRAM"}</span>
+                  <h3 className="text-card text-white mt-3 leading-tight min-h-[3rem] flex items-center">{intern.title}</h3>
+                  <p className="text-small-text font-semibold text-accent-light bg-signal/10 rounded px-2.5 py-1 w-fit mt-2 font-mono">
                     ⏱️ {intern.duration}
                   </p>
-                  <p className="text-sm text-text-secondary mt-4 leading-relaxed">
+                  <p className="text-xs text-text-secondary mt-4 leading-relaxed">
                     {intern.desc}
                   </p>
                 </div>
@@ -531,7 +629,7 @@ export function CandidateView({
                     onClick={() => {
                       const mockJob: Job = {
                         id: `intern-program-${index}`,
-                        title: `${intern.title} Program`,
+                        title: intern.title,
                         department: "Electrical",
                         location: "Chennai / Onsite",
                         type: "Internship",
@@ -541,18 +639,18 @@ export function CandidateView({
                         responsibilities: ["Participate in daily engineering scrums", "Perform testing and documentation", "Build demo prototypes"],
                         requirements: ["Currently enrolled in Engineering degree", "Basic coding or drafting knowledge"],
                         benefits: ["Certificate", "Stipend"],
-                        skills: ["C", "SolidWorks", "Python"],
+                        skills: [intern.skills],
                         deadline: "2026-06-30",
                         status: "Open",
                         isFeatured: false,
                         isUrgent: false,
                         isInternship: true,
-                        postedDate: "2026-06-09"
+                        postedDate: new Date().toISOString().split("T")[0]
                       };
                       setFormType("apply");
                       setActiveJobForModal(mockJob);
                     }}
-                    className="mt-6 w-full text-center py-2.5 rounded bg-signal/10 hover:bg-signal/20 font-bold text-xs text-accent-light border border-signal/20 transition-all"
+                    className="mt-6 w-full text-center py-2.5 rounded bg-signal/10 hover:bg-signal/20 font-bold text-xs text-accent-light border border-signal/20 transition-all font-mono"
                   >
                     Apply For Internship
                   </button>
@@ -565,11 +663,12 @@ export function CandidateView({
 
       {/* Walk-in Drives Section */}
       {walkins.length > 0 && (
-        <section className="py-20 px-6 max-w-7xl mx-auto z-10">
+        <section className="py-20 z-10">
+          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="flex flex-col items-center text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-signal">Fast-Track Hiring</span>
-            <h2 className="text-3xl md:text-5xl font-black text-white mt-3">Walk-in Interviews</h2>
-            <p className="text-text-secondary mt-2 max-w-xl text-sm md:text-base">
+            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Fast-Track Hiring</span>
+            <h2 className="text-section text-white mt-3">Walk-in Interviews</h2>
+            <p className="text-body-large text-text-secondary mt-2 max-w-xl">
               Skip the application queue. Join us directly at our Chennai labs on event dates for dynamic onsite screening evaluations.
             </p>
           </div>
@@ -589,17 +688,17 @@ export function CandidateView({
                   </div>
                   
                   <div>
-                    <span className="text-[10px] font-mono font-bold text-signal tracking-widest block uppercase">
+                    <span className="text-small-text font-mono font-bold text-signal tracking-widest block uppercase">
                       📅 Date: {drive.date}
                     </span>
-                    <h3 className="text-lg font-black text-white mt-1 group-hover:text-signal transition-colors">
+                    <h3 className="text-card text-white mt-1 group-hover:text-signal transition-colors">
                       {drive.title}
                     </h3>
-                    <p className="text-xs text-text-secondary mt-1 font-semibold flex items-center gap-1">
+                    <p className="text-small-text text-text-secondary mt-1 font-semibold flex items-center gap-1">
                       <MapPin size={12} className="text-signal" />
                       {drive.location}
                     </p>
-                    <p className="text-sm text-text-secondary mt-3 leading-relaxed">
+                    <p className="text-body-normal text-text-secondary mt-3">
                       {drive.description}
                     </p>
                     
@@ -653,16 +752,17 @@ export function CandidateView({
               </div>
             ))}
           </div>
+          </div>
         </section>
       )}
 
       {/* Premium Feature: Life at TEXAWAVE Feed */}
-      <section className="bg-bg-secondary/60 py-20 px-6 border-t border-border-primary">
-        <div className="max-w-4xl mx-auto">
+      <section className="bg-bg-secondary/60 py-20 border-t border-border-primary">
+        <div className="mx-auto w-full max-w-4xl px-[clamp(1rem,4vw,4rem)]">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-signal">Social Stream</span>
-            <h2 className="text-3xl md:text-5xl font-black text-white mt-3">Life at TEXAWAVE Feed</h2>
-            <p className="text-text-secondary mt-2 text-sm md:text-base">
+            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Social Stream</span>
+            <h2 className="text-section text-white mt-3">Life at TEXAWAVE Feed</h2>
+            <p className="text-body-large text-text-secondary mt-2">
               Explore employee experiences, labs bring-up milestones, cultural activities, and internal hackathons.
             </p>
           </div>
@@ -696,11 +796,11 @@ export function CandidateView({
                     <span>{update.date}</span>
                   </div>
                   
-                  <h3 className="text-lg md:text-xl font-black text-white leading-snug">
+                  <h3 className="text-card text-white">
                     {update.title}
                   </h3>
                   
-                  <p className="text-sm md:text-base text-text-secondary mt-4 leading-relaxed whitespace-pre-line">
+                  <p className="text-body-normal text-text-secondary mt-4 whitespace-pre-line">
                     {update.content}
                   </p>
 
@@ -729,6 +829,16 @@ export function CandidateView({
         </div>
       </section>
 
+      {/* Staff Login Link */}
+      <div className="py-12 border-t border-white/5 text-center flex flex-col items-center justify-center bg-black">
+        <button
+          onClick={onToggleAdmin}
+          className="text-xs text-text-secondary hover:text-[#9BDF83] transition-colors inline-flex items-center gap-1 font-mono uppercase font-bold tracking-wider"
+        >
+          Staff Login &rarr;
+        </button>
+      </div>
+
       {/* Modal - Apply Job / Join Talent Pool */}
       {(activeJobForModal || showTalentPoolModal) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
@@ -749,19 +859,19 @@ export function CandidateView({
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-signal block">
                     {activeJobForModal.department} Division
                   </span>
-                  <h3 className="text-xl font-black text-white mt-2 leading-tight">
+                  <h3 className="text-subtitle text-white mt-2">
                     {activeJobForModal.title}
                   </h3>
                   
-                  <div className="space-y-2 mt-4 text-xs text-text-secondary font-medium">
+                  <div className="space-y-2 mt-4 text-body-normal text-text-secondary font-medium">
                     <p className="flex items-center gap-1.5"><MapPin size={12} className="text-signal" /> {activeJobForModal.location}</p>
                     <p className="flex items-center gap-1.5"><Clock size={12} className="text-signal" /> {activeJobForModal.type}</p>
                     <p className="flex items-center gap-1.5"><Briefcase size={12} className="text-signal" /> {activeJobForModal.experience}</p>
                   </div>
 
                   <div className="mt-6">
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider">Salary Range</h4>
-                    <p className="text-sm font-mono font-bold text-signal mt-1">{activeJobForModal.salary}</p>
+                    <h4 className="text-small-text font-bold text-white uppercase tracking-wider font-display">Salary Range</h4>
+                    <p className="text-body-normal font-mono font-bold text-signal mt-1">{activeJobForModal.salary}</p>
                   </div>
 
                   <div className="mt-6 border-t border-white/5 pt-4">
@@ -791,10 +901,10 @@ export function CandidateView({
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-signal block">
                     Global Sourcing
                   </span>
-                  <h3 className="text-xl font-black text-white mt-2 leading-tight">
+                  <h3 className="text-subtitle text-white mt-2">
                     TEXAWAVE Talent Pool
                   </h3>
-                  <p className="text-xs text-text-secondary mt-3 leading-relaxed">
+                  <p className="text-body-normal text-text-secondary mt-3">
                     No matching active role? Join our talent database. Our HR sourcing managers search this list first when new projects launch.
                   </p>
                   
@@ -837,12 +947,12 @@ export function CandidateView({
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 font-sans text-left">
                   <div>
-                    <h3 className="text-lg font-black text-white">
+                    <h3 className="text-card text-white">
                       {formType === "apply" && activeJobForModal 
                         ? `Apply for: ${activeJobForModal.title}` 
                         : "Join General Talent Pool"}
                     </h3>
-                    <p className="text-xs text-text-secondary mt-1">Please fill in your primary contact info below (* required).</p>
+                    <p className="text-body-normal text-text-secondary mt-1">Please fill in your primary contact info below (* required).</p>
                   </div>
 
                   {formError && (
@@ -854,13 +964,13 @@ export function CandidateView({
 
                   {/* Name */}
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Full Name *</label>
+                    <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Full Name *</label>
                     <input
                       type="text"
                       required
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
-                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                       placeholder="e.g., Jane Doe"
                     />
                   </div>
@@ -868,24 +978,24 @@ export function CandidateView({
                   {/* Contact coordinates */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Email Address *</label>
+                      <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Email Address *</label>
                       <input
                         type="email"
                         required
                         value={formEmail}
                         onChange={(e) => setFormEmail(e.target.value)}
-                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         placeholder="yourname@domain.com"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Phone Number *</label>
+                      <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Phone Number *</label>
                       <input
                         type="tel"
                         required
                         value={formPhone}
                         onChange={(e) => setFormPhone(e.target.value)}
-                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         placeholder="+91 XXXXX XXXXX"
                       />
                     </div>
@@ -895,11 +1005,11 @@ export function CandidateView({
                   {formType === "talent" && (
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Department Interest *</label>
+                        <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Department Interest *</label>
                         <select
                           value={formDeptInterest}
                           onChange={(e) => setFormDeptInterest(e.target.value)}
-                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         >
                           <option value="Software">Software</option>
                           <option value="Electrical">Electrical</option>
@@ -908,12 +1018,12 @@ export function CandidateView({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Skills Tags (comma-separated)</label>
+                        <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Skills Tags (comma-separated)</label>
                         <input
                           type="text"
                           value={formSkillsInput}
                           onChange={(e) => setFormSkillsInput(e.target.value)}
-                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                           placeholder="React, PCB, SolidWorks, ESP32"
                         />
                       </div>
@@ -922,7 +1032,7 @@ export function CandidateView({
 
                   {/* Resume Upload */}
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Resume / CV Upload *</label>
+                    <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Resume / CV Upload *</label>
                     <div className="border border-dashed border-border-primary hover:border-signal/50 rounded-xl p-4 text-center cursor-pointer relative bg-black/40">
                       <input
                         type="file"
@@ -938,11 +1048,11 @@ export function CandidateView({
                       <div className="flex flex-col items-center justify-center">
                         <Upload size={18} className="text-signal mb-1.5" />
                         {formResume ? (
-                          <p className="text-xs font-semibold text-white truncate max-w-xs">{formResume.name}</p>
+                          <p className="text-body-normal font-semibold text-white truncate max-w-xs">{formResume.name}</p>
                         ) : (
                           <>
-                            <p className="text-[11px] font-semibold text-text-primary">Click or drag-and-drop to upload resume</p>
-                            <p className="text-[9px] text-text-secondary mt-0.5">Accepts PDF, DOC, DOCX up to 5MB</p>
+                            <p className="text-body-normal font-semibold text-text-primary">Click or drag-and-drop to upload resume</p>
+                            <p className="text-small-text text-text-secondary mt-0.5">Accepts PDF, DOC, DOCX up to 5MB</p>
                           </>
                         )}
                       </div>
@@ -951,12 +1061,12 @@ export function CandidateView({
 
                   {/* Message/Intro */}
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Short Introduction / Cover Message</label>
+                    <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Short Introduction / Cover Message</label>
                     <textarea
                       value={formMessage}
                       onChange={(e) => setFormMessage(e.target.value)}
                       rows={3}
-                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
+                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white resize-none"
                       placeholder="Briefly share any projects, hardware lab experience, or details you want to highlight..."
                     />
                   </div>

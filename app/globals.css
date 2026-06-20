@@ -14,7 +14,7 @@
   --bg-secondary: #080808;
   --bg-card: #111111;
   --text-primary: #EEEEEE;
-  --text-secondary: #999999;
+  --text-secondary: #B5B5B5;
   --accent: var(--primary-green);
   --accent-hover: #b4eb9f;
   --accent-light: var(--primary-green);
@@ -32,17 +32,124 @@
   --bg: #000000;
   --card: #111111;
   --text: #EEEEEE;
+
+  /* Typography Design Scale CSS Variables */
+  --text-hero: clamp(2.5rem, 6vw, 5.5rem);
+  --text-section: clamp(1.8rem, 4vw, 3.5rem);
+  --text-subtitle: clamp(1.5rem, 3vw, 2.25rem);
+  --text-card: clamp(1.25rem, 2.5vw, 1.75rem);
+  --text-body-large: clamp(1rem, 0.5vw + 0.875rem, 1.125rem);
+  --text-body-normal: clamp(0.95rem, 1.2vw, 1.1rem);
+  --text-small-text: clamp(0.8125rem, 0.2vw + 0.75rem, 0.875rem);
+  
+  --line-height-hero: 1.05;
+  --line-height-section: 1.1;
+  --line-height-subtitle: 1.2;
+  --line-height-card: 1.2;
+  --line-height-body: 1.8;
+}
+
+.responsive-container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 4rem);
+  padding-right: clamp(1rem, 4vw, 4rem);
 }
 
 html {
   scroll-behavior: auto;
 }
 
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  text-rendering: optimizeLegibility;
+@layer base {
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-sora), "Sora", sans-serif !important;
+  }
+  
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    text-rendering: optimizeLegibility;
+    font-family: var(--font-inter), "Inter", sans-serif;
+    line-height: var(--line-height-body);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Spacing improvements between headings and sibling paragraphs */
+  h1 + p, .hero-title + p {
+    margin-top: clamp(1.25rem, 3vh, 2rem) !important;
+  }
+  h2 + p, .section-title + p {
+    margin-top: clamp(1rem, 2vh, 1.5rem) !important;
+  }
+  h3 + p, .subtitle + p, .card-title + p {
+    margin-top: clamp(0.75rem, 1.5vh, 1.125rem) !important;
+  }
+
+  /* Hero Subtitle styling globally */
+  h1.text-hero + p,
+  h1.text-hero + div > p,
+  .hero-description {
+    font-family: var(--font-inter), "Inter", sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 22px !important;
+    line-height: 1.7 !important;
+    max-width: 700px !important;
+  }
+
+  /* Card Description typography globally */
+  .services-card-custom p,
+  .service-card-premium p,
+  .pcb-project-card p {
+    font-family: var(--font-inter), "Inter", sans-serif !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    line-height: 1.7 !important;
+  }
+
+  /* Redefine button typography globally to Inter 600, 15px, tracking 0.02em */
+  .cta-magnetic,
+  #header-cta-btn,
+  .mobile-nav-item a,
+  .mobile-nav-item button,
+  .hub-option-btn,
+  button,
+  .btn {
+    font-family: var(--font-inter), "Inter", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+  }
+}
+
+/* Global prose blog post typography settings */
+.prose p {
+  font-size: var(--text-body-normal) !important;
+  line-height: var(--line-height-body) !important;
+  margin-bottom: clamp(1rem, 2vh, 1.5rem) !important;
+  color: var(--text-secondary) !important;
+}
+
+.prose h2 {
+  font-family: var(--font-sora), "Sora", sans-serif !important;
+  font-size: var(--text-subtitle) !important;
+  margin-top: clamp(1.5rem, 3vh, 2.5rem) !important;
+  margin-bottom: clamp(0.75rem, 1.5vh, 1.125rem) !important;
+  font-weight: 800 !important;
+  color: var(--text-primary) !important;
+}
+
+.prose h3 {
+  font-family: var(--font-sora), "Sora", sans-serif !important;
+  font-size: var(--text-card) !important;
+  margin-top: clamp(1.25rem, 2.5vh, 2rem) !important;
+  margin-bottom: clamp(0.5rem, 1.2vh, 0.875rem) !important;
+  font-weight: 750 !important;
+  color: var(--text-primary) !important;
 }
 
 /*
@@ -152,7 +259,9 @@ textarea {
 
 .navbar-link {
   color: #EEEEEE !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.02em !important;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   transition: color 0.3s ease, text-shadow 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease !important;
 }
@@ -166,7 +275,9 @@ textarea {
 
 .navbar-link-active {
   color: var(--primary-green) !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.02em !important;
   text-shadow: 0 0 12px rgba(155, 223, 131, 0.4);
   transition: color 0.3s ease, text-shadow 0.3s ease !important;
 }
@@ -423,5 +534,28 @@ textarea {
     stroke-dashoffset: 0;
   }
 }
+
+/* ─── Premium Scanning Line Animation ───────────────────────────────────── */
+.animate-scan {
+  animation: scan-line-anim 8s ease-in-out infinite;
+}
+
+@keyframes scan-line-anim {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
 
 

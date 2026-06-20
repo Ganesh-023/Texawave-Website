@@ -37,7 +37,6 @@ import {
 export const navItems = [
   { label: "Services", href: "/services" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "Process", href: "/#process" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -54,7 +53,7 @@ export const services = [
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
     deliverables: [
-      "Mobile App Development",
+      "Custom Enterprise Resource Planning (ERP) solutions",
       "Website Development",
       "Cloud Platform Management",
       "IoT Platform Management",
@@ -216,7 +215,7 @@ export const works = [
     short:
       "Design and manufacturing of a Semi-Automatic Teflon/Nylon Washer Cutting Machine engineered for precision cutting, optimized material handling, and operator safety.",
     icon: Scissors,
-    image: "/Washer-Cutting-Machine-Case-Study.png",
+    image: "/Washer-Cutting-Machine-Case-Study.webp",
     services: ["BOM Development", "CAD Design", "Reverse Engineering", "Manufacturing"],
     overview:
       "Texawave designed and manufactured a Semi-Automatic Teflon/Nylon Washer Cutting Machine capable of producing washers in multiple sizes and cutting angles with high accuracy. The solution combines precision engineering, semi-automation, and enhanced safety features to improve productivity while maintaining consistent product quality.",
@@ -252,7 +251,7 @@ export const works = [
     short:
       "Design and manufacturing of an advanced electrospinning machine for nanofiber production with integrated PLC automation and precision process control.",
     icon: Zap,
-    image: "/Espin-Nano-Machine-Case-Study.png",
+    image: "/Espin-Nano-Machine-Case-Study.webp",
     services: ["CAD Design", "Manufacturing", "PLC Programming", "Design for Manufacturing"],
     overview:
       "Texawave designed and manufactured the Espin Nano Machine, an advanced electrospinning platform developed for the production of high-quality nanofibers. The project combined precision mechanical engineering with intelligent PLC-based automation to create a reliable and fully integrated manufacturing solution.",
@@ -288,7 +287,7 @@ export const works = [
     short:
       "Reverse engineering and redesign of industrial autoclaves to improve sterilization efficiency, manufacturability, reliability, and long-term performance.",
     icon: FlaskConical,
-    image: "/Autoclave-Case-Study-reverse-engineering.png",
+    image: "/Autoclave-Case-Study-reverse-engineering.webp",
     services: ["Reverse Engineering", "CAD Design", "BOM Development", "Manufacturing Design"],
     overview:
       "Texawave successfully reverse-engineered and redesigned an industrial autoclave system to improve sterilization performance, manufacturing efficiency, and operational reliability. Through detailed engineering analysis and optimized manufacturing practices, we transformed a conventional sterilization system into a more efficient and dependable solution.",
@@ -329,17 +328,22 @@ export const reasons = [
   ["Custom Build Approach", PenTool]
 ] as const;
 
-export const clients = [
-  "HBT",
-  "AtumX",
-  "IHL",
-  "R2D2 IIT Madras",
-  "Auckam Technologies",
-  "Srushty",
-  "FCS",
-  "United Industries",
-  "Salem Technologies",
-  "Phoenix Medical"
+export interface Client {
+  name: string;
+  logo: string;
+}
+
+export const clients: Client[] = [
+  { name: "HBT", logo: "/hbt_logo.webp" },
+  { name: "AtumX", logo: "/atumX_logo.webp" },
+  { name: "IHL", logo: "/ihl_logo.webp" },
+  { name: "R2D2 IIT Madras", logo: "/R2D2_logo.webp" },
+  { name: "Auckam Technologies", logo: "/auckum_logo.webp" },
+  { name: "Srushty", logo: "/srushty_logo.webp" },
+  { name: "FCS", logo: "/fcs_logo.webp" },
+  { name: "United Industries", logo: "/united_industries_logo.webp" },
+  { name: "Salem Technologies", logo: "/salem_technologies_logo.webp" },
+  { name: "Phoenix Medical", logo: "/Phoenix_logo.webp" }
 ];
 
 export const testimonials = [
@@ -428,3 +432,112 @@ export const stats = [
 ];
 
 export const capabilityIcons = [Blocks, Cpu, Factory, MonitorSmartphone, Sparkles, Cable];
+
+export const solutionCategories = [
+  {
+    slug: "consumer-electronics",
+    title: "Consumer Electronics",
+    short: "High-performance smart hardware, wearables, and IoT products designed for seamless consumer experiences.",
+    icon: Smartphone,
+    featuredProject: {
+      title: "20W PD Charger Design",
+      desc: "Ultra-compact USB-C Power Delivery wall charger featuring high-efficiency GaN power stage and thermal protection.",
+      image: "/pd-charger.webp",
+      cta: "/our-works"
+    },
+    subSolutions: [
+      { title: "Smart Devices", desc: "Connected smart home devices, sensors, and intelligent lifestyle products built for the modern consumer." },
+      { title: "Wearable Products", desc: "Miniaturized, low-power health monitors and wearable electronics with integrated biosensors." },
+      { title: "Home Automation", desc: "Smart switches, lighting controllers, and automation gateways for intelligent environment control." },
+      { title: "Mobile Accessories", desc: "High-efficiency power delivery chargers, wireless power banks, and connectivity accessories." }
+    ]
+  },
+  {
+    slug: "industrial-iot",
+    title: "Industrial Solutions",
+    short: "Ruggedized automation controllers, telemetry systems, and predictive maintenance hardware for industrial environments.",
+    icon: Factory,
+    featuredProject: {
+      title: "IoT Industrial Gateway",
+      desc: "Rugged multi-protocol edge gateway with RS485, Modbus, Wi-Fi, and LTE connectivity for real-time telemetry.",
+      image: "/industrial-gateway.webp",
+      cta: "/our-works"
+    },
+    subSolutions: [
+      { title: "IoT Monitoring Systems", desc: "End-to-end industrial monitoring solutions for tracking environment, assets, and operations." },
+      { title: "Automation Controllers", desc: "PLC-compatible and custom controllers for automated assembly, sorting, and machinery operations." },
+      { title: "Data Acquisition Systems", desc: "High-precision sensor sampling and telemetry acquisition hardware for harsh environments." },
+      { title: "Predictive Maintenance", desc: "Vibration, acoustic, and thermal sensor systems coupled with edge analysis to predict equipment wear." }
+    ]
+  },
+  {
+    slug: "medical-devices",
+    title: "Medical Devices",
+    short: "ISO-compliant diagnostic equipment and health monitoring platforms built with precision electronics.",
+    icon: FlaskConical,
+    featuredProject: {
+      title: "Diabetic Neuropathy Device",
+      desc: "Non-invasive diagnostic device for early detection of peripheral neuropathy in diabetic patients.",
+      image: "/diabetic-neuropathy.webp",
+      cta: "/our-works"
+    },
+    subSolutions: [
+      { title: "Diagnostic Equipment", desc: "Precise electronic signal conditioning and analysis instruments for non-invasive clinical diagnostics." },
+      { title: "Healthcare IoT", desc: "Connected clinical and eldercare hardware for secure health telemetry and database integration." },
+      { title: "Patient Monitoring", desc: "Real-time wearable and bedside monitors for heart rate, SpO2, temperature, and vital signs." },
+      { title: "Assistive Devices", desc: "Smart mobility, sensory assistance, and rehabilitative technology designed for user independence." }
+    ]
+  },
+  {
+    slug: "automotive-electronics",
+    title: "Automotive Electronics",
+    short: "EV controllers, dashboard telemetry systems, and ruggedized vehicle electronics.",
+    icon: CircuitBoard,
+    featuredProject: {
+      title: "Smart Dashboard Systems",
+      desc: "Interactive dashboard console with integrated CAN bus communication, navigation, and vehicle health telemetry.",
+      image: "/smart-dashboard.webp",
+      cta: "/our-works"
+    },
+    subSolutions: [
+      { title: "EV Components", desc: "Battery management systems, DC-DC converters, and motor controllers for electric vehicles." },
+      { title: "Vehicle Monitoring", desc: "Telemetry modules tracking location, speed, fuel, and diagnostics parameters over cellular." },
+      { title: "Smart Dashboard Systems", desc: "Visual display clusters and driver interface controls featuring high-contrast display tech." },
+      { title: "Connectivity Solutions", desc: "V2X modules, Bluetooth/Wi-Fi gateways, and secure OTA firmware updating units." }
+    ]
+  }
+];
+
+export const featuredProjects = [
+  {
+    title: "Smart Cane Device",
+    desc: "An assistive smart cane with ultrasonic obstacle detection, haptic feedback, and GPS tracking.",
+    image: "/smart-cane.webp",
+    slug: "smart-cane"
+  },
+  {
+    title: "IoT Industrial Gateway",
+    desc: "Rugged multi-protocol edge gateway with RS485, Modbus, Wi-Fi, and LTE connectivity for real-time telemetry.",
+    image: "/industrial-gateway.webp",
+    slug: "industrial-gateway"
+  },
+  {
+    title: "Wireless Smart Switch",
+    desc: "A sleek, touch-sensitive wall switch with Wi-Fi connectivity, app control, and smart home hub integration.",
+    image: "/smart-switch.webp",
+    slug: "wireless-smart-switch"
+  },
+  {
+    title: "Diabetic Neuropathy Device",
+    desc: "Non-invasive diagnostic device for early detection of peripheral neuropathy in diabetic patients.",
+    image: "/diabetic-neuropathy.webp",
+    slug: "diabetic-neuropathy-device"
+  },
+  {
+    title: "20W PD Charger Design",
+    desc: "Ultra-compact USB-C Power Delivery wall charger featuring high-efficiency GaN power stage and thermal protection.",
+    image: "/pd-charger.webp",
+    slug: "pd-charger"
+  }
+];
+

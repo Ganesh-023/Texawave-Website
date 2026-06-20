@@ -61,8 +61,8 @@ export default async function WorkDetailPage({ params }: Props) {
                     Client: {work.client}
                   </span>
                 </div>
-                <h1 className="text-4xl font-black leading-tight text-text-primary md:text-5xl">{work.title}</h1>
-                <p className="mt-5 text-lg leading-8 text-text-secondary">{work.short}</p>
+                <h1 className="text-hero text-text-primary">{work.title}</h1>
+                <p className="mt-5 text-body-large text-text-secondary">{work.short}</p>
               </div>
 
               {/* Icon block */}
@@ -107,9 +107,9 @@ export default async function WorkDetailPage({ params }: Props) {
         <section className="bg-bg-primary px-5 py-16 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-4xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Overview</p>
-              <h2 className="mt-3 text-3xl font-black text-text-primary md:text-4xl">Project Summary</h2>
-              <p className="mt-5 text-lg leading-9 text-text-secondary">{work.overview}</p>
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Overview</p>
+              <h2 className="mt-3 text-section text-text-primary">Project Summary</h2>
+              <p className="mt-5 text-body-large text-text-secondary">{work.overview}</p>
             </div>
           </div>
         </section>
@@ -120,15 +120,15 @@ export default async function WorkDetailPage({ params }: Props) {
             <div className="grid gap-10 lg:grid-cols-2">
               {/* Challenges */}
               <div data-reveal>
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">The Challenge</p>
-                <h2 className="mt-3 text-3xl font-black text-text-primary">What the client needed</h2>
+                <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">The Challenge</p>
+                <h2 className="mt-3 text-section text-text-primary">What the client needed</h2>
                 <ul className="mt-6 space-y-4">
                   {work.challenges.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-signal/15 text-[11px] font-black text-signal">
                         {i + 1}
                       </span>
-                      <p className="text-base leading-7 text-text-secondary">{item}</p>
+                      <p className="text-body-normal text-text-secondary">{item}</p>
                     </li>
                   ))}
                 </ul>
@@ -136,13 +136,13 @@ export default async function WorkDetailPage({ params }: Props) {
 
               {/* Solutions */}
               <div data-reveal>
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Our Solution</p>
-                <h2 className="mt-3 text-3xl font-black text-text-primary">How we solved it</h2>
+                <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Our Solution</p>
+                <h2 className="mt-3 text-section text-text-primary">How we solved it</h2>
                 <div className="mt-6 space-y-5">
                   {work.solutions.map((sol, i) => (
                     <div key={i} className="service-card-premium rounded border border-border-primary bg-bg-card p-5 shadow-crisp">
-                      <h3 className="font-black text-text-primary">{sol.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-text-secondary">{sol.desc}</p>
+                      <h3 className="text-card text-text-primary">{sol.title}</h3>
+                      <p className="mt-2 text-body-normal text-text-secondary">{sol.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -155,8 +155,8 @@ export default async function WorkDetailPage({ params }: Props) {
         <section className="bg-bg-secondary border-b border-border-primary px-5 py-16 text-text-primary lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-4xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Results</p>
-              <h2 className="mt-3 text-3xl font-black md:text-4xl text-text-primary">What we delivered</h2>
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Results</p>
+              <h2 className="mt-3 text-section text-text-primary">What we delivered</h2>
               <ul className="mt-8 grid gap-4 sm:grid-cols-2">
                 {work.results.map((result, i) => (
                   <li
@@ -164,7 +164,7 @@ export default async function WorkDetailPage({ params }: Props) {
                     className="flex items-start gap-3 rounded border border-border-primary bg-bg-card p-4 shadow-crisp"
                   >
                     <CheckCircle2 className="mt-0.5 shrink-0 text-signal" size={18} />
-                    <p className="text-sm leading-7 text-text-secondary">{result}</p>
+                    <p className="text-body-normal text-text-secondary">{result}</p>
                   </li>
                 ))}
               </ul>
@@ -176,8 +176,8 @@ export default async function WorkDetailPage({ params }: Props) {
         <section className="bg-bg-primary px-5 py-16 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-4xl rounded border border-border-primary bg-bg-secondary p-8 shadow-crisp">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Conclusion</p>
-              <p className="mt-4 text-lg leading-9 text-text-secondary">{work.conclusion}</p>
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Conclusion</p>
+              <p className="mt-4 text-body-large text-text-secondary">{work.conclusion}</p>
             </div>
           </div>
         </section>
@@ -187,7 +187,7 @@ export default async function WorkDetailPage({ params }: Props) {
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-text-secondary">Next Project</p>
-              <h3 className="mt-1 text-xl font-black text-text-primary">{nextWork.title}</h3>
+              <h3 className="mt-1 text-card text-text-primary">{nextWork.title}</h3>
             </div>
             <Link
               href={`/our-works/${nextWork.slug}`}
@@ -201,9 +201,9 @@ export default async function WorkDetailPage({ params }: Props) {
         {/* ── CTA ── */}
         <section className="bg-bg-secondary border-t border-border-primary px-5 py-16 text-text-primary lg:px-8">
           <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Work with us</p>
-            <h2 className="mt-3 text-4xl font-black md:text-5xl text-text-primary">Ready to build your product?</h2>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-text-secondary">
+            <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Work with us</p>
+            <h2 className="mt-3 text-section text-text-primary">Ready to build your product?</h2>
+            <p className="mt-5 max-w-xl text-body-large text-text-secondary">
               Book a free feasibility call with Texawave&apos;s engineering team.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">

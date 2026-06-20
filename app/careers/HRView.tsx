@@ -319,8 +319,8 @@ export function HRView({
             <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-signal/15 text-signal mb-4 border border-signal/25">
               <Lock size={22} />
             </div>
-            <h2 className="text-2xl font-black text-white">HR Admin Login</h2>
-            <p className="text-xs text-text-secondary mt-1">Unlock job posting, applicant lists, and resume archives.</p>
+            <h2 className="text-subtitle text-white">HR Admin Login</h2>
+            <p className="text-body-normal text-text-secondary mt-1">Unlock job posting, applicant lists, and resume archives.</p>
           </div>
 
           {loginError && (
@@ -331,25 +331,25 @@ export function HRView({
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Username</label>
+              <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Username</label>
               <input
                 type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-xs text-white"
+                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
                 placeholder="admin"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-1">Password</label>
+              <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Password</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-xs text-white"
+                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
                 placeholder="••••••••"
               />
             </div>
@@ -378,7 +378,7 @@ export function HRView({
   // Dashboard Interface
   return (
     <div className="bg-black text-text-primary min-h-screen font-sans text-left">
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] py-10">
         
         {/* Admin Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-primary pb-6 mb-8">
@@ -387,7 +387,7 @@ export function HRView({
               <span className="h-2 w-2 rounded-full bg-signal animate-pulse" />
               <span className="text-[10px] font-mono font-bold tracking-widest text-signal uppercase">System Secured</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-black text-white mt-1">HR Administrative Panel</h1>
+            <h1 className="text-section text-white mt-1">HR Administrative Panel</h1>
           </div>
 
           <div className="flex gap-3">
@@ -444,8 +444,8 @@ export function HRView({
             {activeTab === "analytics" && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-xl font-black text-white">System Analytics</h2>
-                  <p className="text-xs text-text-secondary mt-1">Overview metrics of current jobs postings, applicants, and divisions distribution.</p>
+                  <h2 className="text-card text-white">System Analytics</h2>
+                  <p className="text-body-normal text-text-secondary mt-1">Overview metrics of current jobs postings, applicants, and divisions distribution.</p>
                 </div>
 
                 {/* Counters Row */}
@@ -458,9 +458,9 @@ export function HRView({
                     { label: "Intern Candidates", val: internAppsCount, desc: "Students/Trainees" }
                   ].map((stat, i) => (
                     <div key={i} className="bg-black/40 border border-white/5 rounded-xl p-4 text-center">
-                      <span className="text-[10px] font-bold text-text-secondary uppercase block">{stat.label}</span>
-                      <strong className="text-2xl md:text-3xl font-black text-signal block mt-1.5 font-mono">{stat.val}</strong>
-                      <span className="text-[9px] text-text-secondary mt-1 block">{stat.desc}</span>
+                      <span className="text-small-text font-bold text-text-secondary uppercase block font-display">{stat.label}</span>
+                      <strong className="text-subtitle text-signal block mt-1.5 font-mono">{stat.val}</strong>
+                      <span className="text-small-text text-text-secondary mt-1 block">{stat.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -551,8 +551,8 @@ export function HRView({
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-xl font-black text-white">Listed Job Postings</h2>
-                    <p className="text-xs text-text-secondary mt-1">Add, update details, or toggle active hiring status.</p>
+                    <h2 className="text-card text-white">Listed Job Postings</h2>
+                    <p className="text-body-normal text-text-secondary mt-1">Add, update details, or toggle active hiring status.</p>
                   </div>
                   <button
                     onClick={() => {
@@ -631,8 +631,8 @@ export function HRView({
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-xl font-black text-white">Walk-in Drive Announcements</h2>
-                    <p className="text-xs text-text-secondary mt-1">Post public schedules for onsite interviews.</p>
+                    <h2 className="text-card text-white">Walk-in Drive Announcements</h2>
+                    <p className="text-body-normal text-text-secondary mt-1">Post public schedules for onsite interviews.</p>
                   </div>
                   <button
                     onClick={() => setShowWalkinModal(true)}
@@ -655,8 +655,8 @@ export function HRView({
                             <Trash2 size={13} />
                           </button>
                         </div>
-                        <h3 className="text-sm font-black text-white">{drive.title}</h3>
-                        <p className="text-[11px] text-text-secondary mt-2 line-clamp-2">{drive.description}</p>
+                        <h3 className="text-body-normal font-bold text-white">{drive.title}</h3>
+                        <p className="text-body-normal text-text-secondary mt-2 line-clamp-2">{drive.description}</p>
                         
                         <div className="mt-3">
                           <span className="text-[10px] font-bold text-white uppercase block">Target Roles:</span>
@@ -685,8 +685,8 @@ export function HRView({
             {activeTab === "applications" && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-black text-white">Review Active Applications</h2>
-                  <p className="text-xs text-text-secondary mt-1">Evaluate resumes, message candidates, and update statuses.</p>
+                  <h2 className="text-card text-white">Review Active Applications</h2>
+                  <p className="text-body-normal text-text-secondary mt-1">Evaluate resumes, message candidates, and update statuses.</p>
                 </div>
 
                 {/* Filtering controls */}
@@ -804,8 +804,8 @@ export function HRView({
             {activeTab === "talent" && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-black text-white">General Talent Pool</h2>
-                  <p className="text-xs text-text-secondary mt-1">Browse profiles and resumes of builders expressing generic interest in future project launch pipelines.</p>
+                  <h2 className="text-card text-white">General Talent Pool</h2>
+                  <p className="text-body-normal text-text-secondary mt-1">Browse profiles and resumes of builders expressing generic interest in future project launch pipelines.</p>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3 bg-black/40 p-3 rounded-xl border border-white/5">
@@ -843,9 +843,9 @@ export function HRView({
                           </span>
                           <span className="text-[10px] text-text-secondary font-mono">{talent.dateApplied}</span>
                         </div>
-                        <h3 className="font-black text-white text-base">{talent.name}</h3>
-                        <p className="text-xs text-text-secondary mt-0.5">{talent.email} | {talent.phone}</p>
-                        <p className="text-[11px] text-text-secondary mt-3 leading-relaxed italic">
+                        <h3 className="text-body-normal font-bold text-white">{talent.name}</h3>
+                        <p className="text-small-text text-text-secondary mt-0.5">{talent.email} | {talent.phone}</p>
+                        <p className="text-body-normal text-text-secondary mt-3 italic">
                           &ldquo;{talent.message}&rdquo;
                         </p>
                         
@@ -893,8 +893,8 @@ export function HRView({
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-xl font-black text-white">Manage Life & updates Stream</h2>
-                    <p className="text-xs text-text-secondary mt-1">Post photo feeds, employee spotlights, or office notifications.</p>
+                    <h2 className="text-card text-white">Manage Life & updates Stream</h2>
+                    <p className="text-body-normal text-text-secondary mt-1">Post photo feeds, employee spotlights, or office notifications.</p>
                   </div>
                   <button
                     onClick={() => setShowUpdateModal(true)}
@@ -929,8 +929,8 @@ export function HRView({
                               <Trash2 size={13} />
                             </button>
                           </div>
-                          <h3 className="text-sm font-black text-white mt-1 leading-snug">{update.title}</h3>
-                          <p className="text-[11px] text-text-secondary line-clamp-1 mt-1">{update.content}</p>
+                          <h3 className="text-body-normal font-bold text-white mt-1 leading-snug">{update.title}</h3>
+                          <p className="text-body-normal text-text-secondary line-clamp-1 mt-1">{update.content}</p>
                         </div>
                         <span className="text-[9px] text-text-secondary font-mono mt-2 block">{update.date} | ❤️ {update.likes} Likes</span>
                       </div>
@@ -960,7 +960,7 @@ export function HRView({
               <X size={18} />
             </button>
 
-            <h3 className="text-xl font-black text-white mb-6">
+            <h3 className="text-subtitle text-white mb-6">
               {editingJob ? "Edit Job Posting details" : "Create New Job Posting"}
             </h3>
 
@@ -1146,7 +1146,7 @@ export function HRView({
               <X size={18} />
             </button>
 
-            <h3 className="text-lg font-black text-white mb-6">Schedule Walk-in Interview</h3>
+            <h3 className="text-subtitle text-white mb-6">Schedule Walk-in Interview</h3>
 
             <form onSubmit={handleWalkinSubmit} className="space-y-4 font-sans text-left">
               <div>
@@ -1230,7 +1230,7 @@ export function HRView({
               <X size={18} />
             </button>
 
-            <h3 className="text-lg font-black text-white mb-6">Create Social Stream Update</h3>
+            <h3 className="text-subtitle text-white mb-6">Create Social Stream Update</h3>
 
             <form onSubmit={handleUpdateSubmit} className="space-y-4 font-sans text-left">
               <div className="grid grid-cols-2 gap-4">
@@ -1307,8 +1307,8 @@ export function HRView({
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-signal block">
               Applicant profile
             </span>
-            <h3 className="text-xl font-black text-white mt-1">{selectedApp.name}</h3>
-            <p className="text-xs text-text-secondary mt-0.5">{selectedApp.email} | {selectedApp.phone}</p>
+            <h3 className="text-subtitle text-white mt-1">{selectedApp.name}</h3>
+            <p className="text-body-normal text-text-secondary mt-0.5">{selectedApp.email} | {selectedApp.phone}</p>
             
             <div className="border-t border-white/5 pt-4 mt-6">
               <span className="text-[10px] font-bold text-white uppercase block">Target Position</span>

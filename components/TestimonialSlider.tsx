@@ -241,7 +241,7 @@ function TestimonialCard({
 
         {/* Quote Text */}
         <p
-          className="text-[14px] leading-7 md:text-[15px] font-medium"
+          className="text-body-normal font-medium"
           style={{
             color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
             transition: "color 0.4s ease",
@@ -265,11 +265,11 @@ function TestimonialCard({
         <div className="flex items-center gap-3.5">
           <InitialsAvatar initials={testimonial.initials} accent={accent} id={testimonial.blueprintId} size={44} />
           <div>
-            <p className="font-bold text-[14px] text-text-primary leading-tight">{testimonial.name}</p>
-            <p className="mt-0.5 text-[11px] font-mono text-text-secondary leading-tight">
+            <p className="font-bold text-body-normal text-text-primary leading-tight">{testimonial.name}</p>
+            <p className="mt-0.5 text-small-text font-mono text-text-secondary leading-tight">
               {testimonial.designation}
             </p>
-            <p className="mt-0.5 text-[11px] font-bold tracking-wide" style={{ color: accent }}>
+            <p className="mt-0.5 text-small-text font-bold tracking-wide" style={{ color: accent }}>
               {testimonial.company}
             </p>
           </div>
@@ -559,22 +559,22 @@ export function TestimonialSlider() {
       </div>
 
       {/* Content wrapper */}
-      <div className="relative mx-auto max-w-[1400px] px-5 py-14 lg:px-8 lg:py-16 z-10 flex flex-col justify-between">
+      <div className="relative mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] py-14 lg:py-16 z-10 flex flex-col justify-between">
         
         {/* Section heading */}
         <div className="mb-10 text-center">
           <div
-            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-4.5 py-1 text-[11px] font-mono font-bold uppercase tracking-[0.22em] border border-signal/30 text-signal bg-signal/15"
+            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-4.5 py-1 text-small-text font-mono font-bold uppercase tracking-[0.22em] border border-signal/30 text-signal bg-signal/15"
           >
             Client Success Stories
           </div>
-          <h2 className="testimonial-fade-el mx-auto mt-2 max-w-4xl text-3xl font-black leading-tight text-text-primary md:text-5xl tracking-tight">
+          <h2 className="testimonial-fade-el mx-auto mt-2 max-w-4xl text-section text-text-primary">
             Engineering Partnerships That{" "}
             <span className="text-signal inline-block font-black">
               Deliver Results
             </span>
           </h2>
-          <p className="testimonial-fade-el mx-auto mt-4 max-w-3xl text-sm leading-7 md:text-base text-text-secondary">
+          <p className="testimonial-fade-el mx-auto mt-4 max-w-3xl text-body-normal text-text-secondary">
             From concept development and PCB design to manufacturing support and procurement, Texawave helps businesses transform ideas into market-ready products.
           </p>
         </div>
@@ -587,10 +587,10 @@ export function TestimonialSlider() {
               <Star size={17} fill="var(--primary-green)" />
             </span>
             <div>
-              <p className="text-xl md:text-2xl font-black text-text-primary font-mono leading-none">
+              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
                 <span className="stat-counter-value" data-target="5.0" data-float="true">0.0</span>
               </p>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-text-secondary">Client Satisfaction</p>
+              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Client Satisfaction</p>
             </div>
           </div>
           
@@ -603,10 +603,10 @@ export function TestimonialSlider() {
               <Rocket size={17} />
             </span>
             <div>
-              <p className="text-xl md:text-2xl font-black text-text-primary font-mono leading-none">
-                <span className="stat-counter-value" data-target="150" data-float="false">0</span>+
+              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
+                <span className="stat-counter-value" data-target="50" data-float="false">0</span>+
               </p>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-text-secondary">Projects Delivered</p>
+              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Projects Delivered</p>
             </div>
           </div>
 
@@ -619,10 +619,10 @@ export function TestimonialSlider() {
               <Factory size={17} />
             </span>
             <div>
-              <p className="text-xl md:text-2xl font-black text-text-primary font-mono leading-none">
-                <span className="stat-counter-value" data-target="50" data-float="false">0</span>+
+              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
+                <span className="stat-counter-value" data-target="20" data-float="false">0</span>+
               </p>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-text-secondary">Manufacturing Partners</p>
+              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Manufacturing Partners</p>
             </div>
           </div>
         </div>
@@ -632,8 +632,7 @@ export function TestimonialSlider() {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className="relative w-full overflow-visible"
-          style={{ height: "350px" }}
+          className="relative w-full overflow-visible h-[480px] sm:h-[380px] lg:h-[350px]"
         >
           {/* Soft green gradient glow behind active card */}
           <div

@@ -117,10 +117,10 @@ export function VisionMission() {
             <span className="h-1.5 w-1.5 rounded-full bg-signal animate-pulse" />
             OUR PURPOSE
           </div>
-          <h2 className="text-4xl font-black text-text-primary md:text-5xl lg:text-6xl tracking-tight">
+          <h2 className="text-section text-text-primary">
             Driving Innovation with Purpose
           </h2>
-          <p className="mt-5 text-lg leading-8 text-text-secondary">
+          <p className="mt-5 text-body-large text-text-secondary">
             TEXAWAVE bridges mechanical precision, intelligent electronics, custom firmware, and supply chain logistics to deliver state-of-the-art products built for the global market.
           </p>
         </div>
@@ -140,12 +140,12 @@ export function VisionMission() {
                   <RadarIcon />
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-signal/80">OUR OUTLOOK</span>
-                    <h3 className="text-2xl font-black text-text-primary tracking-tight">Vision</h3>
+                    <h3 className="text-card text-text-primary">Vision</h3>
                   </div>
                 </div>
                 
                 {/* Content */}
-                <p className="text-lg leading-relaxed text-text-secondary group-hover:text-text-primary transition-colors duration-300 font-medium">
+                <p className="text-body-large text-text-secondary group-hover:text-text-primary transition-colors duration-300 font-medium">
                   To become a trusted global engineering and technology solutions company delivering innovative, reliable, and scalable products in mechanical, electronics, software, and supply chain domains through continuous improvement and customer-focused solutions.
                 </p>
               </div>
@@ -189,7 +189,7 @@ export function VisionMission() {
                   <RocketIcon />
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-signal/80">OUR MISSION</span>
-                    <h3 className="text-2xl font-black text-text-primary tracking-tight">Mission</h3>
+                    <h3 className="text-card text-text-primary">Mission</h3>
                   </div>
                 </div>
                 
@@ -203,7 +203,7 @@ export function VisionMission() {
                       <div className="flex-shrink-0 w-5 h-5 rounded-full border border-signal/40 bg-signal/10 flex items-center justify-center text-signal group-hover/item:bg-signal group-hover/item:text-white transition-all duration-300 mt-0.5">
                         <span className="w-1.5 h-1.5 bg-signal rounded-full group-hover/item:bg-white animate-pulse" />
                       </div>
-                      <p className="text-sm text-text-secondary leading-relaxed group-hover/item:text-text-primary transition-colors duration-300">
+                      <p className="text-body-normal text-text-secondary group-hover/item:text-text-primary transition-colors duration-300">
                         {point}
                       </p>
                     </div>

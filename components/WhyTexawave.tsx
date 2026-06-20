@@ -546,8 +546,7 @@ export function WhyTexawave() {
             {/* Main heading – word-split for stagger */}
             <h2
               id="why-texawave-heading"
-              className="overflow-hidden text-4xl font-black leading-[1.08] text-white md:text-6xl lg:text-7xl"
-              style={{ letterSpacing: "-0.03em" }}
+              className="overflow-hidden text-section text-white"
             >
               {/* Line 1 */}
               <span className="block overflow-hidden">
@@ -579,7 +578,7 @@ export function WhyTexawave() {
 
             {/* Subtitle */}
             <p
-              className="wtx-word mx-auto mt-6 max-w-2xl text-base leading-relaxed md:text-lg"
+              className="wtx-word mx-auto mt-6 max-w-2xl text-body-large"
               style={{ color: "rgba(255,255,255,0.48)" }}
             >
               From concept and design to manufacturing and deployment, we deliver complete engineering
@@ -620,8 +619,8 @@ export function WhyTexawave() {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.25)", border: "1px solid rgba(155, 223, 131, 0.35)", boxShadow: "0 0 24px rgba(155, 223, 131, 0.2)" }}>
                 <Layers size={26} style={{ color: "var(--primary-green)" }} strokeWidth={1.7} />
               </div>
-              <h3 className="mb-3 text-xl font-bold leading-snug text-white" style={{ letterSpacing: "-0.01em" }}>End-to-End Solutions</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Full lifecycle delivery from concept validation through mass production—one partner, zero gaps in expertise or accountability.</p>
+              <h3 className="text-card text-white">End-to-End Solutions</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Full lifecycle delivery from concept validation through mass production—one partner, zero gaps in expertise or accountability.</p>
               <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 transition-opacity duration-300 group-hover:opacity-50" style={{ borderRight: "1.5px solid var(--primary-green-darker)", borderBottom: "1.5px solid var(--primary-green-darker)", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -645,8 +644,8 @@ export function WhyTexawave() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,217,255,0.12)", border: "1px solid rgba(0,217,255,0.2)", boxShadow: "0 0 20px rgba(0,217,255,0.1)" }}>
                 <Zap size={22} style={{ color: "#00D9FF" }} strokeWidth={1.8} />
               </div>
-              <h3 className="mb-2 text-base font-bold leading-snug text-white">Industrial Automation</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Custom PLC, SCADA, and robotic systems engineered to boost throughput and reduce downtime.</p>
+              <h3 className="text-card text-white">Industrial Automation</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Custom PLC, SCADA, and robotic systems engineered to boost throughput and reduce downtime.</p>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00D9FF", borderBottom: "1.5px solid #00D9FF", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -670,8 +669,8 @@ export function WhyTexawave() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.25)", border: "1px solid rgba(155, 223, 131, 0.35)", boxShadow: "0 0 20px rgba(155, 223, 131, 0.2)" }}>
                 <Cpu size={22} style={{ color: "var(--primary-green)" }} strokeWidth={1.8} />
               </div>
-              <h3 className="mb-2 text-base font-bold leading-snug text-white">Embedded Systems</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Bare-metal to RTOS firmware developed alongside hardware so integration is seamless from day one.</p>
+              <h3 className="text-card text-white">Embedded Systems</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Bare-metal to RTOS firmware developed alongside hardware so integration is seamless from day one.</p>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid var(--primary-green-darker)", borderBottom: "1.5px solid var(--primary-green-darker)", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -696,8 +695,8 @@ export function WhyTexawave() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,217,255,0.12)", border: "1px solid rgba(0,217,255,0.2)", boxShadow: "0 0 20px rgba(0,217,255,0.1)" }}>
                 <CircuitBoard size={22} style={{ color: "#00D9FF" }} strokeWidth={1.8} />
               </div>
-              <h3 className="mb-2 text-base font-bold leading-snug text-white">PCB Design</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>High-speed, multi-layer board design with DFM reviews and prototype-to-production continuity built in.</p>
+              <h3 className="text-card text-white">PCB Design</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>High-speed, multi-layer board design with DFM reviews and prototype-to-production continuity built in.</p>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00D9FF", borderBottom: "1.5px solid #00D9FF", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -729,8 +728,8 @@ export function WhyTexawave() {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.14)", border: "1px solid rgba(155, 223, 131, 0.45)", boxShadow: "0 0 28px rgba(155, 223, 131, 0.14)" }}>
                 <Package size={26} style={{ color: "var(--primary-green)" }} strokeWidth={1.7} />
               </div>
-              <h3 className="mb-3 text-xl font-bold leading-snug text-white">Product Development</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Mechanical, electrical, and software streams unified under a single product manager. No silos, no handoff friction—just coordinated execution.</p>
+              <h3 className="text-card text-white">Product Development</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Mechanical, electrical, and software streams unified under a single product manager. No silos, no handoff friction—just coordinated execution.</p>
               <div className="absolute bottom-6 right-6 h-6 w-6 opacity-20 group-hover:opacity-60" style={{ borderRight: "1.5px solid var(--primary-green-darker)", borderBottom: "1.5px solid var(--primary-green-darker)", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -754,8 +753,8 @@ export function WhyTexawave() {
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(0,217,255,0.12)", border: "1px solid rgba(0,217,255,0.2)", boxShadow: "0 0 20px rgba(0,217,255,0.1)" }}>
                 <Factory size={22} style={{ color: "#00D9FF" }} strokeWidth={1.8} />
               </div>
-              <h3 className="mb-2 text-base font-bold leading-snug text-white">Manufacturing Support</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Supply chain optimisation, supplier qualification, and on-floor quality engineering worldwide.</p>
+              <h3 className="text-card text-white">Manufacturing Support</h3>
+              <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Supply chain optimisation, supplier qualification, and on-floor quality engineering worldwide.</p>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00D9FF", borderBottom: "1.5px solid #00D9FF", borderRadius: "0 0 4px 0" }} />
             </div>
 
@@ -782,8 +781,8 @@ export function WhyTexawave() {
                   <FlaskConical size={22} style={{ color: "var(--primary-green)" }} strokeWidth={1.8} />
                 </div>
                 <div>
-                  <h3 className="mb-2 text-base font-bold leading-snug text-white">Testing & Validation</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Functional, EMC, environmental, and safety testing aligned to IEC, CE, UL, and FCC standards. Pass first time with our validation framework.</p>
+                  <h3 className="text-card text-white">Testing & Validation</h3>
+                  <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Functional, EMC, environmental, and safety testing aligned to IEC, CE, UL, and FCC standards. Pass first time with our validation framework.</p>
                 </div>
               </div>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid var(--primary-green-darker)", borderBottom: "1.5px solid var(--primary-green-darker)", borderRadius: "0 0 4px 0" }} />
@@ -811,8 +810,8 @@ export function WhyTexawave() {
                   <Wrench size={22} style={{ color: "#00D9FF" }} strokeWidth={1.8} />
                 </div>
                 <div>
-                  <h3 className="mb-2 text-base font-bold leading-snug text-white">Deployment & Maintenance</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.52)" }}>Global installation, commissioning, remote monitoring, and long-term service contracts that keep your systems running at peak performance.</p>
+                  <h3 className="text-card text-white">Deployment & Maintenance</h3>
+                  <p className="mt-3 text-body-normal" style={{ color: "rgba(255,255,255,0.52)" }}>Global installation, commissioning, remote monitoring, and long-term service contracts that keep your systems running at peak performance.</p>
                 </div>
               </div>
               <div className="absolute bottom-5 right-5 h-5 w-5 opacity-20 group-hover:opacity-50" style={{ borderRight: "1.5px solid #00D9FF", borderBottom: "1.5px solid #00D9FF", borderRadius: "0 0 4px 0" }} />

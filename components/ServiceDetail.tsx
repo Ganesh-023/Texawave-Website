@@ -14,7 +14,7 @@ export function ServiceDetail({ slug }: { slug: string }) {
     <PageChrome>
 
       {/* ── Hero — solid background ── */}
-      <section className="relative overflow-hidden bg-bg-secondary border-b border-border-primary px-5 pb-16 pt-20 text-text-primary lg:px-8">
+      <section className="relative overflow-hidden bg-bg-secondary border-b border-border-primary pb-16 pt-20 text-text-primary">
         {/* Blueprint grid */}
         <div
           aria-hidden="true"
@@ -37,7 +37,7 @@ export function ServiceDetail({ slug }: { slug: string }) {
           style={{ background: "radial-gradient(circle, rgba(0, 89, 0, 0.2) 0%, transparent 70%)" }}
         />
 
-        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_auto] lg:items-start">
+        <div className="relative mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] grid gap-10 lg:grid-cols-[1fr_auto] lg:items-start">
           {/* Left: title + description + CTA */}
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-signal/30 bg-signal/10 px-3 py-1">
@@ -46,10 +46,10 @@ export function ServiceDetail({ slug }: { slug: string }) {
                 Texawave Service
               </span>
             </div>
-            <h1 className="mt-2 text-4xl font-black leading-tight md:text-6xl">
+            <h1 className="mt-2 text-hero">
               {service.title}
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-text-secondary">{service.short}</p>
+            <p className="mt-5 max-w-2xl text-body-large text-text-secondary">{service.short}</p>
             <Link
               href="/contact"
               className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-3.5 font-bold text-white border border-transparent"
@@ -60,12 +60,12 @@ export function ServiceDetail({ slug }: { slug: string }) {
 
           {/* Right: Deliverables card */}
           <div className="w-full rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp lg:w-80">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.15em] text-signal">
+            <p className="mb-4 text-small-text font-bold uppercase tracking-[0.15em] text-signal">
               What we deliver
             </p>
             <ul className="grid gap-2.5">
               {service.deliverables.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm font-semibold text-text-secondary">
+                <li key={item} className="flex items-start gap-2.5 text-body-normal font-semibold text-text-secondary">
                   <CheckCircle2 className="mt-0.5 shrink-0 text-signal" size={15} />
                   {item}
                 </li>
@@ -77,15 +77,15 @@ export function ServiceDetail({ slug }: { slug: string }) {
 
       {/* ── Our Services Cards ── */}
       {subServices.length > 0 && (
-        <section className="bg-mist px-5 py-20 lg:px-8">
-          <div className="mx-auto max-w-7xl">
+        <section className="bg-mist py-20">
+          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
             {/* Section heading */}
             <div data-reveal className="mb-12 text-center">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Our Services</p>
-              <h2 className="mt-3 text-4xl font-black text-ink md:text-5xl">
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Our Services</p>
+              <h2 className="mt-3 text-section text-ink">
                 What we offer in {service.title}
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-graphite">
+              <p className="mx-auto mt-4 max-w-2xl text-body-large text-graphite">
                 A complete suite of{" "}
                 {service.title.toLowerCase()} capabilities delivered by experienced engineers — from
                 initial design through to production-ready outcomes.
@@ -108,10 +108,10 @@ export function ServiceDetail({ slug }: { slug: string }) {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-[17px] font-black text-ink">{sub.title}</h3>
+                    <h3 className="text-card text-ink">{sub.title}</h3>
 
                     {/* Description */}
-                    <p className="mt-3 flex-1 text-sm leading-7 text-graphite">{sub.desc}</p>
+                    <p className="mt-3 flex-1 text-body-normal text-graphite">{sub.desc}</p>
 
                     {/* Hover bottom accent */}
                     <div className="mt-5 h-0.5 w-0 rounded-full bg-signal transition-all duration-300 group-hover:w-full" />
@@ -124,16 +124,16 @@ export function ServiceDetail({ slug }: { slug: string }) {
       )}
 
       {/* ── Engagement Model ── */}
-      <section className="bg-bg-primary px-5 py-20 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <section className="bg-bg-primary py-20">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div data-reveal>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">
+            <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">
               Engagement model
             </p>
-            <h2 className="mt-3 text-4xl font-black text-ink">
+            <h2 className="mt-3 text-section text-ink">
               Focused support from feasibility through production readiness.
             </h2>
-            <p className="mt-5 leading-8 text-graphite">
+            <p className="mt-5 text-body-large text-graphite">
               Texawave can support a single technical workstream or operate as an integrated product
               development partner across requirements, design, procurement, prototype validation, and
               manufacturing documentation.
@@ -156,8 +156,8 @@ export function ServiceDetail({ slug }: { slug: string }) {
                   0{index + 1}
                 </span>
                 <div>
-                  <h3 className="text-lg font-black text-text-primary">{step.title}</h3>
-                  <p className="mt-1.5 text-sm leading-7 text-text-secondary">{step.copy}</p>
+                  <h3 className="text-card text-text-primary">{step.title}</h3>
+                  <p className="mt-1.5 text-body-normal text-text-secondary">{step.copy}</p>
                 </div>
               </div>
             ))}
@@ -166,13 +166,13 @@ export function ServiceDetail({ slug }: { slug: string }) {
       </section>
 
       {/* ── Bottom CTA ── */}
-      <section className="bg-bg-secondary border-t border-border-primary px-5 py-16 text-text-primary lg:px-8">
-        <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
+      <section className="bg-bg-secondary border-t border-border-primary py-16 text-text-primary">
+        <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-[clamp(1rem,4vw,4rem)]">
           <Icon size={40} className="mb-5 text-signal" />
-          <h2 className="text-3xl font-black md:text-4xl text-text-primary">
+          <h2 className="text-section text-text-primary">
             Ready to start your {service.title.toLowerCase()} project?
           </h2>
-          <p className="mt-4 max-w-xl text-lg leading-8 text-text-secondary">
+          <p className="mt-4 max-w-xl text-body-large text-text-secondary">
             Book a free feasibility call and our engineering team will assess your requirements
             within 24 hours.
           </p>

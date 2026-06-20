@@ -1,390 +1,1150 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Wrench, CircuitBoard, PackageCheck, RadioTower } from "lucide-react";
+import { ArrowRight, CheckCircle2, Code2, Cpu, Cog, Package, ChevronDown } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
-const SERVICES_DATA = [
+// ─── Data ───────────────────────────────────────────────────────────────────
+const SERVICES = [
   {
+    id: "software",
     slug: "software-iot",
     title: "Software Engineering",
-    desc: "End-to-end device connectivity. We develop responsive mobile apps, secure web dashboards, cloud infrastructure, and device-management software.",
-    icon: RadioTower,
-    deliverables: [
-      "Mobile App Development",
+    shortTitle: "Software",
+    icon: Code2,
+    color: "#9BDF83",
+    angle: -90, // top
+    desc: "End-to-end digital product development and connected platform solutions.",
+    capabilities: [
+      "Custom Enterprise Resource Planning (ERP)",
       "Website Development",
-      "Cloud Platform Management",
-      "IoT Platform Management"
-    ]
+      "Mobile Application Development",
+      "Cloud & IoT Platform Management",
+    ],
   },
   {
+    id: "electrical",
     slug: "electrical-engineering",
     title: "Electrical Engineering",
-    desc: "Multi-layer PCB layout, component selection, signal integrity analysis, and optimized embedded firmware for power-efficient smart hardware.",
-    icon: CircuitBoard,
-    deliverables: [
+    shortTitle: "Electrical",
+    icon: Cpu,
+    color: "#9BDF83",
+    angle: 0, // right
+    desc: "Power-efficient hardware engineering for connected intelligent products.",
+    capabilities: [
       "Multi-layer PCB Design",
-      "Embedded Firmware",
+      "Embedded Firmware Development",
       "BOM Optimization",
-      "Enclosure Design"
-    ]
+      "Enclosure Design Support",
+    ],
   },
   {
+    id: "mechanical",
     slug: "mechanical-engineering",
     title: "Mechanical Engineering",
-    desc: "From concept CAD to DFM-ready assembly drawings. We design plastic, sheet metal, and electromechanical components for robust performance.",
-    icon: Wrench,
-    deliverables: [
+    shortTitle: "Mechanical",
+    icon: Cog,
+    color: "#9BDF83",
+    angle: 90, // bottom
+    desc: "Mechanical product design from concept validation to production readiness.",
+    capabilities: [
       "New Product Development",
       "3D & 2D CAD Design",
-      "Plastic & Sheet Metal Design",
-      "BOM Generation"
-    ]
+      "Plastic Product Design",
+      "Sheet Metal Design",
+      "BOM Generation",
+    ],
   },
   {
+    id: "procurement",
     slug: "procurement",
     title: "Procurement",
-    desc: "Mitigate supply chain risks and optimize BOM costs. We handle supplier identification, vendor coordination, BOM-based purchasing, and logistics support.",
-    icon: PackageCheck,
-    deliverables: [
+    shortTitle: "Procurement",
+    icon: Package,
+    color: "#9BDF83",
+    angle: 180, // left
+    desc: "Strategic sourcing and manufacturing support to ensure smooth product realization.",
+    capabilities: [
       "Supplier Identification",
       "Vendor Coordination",
-      "BOM-based Purchasing",
-      "Supply Chain & Logistics"
-    ]
-  }
+      "BOM-Based Purchasing",
+      "Supply Chain & Logistics Management",
+    ],
+  },
 ];
 
+const LIFECYCLE_STAGES = [
+  "Idea",
+  "Software",
+  "Electrical",
+  "Mechanical",
+  "Procurement",
+  "Manufacturing",
+];
+
+// ─── Utility ─────────────────────────────────────────────────────────────────
+function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
+  const rad = ((angleDeg - 90) * Math.PI) / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+// ─── Floating Particle Canvas ─────────────────────────────────────────────
+function ParticleCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    const particles: Array<{
+      x: number; y: number; vx: number; vy: number;
+      r: number; alpha: number; da: number;
+    }> = [];
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.5 + 0.5,
+        alpha: Math.random() * 0.5 + 0.1,
+        da: (Math.random() - 0.5) * 0.008,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha += p.da;
+        if (p.alpha < 0.05 || p.alpha > 0.6) p.da *= -1;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(155, 223, 131, ${p.alpha})`;
+        ctx.fill();
+      }
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ zIndex: 0 }}
+    />
+  );
+}
+
+// ─── Capability Card (Desktop) ─────────────────────────────────────────────
+interface CapCardProps {
+  service: (typeof SERVICES)[0] | null;
+  visible: boolean;
+  onClose: () => void;
+  style?: React.CSSProperties;
+}
+
+function CapabilityCard({ service, visible, onClose, style }: CapCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+    if (visible && service) {
+      gsap.fromTo(
+        card,
+        { opacity: 0, scale: 0.88, y: 12 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(1.8)" }
+      );
+    } else {
+      gsap.to(card, {
+        opacity: 0, scale: 0.88, y: 8, duration: 0.22, ease: "power2.in",
+      });
+    }
+  }, [visible, service]);
+
+  const Icon = service?.icon ?? Code2;
+
+  const combinedStyle: React.CSSProperties = {
+    zIndex: 50,
+    pointerEvents: visible ? "auto" : "none",
+    opacity: 0,
+    ...style,
+  };
+
+  return (
+    <div ref={cardRef} style={combinedStyle} className="w-[280px] sm:w-[320px] text-left">
+      <div
+        className="rounded-2xl border p-5 relative overflow-hidden"
+        style={{
+          background: "rgba(5,5,5,0.85)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderColor: "rgba(155,223,131,0.35)",
+          boxShadow: "0 0 40px rgba(155,223,131,0.18), 0 25px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)",
+        }}
+      >
+        {/* Top glow streak */}
+        <div
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(155,223,131,0.6), transparent)" }}
+        />
+
+        <div className="flex items-center justify-between mb-3">
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-xl"
+            style={{ background: "rgba(155,223,131,0.12)", border: "1px solid rgba(155,223,131,0.35)", color: "#9BDF83" }}
+          >
+            <Icon size={18} />
+          </div>
+          <button
+            onClick={onClose}
+            className="text-neutral-500 hover:text-white transition-colors text-lg leading-none"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        <h3
+          className="font-black text-white mb-1.5"
+          style={{ fontFamily: "var(--font-sora), Sora, sans-serif", fontSize: "16px" }}
+        >
+          {service?.title}
+        </h3>
+        <p className="text-neutral-400 text-[13px] leading-relaxed mb-4">
+          {service?.desc}
+        </p>
+
+        <ul className="space-y-2 mb-4">
+          {service?.capabilities.map((cap, i) => (
+            <li key={i} className="flex items-start gap-2 text-[13px] text-neutral-300 font-medium">
+              <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+              {cap}
+            </li>
+          ))}
+        </ul>
+
+        <Link
+          href={`/${service?.slug}`}
+          className="inline-flex items-center gap-1.5 text-[13px] font-bold"
+          style={{ color: "#9BDF83" }}
+        >
+          Learn more <ArrowRight size={13} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// ─── Orbital SVG (Desktop) ─────────────────────────────────────────────────
+interface OrbitalProps {
+  activeId: string | null;
+  onNodeHover: (id: string | null, nodeEl: SVGGElement | null) => void;
+  orbitPaused: boolean;
+  showLifecycle: boolean;
+}
+
+function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: OrbitalProps) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const orbitGroupRef = useRef<SVGGElement>(null);
+  const rotationRef = useRef({ angle: 0 });
+  const animRef = useRef<number | undefined>(undefined);
+
+  // Orbit params
+  const CX = 400, CY = 400, ORBIT_R = 230, NODE_R = 52;
+
+  useEffect(() => {
+    let lastTime = 0;
+    const speed = orbitPaused ? 0 : 0.012; // degrees per ms
+
+    const animate = (timestamp: number) => {
+      const delta = lastTime ? timestamp - lastTime : 0;
+      lastTime = timestamp;
+      if (!orbitPaused) {
+        rotationRef.current.angle = (rotationRef.current.angle + speed * delta) % 360;
+      }
+      const g = orbitGroupRef.current;
+      if (g) {
+        g.setAttribute("transform", `rotate(${rotationRef.current.angle}, ${CX}, ${CY})`);
+      }
+      animRef.current = requestAnimationFrame(animate);
+    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
+  }, [orbitPaused]);
+
+  return (
+    <svg
+      ref={svgRef}
+      viewBox="0 0 800 800"
+      className="w-full h-full"
+      style={{ filter: "drop-shadow(0 0 60px rgba(155,223,131,0.08))" }}
+    >
+      <defs>
+        {/* Center sphere gradient */}
+        <radialGradient id="sphereGrad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#1a3a1a" />
+          <stop offset="40%" stopColor="#0d1f0d" />
+          <stop offset="100%" stopColor="#030803" />
+        </radialGradient>
+        <radialGradient id="sphereGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(155,223,131,0.25)" />
+          <stop offset="100%" stopColor="rgba(155,223,131,0)" />
+        </radialGradient>
+        {/* Orbit ring gradient */}
+        <linearGradient id="orbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(155,223,131,0.08)" />
+          <stop offset="50%" stopColor="rgba(155,223,131,0.25)" />
+          <stop offset="100%" stopColor="rgba(155,223,131,0.08)" />
+        </linearGradient>
+        {/* Node gradient */}
+        <radialGradient id="nodeGrad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#1e3a1e" />
+          <stop offset="100%" stopColor="#060f06" />
+        </radialGradient>
+        <radialGradient id="nodeGradHover" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#2a5a2a" />
+          <stop offset="100%" stopColor="#0e1f0e" />
+        </radialGradient>
+        {/* Pulse animation */}
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id="nodeGlow">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      {/* Blueprint grid dots */}
+      {Array.from({ length: 20 }, (_, row) =>
+        Array.from({ length: 20 }, (_, col) => {
+          const x = col * 42 + 5;
+          const y = row * 42 + 5;
+          const dist = Math.sqrt((x - CX) ** 2 + (y - CY) ** 2);
+          const alpha = Math.max(0, 0.12 - (dist / 700) * 0.12);
+          return (
+            <circle key={`${row}-${col}`} cx={x} cy={y} r="1"
+              fill={`rgba(155,223,131,${alpha.toFixed(2)})`} />
+          );
+        })
+      )}
+
+      {/* Outer ambient glow rings */}
+      {[320, 290, 265].map((r, i) => (
+        <circle key={i} cx={CX} cy={CY} r={r}
+          fill="none"
+          stroke={`rgba(155,223,131,${0.04 - i * 0.01})`}
+          strokeWidth={i === 0 ? 1 : 0.5}
+          strokeDasharray={i === 0 ? "4 8" : "2 6"}
+        />
+      ))}
+
+      {/* Main Orbit Ring */}
+      <circle cx={CX} cy={CY} r={ORBIT_R}
+        fill="none"
+        stroke="url(#orbitRingGrad)"
+        strokeWidth="1.5"
+        strokeDasharray="3 5"
+      />
+
+      {/* Connection lines from center to nodes (static, rotated with orbitGroup) */}
+      <g ref={orbitGroupRef}>
+        {SERVICES.map((svc) => {
+          const pos = polarToCartesian(CX, CY, ORBIT_R, svc.angle);
+          const isActive = activeId === svc.id;
+          return (
+            <g key={svc.id}>
+              {/* Connection line */}
+              <line
+                x1={CX} y1={CY} x2={pos.x} y2={pos.y}
+                stroke={isActive ? "rgba(155,223,131,0.55)" : "rgba(155,223,131,0.12)"}
+                strokeWidth={isActive ? 1.5 : 1}
+                strokeDasharray="4 6"
+                style={{ transition: "stroke 0.3s, stroke-width 0.3s" }}
+              />
+              {/* Animated data pulse dot on the line */}
+              {isActive && (
+                <circle r="3" fill="#9BDF83" opacity="0.9" filter="url(#glow)">
+                  <animateMotion
+                    dur="1.5s"
+                    repeatCount="indefinite"
+                    path={`M${CX},${CY} L${pos.x},${pos.y}`}
+                  />
+                </circle>
+              )}
+            </g>
+          );
+        })}
+      </g>
+
+      {/* Static node wrappers (counter-rotate to keep labels upright) */}
+      {SERVICES.map((svc) => {
+        const isActive = activeId === svc.id;
+        const Icon = svc.icon;
+
+        return (
+          <g
+            key={svc.id}
+            style={{ cursor: "pointer" }}
+            onMouseEnter={(e) => onNodeHover(svc.id, e.currentTarget as unknown as SVGGElement)}
+            onMouseLeave={() => onNodeHover(null, null)}
+          >
+            {/* This group moves with orbit, then counter-rotates for label */}
+            <OrbitalNode
+              svc={svc}
+              cx={CX}
+              cy={CY}
+              orbitR={ORBIT_R}
+              nodeR={NODE_R}
+              isActive={isActive}
+              rotationRef={rotationRef}
+            />
+          </g>
+        );
+      })}
+
+      {/* Center Sphere */}
+      <g
+        style={{ cursor: "pointer" }}
+        onMouseEnter={() => onNodeHover("center", null)}
+        onMouseLeave={() => onNodeHover(null, null)}
+      >
+        {/* Glow halo */}
+        <circle cx={CX} cy={CY} r={92} fill="url(#sphereGlow)" />
+        {/* Pulse rings */}
+        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(155,223,131,0.15)" strokeWidth="1">
+          <animate attributeName="r" values="75;88;75" dur="3s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.15;0;0.15" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(155,223,131,0.08)" strokeWidth="1">
+          <animate attributeName="r" values="75;100;75" dur="4.5s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.08;0;0.08" dur="4.5s" repeatCount="indefinite" />
+        </circle>
+
+        {/* Sphere body */}
+        <circle cx={CX} cy={CY} r={70}
+          fill="url(#sphereGrad)"
+          stroke="rgba(155,223,131,0.4)"
+          strokeWidth="1.5"
+        />
+
+        {/* Inner highlight */}
+        <ellipse cx={CX - 18} cy={CY - 20} rx={22} ry={14}
+          fill="rgba(155,223,131,0.06)"
+          style={{ filter: "blur(4px)" }}
+        />
+
+        {/* Wireframe equator */}
+        <ellipse cx={CX} cy={CY} rx={70} ry={20}
+          fill="none"
+          stroke="rgba(155,223,131,0.12)"
+          strokeWidth="1"
+          strokeDasharray="3 4"
+        />
+        <ellipse cx={CX} cy={CY} rx={20} ry={70}
+          fill="none"
+          stroke="rgba(155,223,131,0.08)"
+          strokeWidth="0.8"
+          strokeDasharray="3 6"
+        />
+
+        {/* Center label */}
+        <text x={CX} y={CY - 10} textAnchor="middle"
+          fill="#9BDF83" fontSize="11" fontWeight="700"
+          letterSpacing="0.05em"
+          style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}
+        >
+          TexaWave
+        </text>
+        <text x={CX} y={CY + 6} textAnchor="middle"
+          fill="rgba(155,223,131,0.7)" fontSize="8.5" fontWeight="500"
+          letterSpacing="0.03em"
+        >
+          Product Engineering
+        </text>
+        <text x={CX} y={CY + 20} textAnchor="middle"
+          fill="rgba(155,223,131,0.5)" fontSize="7.5" fontWeight="400"
+          letterSpacing="0.03em"
+        >
+          Ecosystem
+        </text>
+      </g>
+
+      {/* Lifecycle stages overlay (center hover) */}
+      {showLifecycle && LIFECYCLE_STAGES.map((stage, i) => {
+        const angle = (i / LIFECYCLE_STAGES.length) * 360 - 90;
+        const r = 125;
+        const pos = polarToCartesian(CX, CY, r, angle + 90);
+        return (
+          <g key={stage}>
+            <circle cx={pos.x} cy={pos.y} r="22"
+              fill="rgba(5,5,5,0.9)"
+              stroke="rgba(155,223,131,0.5)"
+              strokeWidth="1"
+            >
+              <animate
+                attributeName="opacity"
+                values="0;1"
+                dur={`${0.1 + i * 0.12}s`}
+                fill="freeze"
+              />
+            </circle>
+            <text x={pos.x} y={pos.y + 4} textAnchor="middle"
+              fill="#9BDF83" fontSize="7.5" fontWeight="600"
+              letterSpacing="0.04em"
+            >
+              {stage}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Individual Orbital Node (animates counter-rotation for readability) ────
+function OrbitalNode({
+  svc, cx, cy, orbitR, nodeR, isActive, rotationRef,
+}: {
+  svc: (typeof SERVICES)[0];
+  cx: number; cy: number; orbitR: number; nodeR: number;
+  isActive: boolean;
+  rotationRef: React.RefObject<{ angle: number }>;
+}) {
+  const groupRef = useRef<SVGGElement>(null);
+  const animRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    const animate = () => {
+      const g = groupRef.current;
+      if (g && rotationRef.current) {
+        const baseAngle = svc.angle;
+        const currentRotation = rotationRef.current.angle;
+        const totalAngle = baseAngle + currentRotation;
+        const rad = ((totalAngle - 90) * Math.PI) / 180;
+        const nx = cx + orbitR * Math.cos(rad);
+        const ny = cy + orbitR * Math.sin(rad);
+        g.setAttribute("transform", `translate(${nx}, ${ny}) rotate(${-currentRotation})`);
+      }
+      animRef.current = requestAnimationFrame(animate);
+    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
+  }, [svc.angle, cx, cy, orbitR, rotationRef]);
+
+  const Icon = svc.icon;
+
+  return (
+    <g ref={groupRef}>
+      {/* Outer glow when active */}
+      {isActive && (
+        <circle r={nodeR + 14} fill="rgba(155,223,131,0.08)"
+          stroke="rgba(155,223,131,0.2)" strokeWidth="1">
+          <animate attributeName="r" values={`${nodeR + 14};${nodeR + 20};${nodeR + 14}`} dur="2s" repeatCount="indefinite" />
+        </circle>
+      )}
+      {/* Node circle */}
+      <circle r={nodeR}
+        fill={isActive ? "rgba(20,50,20,0.95)" : "rgba(10,18,10,0.9)"}
+        stroke={isActive ? "rgba(155,223,131,0.75)" : "rgba(155,223,131,0.25)"}
+        strokeWidth={isActive ? "1.8" : "1.2"}
+        style={{ transition: "all 0.3s ease" }}
+      />
+      {/* Icon area */}
+      <foreignObject x={-18} y={-22} width={36} height={36}>
+        <div
+          style={{
+            width: 36, height: 36,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: isActive ? "#9BDF83" : "rgba(155,223,131,0.6)",
+            transition: "color 0.3s",
+          }}
+        >
+          <Icon size={20} />
+        </div>
+      </foreignObject>
+      {/* Label */}
+      <text y={nodeR + 16} textAnchor="middle"
+        fill={isActive ? "#9BDF83" : "rgba(155,223,131,0.55)"}
+        fontSize="10" fontWeight="700"
+        letterSpacing="0.04em"
+        style={{ fontFamily: "var(--font-sora), Sora, sans-serif", transition: "fill 0.3s" }}
+      >
+        {svc.shortTitle}
+      </text>
+    </g>
+  );
+}
+
+// ─── Mobile Accordion Card ─────────────────────────────────────────────────
+function MobileServiceCard({
+  service,
+  index,
+  isLast,
+}: {
+  service: (typeof SERVICES)[0];
+  index: number;
+  isLast: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const Icon = service.icon;
+
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    if (open) {
+      gsap.fromTo(el, { height: 0, opacity: 0 }, {
+        height: "auto", opacity: 1, duration: 0.4, ease: "power2.out",
+      });
+    } else {
+      gsap.to(el, { height: 0, opacity: 0, duration: 0.3, ease: "power2.in" });
+    }
+  }, [open]);
+
+  return (
+    <div className="mobile-service-card relative">
+      {/* Timeline connector */}
+      {!isLast && (
+        <div
+          className="absolute left-6 top-full z-0"
+          style={{
+            width: "2px",
+            height: "28px",
+            background: "linear-gradient(to bottom, rgba(155,223,131,0.6), rgba(155,223,131,0.15))",
+          }}
+        />
+      )}
+
+      <div
+        className="rounded-2xl border overflow-hidden"
+        style={{
+          background: "rgba(10,18,10,0.8)",
+          borderColor: open ? "rgba(155,223,131,0.45)" : "rgba(155,223,131,0.12)",
+          boxShadow: open ? "0 0 30px rgba(155,223,131,0.12)" : "none",
+          transition: "border-color 0.3s, box-shadow 0.3s",
+        }}
+      >
+        {/* Header button */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center gap-4 p-5 text-left"
+          aria-expanded={open}
+        >
+          <div
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+            style={{
+              background: open ? "rgba(155,223,131,0.18)" : "rgba(155,223,131,0.08)",
+              border: `1px solid ${open ? "rgba(155,223,131,0.5)" : "rgba(155,223,131,0.2)"}`,
+              color: "#9BDF83",
+              transition: "all 0.3s",
+            }}
+          >
+            <Icon size={20} />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-bold uppercase tracking-widest"
+                style={{ color: "#9BDF83" }}
+              >
+                0{index + 1}
+              </span>
+            </div>
+            <h3
+              className="font-black text-white mt-0.5"
+              style={{ fontFamily: "var(--font-sora), Sora, sans-serif", fontSize: "16px" }}
+            >
+              {service.title}
+            </h3>
+          </div>
+
+          <ChevronDown
+            size={18}
+            className="shrink-0 transition-transform duration-300"
+            style={{ color: "#9BDF83", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+          />
+        </button>
+
+        {/* Expandable content */}
+        <div ref={contentRef} style={{ height: 0, overflow: "hidden", opacity: 0 }}>
+          <div className="px-5 pb-5">
+            <div className="w-full h-px mb-4" style={{ background: "rgba(155,223,131,0.15)" }} />
+            <p className="text-neutral-400 text-sm leading-relaxed mb-4">{service.desc}</p>
+            <ul className="space-y-2.5 mb-5">
+              {service.capabilities.map((cap, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-neutral-300 font-medium">
+                  <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+                  {cap}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={`/${service.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm font-bold"
+              style={{ color: "#9BDF83" }}
+            >
+              Learn more <ArrowRight size={13} />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Export ──────────────────────────────────────────────────────────
 export function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const progressFillRef = useRef<HTMLDivElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const orbitWrapRef = useRef<HTMLDivElement>(null);
 
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [orbitPaused, setOrbitPaused] = useState(false);
+  const [showLifecycle, setShowLifecycle] = useState(false);
+  const [activeLeftService, setActiveLeftService] = useState<(typeof SERVICES)[0] | null>(null);
+  const [activeRightService, setActiveRightService] = useState<(typeof SERVICES)[0] | null>(null);
+  const [cardVisible, setCardVisible] = useState(false);
+
+  // Mouse parallax on section
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+    const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+    gsap.to(".orbital-parallax-layer", {
+      x: x * 18,
+      y: y * 12,
+      duration: 0.8,
+      ease: "power2.out",
+    });
+  }, []);
+
+  // Node hover handler
+  const handleNodeHover = useCallback(
+    (id: string | null, _nodeEl: SVGGElement | null) => {
+      if (id === "center") {
+        setShowLifecycle(true);
+        setOrbitPaused(true);
+        setCardVisible(false);
+        setActiveId("center");
+        return;
+      }
+      if (!id) {
+        setActiveId(null);
+        setOrbitPaused(false);
+        setShowLifecycle(false);
+        setCardVisible(false);
+        return;
+      }
+
+      setActiveId(id);
+      setOrbitPaused(true);
+      setShowLifecycle(false);
+
+      const svc = SERVICES.find((s) => s.id === id);
+      if (svc) {
+        if (id === "software" || id === "electrical") {
+          setActiveLeftService(svc);
+        } else if (id === "mechanical" || id === "procurement") {
+          setActiveRightService(svc);
+        }
+        setCardVisible(true);
+      }
+    },
+    []
+  );
+
+  // GSAP scroll reveals
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const mm = gsap.matchMedia();
+    // Header reveal
+    gsap.fromTo(
+      headerRef.current,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: section, start: "top 82%" },
+      }
+    );
 
-    // Pinned layout for screens >= 768px (Tablet & Desktop)
-    mm.add("(min-width: 768px)", () => {
-      const cards = gsap.utils.toArray<HTMLElement>(".service-card-stack");
-      const navTexts = gsap.utils.toArray<HTMLElement>(".service-nav-text");
-      const navDots = gsap.utils.toArray<HTMLElement>(".service-nav-dot");
+    // Orbit diagram reveal
+    gsap.fromTo(
+      orbitWrapRef.current,
+      { opacity: 0, scale: 0.88 },
+      {
+        opacity: 1, scale: 1, duration: 1.1, ease: "back.out(1.5)",
+        scrollTrigger: { trigger: section, start: "top 78%" },
+      }
+    );
 
-      // Initial card and nav states
-      gsap.set(cards, { opacity: 0, scale: 0.9, zIndex: 1, filter: "brightness(0.85)" });
-      gsap.set(cards[0], { opacity: 1, scale: 1.05, zIndex: 10, filter: "brightness(1.1)" });
-      
-      gsap.set(navTexts, { color: "#888888" });
-      gsap.set(navTexts[0], { color: "var(--accent)" });
-
-      gsap.set(navDots, { backgroundColor: "rgba(136, 136, 136, 0.3)", scale: 1.0 });
-      gsap.set(navDots[0], { backgroundColor: "var(--accent)", scale: 1.3 });
-
-      // Create timeline
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "services-trigger",
-          trigger: section,
-          start: "top top",
-          end: "+=250%",
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1
-        }
-      });
-
-      // 1. Animate progress bar fill height
-      tl.to(progressFillRef.current, {
-        height: "100%",
-        ease: "none"
-      }, 0);
-
-      // 2. Timeline card transition and focus highlights
-      // Transition Card 0 -> Card 1 (around t = 0.5)
-      tl.to(cards[0], { opacity: 0, scale: 0.9, zIndex: 1, filter: "brightness(0.85)", duration: 0.3 }, 0.35)
-        .to(cards[1], { opacity: 1, scale: 1.05, zIndex: 10, filter: "brightness(1.1)", duration: 0.3 }, 0.35)
-        .to(navTexts[0], { color: "#888888", duration: 0.2 }, 0.35)
-        .to(navTexts[1], { color: "var(--accent)", duration: 0.2 }, 0.35)
-        .to(navDots[0], { backgroundColor: "rgba(136, 136, 136, 0.3)", scale: 1.0, duration: 0.2 }, 0.35)
-        .to(navDots[1], { backgroundColor: "var(--accent)", scale: 1.3, duration: 0.2 }, 0.35);
-
-      // Transition Card 1 -> Card 2 (around t = 1.5)
-      tl.to(cards[1], { opacity: 0, scale: 0.9, zIndex: 1, filter: "brightness(0.85)", duration: 0.3 }, 1.35)
-        .to(cards[2], { opacity: 1, scale: 1.05, zIndex: 10, filter: "brightness(1.1)", duration: 0.3 }, 1.35)
-        .to(navTexts[1], { color: "#888888", duration: 0.2 }, 1.35)
-        .to(navTexts[2], { color: "var(--accent)", duration: 0.2 }, 1.35)
-        .to(navDots[1], { backgroundColor: "rgba(136, 136, 136, 0.3)", scale: 1.0, duration: 0.2 }, 1.35)
-        .to(navDots[2], { backgroundColor: "var(--accent)", scale: 1.3, duration: 0.2 }, 1.35);
-
-      // Transition Card 2 -> Card 3 (around t = 2.5)
-      tl.to(cards[2], { opacity: 0, scale: 0.9, zIndex: 1, filter: "brightness(0.85)", duration: 0.3 }, 2.35)
-        .to(cards[3], { opacity: 1, scale: 1.05, zIndex: 10, filter: "brightness(1.1)", duration: 0.3 }, 2.35)
-        .to(navTexts[2], { color: "#888888", duration: 0.2 }, 2.35)
-        .to(navTexts[3], { color: "var(--accent)", duration: 0.2 }, 2.35)
-        .to(navDots[2], { backgroundColor: "rgba(136, 136, 136, 0.3)", scale: 1.0, duration: 0.2 }, 2.35)
-        .to(navDots[3], { backgroundColor: "var(--accent)", scale: 1.3, duration: 0.2 }, 2.35);
-
-      // Add small blank time at the end to allow holding Card 3
-      tl.to({}, { duration: 0.35 });
-    });
-
-    return () => {
-      mm.revert();
-    };
+    // Mobile cards stagger
+    gsap.fromTo(
+      ".mobile-service-card",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0, stagger: 0.12, duration: 0.7, ease: "power2.out",
+        scrollTrigger: { trigger: ".mobile-services-stack", start: "top 85%" },
+      }
+    );
   }, { scope: sectionRef });
 
-  const handleNavClick = (index: number) => {
-    const trigger = ScrollTrigger.getById("services-trigger");
-    if (!trigger) return;
-
-    const start = trigger.start;
-    const end = trigger.end;
-    // Map index (0-3) to respective progress point (0, 0.333, 0.666, 1.0)
-    const progress = index / 3;
-    const targetScroll = start + progress * (end - start);
-
-    gsap.to(window, {
-      scrollTo: { y: targetScroll, autoKill: false },
-      duration: 0.8,
-      ease: "power2.out"
-    });
-  };
-
   return (
-    <section 
-      ref={sectionRef} 
-      id="services" 
-      className="services-section relative px-5 lg:px-8 overflow-hidden"
+    <section
+      ref={sectionRef}
+      id="services"
+      className="relative overflow-hidden"
+      style={{
+        background: "#000000",
+        paddingBlock: "clamp(60px, 9vh, 120px)",
+        minHeight: "100vh",
+      }}
+      onMouseMove={handleMouseMove}
     >
-      <div className="mx-auto w-full max-w-7xl">
-        {/* Top Area */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-[clamp(24px,4vh,48px)] gap-6">
-          <div>
-            <span className="text-[var(--accent)] font-bold text-sm tracking-widest uppercase">
-              SERVICES
-            </span>
-            <h2 
-              className="font-black mt-2 leading-[0.95]"
-              style={{ fontSize: "clamp(2.5rem, 4vw, 5rem)", letterSpacing: "-0.03em" }}
-            >
-              Engineering teams for every stage of hardware launch.
-            </h2>
-          </div>
-          <div className="hidden lg:block shrink-0">
-            <Link 
-              href="/services" 
-              className="inline-flex items-center gap-2 font-bold text-[var(--accent)] hover:opacity-85 transition-opacity"
-            >
-              View all services <ArrowRight size={18} />
-            </Link>
-          </div>
+      {/* Particle background */}
+      <ParticleCanvas />
+
+      {/* Blueprint grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(155,223,131,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(155,223,131,0.03) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          zIndex: 0,
+        }}
+      />
+
+      {/* Radial center glow */}
+      <div
+        className="absolute pointer-events-none orbital-parallax-layer"
+        style={{
+          inset: 0,
+          background: "radial-gradient(ellipse 60% 55% at 60% 55%, rgba(155,223,131,0.05) 0%, transparent 70%)",
+          zIndex: 0,
+        }}
+      />
+
+      <div className="relative mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]" style={{ zIndex: 1 }}>
+        {/* ── Section Header ── */}
+        <div ref={headerRef} className="mb-12 lg:mb-16 text-center" style={{ opacity: 0 }}>
+          <span
+            className="inline-block text-[11px] font-black uppercase tracking-[0.22em] mb-4"
+            style={{ color: "#9BDF83" }}
+          >
+            Engineering Services
+          </span>
+          <h2
+            className="font-black text-white leading-tight"
+            style={{
+              fontFamily: "var(--font-sora), Sora, sans-serif",
+              fontSize: "clamp(2rem, 3.5vw + 1rem, 3.25rem)",
+              lineHeight: 1.1,
+            }}
+          >
+            One Partner.{" "}
+            <span style={{ color: "#9BDF83" }}>Complete Product Engineering.</span>
+          </h2>
+          <p
+            className="mt-5 mx-auto max-w-2xl text-neutral-400 leading-relaxed"
+            style={{ fontSize: "clamp(15px, 1.2vw + 10px, 18px)" }}
+          >
+            From concept to production, TexaWave integrates software, electrical, mechanical,
+            and procurement expertise to accelerate product development.
+          </p>
         </div>
 
-        {/* Tablet & Desktop Pinned Interactive Layout (min-width: 768px) */}
-        <div className="hidden md:grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 lg:gap-[clamp(40px,5vw,100px)] items-center relative z-10 w-full">
-          {/* Navigation - Stacked on tablet, side-by-side on desktop */}
-          <div 
-            className="relative flex flex-col justify-center py-2 w-full max-w-[320px] mx-auto lg:mx-0" 
-            style={{ gap: "24px" }}
-          >
-            {/* Background Line Track - starts at center of first dot, ends at center of last */}
-            <div className="absolute left-[7px] top-[24px] bottom-[24px] w-[2px] bg-neutral-200 dark:bg-neutral-800" />
-            {/* Active Green Progress Line */}
-            <div 
-              ref={progressFillRef} 
-              className="absolute left-[7px] top-[24px] w-[2px] bg-[var(--accent)] origin-top" 
-              style={{ height: "0%" }} 
-            />
-            
-            {SERVICES_DATA.map((service, idx) => (
-              <button 
-                key={idx}
-                onClick={() => handleNavClick(idx)}
-                className="service-nav-item relative pl-8 text-left group focus:outline-none flex items-center min-h-[32px]"
-              >
-                {/* Custom dot positioned on the track */}
-                <div 
-                  className="service-nav-dot absolute left-[7px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full border border-neutral-300 dark:border-neutral-700 bg-[var(--bg)] -translate-x-[4px] transition-all duration-300 group-hover:scale-120" 
-                />
-                <span 
-                  className="service-nav-text font-black transition-colors duration-300"
-                  style={{ fontSize: "clamp(1rem, 1.4vw, 1.5rem)" }}
-                >
-                  {service.title}
-                </span>
-              </button>
-            ))}
-          </div>
-
-          {/* Cards Stack */}
-          <div ref={cardsContainerRef} className="relative h-[400px] w-full flex items-center justify-center">
-            {SERVICES_DATA.map((service, idx) => {
-              const Icon = service.icon;
+        {/* ── Desktop: Orbital Layout ── */}
+        <div className="hidden lg:flex items-start gap-10 xl:gap-16">
+          {/* Left legend */}
+          <div className="relative flex flex-col gap-5 pt-16 w-[280px] xl:w-[320px] shrink-0 min-h-[480px]">
+            {SERVICES.slice(0, 2).map((svc) => {
+              const Icon = svc.icon;
+              const isActive = activeId === svc.id;
               return (
-                <div 
-                  key={idx}
-                  className="service-card-stack services-card-custom absolute w-full max-w-[650px] rounded-[32px] border border-neutral-200 dark:border-neutral-850 shadow-crisp flex flex-col justify-between overflow-hidden"
-                  style={{
-                    padding: "clamp(24px, 2vw, 40px)",
-                    borderRadius: "32px",
-                    height: "auto",
-                    willChange: "transform, opacity"
-                  }}
+                <div
+                  key={svc.id}
+                  className="flex items-center gap-3 cursor-pointer group"
+                  onMouseEnter={() => handleNodeHover(svc.id, null)}
+                  onMouseLeave={() => handleNodeHover(null, null)}
                 >
-                  {/* Decorative Background Icon */}
-                  <div className="absolute -right-12 -bottom-12 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
-                    <Icon size={240} />
+                  <div
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300"
+                    style={{
+                      background: isActive ? "rgba(155,223,131,0.2)" : "rgba(155,223,131,0.07)",
+                      border: `1px solid ${isActive ? "rgba(155,223,131,0.6)" : "rgba(155,223,131,0.15)"}`,
+                      color: "#9BDF83",
+                    }}
+                  >
+                    <Icon size={15} />
                   </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div 
-                        className="flex h-12 w-12 items-center justify-center rounded-2xl"
-                        style={{
-                          background: "rgba(155, 223, 131, 0.15)",
-                          border: "1px solid rgba(155, 223, 131, 0.45)",
-                          color: "var(--accent)"
-                        }}
-                      >
-                        <Icon size={24} />
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-                        0{idx + 1} / 04
-                      </span>
-                    </div>
-
-                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--accent)]">
-                      Category
-                    </span>
-                    <h3 className="text-2xl lg:text-3xl font-black mt-1">
-                      {service.title}
-                    </h3>
-                    
-                    <p className="mt-3 text-sm lg:text-base leading-relaxed text-neutral-500 dark:text-neutral-400">
-                      {service.desc}
-                    </p>
-
-                    {/* Content List with 2-Column responsive grid */}
-                    <ul 
-                      className="mt-6 w-full"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                        gap: "12px 24px"
-                      }}
-                    >
-                      {service.deliverables.map((item, dIdx) => (
-                        <li key={dIdx} className="flex gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 items-start">
-                          <CheckCircle2 className="shrink-0 text-[var(--accent)] mt-0.5" size={16} />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="border-t border-neutral-200 dark:border-neutral-800 pt-5 mt-6 flex items-center justify-between">
-                    <Link
-                      href={`/${service.slug}`}
-                      className="open-service-link inline-flex items-center gap-2 text-sm font-bold text-[var(--accent)]"
-                    >
-                      Open Service <ArrowRight className="arrow-icon" size={16} />
-                    </Link>
-                  </div>
+                  <span
+                    className="text-[13px] font-semibold transition-colors duration-300"
+                    style={{ color: isActive ? "#9BDF83" : "rgba(255,255,255,0.45)" }}
+                  >
+                    {svc.shortTitle}
+                  </span>
                 </div>
               );
             })}
+
+            {/* Capability card container - positioned absolutely under the legend buttons */}
+            <div 
+              className="absolute left-0 right-0 text-left" 
+              style={{ top: "160px" }}
+            >
+              <CapabilityCard
+                service={activeLeftService}
+                visible={cardVisible && (activeId === "software" || activeId === "electrical")}
+                onClose={() => {
+                  setCardVisible(false);
+                  setOrbitPaused(false);
+                  setActiveId(null);
+                }}
+                style={{
+                  position: "relative",
+                  width: "100%",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Center orbit diagram */}
+          <div
+            ref={orbitWrapRef}
+            className="relative flex-1"
+            style={{ maxWidth: 620, aspectRatio: "1", opacity: 0 }}
+          >
+            <OrbitalDiagram
+              activeId={activeId}
+              onNodeHover={handleNodeHover}
+              orbitPaused={orbitPaused}
+              showLifecycle={showLifecycle}
+            />
+          </div>
+
+          {/* Right legend */}
+          <div className="relative flex flex-col gap-5 pt-16 w-[280px] xl:w-[320px] shrink-0 items-end text-right min-h-[480px]">
+            {SERVICES.slice(2, 4).map((svc) => {
+              const Icon = svc.icon;
+              const isActive = activeId === svc.id;
+              return (
+                <div
+                  key={svc.id}
+                  className="flex items-center gap-3 cursor-pointer group flex-row-reverse"
+                  onMouseEnter={() => handleNodeHover(svc.id, null)}
+                  onMouseLeave={() => handleNodeHover(null, null)}
+                >
+                  <div
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300"
+                    style={{
+                      background: isActive ? "rgba(155,223,131,0.2)" : "rgba(155,223,131,0.07)",
+                      border: `1px solid ${isActive ? "rgba(155,223,131,0.6)" : "rgba(155,223,131,0.15)"}`,
+                      color: "#9BDF83",
+                    }}
+                  >
+                    <Icon size={15} />
+                  </div>
+                  <span
+                    className="text-[13px] font-semibold transition-colors duration-300"
+                    style={{ color: isActive ? "#9BDF83" : "rgba(255,255,255,0.45)" }}
+                  >
+                    {svc.shortTitle}
+                  </span>
+                </div>
+              );
+            })}
+
+            {/* Capability card container - positioned absolutely under the legend buttons */}
+            <div 
+              className="absolute left-0 right-0 text-left" 
+              style={{ top: "160px" }}
+            >
+              <CapabilityCard
+                service={activeRightService}
+                visible={cardVisible && (activeId === "mechanical" || activeId === "procurement")}
+                onClose={() => {
+                  setCardVisible(false);
+                  setOrbitPaused(false);
+                  setActiveId(null);
+                }}
+                style={{
+                  position: "relative",
+                  width: "100%",
+                }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Mobile Layout (max-width: 767px) - Disable pinning, convert to standard vertical cards */}
-        <div className="md:hidden flex flex-col gap-6 relative z-10">
-          {SERVICES_DATA.map((service, idx) => {
-            const Icon = service.icon;
+        {/* Hover hint — desktop only */}
+        <p
+          className="hidden lg:block text-center mt-6 text-[12px] font-medium tracking-widest uppercase"
+          style={{ color: "rgba(155,223,131,0.3)" }}
+        >
+          Hover a node to explore capabilities · Hover center to see lifecycle
+        </p>
+
+        {/* ── Tablet intermediate: grid cards ── */}
+        <div className="hidden md:grid lg:hidden grid-cols-2 gap-5 mt-8">
+          {SERVICES.map((svc, idx) => {
+            const Icon = svc.icon;
             return (
-              <div 
-                key={idx}
-                className="services-card-custom rounded-[32px] border border-neutral-200 dark:border-neutral-850 p-6 shadow-crisp flex flex-col justify-between overflow-hidden relative bg-[var(--card)]"
-                style={{ height: "auto" }}
+              <div
+                key={svc.id}
+                className="rounded-2xl border p-5 transition-all duration-300 cursor-pointer group"
+                style={{
+                  background: "rgba(10,18,10,0.8)",
+                  borderColor: "rgba(155,223,131,0.15)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.borderColor = "rgba(155,223,131,0.5)";
+                  el.style.boxShadow = "0 0 30px rgba(155,223,131,0.12)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.borderColor = "rgba(155,223,131,0.15)";
+                  el.style.boxShadow = "none";
+                }}
               >
-                {/* Decorative Background Icon */}
-                <div className="absolute -right-8 -bottom-8 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
-                  <Icon size={180} />
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div 
-                      className="flex h-11 w-11 items-center justify-center rounded-xl"
-                      style={{
-                        background: "rgba(155, 223, 131, 0.15)",
-                        border: "1px solid rgba(155, 223, 131, 0.45)",
-                        color: "var(--accent)"
-                      }}
-                    >
-                      <Icon size={20} />
-                    </div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-                      0{idx + 1} / 04
-                    </span>
-                  </div>
-
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--accent)]">
-                    Category
-                  </span>
-                  <h3 className="text-xl font-black mt-1">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="mt-2 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
-                    {service.desc}
-                  </p>
-
-                  <ul 
-                    className="mt-4 w-full"
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                      gap: "8px 16px"
+                      background: "rgba(155,223,131,0.1)",
+                      border: "1px solid rgba(155,223,131,0.3)",
+                      color: "#9BDF83",
                     }}
                   >
-                    {service.deliverables.map((item, dIdx) => (
-                      <li key={dIdx} className="flex gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-400 items-start">
-                        <CheckCircle2 className="shrink-0 text-[var(--accent)] mt-0.5" size={14} />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <Icon size={18} />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#9BDF83" }}>
+                      0{idx + 1}
+                    </span>
+                    <h3
+                      className="font-black text-white text-[15px]"
+                      style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}
+                    >
+                      {svc.title}
+                    </h3>
+                  </div>
                 </div>
-
-                <div className="border-t border-neutral-200 dark:border-neutral-800 pt-4 mt-5">
-                  <Link
-                    href={`/${service.slug}`}
-                    className="open-service-link inline-flex items-center gap-2 text-sm font-bold text-[var(--accent)]"
-                  >
-                    Open Service <ArrowRight className="arrow-icon" size={16} />
-                  </Link>
-                </div>
+                <p className="text-neutral-400 text-[13px] leading-relaxed mb-3">{svc.desc}</p>
+                <ul className="space-y-1.5">
+                  {svc.capabilities.map((cap, i) => (
+                    <li key={i} className="flex items-start gap-1.5 text-[12px] text-neutral-300">
+                      <CheckCircle2 size={12} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+                      {cap}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={`/${svc.slug}`}
+                  className="inline-flex items-center gap-1.5 text-[12px] font-bold mt-3"
+                  style={{ color: "#9BDF83" }}
+                >
+                  Learn more <ArrowRight size={12} />
+                </Link>
               </div>
             );
           })}
-          
-          {/* Mobile View all link */}
-          <div className="text-center mt-4">
-            <Link 
-              href="/services" 
-              className="inline-flex items-center gap-2 font-bold text-[var(--accent)] hover:opacity-85 transition-opacity"
+        </div>
+
+        {/* ── Mobile: Accordion Journey ── */}
+        <div className="md:hidden mobile-services-stack flex flex-col gap-7 mt-4">
+          {/* Journey header */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-px flex-1" style={{ background: "rgba(155,223,131,0.2)" }} />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: "rgba(155,223,131,0.5)" }}>
+              Engineering Journey
+            </span>
+            <div className="h-px flex-1" style={{ background: "rgba(155,223,131,0.2)" }} />
+          </div>
+
+          {SERVICES.map((svc, idx) => (
+            <MobileServiceCard
+              key={svc.id}
+              service={svc}
+              index={idx}
+              isLast={idx === SERVICES.length - 1}
+            />
+          ))}
+
+          {/* Mobile CTA */}
+          <div className="text-center mt-2">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 font-bold text-sm"
+              style={{ color: "#9BDF83" }}
             >
-              View all services <ArrowRight size={18} />
+              View all services <ArrowRight size={15} />
             </Link>
           </div>
+        </div>
+
+        {/* ── Bottom CTA strip (desktop) ── */}
+        <div className="hidden lg:flex items-center justify-center gap-6 mt-12">
+          <div className="h-px w-24" style={{ background: "rgba(155,223,131,0.2)" }} />
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-300"
+            style={{
+              background: "rgba(155,223,131,0.08)",
+              border: "1px solid rgba(155,223,131,0.3)",
+              color: "#9BDF83",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              el.style.background = "rgba(155,223,131,0.18)";
+              el.style.borderColor = "rgba(155,223,131,0.6)";
+              el.style.boxShadow = "0 0 20px rgba(155,223,131,0.2)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              el.style.background = "rgba(155,223,131,0.08)";
+              el.style.borderColor = "rgba(155,223,131,0.3)";
+              el.style.boxShadow = "none";
+            }}
+          >
+            Explore all services <ArrowRight size={15} />
+          </Link>
+          <div className="h-px w-24" style={{ background: "rgba(155,223,131,0.2)" }} />
         </div>
       </div>
     </section>

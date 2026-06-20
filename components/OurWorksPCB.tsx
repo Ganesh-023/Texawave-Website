@@ -435,11 +435,11 @@ export function OurWorksPCB() {
         {/* Section Header */}
         <div className="mb-20 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-signal flex items-center gap-2">
+            <p className="text-small-text font-bold uppercase tracking-[0.2em] text-signal flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-signal animate-pulse" />
               Our Works
             </p>
-            <h2 className="mt-3 max-w-3xl text-4xl font-black text-[#EEEEEE] md:text-5xl tracking-tight">
+            <h2 className="mt-3 max-w-3xl text-section text-[#EEEEEE]">
               Real projects. Proven engineering outcomes.
             </h2>
           </div>
@@ -682,16 +682,16 @@ export function OurWorksPCB() {
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
             <div className="border-r border-border-primary/50">
-              <p className="text-4xl lg:text-5xl font-black text-[#EEEEEE] font-mono">
+              <p className="font-display font-extrabold text-[56px] leading-none text-[#EEEEEE]">
                 <span id="metric-delivered">0</span>+
               </p>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[#999999]">Projects Delivered</p>
+              <p className="mt-2 text-[16px] font-medium uppercase tracking-[0.08em] text-[#999999]">Projects Delivered</p>
             </div>
             <div>
-              <p className="text-4xl lg:text-5xl font-black text-[#EEEEEE] font-mono">
+              <p className="font-display font-extrabold text-[56px] leading-none text-[#EEEEEE]">
                 <span id="metric-success">0</span>%
               </p>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[#999999]">Prototype Success Rate</p>
+              <p className="mt-2 text-[16px] font-medium uppercase tracking-[0.08em] text-[#999999]">Prototype Success Rate</p>
             </div>
           </div>
         </div>
@@ -740,16 +740,16 @@ export function OurWorksPCB() {
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
             <div className="border-r border-border-primary/50">
-              <p className="text-4xl lg:text-5xl font-black text-[#EEEEEE] font-mono">
+              <p className="font-display font-extrabold text-[56px] leading-none text-[#EEEEEE]">
                 <span id="metric-hours">0</span>+
               </p>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[#999999]">Engineering Hours</p>
+              <p className="mt-2 text-[16px] font-medium uppercase tracking-[0.08em] text-[#999999]">Engineering Hours</p>
             </div>
             <div>
-              <p className="text-4xl lg:text-5xl font-black text-[#EEEEEE] font-mono">
+              <p className="font-display font-extrabold text-[56px] leading-none text-[#EEEEEE]">
                 <span id="metric-industries">0</span>+
               </p>
-              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[#999999]">Industries Served</p>
+              <p className="mt-2 text-[16px] font-medium uppercase tracking-[0.08em] text-[#999999]">Industries Served</p>
             </div>
           </div>
         </div>
@@ -807,11 +807,11 @@ export function OurWorksPCB() {
               <Workflow className="text-signal animate-spin-slow" size={24} />
             </div>
 
-            <h3 className="text-3xl md:text-5xl font-black text-[#EEEEEE] tracking-tight">
+            <h3 className="text-section text-[#EEEEEE]">
               What Are You Building Next?
             </h3>
             
-            <p className="mt-4 max-w-2xl text-base md:text-lg text-[#999999] leading-relaxed">
+            <p className="mt-4 max-w-2xl text-body-large text-[#999999]">
               Connect with Texawave&apos;s multi-disciplinary team. Select a core track to route your request directly to the engineering team.
             </p>
 
@@ -905,10 +905,10 @@ function ProjectCard({ work, index, setActiveHover }: ProjectCardProps) {
             </div>
           </div>
 
-          <h3 className="text-xl font-black text-[#EEEEEE] group-hover:text-signal transition-colors duration-300">
+          <h3 className="text-card text-[#EEEEEE] group-hover:text-signal transition-colors duration-300">
             {work.title}
           </h3>
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-[#999999]">
+          <p className="mt-3 flex-1 text-body-normal text-[#999999]">
             {work.short}
           </p>
 
@@ -917,7 +917,7 @@ function ProjectCard({ work, index, setActiveHover }: ProjectCardProps) {
             {work.services.map((svc) => (
               <span 
                 key={svc} 
-                className="pcb-tag flex items-center gap-1.5 border border-border-primary bg-black/40 px-2 py-1 rounded text-xs font-semibold text-[#999999]"
+                className="pcb-tag flex items-center gap-1.5 border border-border-primary bg-black/40 px-2 py-1 rounded text-small-text font-semibold text-[#999999]"
               >
                 <CheckCircle2 className="shrink-0 text-signal group-hover:text-signal" size={12} />
                 {svc}

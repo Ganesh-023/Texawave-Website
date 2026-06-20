@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { PageChrome } from "@/components/PageChrome";
 import { CandidateView } from "./CandidateView";
-import { HRView } from "./HRView";
 import { Job, WalkInDrive, CareerUpdate, Application } from "./types";
 import { 
   INITIAL_JOBS, 
@@ -13,8 +13,8 @@ import {
 } from "./initialData";
 
 export default function CareersPage() {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [view, setView] = useState<"candidate" | "hr">("candidate");
 
   // Core Database States
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -51,7 +51,7 @@ export default function CareersPage() {
       localStorage.setItem("texawave_updates", JSON.stringify(INITIAL_UPDATES));
     }
 
-    // 4. Applications & Talent Pool combined (General applications have jobId: 'general')
+    // 4. Applications
     const localApps = localStorage.getItem("texawave_applications");
     if (localApps) {
       setApplications(JSON.parse(localApps));
@@ -64,24 +64,14 @@ export default function CareersPage() {
   }, []);
 
   // Helpers to persist state updates
-  const saveJobs = (newJobs: Job[]) => {
-    setJobs(newJobs);
-    localStorage.setItem("texawave_jobs", JSON.stringify(newJobs));
-  };
-
-  const saveWalkins = (newWalkins: WalkInDrive[]) => {
-    setWalkins(newWalkins);
-    localStorage.setItem("texawave_walkins", JSON.stringify(newWalkins));
+  const saveApplications = (newApps: Application[]) => {
+    setApplications(newApps);
+    localStorage.setItem("texawave_applications", JSON.stringify(newApps));
   };
 
   const saveUpdates = (newUpdates: CareerUpdate[]) => {
     setUpdates(newUpdates);
     localStorage.setItem("texawave_updates", JSON.stringify(newUpdates));
-  };
-
-  const saveApplications = (newApps: Application[]) => {
-    setApplications(newApps);
-    localStorage.setItem("texawave_applications", JSON.stringify(newApps));
   };
 
   // Candidate: Job Application Submission
@@ -107,7 +97,8 @@ export default function CareersPage() {
       status: "New"
     };
 
-    saveApplications([newApp, ...applications]);
+    const updated = [newApp, ...applications];
+    saveApplications(updated);
   };
 
   // Candidate: General Talent Pool Registration
@@ -135,7 +126,8 @@ export default function CareersPage() {
       deptInterest: formData.deptInterest
     };
 
-    saveApplications([newApp, ...applications]);
+    const updated = [newApp, ...applications];
+    saveApplications(updated);
   };
 
   // Candidate: Like a Feed Post
@@ -146,72 +138,6 @@ export default function CareersPage() {
       }
       return up;
     });
-    saveUpdates(updated);
-  };
-
-  // HR Admin: Add a Job Posting
-  const handleAddJob = (jobData: Omit<Job, "id" | "postedDate">) => {
-    const newJob: Job = {
-      ...jobData,
-      id: `job-${Date.now()}`,
-      postedDate: new Date().toISOString().split("T")[0]
-    };
-    saveJobs([newJob, ...jobs]);
-  };
-
-  // HR Admin: Edit a Job Posting
-  const handleEditJob = (editedJob: Job) => {
-    const updated = jobs.map((j) => (j.id === editedJob.id ? editedJob : j));
-    saveJobs(updated);
-  };
-
-  // HR Admin: Delete a Job Posting
-  const handleDeleteJob = (id: string) => {
-    const updated = jobs.filter((j) => j.id !== id);
-    saveJobs(updated);
-  };
-
-  // HR Admin: Update application pipeline status
-  const handleUpdateAppStatus = (id: string, status: Application["status"]) => {
-    const updated = applications.map((app) => {
-      if (app.id === id) {
-        return { ...app, status };
-      }
-      return app;
-    });
-    saveApplications(updated);
-  };
-
-  // HR Admin: Add Walk-in Drive Announcement
-  const handleAddWalkin = (walkinData: Omit<WalkInDrive, "id">) => {
-    const newWalkin: WalkInDrive = {
-      ...walkinData,
-      id: `walkin-${Date.now()}`
-    };
-    saveWalkins([newWalkin, ...walkins]);
-  };
-
-  // HR Admin: Delete Walk-in drive
-  const handleDeleteWalkin = (id: string) => {
-    const updated = walkins.filter((w) => w.id !== id);
-    saveWalkins(updated);
-  };
-
-  // HR Admin: Add update / life photo feed post
-  const handleAddUpdate = (updateData: Omit<CareerUpdate, "id" | "likes" | "commentsCount" | "date">) => {
-    const newUpdate: CareerUpdate = {
-      ...updateData,
-      id: `update-${Date.now()}`,
-      date: new Date().toISOString().split("T")[0],
-      likes: 0,
-      commentsCount: 0
-    };
-    saveUpdates([newUpdate, ...updates]);
-  };
-
-  // HR Admin: Delete update post
-  const handleDeleteUpdate = (id: string) => {
-    const updated = updates.filter((u) => u.id !== id);
     saveUpdates(updated);
   };
 
@@ -228,40 +154,17 @@ export default function CareersPage() {
     );
   }
 
-  // Split applications list for HR tabs queries
-  const activeApplications = applications.filter((app) => app.jobId !== "general");
-  const talentPoolList = applications.filter((app) => app.jobId === "general");
-
   return (
     <PageChrome>
-      {view === "candidate" ? (
-        <CandidateView
-          jobs={jobs}
-          walkins={walkins}
-          updates={updates}
-          onApply={handleApply}
-          onJoinTalentPool={handleJoinTalentPool}
-          onLikeUpdate={handleLikeUpdate}
-          onToggleAdmin={() => setView("hr")}
-        />
-      ) : (
-        <HRView
-          jobs={jobs}
-          walkins={walkins}
-          updates={updates}
-          applications={activeApplications}
-          talentPool={talentPoolList}
-          onAddJob={handleAddJob}
-          onEditJob={handleEditJob}
-          onDeleteJob={handleDeleteJob}
-          onUpdateAppStatus={handleUpdateAppStatus}
-          onAddWalkin={handleAddWalkin}
-          onDeleteWalkin={handleDeleteWalkin}
-          onAddUpdate={handleAddUpdate}
-          onDeleteUpdate={handleDeleteUpdate}
-          onLogout={() => setView("candidate")}
-        />
-      )}
+      <CandidateView
+        jobs={jobs}
+        walkins={walkins}
+        updates={updates}
+        onApply={handleApply}
+        onJoinTalentPool={handleJoinTalentPool}
+        onLikeUpdate={handleLikeUpdate}
+        onToggleAdmin={() => router.push("/login")}
+      />
     </PageChrome>
   );
 }

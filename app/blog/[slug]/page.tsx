@@ -33,9 +33,9 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
           <Link href="/blog" className="btn-premium inline-flex items-center gap-2 font-bold text-signal">
             <ArrowLeft size={18} /> Back to blog
           </Link>
-          <p className="mt-10 text-sm font-black uppercase tracking-[0.16em] text-copper">{post.category}</p>
-          <h1 className="mt-4 text-4xl font-black leading-tight text-text-primary md:text-6xl">{post.title}</h1>
-          <p className="mt-6 text-lg leading-8 text-text-secondary">{post.excerpt}</p>
+          <p className="mt-10 text-small-text font-black uppercase tracking-[0.16em] text-copper">{post.category}</p>
+          <h1 className="mt-4 text-hero text-text-primary">{post.title}</h1>
+          <p className="mt-6 text-body-large text-text-secondary">{post.excerpt}</p>
           <div className="prose prose-lg mt-10 max-w-none text-text-secondary">
             <p>
               Successful hardware development starts with clear product intent, measurable requirements, and early alignment between design, electronics, procurement, software, and production. Texawave helps teams identify technical risk before it becomes schedule risk.

@@ -352,10 +352,10 @@ export default function BlogPage() {
   if (!mounted) {
     return (
       <PageChrome>
-        <section className="bg-bg-secondary border-b border-border-primary px-5 py-20 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-signal">Blog</p>
-            <h1 className="mt-3 max-w-4xl text-5xl font-black text-text-primary md:text-7xl">
+        <section className="bg-bg-secondary border-b border-border-primary py-20">
+          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+            <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Blog</p>
+            <h1 className="mt-3 max-w-4xl text-hero text-text-primary">
               Engineering insights for faster, cleaner product development.
             </h1>
           </div>
@@ -367,17 +367,17 @@ export default function BlogPage() {
   return (
     <PageChrome>
       {/* 1. HERO HEADER */}
-      <section className="bg-bg-secondary border-b border-border-primary px-5 py-20 lg:px-8 relative overflow-hidden">
+      <section className="bg-bg-secondary border-b border-border-primary py-20 relative overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
-        <div className="mx-auto max-w-7xl relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
               <Sparkles size={12} className="text-signal" /> Texawave Knowledge Base
             </span>
-            <h1 className="max-w-4xl text-5xl font-black tracking-tight text-text-primary md:text-7xl leading-none">
+            <h1 className="max-w-4xl text-hero text-text-primary">
               Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9BDF83] via-[#62ba46] to-[#2b521e]">Insights</span>
             </h1>
-            <p className="mt-4 max-w-xl text-text-secondary">
+            <p className="mt-4 max-w-xl text-body-large text-text-secondary">
               Practical roadmap guides, embedded schematics, procurement metrics, and custom automation case studies.
             </p>
           </div>
@@ -396,9 +396,9 @@ export default function BlogPage() {
       </section>
 
       {/* 2. CATEGORIES FILTER SECTION */}
-      <section className="bg-bg-primary pt-12 px-5 lg:px-8 border-b border-border-primary/50">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-text-secondary">Filter by Topic</h2>
+      <section className="bg-bg-primary pt-12 border-b border-border-primary/50">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+          <h2 className="text-small-text font-bold uppercase tracking-widest text-text-secondary">Filter by Topic</h2>
           <div className="mt-4 flex flex-wrap gap-2 pb-6 overflow-x-auto">
             {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat;
@@ -421,16 +421,16 @@ export default function BlogPage() {
       </section>
 
       {/* 3. UPLOAD YOUR ARTICLE CTA CARD */}
-      <section className="bg-bg-primary px-5 py-8 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-bg-primary py-8">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="relative overflow-hidden rounded-2xl border border-dashed border-signal/60 bg-bg-secondary/40 p-8 text-center md:text-left md:flex md:items-center md:justify-between gap-6 transition duration-300 hover:border-signal">
             <div className="absolute top-0 right-0 w-64 h-64 bg-signal/5 rounded-full blur-3xl pointer-events-none" />
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
                 <Sparkles size={12} /> Share Your Expertise
               </span>
-              <h3 className="mt-3 text-2xl font-black text-text-primary">Have an engineering story or project to share?</h3>
-              <p className="mt-2 text-text-secondary max-w-2xl text-sm leading-relaxed">
+              <h3 className="mt-3 text-card text-text-primary">Have an engineering story or project to share?</h3>
+              <p className="mt-2 text-text-secondary max-w-2xl text-body-normal">
                 Contribute to the Texawave Knowledge Hub. Submit articles on software engineering, electronics, custom hardware, or your internship experiences.
               </p>
             </div>
@@ -445,9 +445,9 @@ export default function BlogPage() {
       </section>
 
       {/* 4. RECENT BLOGS SECTION */}
-      <section className="bg-bg-primary px-5 py-10 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl font-black text-text-primary mb-8 tracking-tight">Recent Blogs & Publications</h2>
+      <section className="bg-bg-primary py-10">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+          <h2 className="text-section text-text-primary mb-8">Recent Blogs & Publications</h2>
 
           {filteredRecentBlogs.length === 0 ? (
             <div className="text-center py-20 border border-border-primary rounded-2xl bg-bg-secondary/20">
@@ -480,17 +480,17 @@ export default function BlogPage() {
                 >
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-xs font-black uppercase tracking-[0.16em] text-copper">{post.category}</span>
+                      <span className="text-small-text font-black uppercase tracking-[0.16em] text-copper">{post.category}</span>
                       {!post.isStatic && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
+                        <span className="text-small-text font-bold px-2 py-0.5 rounded bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
                           Guest Post
                         </span>
                       )}
                     </div>
-                    <h3 className="text-2xl font-black leading-8 text-text-primary hover:text-signal transition duration-200">
+                    <h3 className="text-card text-text-primary hover:text-signal transition duration-200">
                       {post.title}
                     </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-text-secondary line-clamp-3">
+                    <p className="mt-4 text-body-normal text-text-secondary line-clamp-3">
                       {post.excerpt}
                     </p>
                   </div>
@@ -525,13 +525,13 @@ export default function BlogPage() {
       </section>
 
       {/* 5. COMMUNITY CONTRIBUTIONS SECTION */}
-      <section className="bg-bg-secondary/50 border-y border-border-primary px-5 py-20 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-bg-secondary/50 border-y border-border-primary py-20">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-copper">Knowledge Exchange</p>
-              <h2 className="mt-2 text-4xl font-black text-text-primary tracking-tight">Community Contributions</h2>
-              <p className="mt-3 text-text-secondary max-w-xl text-sm">
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-copper">Knowledge Exchange</p>
+              <h2 className="mt-2 text-section text-text-primary">Community Contributions</h2>
+              <p className="mt-3 text-text-secondary max-w-xl text-body-normal">
                 Engineering deep-dives, tooling tips, and hardware analyses shared by industry professionals and researchers.
               </p>
             </div>
@@ -568,10 +568,10 @@ export default function BlogPage() {
                   </div>
                   <div className="md:w-2/3 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-xl font-black text-text-primary leading-snug group-hover:text-signal transition duration-200">
+                      <h3 className="text-card text-text-primary group-hover:text-signal transition duration-200">
                         {art.title}
                       </h3>
-                      <p className="mt-2 text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                      <p className="mt-2 text-body-normal text-text-secondary line-clamp-3">
                         {art.content.replace(/<[^>]*>/g, "")}
                       </p>
                     </div>
@@ -601,15 +601,15 @@ export default function BlogPage() {
       </section>
 
       {/* 6. INTERN SPOTLIGHT SECTION */}
-      <section className="bg-bg-primary px-5 py-20 lg:px-8 relative overflow-hidden">
+      <section className="bg-bg-primary py-20 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-signal/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="mx-auto max-w-7xl relative z-10">
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
               <GraduationCap size={12} className="text-signal" /> Talent Hub
             </span>
-            <h2 className="text-4xl font-black tracking-tight text-text-primary">Intern Spotlight</h2>
-            <p className="mt-4 text-text-secondary text-sm">
+            <h2 className="text-section text-text-primary">Intern Spotlight</h2>
+            <p className="mt-4 text-text-secondary text-body-normal">
               Showcasing approved student experiences, product prototypes, and engineering takeaways from the Texawave internship program.
             </p>
           </div>
@@ -645,10 +645,10 @@ export default function BlogPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-black text-text-primary leading-snug hover:text-signal transition mb-4">
+                    <h3 className="text-card text-text-primary hover:text-signal transition mb-4">
                       {art.title}
                     </h3>
-                    <p className="text-xs text-text-secondary leading-relaxed line-clamp-4 bg-bg-primary/30 p-4 rounded-xl border border-border-primary/50">
+                    <p className="text-body-normal text-text-secondary line-clamp-4 bg-bg-primary/30 p-4 rounded-xl border border-border-primary/50">
                       {art.content.replace(/<[^>]*>/g, "")}
                     </p>
                   </div>

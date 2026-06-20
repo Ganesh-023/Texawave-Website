@@ -1,0 +1,269 @@
+{
+  "meetings": [
+    {
+      "name": "gan",
+      "company": "Texa",
+      "country": "India",
+      "email": "ganesh@texawave.com",
+      "serviceNeeded": "Software & IoT Development",
+      "projectStage": "Idea / Concept",
+      "budgetRange": "$25,00,000 - $50,00,000 / $30k-$60k",
+      "timeline": "3 - 6 Months",
+      "message": "",
+      "id": "meeting-1781770630725",
+      "dateSubmitted": "2026-06-18",
+      "status": "Pending",
+      "notes": []
+    },
+    {
+      "name": "arun",
+      "company": "wipro",
+      "country": "Brazil ",
+      "email": "arun@gmail.com",
+      "serviceNeeded": "Electrical Engineering / PCB Design",
+      "projectStage": "Idea / Concept",
+      "budgetRange": "$25,00,000 - $50,00,000 / $30k-$60k",
+      "timeline": "3 - 6 Months",
+      "message": "",
+      "id": "meeting-1781770506722",
+      "dateSubmitted": "2026-06-18",
+      "status": "Pending",
+      "notes": []
+    },
+    {
+      "name": "ganesh",
+      "company": "apple",
+      "country": "United states",
+      "email": "ganesh@gmail.com",
+      "serviceNeeded": "End-to-End Product Design",
+      "projectStage": "Prototype Design",
+      "budgetRange": "$50,00,000+ / $60k+",
+      "timeline": "3 - 6 Months",
+      "message": "",
+      "id": "meeting-1781768150113",
+      "dateSubmitted": "2026-06-18",
+      "status": "Pending",
+      "notes": []
+    },
+    {
+      "name": "Integration Test Client",
+      "company": "Aero Corp",
+      "country": "India",
+      "email": "client@aerocorp.in",
+      "serviceNeeded": "Mechanical engineering & analysis",
+      "projectStage": "Idea/Concept",
+      "budgetRange": "₹5,00,000 - ₹10,00,000",
+      "timeline": "1-3 months",
+      "message": "Interested in reverse engineering a mechanical gearbox assembly.",
+      "id": "meeting-1781767681845",
+      "dateSubmitted": "2026-06-18",
+      "status": "Approved",
+      "notes": [
+        "Review gear design blueprints before start."
+      ],
+      "scheduledDate": "2026-06-20",
+      "scheduledTime": "15:30"
+    },
+    {
+      "id": "meeting-1",
+      "name": "Alice Johnson",
+      "company": "BioMed Systems",
+      "country": "United States",
+      "email": "alice@biomedsystems.com",
+      "serviceNeeded": "Software & IoT development",
+      "projectStage": "Idea/Concept",
+      "budgetRange": "$10,000 - $25,000",
+      "timeline": "3-6 months",
+      "message": "Looking to develop a telemetry visualization dashboard for medical devices.",
+      "dateSubmitted": "2026-06-15",
+      "status": "Approved",
+      "scheduledDate": "2026-06-25",
+      "scheduledTime": "14:30",
+      "notes": [
+        "Highly interested in Bluetooth integration.",
+        "Review schematic diagrams before call."
+      ]
+    },
+    {
+      "id": "meeting-2",
+      "name": "Ramesh Kumar",
+      "company": "WaveTech Ltd",
+      "country": "India",
+      "email": "ramesh@wavetech.in",
+      "serviceNeeded": "Electrical Engineering",
+      "projectStage": "Prototype design",
+      "budgetRange": "₹5,00,000 - ₹10,00,000",
+      "timeline": "1-3 months",
+      "message": "Need altium layout review and signal integrity testing for custom STM32 board.",
+      "dateSubmitted": "2026-06-16",
+      "status": "Pending",
+      "notes": []
+    }
+  ],
+  "contacts": [
+    {
+      "name": "Ganesh",
+      "company": "TCS",
+      "phone": "92882718192",
+      "email": "ganesh@texawave.com",
+      "subject": "PCB Designing",
+      "message": "I want PCB design in large quantity ",
+      "id": "contact-1781767852465",
+      "dateSubmitted": "2026-06-18",
+      "status": "New",
+      "notes": []
+    },
+    {
+      "name": "Integration Contact Sender",
+      "company": "Sourcing Agency",
+      "phone": "9988776655",
+      "email": "sender@sourcing.com",
+      "subject": "Sourcing Inquiry",
+      "message": "Hello, looking for active procurement lists.",
+      "id": "contact-1781767687710",
+      "dateSubmitted": "2026-06-18",
+      "status": "Resolved",
+      "notes": []
+    },
+    {
+      "id": "contact-1",
+      "name": "David Smith",
+      "company": "Industrial IoT Corp",
+      "phone": "+1 555-0199",
+      "email": "david.smith@iotcorp.com",
+      "subject": "Volume PCBA Sourcing Quote",
+      "message": "Hello, we are looking for a procurement partner to source components and assembly 5000 units of our IoT sensor boards. Please share your PCB assembly and sourcing guidelines.",
+      "dateSubmitted": "2026-06-14",
+      "status": "In Progress",
+      "notes": [
+        "Emailed sourcing guidelines.",
+        "Waiting for client BOM file."
+      ]
+    },
+    {
+      "id": "contact-2",
+      "name": "Sophia Martinez",
+      "company": "NextGen Robotics",
+      "phone": "+34 612 345 678",
+      "email": "sophia@nextgenrobotics.es",
+      "subject": "Enclosure DFM Consulting",
+      "message": "Interested in hiring Texawave for enclosure draft and fit tolerance reviews.",
+      "dateSubmitted": "2026-06-17",
+      "status": "New",
+      "notes": []
+    }
+  ],
+  "applications": [
+    {
+      "id": "app-1",
+      "jobId": "job-1",
+      "jobTitle": "Senior Embedded Systems Engineer",
+      "name": "Rahul Sharma",
+      "email": "rahul.sharma@domain.com",
+      "phone": "+91 98765 43210",
+      "resumeName": "Rahul_Sharma_Embedded_CV.pdf",
+      "message": "I have 6 years of experience in multi-layer PCB design using Altium. I have successfully released 3 consumer IoT products and programmed firmware for STM32 and ESP32 with FreeRTOS. I would love to join Texawave to lead high-speed designs.",
+      "dateApplied": "2026-06-08",
+      "status": "Shortlisted",
+      "notes": [
+        "Strong Altium designer.",
+        "Needs PCB layout screening."
+      ]
+    },
+    {
+      "id": "app-2",
+      "jobId": "job-2",
+      "jobTitle": "IoT Cloud & Fullstack Architect",
+      "name": "Priya Patel",
+      "email": "priya.patel@techsolutions.com",
+      "phone": "+91 91234 56789",
+      "resumeName": "Priya_Patel_Fullstack_Resume.pdf",
+      "message": "I've been building cloud backends for industrial automation for 5 years. I'm highly proficient in AWS IoT Core, Serverless Node.js architecture, and React dashboard metrics mapping. Your company's interdisciplinary depth excites me.",
+      "dateApplied": "2026-06-09",
+      "status": "Interview Scheduled",
+      "notes": []
+    },
+    {
+      "id": "app-3",
+      "jobId": "job-3",
+      "jobTitle": "Mechanical CAD Enclosure Designer",
+      "name": "Amit Verma",
+      "email": "amit.verma@cadworks.in",
+      "phone": "+91 88776 65544",
+      "resumeName": "Amit_V_Mechanical_Portfolio.pdf",
+      "message": "I have designed injection molded plastic casings for healthcare devices. I understand DFM rules and mold draft guidelines. I look forward to contributing to your enclosures team.",
+      "dateApplied": "2026-06-07",
+      "status": "New",
+      "notes": []
+    },
+    {
+      "id": "app-4",
+      "jobId": "job-6",
+      "jobTitle": "Embedded Systems Trainee",
+      "name": "Sneha Reddy",
+      "email": "sneha.reddy@studentmail.edu",
+      "phone": "+91 76543 21098",
+      "resumeName": "Sneha_Reddy_EEE_Internship.pdf",
+      "message": "I am a final-year EEE student. I have built a solar tracker using ESP32 and C++ for my final year project. I want to learn hardware bring-up and PCB layout at Texawave under direct senior engineering guidance.",
+      "dateApplied": "2026-06-09",
+      "status": "Selected",
+      "notes": []
+    },
+    {
+      "id": "app-5",
+      "jobId": "job-5",
+      "jobTitle": "React & Next.js Web Developer",
+      "name": "John Doe",
+      "email": "john.doe@gmail.com",
+      "phone": "+91 99988 87766",
+      "resumeName": "John_Doe_Developer.pdf",
+      "message": "Hi, I have 1 year of frontend experience. I specialize in building responsive React screens. I am keen to learn Next.js layouts and GSAP animations.",
+      "dateApplied": "2026-06-09",
+      "status": "New",
+      "notes": []
+    },
+    {
+      "id": "app-6",
+      "jobId": "general",
+      "jobTitle": "General Sourcing / Talent Pool",
+      "name": "Vikram Sen",
+      "email": "vikram.sen@outlook.com",
+      "phone": "+91 95554 44332",
+      "resumeName": "Vikram_Sen_General_Talent.pdf",
+      "message": "Hi, I'm a procurement specialist with 6 years of component sourcing experience, but I didn't see an opening matching my seniority level. Joining the talent pool to express interest in future supply chain lead vacancies.",
+      "dateApplied": "2026-06-07",
+      "status": "New",
+      "skills": [
+        "Global Sourcing",
+        "ERP",
+        "Logistics",
+        "Compliance"
+      ],
+      "deptInterest": "Procurement",
+      "notes": []
+    },
+    {
+      "id": "app-7",
+      "jobId": "general",
+      "jobTitle": "General Sourcing / Talent Pool",
+      "name": "Anjali Gupta",
+      "email": "anjali.g@ecegrad.com",
+      "phone": "+91 94443 32211",
+      "resumeName": "Anjali_Gupta_Hardware.pdf",
+      "message": "Recent ECE graduate with solid academic projects on microcontrollers. Looking for junior hardware engineer positions in Chennai. Joining talent pool.",
+      "dateApplied": "2026-06-06",
+      "status": "Shortlisted",
+      "skills": [
+        "Arduino",
+        "PCB Layout",
+        "C++",
+        "Oscilloscope"
+      ],
+      "deptInterest": "Electrical",
+      "notes": [
+        "Strong Altium designer.",
+        "Needs PCB layout screening."
+      ]
+    }
+  ]
+}
