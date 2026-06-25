@@ -28,10 +28,10 @@ function parseMarkdown(text: string) {
   html = html.replace(/^#\s+(.*?)$/gm, "<h1 class='markdown-h1'>$1</h1>");
   
   const lines = html.split("\n");
-  let result = [];
-  let currentParagraph = [];
+  let result: string[] = [];
+  let currentParagraph: string[] = [];
   let inList = false;
-  let listItems = [];
+  let listItems: string[] = [];
   
   const flushParagraph = () => {
     if (currentParagraph.length > 0) {
