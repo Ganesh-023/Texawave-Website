@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -21,7 +21,7 @@ export default function SolutionsPage() {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(155, 223, 131, 0.15) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(140, 198, 63, 0.15) 0%, transparent 70%)" }}
         />
         <div className="relative mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Our Solutions</p>
@@ -48,7 +48,7 @@ export default function SolutionsPage() {
               return (
                 <article
                   key={category.slug}
-                  className="flex flex-col justify-between rounded-2xl border border-border-primary bg-bg-card p-8 shadow-crisp transition duration-300 hover:border-signal/30 hover:shadow-[0_4px_30px_rgba(155,223,131,0.05)]"
+                  className="flex flex-col justify-between rounded-2xl border border-border-primary bg-bg-card p-8 shadow-crisp transition duration-300 hover:border-signal/30 hover:shadow-[0_4px_30px_rgba(140,198,63,0.05)]"
                 >
                   <div>
                     {/* Header */}
@@ -160,7 +160,7 @@ export default function SolutionsPage() {
           </p>
           <Link
             href="/contact"
-            className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-4 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(155,223,131,0.2)] hover:shadow-[0_0_30px_rgba(155,223,131,0.4)] transition-all duration-300"
+            className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-4 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(140,198,63,0.2)] hover:shadow-[0_0_30px_rgba(140,198,63,0.4)] transition-all duration-300"
           >
             Discuss Your Requirements <ArrowRight size={18} />
           </Link>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -375,7 +375,7 @@ export default function BlogPage() {
               <Sparkles size={12} className="text-signal" /> Texawave Knowledge Base
             </span>
             <h1 className="max-w-4xl text-hero text-text-primary">
-              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9BDF83] via-[#62ba46] to-[#2b521e]">Insights</span>
+              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8CC63F] via-[#3FAE49] to-[#1E3A0E]">Insights</span>
             </h1>
             <p className="mt-4 max-w-xl text-body-large text-text-secondary">
               Practical roadmap guides, embedded schematics, procurement metrics, and custom automation case studies.
@@ -675,7 +675,7 @@ export default function BlogPage() {
 
       {/* --- FORM MODAL: UPLOAD YOUR ARTICLE --- */}
       {isUploadOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent>
+        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent>
           <div
             data-reveal
             className="relative w-full max-w-3xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
@@ -961,7 +961,7 @@ export default function BlogPage() {
 
       {/* --- MODAL: SUCCESS SUBMISSION --- */}
       {isSuccessOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4">
           <div
             data-reveal
             className="w-full max-w-md rounded-2xl border border-border-primary bg-bg-secondary p-8 text-center shadow-2xl relative"
@@ -996,7 +996,7 @@ export default function BlogPage() {
 
       {/* --- MODAL: MODERATOR REVIEW QUEUE --- */}
       {isModeratorOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" data-lenis-prevent>
+        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4" data-lenis-prevent>
           <div
             data-reveal
             className="relative w-full max-w-4xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"

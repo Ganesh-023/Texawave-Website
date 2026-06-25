@@ -17,7 +17,7 @@ const SERVICES = [
     title: "Software Engineering",
     shortTitle: "Software",
     icon: Code2,
-    color: "#9BDF83",
+    color: "#8CC63F",
     angle: -90, // top
     desc: "End-to-end digital product development and connected platform solutions.",
     capabilities: [
@@ -33,7 +33,7 @@ const SERVICES = [
     title: "Electrical Engineering",
     shortTitle: "Electrical",
     icon: Cpu,
-    color: "#9BDF83",
+    color: "#8CC63F",
     angle: 0, // right
     desc: "Power-efficient hardware engineering for connected intelligent products.",
     capabilities: [
@@ -49,7 +49,7 @@ const SERVICES = [
     title: "Mechanical Engineering",
     shortTitle: "Mechanical",
     icon: Cog,
-    color: "#9BDF83",
+    color: "#8CC63F",
     angle: 90, // bottom
     desc: "Mechanical product design from concept validation to production readiness.",
     capabilities: [
@@ -66,7 +66,7 @@ const SERVICES = [
     title: "Procurement",
     shortTitle: "Procurement",
     icon: Package,
-    color: "#9BDF83",
+    color: "#8CC63F",
     angle: 180, // left
     desc: "Strategic sourcing and manufacturing support to ensure smooth product realization.",
     capabilities: [
@@ -142,7 +142,7 @@ function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(155, 223, 131, ${p.alpha})`;
+        ctx.fillStyle = `rgba(140, 198, 63, ${p.alpha})`;
         ctx.fill();
       }
       animId = requestAnimationFrame(draw);
@@ -208,20 +208,20 @@ function CapabilityCard({ service, visible, onClose, style }: CapCardProps) {
           background: "rgba(5,5,5,0.85)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderColor: "rgba(155,223,131,0.35)",
-          boxShadow: "0 0 40px rgba(155,223,131,0.18), 0 25px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)",
+          borderColor: "rgba(140,198,63,0.35)",
+          boxShadow: "0 0 40px rgba(140,198,63,0.18), 0 25px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)",
         }}
       >
         {/* Top glow streak */}
         <div
           className="absolute top-0 left-0 right-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(155,223,131,0.6), transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, rgba(140,198,63,0.6), transparent)" }}
         />
 
         <div className="flex items-center justify-between mb-3">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-xl"
-            style={{ background: "rgba(155,223,131,0.12)", border: "1px solid rgba(155,223,131,0.35)", color: "#9BDF83" }}
+            style={{ background: "rgba(140,198,63,0.12)", border: "1px solid rgba(140,198,63,0.35)", color: "#8CC63F" }}
           >
             <Icon size={18} />
           </div>
@@ -247,7 +247,7 @@ function CapabilityCard({ service, visible, onClose, style }: CapCardProps) {
         <ul className="space-y-2 mb-4">
           {service?.capabilities.map((cap, i) => (
             <li key={i} className="flex items-start gap-2 text-[13px] text-neutral-300 font-medium">
-              <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+              <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#8CC63F" }} />
               {cap}
             </li>
           ))}
@@ -256,7 +256,7 @@ function CapabilityCard({ service, visible, onClose, style }: CapCardProps) {
         <Link
           href={`/${service?.slug}`}
           className="inline-flex items-center gap-1.5 text-[13px] font-bold"
-          style={{ color: "#9BDF83" }}
+          style={{ color: "#8CC63F" }}
         >
           Learn more <ArrowRight size={13} />
         </Link>
@@ -307,7 +307,7 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
       ref={svgRef}
       viewBox="0 0 800 800"
       className="w-full h-full"
-      style={{ filter: "drop-shadow(0 0 60px rgba(155,223,131,0.08))" }}
+      style={{ filter: "drop-shadow(0 0 60px rgba(140,198,63,0.08))" }}
     >
       <defs>
         {/* Center sphere gradient */}
@@ -317,14 +317,14 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
           <stop offset="100%" stopColor="#030803" />
         </radialGradient>
         <radialGradient id="sphereGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(155,223,131,0.25)" />
-          <stop offset="100%" stopColor="rgba(155,223,131,0)" />
+          <stop offset="0%" stopColor="rgba(140,198,63,0.25)" />
+          <stop offset="100%" stopColor="rgba(140,198,63,0)" />
         </radialGradient>
         {/* Orbit ring gradient */}
         <linearGradient id="orbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="rgba(155,223,131,0.08)" />
-          <stop offset="50%" stopColor="rgba(155,223,131,0.25)" />
-          <stop offset="100%" stopColor="rgba(155,223,131,0.08)" />
+          <stop offset="0%" stopColor="rgba(140,198,63,0.08)" />
+          <stop offset="50%" stopColor="rgba(140,198,63,0.25)" />
+          <stop offset="100%" stopColor="rgba(140,198,63,0.08)" />
         </linearGradient>
         {/* Node gradient */}
         <radialGradient id="nodeGrad" cx="40%" cy="35%" r="65%">
@@ -355,7 +355,7 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
           const alpha = Math.max(0, 0.12 - (dist / 700) * 0.12);
           return (
             <circle key={`${row}-${col}`} cx={x} cy={y} r="1"
-              fill={`rgba(155,223,131,${alpha.toFixed(2)})`} />
+              fill={`rgba(140,198,63,${alpha.toFixed(2)})`} />
           );
         })
       )}
@@ -364,7 +364,7 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
       {[320, 290, 265].map((r, i) => (
         <circle key={i} cx={CX} cy={CY} r={r}
           fill="none"
-          stroke={`rgba(155,223,131,${0.04 - i * 0.01})`}
+          stroke={`rgba(140,198,63,${0.04 - i * 0.01})`}
           strokeWidth={i === 0 ? 1 : 0.5}
           strokeDasharray={i === 0 ? "4 8" : "2 6"}
         />
@@ -388,14 +388,14 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
               {/* Connection line */}
               <line
                 x1={CX} y1={CY} x2={pos.x} y2={pos.y}
-                stroke={isActive ? "rgba(155,223,131,0.55)" : "rgba(155,223,131,0.12)"}
+                stroke={isActive ? "rgba(140,198,63,0.55)" : "rgba(140,198,63,0.12)"}
                 strokeWidth={isActive ? 1.5 : 1}
                 strokeDasharray="4 6"
                 style={{ transition: "stroke 0.3s, stroke-width 0.3s" }}
               />
               {/* Animated data pulse dot on the line */}
               {isActive && (
-                <circle r="3" fill="#9BDF83" opacity="0.9" filter="url(#glow)">
+                <circle r="3" fill="#8CC63F" opacity="0.9" filter="url(#glow)">
                   <animateMotion
                     dur="1.5s"
                     repeatCount="indefinite"
@@ -443,11 +443,11 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
         {/* Glow halo */}
         <circle cx={CX} cy={CY} r={92} fill="url(#sphereGlow)" />
         {/* Pulse rings */}
-        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(155,223,131,0.15)" strokeWidth="1">
+        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(140,198,63,0.15)" strokeWidth="1">
           <animate attributeName="r" values="75;88;75" dur="3s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.15;0;0.15" dur="3s" repeatCount="indefinite" />
         </circle>
-        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(155,223,131,0.08)" strokeWidth="1">
+        <circle cx={CX} cy={CY} r={75} fill="none" stroke="rgba(140,198,63,0.08)" strokeWidth="1">
           <animate attributeName="r" values="75;100;75" dur="4.5s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.08;0;0.08" dur="4.5s" repeatCount="indefinite" />
         </circle>
@@ -455,46 +455,46 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
         {/* Sphere body */}
         <circle cx={CX} cy={CY} r={70}
           fill="url(#sphereGrad)"
-          stroke="rgba(155,223,131,0.4)"
+          stroke="rgba(140,198,63,0.4)"
           strokeWidth="1.5"
         />
 
         {/* Inner highlight */}
         <ellipse cx={CX - 18} cy={CY - 20} rx={22} ry={14}
-          fill="rgba(155,223,131,0.06)"
+          fill="rgba(140,198,63,0.06)"
           style={{ filter: "blur(4px)" }}
         />
 
         {/* Wireframe equator */}
         <ellipse cx={CX} cy={CY} rx={70} ry={20}
           fill="none"
-          stroke="rgba(155,223,131,0.12)"
+          stroke="rgba(140,198,63,0.12)"
           strokeWidth="1"
           strokeDasharray="3 4"
         />
         <ellipse cx={CX} cy={CY} rx={20} ry={70}
           fill="none"
-          stroke="rgba(155,223,131,0.08)"
+          stroke="rgba(140,198,63,0.08)"
           strokeWidth="0.8"
           strokeDasharray="3 6"
         />
 
         {/* Center label */}
         <text x={CX} y={CY - 10} textAnchor="middle"
-          fill="#9BDF83" fontSize="11" fontWeight="700"
+          fill="#8CC63F" fontSize="11" fontWeight="700"
           letterSpacing="0.05em"
           style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}
         >
           TexaWave
         </text>
         <text x={CX} y={CY + 6} textAnchor="middle"
-          fill="rgba(155,223,131,0.7)" fontSize="8.5" fontWeight="500"
+          fill="rgba(140,198,63,0.7)" fontSize="8.5" fontWeight="500"
           letterSpacing="0.03em"
         >
           Product Engineering
         </text>
         <text x={CX} y={CY + 20} textAnchor="middle"
-          fill="rgba(155,223,131,0.5)" fontSize="7.5" fontWeight="400"
+          fill="rgba(140,198,63,0.5)" fontSize="7.5" fontWeight="400"
           letterSpacing="0.03em"
         >
           Ecosystem
@@ -510,7 +510,7 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
           <g key={stage}>
             <circle cx={pos.x} cy={pos.y} r="22"
               fill="rgba(5,5,5,0.9)"
-              stroke="rgba(155,223,131,0.5)"
+              stroke="rgba(140,198,63,0.5)"
               strokeWidth="1"
             >
               <animate
@@ -521,7 +521,7 @@ function OrbitalDiagram({ activeId, onNodeHover, orbitPaused, showLifecycle }: O
               />
             </circle>
             <text x={pos.x} y={pos.y + 4} textAnchor="middle"
-              fill="#9BDF83" fontSize="7.5" fontWeight="600"
+              fill="#8CC63F" fontSize="7.5" fontWeight="600"
               letterSpacing="0.04em"
             >
               {stage}
@@ -569,15 +569,15 @@ function OrbitalNode({
     <g ref={groupRef}>
       {/* Outer glow when active */}
       {isActive && (
-        <circle r={nodeR + 14} fill="rgba(155,223,131,0.08)"
-          stroke="rgba(155,223,131,0.2)" strokeWidth="1">
+        <circle r={nodeR + 14} fill="rgba(140,198,63,0.08)"
+          stroke="rgba(140,198,63,0.2)" strokeWidth="1">
           <animate attributeName="r" values={`${nodeR + 14};${nodeR + 20};${nodeR + 14}`} dur="2s" repeatCount="indefinite" />
         </circle>
       )}
       {/* Node circle */}
       <circle r={nodeR}
         fill={isActive ? "rgba(20,50,20,0.95)" : "rgba(10,18,10,0.9)"}
-        stroke={isActive ? "rgba(155,223,131,0.75)" : "rgba(155,223,131,0.25)"}
+        stroke={isActive ? "rgba(140,198,63,0.75)" : "rgba(140,198,63,0.25)"}
         strokeWidth={isActive ? "1.8" : "1.2"}
         style={{ transition: "all 0.3s ease" }}
       />
@@ -587,7 +587,7 @@ function OrbitalNode({
           style={{
             width: 36, height: 36,
             display: "flex", alignItems: "center", justifyContent: "center",
-            color: isActive ? "#9BDF83" : "rgba(155,223,131,0.6)",
+            color: isActive ? "#8CC63F" : "rgba(140,198,63,0.6)",
             transition: "color 0.3s",
           }}
         >
@@ -596,7 +596,7 @@ function OrbitalNode({
       </foreignObject>
       {/* Label */}
       <text y={nodeR + 16} textAnchor="middle"
-        fill={isActive ? "#9BDF83" : "rgba(155,223,131,0.55)"}
+        fill={isActive ? "#8CC63F" : "rgba(140,198,63,0.55)"}
         fontSize="10" fontWeight="700"
         letterSpacing="0.04em"
         style={{ fontFamily: "var(--font-sora), Sora, sans-serif", transition: "fill 0.3s" }}
@@ -642,7 +642,7 @@ function MobileServiceCard({
           style={{
             width: "2px",
             height: "28px",
-            background: "linear-gradient(to bottom, rgba(155,223,131,0.6), rgba(155,223,131,0.15))",
+            background: "linear-gradient(to bottom, rgba(140,198,63,0.6), rgba(140,198,63,0.15))",
           }}
         />
       )}
@@ -651,8 +651,8 @@ function MobileServiceCard({
         className="rounded-2xl border overflow-hidden"
         style={{
           background: "rgba(10,18,10,0.8)",
-          borderColor: open ? "rgba(155,223,131,0.45)" : "rgba(155,223,131,0.12)",
-          boxShadow: open ? "0 0 30px rgba(155,223,131,0.12)" : "none",
+          borderColor: open ? "rgba(140,198,63,0.45)" : "rgba(140,198,63,0.12)",
+          boxShadow: open ? "0 0 30px rgba(140,198,63,0.12)" : "none",
           transition: "border-color 0.3s, box-shadow 0.3s",
         }}
       >
@@ -665,9 +665,9 @@ function MobileServiceCard({
           <div
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
             style={{
-              background: open ? "rgba(155,223,131,0.18)" : "rgba(155,223,131,0.08)",
-              border: `1px solid ${open ? "rgba(155,223,131,0.5)" : "rgba(155,223,131,0.2)"}`,
-              color: "#9BDF83",
+              background: open ? "rgba(140,198,63,0.18)" : "rgba(140,198,63,0.08)",
+              border: `1px solid ${open ? "rgba(140,198,63,0.5)" : "rgba(140,198,63,0.2)"}`,
+              color: "#8CC63F",
               transition: "all 0.3s",
             }}
           >
@@ -678,7 +678,7 @@ function MobileServiceCard({
             <div className="flex items-center gap-2">
               <span
                 className="text-[10px] font-bold uppercase tracking-widest"
-                style={{ color: "#9BDF83" }}
+                style={{ color: "#8CC63F" }}
               >
                 0{index + 1}
               </span>
@@ -694,19 +694,19 @@ function MobileServiceCard({
           <ChevronDown
             size={18}
             className="shrink-0 transition-transform duration-300"
-            style={{ color: "#9BDF83", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+            style={{ color: "#8CC63F", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
           />
         </button>
 
         {/* Expandable content */}
         <div ref={contentRef} style={{ height: 0, overflow: "hidden", opacity: 0 }}>
           <div className="px-5 pb-5">
-            <div className="w-full h-px mb-4" style={{ background: "rgba(155,223,131,0.15)" }} />
+            <div className="w-full h-px mb-4" style={{ background: "rgba(140,198,63,0.15)" }} />
             <p className="text-neutral-400 text-sm leading-relaxed mb-4">{service.desc}</p>
             <ul className="space-y-2.5 mb-5">
               {service.capabilities.map((cap, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-neutral-300 font-medium">
-                  <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+                  <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: "#8CC63F" }} />
                   {cap}
                 </li>
               ))}
@@ -714,7 +714,7 @@ function MobileServiceCard({
             <Link
               href={`/${service.slug}`}
               className="inline-flex items-center gap-1.5 text-sm font-bold"
-              style={{ color: "#9BDF83" }}
+              style={{ color: "#8CC63F" }}
             >
               Learn more <ArrowRight size={13} />
             </Link>
@@ -829,7 +829,7 @@ export function ServicesSection() {
       id="services"
       className="relative overflow-hidden"
       style={{
-        background: "#000000",
+        background: "var(--bg-primary)",
         paddingBlock: "clamp(60px, 9vh, 120px)",
         minHeight: "100vh",
       }}
@@ -843,7 +843,7 @@ export function ServicesSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(155,223,131,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(155,223,131,0.03) 1px, transparent 1px)",
+            "linear-gradient(rgba(140,198,63,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(140,198,63,0.03) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
           zIndex: 0,
         }}
@@ -854,7 +854,7 @@ export function ServicesSection() {
         className="absolute pointer-events-none orbital-parallax-layer"
         style={{
           inset: 0,
-          background: "radial-gradient(ellipse 60% 55% at 60% 55%, rgba(155,223,131,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 55% at 60% 55%, rgba(140,198,63,0.05) 0%, transparent 70%)",
           zIndex: 0,
         }}
       />
@@ -864,7 +864,7 @@ export function ServicesSection() {
         <div ref={headerRef} className="mb-12 lg:mb-16 text-center" style={{ opacity: 0 }}>
           <span
             className="inline-block text-[11px] font-black uppercase tracking-[0.22em] mb-4"
-            style={{ color: "#9BDF83" }}
+            style={{ color: "#8CC63F" }}
           >
             Engineering Services
           </span>
@@ -876,8 +876,8 @@ export function ServicesSection() {
               lineHeight: 1.1,
             }}
           >
-            One Partner.{" "}
-            <span style={{ color: "#9BDF83" }}>Complete Product Engineering.</span>
+            Your End-to-End <br />
+            <span style={{ color: "#8CC63F" }}>Product Engineering Partner.</span>
           </h2>
           <p
             className="mt-5 mx-auto max-w-2xl text-neutral-400 leading-relaxed"
@@ -905,16 +905,16 @@ export function ServicesSection() {
                   <div
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300"
                     style={{
-                      background: isActive ? "rgba(155,223,131,0.2)" : "rgba(155,223,131,0.07)",
-                      border: `1px solid ${isActive ? "rgba(155,223,131,0.6)" : "rgba(155,223,131,0.15)"}`,
-                      color: "#9BDF83",
+                      background: isActive ? "rgba(140,198,63,0.2)" : "rgba(140,198,63,0.07)",
+                      border: `1px solid ${isActive ? "rgba(140,198,63,0.6)" : "rgba(140,198,63,0.15)"}`,
+                      color: "#8CC63F",
                     }}
                   >
                     <Icon size={15} />
                   </div>
                   <span
                     className="text-[13px] font-semibold transition-colors duration-300"
-                    style={{ color: isActive ? "#9BDF83" : "rgba(255,255,255,0.45)" }}
+                    style={{ color: isActive ? "#8CC63F" : "rgba(255,255,255,0.45)" }}
                   >
                     {svc.shortTitle}
                   </span>
@@ -972,16 +972,16 @@ export function ServicesSection() {
                   <div
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300"
                     style={{
-                      background: isActive ? "rgba(155,223,131,0.2)" : "rgba(155,223,131,0.07)",
-                      border: `1px solid ${isActive ? "rgba(155,223,131,0.6)" : "rgba(155,223,131,0.15)"}`,
-                      color: "#9BDF83",
+                      background: isActive ? "rgba(140,198,63,0.2)" : "rgba(140,198,63,0.07)",
+                      border: `1px solid ${isActive ? "rgba(140,198,63,0.6)" : "rgba(140,198,63,0.15)"}`,
+                      color: "#8CC63F",
                     }}
                   >
                     <Icon size={15} />
                   </div>
                   <span
                     className="text-[13px] font-semibold transition-colors duration-300"
-                    style={{ color: isActive ? "#9BDF83" : "rgba(255,255,255,0.45)" }}
+                    style={{ color: isActive ? "#8CC63F" : "rgba(255,255,255,0.45)" }}
                   >
                     {svc.shortTitle}
                   </span>
@@ -1014,7 +1014,7 @@ export function ServicesSection() {
         {/* Hover hint — desktop only */}
         <p
           className="hidden lg:block text-center mt-6 text-[12px] font-medium tracking-widest uppercase"
-          style={{ color: "rgba(155,223,131,0.3)" }}
+          style={{ color: "rgba(140,198,63,0.3)" }}
         >
           Hover a node to explore capabilities · Hover center to see lifecycle
         </p>
@@ -1029,16 +1029,16 @@ export function ServicesSection() {
                 className="rounded-2xl border p-5 transition-all duration-300 cursor-pointer group"
                 style={{
                   background: "rgba(10,18,10,0.8)",
-                  borderColor: "rgba(155,223,131,0.15)",
+                  borderColor: "rgba(140,198,63,0.15)",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = "rgba(155,223,131,0.5)";
-                  el.style.boxShadow = "0 0 30px rgba(155,223,131,0.12)";
+                  el.style.borderColor = "rgba(140,198,63,0.5)";
+                  el.style.boxShadow = "0 0 30px rgba(140,198,63,0.12)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = "rgba(155,223,131,0.15)";
+                  el.style.borderColor = "rgba(140,198,63,0.15)";
                   el.style.boxShadow = "none";
                 }}
               >
@@ -1046,15 +1046,15 @@ export function ServicesSection() {
                   <div
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
                     style={{
-                      background: "rgba(155,223,131,0.1)",
-                      border: "1px solid rgba(155,223,131,0.3)",
-                      color: "#9BDF83",
+                      background: "rgba(140,198,63,0.1)",
+                      border: "1px solid rgba(140,198,63,0.3)",
+                      color: "#8CC63F",
                     }}
                   >
                     <Icon size={18} />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#9BDF83" }}>
+                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "#8CC63F" }}>
                       0{idx + 1}
                     </span>
                     <h3
@@ -1069,7 +1069,7 @@ export function ServicesSection() {
                 <ul className="space-y-1.5">
                   {svc.capabilities.map((cap, i) => (
                     <li key={i} className="flex items-start gap-1.5 text-[12px] text-neutral-300">
-                      <CheckCircle2 size={12} className="shrink-0 mt-0.5" style={{ color: "#9BDF83" }} />
+                      <CheckCircle2 size={12} className="shrink-0 mt-0.5" style={{ color: "#8CC63F" }} />
                       {cap}
                     </li>
                   ))}
@@ -1077,7 +1077,7 @@ export function ServicesSection() {
                 <Link
                   href={`/${svc.slug}`}
                   className="inline-flex items-center gap-1.5 text-[12px] font-bold mt-3"
-                  style={{ color: "#9BDF83" }}
+                  style={{ color: "#8CC63F" }}
                 >
                   Learn more <ArrowRight size={12} />
                 </Link>
@@ -1090,11 +1090,11 @@ export function ServicesSection() {
         <div className="md:hidden mobile-services-stack flex flex-col gap-7 mt-4">
           {/* Journey header */}
           <div className="flex items-center gap-3 mb-2">
-            <div className="h-px flex-1" style={{ background: "rgba(155,223,131,0.2)" }} />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: "rgba(155,223,131,0.5)" }}>
+            <div className="h-px flex-1" style={{ background: "rgba(140,198,63,0.2)" }} />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: "rgba(140,198,63,0.5)" }}>
               Engineering Journey
             </span>
-            <div className="h-px flex-1" style={{ background: "rgba(155,223,131,0.2)" }} />
+            <div className="h-px flex-1" style={{ background: "rgba(140,198,63,0.2)" }} />
           </div>
 
           {SERVICES.map((svc, idx) => (
@@ -1111,7 +1111,7 @@ export function ServicesSection() {
             <Link
               href="/services"
               className="inline-flex items-center gap-2 font-bold text-sm"
-              style={{ color: "#9BDF83" }}
+              style={{ color: "#8CC63F" }}
             >
               View all services <ArrowRight size={15} />
             </Link>
@@ -1120,31 +1120,31 @@ export function ServicesSection() {
 
         {/* ── Bottom CTA strip (desktop) ── */}
         <div className="hidden lg:flex items-center justify-center gap-6 mt-12">
-          <div className="h-px w-24" style={{ background: "rgba(155,223,131,0.2)" }} />
+          <div className="h-px w-24" style={{ background: "rgba(140,198,63,0.2)" }} />
           <Link
             href="/services"
             className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-300"
             style={{
-              background: "rgba(155,223,131,0.08)",
-              border: "1px solid rgba(155,223,131,0.3)",
-              color: "#9BDF83",
+              background: "rgba(140,198,63,0.08)",
+              border: "1px solid rgba(140,198,63,0.3)",
+              color: "#8CC63F",
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget;
-              el.style.background = "rgba(155,223,131,0.18)";
-              el.style.borderColor = "rgba(155,223,131,0.6)";
-              el.style.boxShadow = "0 0 20px rgba(155,223,131,0.2)";
+              el.style.background = "rgba(140,198,63,0.18)";
+              el.style.borderColor = "rgba(140,198,63,0.6)";
+              el.style.boxShadow = "0 0 20px rgba(140,198,63,0.2)";
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget;
-              el.style.background = "rgba(155,223,131,0.08)";
-              el.style.borderColor = "rgba(155,223,131,0.3)";
+              el.style.background = "rgba(140,198,63,0.08)";
+              el.style.borderColor = "rgba(140,198,63,0.3)";
               el.style.boxShadow = "none";
             }}
           >
             Explore all services <ArrowRight size={15} />
           </Link>
-          <div className="h-px w-24" style={{ background: "rgba(155,223,131,0.2)" }} />
+          <div className="h-px w-24" style={{ background: "rgba(140,198,63,0.2)" }} />
         </div>
       </div>
     </section>

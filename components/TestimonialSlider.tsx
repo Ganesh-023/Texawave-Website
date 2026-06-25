@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ChevronLeft, ChevronRight, Quote, ShieldCheck, Star, Rocket, Factory } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, ShieldCheck, Star } from "lucide-react";
 import { testimonials } from "@/lib/content";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -61,16 +61,16 @@ function InitialsAvatar({
 /* ─── Deterministic Drifting Particles ───────────────────────────────────── */
 
 const PARTICLES_DATA = [
-  { left: "5%", top: "40%", size: 6, driftX: 40, driftY: -80, duration: "12s", delay: "0s", opacity: 0.4, color: "#9BDF83" },
-  { left: "15%", top: "70%", size: 4, driftX: -30, driftY: -60, duration: "16s", delay: "3s", opacity: 0.3, color: "#00D4FF" },
-  { left: "25%", top: "20%", size: 5, driftX: 50, driftY: -100, duration: "14s", delay: "1s", opacity: 0.4, color: "#9BDF83" },
-  { left: "40%", top: "85%", size: 7, driftX: 20, driftY: -70, duration: "18s", delay: "5s", opacity: 0.3, color: "#00D4FF" },
-  { left: "50%", top: "15%", size: 4, driftX: -20, driftY: -90, duration: "15s", delay: "2s", opacity: 0.5, color: "#9BDF83" },
-  { left: "60%", top: "75%", size: 5, driftX: 30, driftY: -50, duration: "13s", delay: "4s", opacity: 0.4, color: "#00D4FF" },
-  { left: "75%", top: "30%", size: 6, driftX: -40, driftY: -80, duration: "17s", delay: "6s", opacity: 0.3, color: "#9BDF83" },
-  { left: "85%", top: "80%", size: 5, driftX: 20, driftY: -60, duration: "14s", delay: "2.5s", opacity: 0.4, color: "#00D4FF" },
-  { left: "95%", top: "45%", size: 4, driftX: -30, driftY: -70, duration: "15.5s", delay: "1.5s", opacity: 0.3, color: "#9BDF83" },
-  { left: "30%", top: "50%", size: 5, driftX: 30, driftY: -90, duration: "13.5s", delay: "4.5s", opacity: 0.4, color: "#00D4FF" }
+  { left: "5%", top: "40%", size: 6, driftX: 40, driftY: -80, duration: "12s", delay: "0s", opacity: 0.4, color: "#8CC63F" },
+  { left: "15%", top: "70%", size: 4, driftX: -30, driftY: -60, duration: "16s", delay: "3s", opacity: 0.3, color: "#14B8A6" },
+  { left: "25%", top: "20%", size: 5, driftX: 50, driftY: -100, duration: "14s", delay: "1s", opacity: 0.4, color: "#8CC63F" },
+  { left: "40%", top: "85%", size: 7, driftX: 20, driftY: -70, duration: "18s", delay: "5s", opacity: 0.3, color: "#14B8A6" },
+  { left: "50%", top: "15%", size: 4, driftX: -20, driftY: -90, duration: "15s", delay: "2s", opacity: 0.5, color: "#8CC63F" },
+  { left: "60%", top: "75%", size: 5, driftX: 30, driftY: -50, duration: "13s", delay: "4s", opacity: 0.4, color: "#14B8A6" },
+  { left: "75%", top: "30%", size: 6, driftX: -40, driftY: -80, duration: "17s", delay: "6s", opacity: 0.3, color: "#8CC63F" },
+  { left: "85%", top: "80%", size: 5, driftX: 20, driftY: -60, duration: "14s", delay: "2.5s", opacity: 0.4, color: "#14B8A6" },
+  { left: "95%", top: "45%", size: 4, driftX: -30, driftY: -70, duration: "15.5s", delay: "1.5s", opacity: 0.3, color: "#8CC63F" },
+  { left: "30%", top: "50%", size: 5, driftX: 30, driftY: -90, duration: "13.5s", delay: "4.5s", opacity: 0.4, color: "#14B8A6" }
 ];
 
 /* ─── Individual Testimonial Card ────────────────────────────────────────── */
@@ -176,12 +176,12 @@ function TestimonialCard({
           border: isHoverActive
             ? "1px solid var(--primary-green)"
             : isActive
-              ? "1px solid rgba(155, 223, 131, 0.45)"
+              ? "1px solid rgba(140, 198, 63, 0.45)"
               : "var(--conveyor-card-border)",
           boxShadow: isHoverActive
-            ? "0 20px 40px rgba(155, 223, 131, 0.45), 0 0 15px rgba(155, 223, 131, 0.3), 0 0 0 1px rgba(155, 223, 131, 0.35)"
+            ? "0 20px 40px rgba(140, 198, 63, 0.45), 0 0 15px rgba(140, 198, 63, 0.3), 0 0 0 1px rgba(140, 198, 63, 0.35)"
             : isActive
-              ? "0 10px 30px rgba(155, 223, 131, 0.3), 0 0 0 1px rgba(155, 223, 131, 0.2)"
+              ? "0 10px 30px rgba(140, 198, 63, 0.3), 0 0 0 1px rgba(140, 198, 63, 0.2)"
               : "var(--conveyor-card-shadow)",
         }}
       >
@@ -255,7 +255,7 @@ function TestimonialCard({
           className="my-5 h-px w-full"
           style={{
             background: isActive
-              ? "linear-gradient(90deg, transparent, rgba(155, 223, 131, 0.4), transparent)"
+              ? "linear-gradient(90deg, transparent, rgba(140, 198, 63, 0.4), transparent)"
               : "linear-gradient(90deg, transparent, var(--border-color), transparent)",
             transition: "background 0.4s ease",
           }}
@@ -379,31 +379,6 @@ export function TestimonialSlider() {
           },
         }
       );
-
-      // Count-up stats counters
-      const counters = gsap.utils.toArray(".stat-counter-value") as HTMLElement[];
-      counters.forEach((counter) => {
-        const targetVal = parseFloat(counter.getAttribute("data-target") || "0");
-        const isFloat = counter.getAttribute("data-float") === "true";
-        const valObj = { value: 0 };
-        gsap.to(valObj, {
-          value: targetVal,
-          duration: 1.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: counter,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-          onUpdate: () => {
-            if (isFloat) {
-              counter.textContent = valObj.value.toFixed(1);
-            } else {
-              counter.textContent = Math.floor(valObj.value).toString();
-            }
-          },
-        });
-      });
     },
     { scope: statsContainerRef }
   );
@@ -426,7 +401,7 @@ export function TestimonialSlider() {
         }
         @keyframes pulseOpacitySlow {
           0%, 100% { opacity: 0.2; }
-          50% { opacity: 0.8; filter: drop-shadow(0 0 6px #00D4FF); }
+          50% { opacity: 0.8; filter: drop-shadow(0 0 6px #14B8A6); }
         }
         @keyframes drift {
           0% { transform: translate(0, 0); opacity: 0; }
@@ -460,7 +435,7 @@ export function TestimonialSlider() {
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(155, 223, 131, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(155, 223, 131, 0.1) 1px, transparent 1px)",
+            "linear-gradient(rgba(140, 198, 63, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 198, 63, 0.1) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -470,7 +445,7 @@ export function TestimonialSlider() {
         className="pointer-events-none absolute inset-0 opacity-45"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px)",
+            "linear-gradient(rgba(20, 184, 166, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(20, 184, 166, 0.02) 1px, transparent 1px)",
           backgroundSize: "10px 10px",
         }}
       />
@@ -509,14 +484,14 @@ export function TestimonialSlider() {
         >
           <defs>
             <linearGradient id="glow-line-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#2b521e" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#14B8A6" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#1E3A0E" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#14B8A6" stopOpacity="0.1" />
             </linearGradient>
             <linearGradient id="glow-line-grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#2b521e" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#00D4FF" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="#2b521e" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#1E3A0E" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#14B8A6" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#1E3A0E" stopOpacity="0.1" />
             </linearGradient>
           </defs>
 
@@ -538,21 +513,21 @@ export function TestimonialSlider() {
           />
 
           {/* Circuit nodes (dots at key path intersections) */}
-          <circle cx="380" cy="220" r="4.5" fill="#9BDF83" className="node-pulse-fast" />
-          <circle cx="440" cy="280" r="4" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="960" cy="280" r="4" fill="#9BDF83" className="node-pulse-fast" />
-          <circle cx="1020" cy="220" r="4.5" fill="#00D4FF" className="node-pulse-slow" />
+          <circle cx="380" cy="220" r="4.5" fill="#8CC63F" className="node-pulse-fast" />
+          <circle cx="440" cy="280" r="4" fill="#14B8A6" className="node-pulse-slow" />
+          <circle cx="960" cy="280" r="4" fill="#8CC63F" className="node-pulse-fast" />
+          <circle cx="1020" cy="220" r="4.5" fill="#14B8A6" className="node-pulse-slow" />
 
-          <circle cx="350" cy="160" r="3.5" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="410" cy="100" r="4" fill="#9BDF83" className="node-pulse-fast" />
-          <circle cx="990" cy="100" r="4" fill="#00D4FF" className="node-pulse-slow" />
-          <circle cx="1050" cy="160" r="3.5" fill="#9BDF83" className="node-pulse-fast" />
+          <circle cx="350" cy="160" r="3.5" fill="#14B8A6" className="node-pulse-slow" />
+          <circle cx="410" cy="100" r="4" fill="#8CC63F" className="node-pulse-fast" />
+          <circle cx="990" cy="100" r="4" fill="#14B8A6" className="node-pulse-slow" />
+          <circle cx="1050" cy="160" r="3.5" fill="#8CC63F" className="node-pulse-fast" />
 
           {/* Running electrical currents */}
-          <circle r="3" fill="#9BDF83">
+          <circle r="3" fill="#8CC63F">
             <animateMotion dur="6s" repeatCount="indefinite" path="M 50,220 L 380,220 L 440,280 L 960,280 L 1020,220 L 1350,220" />
           </circle>
-          <circle r="2.5" fill="#00D4FF">
+          <circle r="2.5" fill="#14B8A6">
             <animateMotion dur="8s" repeatCount="indefinite" path="M 1300,160 L 1050,160 L 990,100 L 410,100 L 350,160 L 100,160" />
           </circle>
         </svg>
@@ -564,7 +539,7 @@ export function TestimonialSlider() {
         {/* Section heading */}
         <div className="mb-10 text-center">
           <div
-            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-4.5 py-1 text-small-text font-mono font-bold uppercase tracking-[0.22em] border border-signal/30 text-signal bg-signal/15"
+            className="testimonial-fade-el mb-4 inline-flex items-center gap-2 rounded-full px-5 py-1 text-small-text font-mono font-bold uppercase tracking-[0.22em] border border-signal/30 text-signal bg-signal/15"
           >
             Client Success Stories
           </div>
@@ -579,54 +554,6 @@ export function TestimonialSlider() {
           </p>
         </div>
 
-        {/* Compact stats row */}
-        <div className="testimonial-fade-el mx-auto mb-12 flex flex-wrap justify-center gap-6 sm:gap-10 md:gap-14 border-y border-border-primary/50 py-5 max-w-4xl w-full">
-          {/* Stat 1 */}
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal/15 text-signal">
-              <Star size={17} fill="var(--primary-green)" />
-            </span>
-            <div>
-              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
-                <span className="stat-counter-value" data-target="5.0" data-float="true">0.0</span>
-              </p>
-              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Client Satisfaction</p>
-            </div>
-          </div>
-          
-          {/* Divider */}
-          <div className="hidden sm:block w-px h-8 bg-border-primary/40 self-center" />
-
-          {/* Stat 2 */}
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#00D4FF]/10 text-[#00D4FF]">
-              <Rocket size={17} />
-            </span>
-            <div>
-              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
-                <span className="stat-counter-value" data-target="50" data-float="false">0</span>+
-              </p>
-              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Projects Delivered</p>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div className="hidden sm:block w-px h-8 bg-border-primary/40 self-center" />
-
-          {/* Stat 3 */}
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-signal/15 text-signal">
-              <Factory size={17} />
-            </span>
-            <div>
-              <p className="font-display font-extrabold text-[56px] leading-none text-text-primary">
-                <span className="stat-counter-value" data-target="20" data-float="false">0</span>+
-              </p>
-              <p className="mt-0.5 text-[16px] font-medium uppercase tracking-[0.08em] text-text-secondary">Manufacturing Partners</p>
-            </div>
-          </div>
-        </div>
-
         {/* Card slider viewport */}
         <div
           onTouchStart={handleTouchStart}
@@ -638,7 +565,7 @@ export function TestimonialSlider() {
           <div
             className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[300px] w-[300px] rounded-full opacity-35 blur-[90px] transition-all duration-800"
             style={{
-              background: "radial-gradient(circle, rgba(155, 223, 131, 0.2) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(140, 198, 63, 0.2) 0%, transparent 70%)",
             }}
           />
 
@@ -677,7 +604,7 @@ export function TestimonialSlider() {
                     ? "var(--primary-green)"
                     : "rgba(128,128,128,0.25)",
                   boxShadow: idx === active
-                    ? "0 0 10px rgba(155, 223, 131, 0.65)"
+                    ? "0 0 10px rgba(140, 198, 63, 0.65)"
                     : "none",
                 }}
               />
@@ -690,7 +617,7 @@ export function TestimonialSlider() {
               type="button"
               onClick={prev}
               aria-label="Previous testimonial"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/40 hover:text-signal hover:shadow-[0_0_12px_rgba(155,223,131,0.25)]"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-signal/40 hover:text-signal hover:shadow-[0_0_12px_rgba(140,198,63,0.25)]"
             >
               <ChevronLeft size={18} />
             </button>
@@ -701,7 +628,7 @@ export function TestimonialSlider() {
               type="button"
               onClick={next}
               aria-label="Next testimonial"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00D4FF]/40 hover:text-[#00D4FF] hover:shadow-[0_0_12px_rgba(0,212,255,0.15)]"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-bg-card/30 backdrop-blur-sm text-text-secondary transition-all duration-300 hover:-translate-y-0.5 hover:border-[#14B8A6]/40 hover:text-[#14B8A6] hover:shadow-[0_0_12px_rgba(20,184,166,0.15)]"
             >
               <ChevronRight size={18} />
             </button>

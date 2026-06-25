@@ -1,4 +1,4 @@
-import gsap from "gsap";
+﻿import gsap from "gsap";
 import { useEffect, RefObject } from "react";
 
 export interface EaseReverseTimelineOptions {
@@ -217,8 +217,8 @@ export function bindServiceCardHover(
 
   // Resolve glow shadow and borders dynamically at runtime based on active theme
   const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
-  const resolvedGlow = isDark ? (glowColor || "rgba(155, 223, 131, 0.25)") : "rgba(17, 17, 17, 0.08)";
-  const resolvedBorder = isDark ? "rgba(155, 223, 131, 0.45)" : "rgba(17, 17, 17, 0.35)";
+  const resolvedGlow = isDark ? (glowColor || "rgba(140, 198, 63, 0.25)") : "rgba(17, 17, 17, 0.08)";
+  const resolvedBorder = isDark ? "rgba(140, 198, 63, 0.45)" : "rgba(17, 17, 17, 0.35)";
 
   tl.to(element, {
     scale,
@@ -302,7 +302,7 @@ export function bindProjectCardHover(
 
   // Resolve hovered-state values based on active theme.
   const isDark = typeof document !== "undefined" && document.documentElement.classList.contains("dark");
-  const resolvedBorder = isDark ? "rgba(155, 223, 131, 0.4)" : "rgba(17, 17, 17, 0.25)";
+  const resolvedBorder = isDark ? "rgba(140, 198, 63, 0.4)" : "rgba(17, 17, 17, 0.25)";
   const resolvedShadow = isDark ? "0 20px 48px rgba(0, 0, 0, 0.45)" : "0 20px 48px rgba(17, 17, 17, 0.12)";
 
   const exitDuration = duration / reverseTimeScale;

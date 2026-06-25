@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -144,9 +144,9 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
   };
 
   // Visual classes based on network state
-  let statusColor = "#9BDF83"; // Online (green accent)
+  let statusColor = "#8CC63F"; // Online (green accent)
   let statusText = "Online";
-  let dotColorClass = "bg-[#9BDF83] shadow-[#9BDF83]/50";
+  let dotColorClass = "bg-[#8CC63F] shadow-[#8CC63F]/50";
   
   if (status === "slow") {
     statusColor = "#eab308"; // Slow (yellow/amber)
@@ -161,7 +161,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-black select-none overflow-hidden text-white transition-colors duration-500"
+      className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-bg-primary select-none overflow-hidden text-white transition-colors duration-500"
       aria-hidden="true"
     >
       <style>{`
@@ -291,9 +291,9 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
                 {LOADING_MESSAGES[messageIndex]}
               </p>
               <div className="flex gap-1 items-center justify-center mt-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#9BDF83]/60 animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#9BDF83]/80 animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#9BDF83] animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8CC63F]/60 animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8CC63F]/80 animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8CC63F] animate-bounce" style={{ animationDelay: '300ms' }}></span>
               </div>
             </div>
           )}
@@ -347,7 +347,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
       </div>
 
       {/* ── Status Monitoring Panel (Bottom-Right) ── */}
-      <div className="absolute bottom-6 right-6 flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-black/40 border border-white/5 backdrop-blur-md text-[11px] font-bold text-[#999999] uppercase tracking-wider z-20">
+      <div className="absolute bottom-6 right-6 flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-bg-primary/40 border border-white/5 backdrop-blur-md text-[11px] font-bold text-[#999999] uppercase tracking-wider z-20">
         <div className="relative flex h-2 w-2">
           {/* Outer glowing pulsing ring */}
           <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${dotColorClass}`}></span>
@@ -358,7 +358,7 @@ export function TexawaveLoader({ onComplete }: TexawaveLoaderProps) {
           {status === "offline" ? (
             <WifiOff size={11} className="text-red-500" />
           ) : (
-            <Wifi size={11} className={status === "slow" ? "text-yellow-500" : "text-[#9BDF83]"} />
+            <Wifi size={11} className={status === "slow" ? "text-yellow-500" : "text-[#8CC63F]"} />
           )}
           {statusText}
         </span>

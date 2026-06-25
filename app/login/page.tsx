@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -38,9 +38,9 @@ export default function LoginPage() {
 
     // Wave parameters
     const waves = [
-      { y: 0.5, length: 0.002, amplitude: 50, speed: 0.02, color: "rgba(155, 223, 131, 0.12)" }, // Accent Green
-      { y: 0.52, length: 0.003, amplitude: 35, speed: 0.015, color: "rgba(0, 212, 255, 0.08)" }, // Cyan
-      { y: 0.48, length: 0.0015, amplitude: 65, speed: 0.01, color: "rgba(155, 223, 131, 0.05)" }, // Light green
+      { y: 0.5, length: 0.002, amplitude: 50, speed: 0.02, color: "rgba(140, 198, 63, 0.12)" }, // Accent Green
+      { y: 0.52, length: 0.003, amplitude: 35, speed: 0.015, color: "rgba(20, 184, 166, 0.08)" }, // Cyan
+      { y: 0.48, length: 0.0015, amplitude: 65, speed: 0.01, color: "rgba(140, 198, 63, 0.05)" }, // Light green
     ];
 
     let increment = 0;
@@ -147,7 +147,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white font-sans overflow-hidden flex items-center justify-center p-4">
+    <div className="relative min-h-screen bg-bg-primary text-white font-sans overflow-hidden flex items-center justify-center p-4">
       {/* Background canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
       
@@ -155,19 +155,19 @@ export default function LoginPage() {
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Ambient glowing circles */}
-      <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-[#9BDF83]/5 blur-3xl pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-[#8CC63F]/5 blur-3xl pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[#14B8A6]/5 blur-3xl pointer-events-none z-0" />
 
       {/* Main Glassmorphic Wrapper */}
-      <div className="relative z-10 w-full max-w-5xl bg-black/60 border border-white/10 rounded-3xl overflow-hidden shadow-premium flex flex-col md:grid md:grid-cols-[1.1fr_1.3fr] min-h-[550px] backdrop-blur-md">
+      <div className="relative z-10 w-full max-w-5xl bg-bg-primary/60 border border-white/10 rounded-3xl overflow-hidden shadow-premium flex flex-col md:grid md:grid-cols-[1.1fr_1.3fr] min-h-[550px] backdrop-blur-md">
         
         {/* Left Side: Branding / Tagline */}
         <div className="bg-gradient-to-br from-[#080808] to-[#111111] p-8 md:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10 text-left relative overflow-hidden">
           {/* Subtle circuit decoration background */}
-          <div className="absolute right-0 bottom-0 w-48 h-48 opacity-10 bg-radial from-[#9BDF83] to-transparent pointer-events-none" />
+          <div className="absolute right-0 bottom-0 w-48 h-48 opacity-10 bg-radial from-[#8CC63F] to-transparent pointer-events-none" />
           
           <div>
-            <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9BDF83] rounded">
+            <Link href="/" className="inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8CC63F] rounded">
               <Image
                 src="/texawave_logo.webp"
                 alt="Texawave Logo"
@@ -180,7 +180,7 @@ export default function LoginPage() {
           </div>
 
           <div className="my-8 md:my-0">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#9BDF83] block mb-2">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[#8CC63F] block mb-2">
               Engineering Excellence
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight font-display">
@@ -213,7 +213,7 @@ export default function LoginPage() {
           )}
 
           {forgotPasswordMsg && (
-            <div className="p-3.5 bg-green-950/40 border border-[#9BDF83]/20 rounded-xl text-xs text-[#9BDF83] mb-6 flex items-center gap-2">
+            <div className="p-3.5 bg-green-950/40 border border-[#8CC63F]/20 rounded-xl text-xs text-[#8CC63F] mb-6 flex items-center gap-2">
               <Info size={14} className="flex-shrink-0" />
               <span>{forgotPasswordMsg}</span>
             </div>
@@ -232,7 +232,7 @@ export default function LoginPage() {
                   placeholder="hr@texawave.com or admin@texawave.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-[#9BDF83] focus:outline-none rounded-xl pl-11 pr-4 py-3.5 text-sm text-white transition-colors"
+                  className="w-full bg-bg-primary/60 border border-white/10 hover:border-white/20 focus:border-[#8CC63F] focus:outline-none rounded-xl pl-11 pr-4 py-3.5 text-sm text-white transition-colors"
                 />
               </div>
             </div>
@@ -245,7 +245,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleForgotPassword}
-                  className="text-[10px] font-bold text-[#9BDF83] hover:underline hover:text-white transition-colors"
+                  className="text-[10px] font-bold text-[#8CC63F] hover:underline hover:text-white transition-colors"
                 >
                   Forgot Password?
                 </button>
@@ -258,7 +258,7 @@ export default function LoginPage() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/60 border border-white/10 hover:border-white/20 focus:border-[#9BDF83] focus:outline-none rounded-xl pl-11 pr-12 py-3.5 text-sm text-white transition-colors"
+                  className="w-full bg-bg-primary/60 border border-white/10 hover:border-white/20 focus:border-[#8CC63F] focus:outline-none rounded-xl pl-11 pr-12 py-3.5 text-sm text-white transition-colors"
                 />
                 <button
                   type="button"
@@ -273,7 +273,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-6 bg-[#9BDF83] text-black py-4 rounded-xl font-bold text-xs tracking-wider uppercase hover:bg-opacity-90 transition-all shadow-crisp flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full mt-6 bg-[#8CC63F] text-black py-4 rounded-xl font-bold text-xs tracking-wider uppercase hover:bg-opacity-90 transition-all shadow-crisp flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -290,7 +290,7 @@ export default function LoginPage() {
 
           {/* Quick Info Box for ease of testing */}
           <div className="mt-8 p-3.5 bg-white/5 border border-white/5 rounded-xl text-left">
-            <span className="text-[10px] font-bold uppercase text-[#9BDF83] block mb-1 font-mono">
+            <span className="text-[10px] font-bold uppercase text-[#8CC63F] block mb-1 font-mono">
               💡 Demo Credentials:
             </span>
             <div className="text-[10px] text-text-secondary space-y-0.5 leading-relaxed font-mono">

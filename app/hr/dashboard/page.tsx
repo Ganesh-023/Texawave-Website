@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -302,16 +302,16 @@ export default function HRDashboard() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-white">
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center text-white">
         <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
-        <div className="h-10 w-10 border-4 border-[#9BDF83] border-t-transparent rounded-full animate-spin mb-4" />
+        <div className="h-10 w-10 border-4 border-[#8CC63F] border-t-transparent rounded-full animate-spin mb-4" />
         <p className="text-xs font-bold uppercase tracking-wider ml-4 text-text-secondary">Verifying access...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-text-primary font-sans text-left relative">
+    <div className="min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Top navbar */}
@@ -324,7 +324,7 @@ export default function HRDashboard() {
             height={40}
             className="h-8 w-auto object-contain"
           />
-          <span className="hidden sm:inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-[#9BDF83] bg-[#9BDF83]/10 border border-[#9BDF83]/20 rounded font-mono">
+          <span className="hidden sm:inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-[#8CC63F] bg-[#8CC63F]/10 border border-[#8CC63F]/20 rounded font-mono">
             HR PORTAL
           </span>
         </div>
@@ -380,7 +380,7 @@ export default function HRDashboard() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
                     activeTab === tab.id
-                      ? "bg-[#9BDF83]/10 border-[#9BDF83]/30 text-[#9BDF83] shadow-[0_0_12px_rgba(155,223,131,0.08)]"
+                      ? "bg-[#8CC63F]/10 border-[#8CC63F]/30 text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.08)]"
                       : "bg-transparent border-transparent text-text-secondary hover:text-white"
                   }`}
                 >
@@ -409,8 +409,8 @@ export default function HRDashboard() {
               {/* Overview Cards Row */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                  { label: "Open Positions", value: totalOpenPositions, desc: "Status: Open & Hiring", color: "text-[#9BDF83]" },
-                  { label: "Applications", value: totalApplications, desc: "Total profiles received", color: "text-[#00D4FF]" },
+                  { label: "Open Positions", value: totalOpenPositions, desc: "Status: Open & Hiring", color: "text-[#8CC63F]" },
+                  { label: "Applications", value: totalApplications, desc: "Total profiles received", color: "text-[#14B8A6]" },
                   { label: "Interviews", value: interviewsScheduled, desc: "Candidates scheduled", color: "text-purple-400" },
                   { label: "Active Interns", value: activeInternsCount, desc: "Onboarded student pool", color: "text-amber-400" }
                 ].map((card, idx) => (
@@ -428,7 +428,7 @@ export default function HRDashboard() {
                 {/* Chart 1: Applications by Division */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
-                    <BarChart2 size={16} className="text-[#9BDF83]" />
+                    <BarChart2 size={16} className="text-[#8CC63F]" />
                     Applications per Division
                   </h3>
 
@@ -440,11 +440,11 @@ export default function HRDashboard() {
                         <div key={dept} className="space-y-1 text-left">
                           <div className="flex justify-between text-xs font-semibold">
                             <span className="text-white">{dept} Division</span>
-                            <span className="text-[#9BDF83] font-mono">{count} Candidates ({percentage}%)</span>
+                            <span className="text-[#8CC63F] font-mono">{count} Candidates ({percentage}%)</span>
                           </div>
                           <div className="w-full bg-[#080808] h-3 border border-white/5 rounded-full overflow-hidden">
                             <div 
-                              className="bg-[#9BDF83] h-full rounded-full transition-all duration-700" 
+                              className="bg-[#8CC63F] h-full rounded-full transition-all duration-700" 
                               style={{ width: `${Math.max(percentage, 5)}%` }} 
                             />
                           </div>
@@ -458,7 +458,7 @@ export default function HRDashboard() {
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left flex flex-col justify-between">
                   <div>
                     <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
-                      <PieChart size={16} className="text-[#9BDF83]" />
+                      <PieChart size={16} className="text-[#8CC63F]" />
                       Recruitment Funnel & Conversion
                     </h3>
                   </div>
@@ -466,7 +466,7 @@ export default function HRDashboard() {
                   <div className="grid grid-cols-2 gap-4 items-center">
                     <div className="flex justify-center">
                       <div className="relative h-32 w-32 rounded-full border-8 border-white/5 flex items-center justify-center">
-                        <div className="absolute inset-0 rounded-full border-4 border-[#9BDF83] opacity-35 animate-[pulse_2.5s_infinite]" />
+                        <div className="absolute inset-0 rounded-full border-4 border-[#8CC63F] opacity-35 animate-[pulse_2.5s_infinite]" />
                         <div className="flex flex-col items-center">
                           <span className="text-3xl font-black text-white font-mono">
                             {applications.filter(a => a.status === "Selected").length}
@@ -481,7 +481,7 @@ export default function HRDashboard() {
                         { label: "New Profiles", count: applications.filter(a => a.status === "New").length, color: "bg-blue-400" },
                         { label: "Shortlisted", count: applications.filter(a => a.status === "Shortlisted").length, color: "bg-amber-400" },
                         { label: "Interviews", count: applications.filter(a => a.status === "Interview Scheduled").length, color: "bg-purple-400" },
-                        { label: "Hired (Selected)", count: applications.filter(a => a.status === "Selected").length, color: "bg-[#9BDF83]" }
+                        { label: "Hired (Selected)", count: applications.filter(a => a.status === "Selected").length, color: "bg-[#8CC63F]" }
                       ].map((item, idx) => (
                         <div key={idx} className="flex justify-between items-center">
                           <span className="flex items-center gap-2 text-text-secondary">
@@ -501,7 +501,7 @@ export default function HRDashboard() {
                 {/* Chart 3: Department openings */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
-                    <Cpu size={16} className="text-[#9BDF83]" />
+                    <Cpu size={16} className="text-[#8CC63F]" />
                     Hiring Conversion Ratios
                   </h3>
                   <div className="space-y-3 pt-2">
@@ -513,10 +513,10 @@ export default function HRDashboard() {
                       <div key={i} className="text-xs space-y-1">
                         <div className="flex justify-between font-bold">
                           <span className="text-white">{metric.rate}</span>
-                          <span className="text-[#9BDF83] font-mono">{metric.value}</span>
+                          <span className="text-[#8CC63F] font-mono">{metric.value}</span>
                         </div>
                         <div className="w-full bg-[#080808] h-2 rounded border border-white/5 overflow-hidden">
-                          <div className={`bg-gradient-to-r from-[#9BDF83] to-[#00D4FF] h-full ${metric.bar}`} />
+                          <div className={`bg-gradient-to-r from-[#8CC63F] to-[#14B8A6] h-full ${metric.bar}`} />
                         </div>
                         <span className="text-[10px] text-text-secondary font-mono">{metric.desc}</span>
                       </div>
@@ -527,7 +527,7 @@ export default function HRDashboard() {
                 {/* Chart 4: Internship applications */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
-                    <Users size={16} className="text-[#9BDF83]" />
+                    <Users size={16} className="text-[#8CC63F]" />
                     Internship Sourcing Tracks
                   </h3>
                   <div className="space-y-3 pt-1">
@@ -560,7 +560,7 @@ export default function HRDashboard() {
                     resetJobForm();
                     setShowJobModal(true);
                   }}
-                  className="inline-flex items-center gap-2 bg-[#9BDF83] text-black px-4 py-2.5 rounded-lg text-xs font-bold shadow-crisp hover:bg-opacity-95"
+                  className="inline-flex items-center gap-2 bg-[#8CC63F] text-black px-4 py-2.5 rounded-lg text-xs font-bold shadow-crisp hover:bg-opacity-95"
                 >
                   <Plus size={14} /> Publish Job
                 </button>
@@ -599,7 +599,7 @@ export default function HRDashboard() {
                           <td className="py-4 px-6 font-mono text-text-secondary">{job.deadline}</td>
                           <td className="py-4 px-6">
                             <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
-                              job.status === "Open" ? "bg-[#9BDF83]/20 text-[#9BDF83] border border-[#9BDF83]/30" : "bg-neutral-800 text-text-secondary border border-white/5"
+                              job.status === "Open" ? "bg-[#8CC63F]/20 text-[#8CC63F] border border-[#8CC63F]/30" : "bg-neutral-800 text-text-secondary border border-white/5"
                             }`}>
                               {job.status}
                             </span>
@@ -646,14 +646,14 @@ export default function HRDashboard() {
                     placeholder="Search candidate name..."
                     value={appSearch}
                     onChange={(e) => setAppSearch(e.target.value)}
-                    className="w-full bg-black border border-white/10 focus:border-[#9BDF83] focus:outline-none rounded-xl pl-9 pr-3 py-2.5 text-xs text-white"
+                    className="w-full bg-bg-primary border border-white/10 focus:border-[#8CC63F] focus:outline-none rounded-xl pl-9 pr-3 py-2.5 text-xs text-white"
                   />
                 </div>
                 
                 <select
                   value={appFilterStatus}
                   onChange={(e) => setAppFilterStatus(e.target.value)}
-                  className="bg-black border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none"
+                  className="bg-bg-primary border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none"
                 >
                   <option value="All">All Pipeline Statuses</option>
                   <option value="New">New</option>
@@ -666,7 +666,7 @@ export default function HRDashboard() {
                 <select
                   value={appFilterJob}
                   onChange={(e) => setAppFilterJob(e.target.value)}
-                  className="bg-black border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none"
+                  className="bg-bg-primary border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none"
                 >
                   <option value="All">All Job Postings</option>
                   {jobs.map(j => <option key={j.id} value={j.id}>{j.title}</option>)}
@@ -688,11 +688,11 @@ export default function HRDashboard() {
                         <select
                           value={app.status}
                           onChange={(e) => handleStatusChange(app.id, e.target.value as Application["status"])}
-                          className={`px-3 py-1.5 rounded-xl border text-[10px] font-bold focus:outline-none bg-black font-mono cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-xl border text-[10px] font-bold focus:outline-none bg-bg-primary font-mono cursor-pointer ${
                             app.status === "New" ? "border-blue-500/30 text-blue-400" :
                             app.status === "Shortlisted" ? "border-amber-500/30 text-amber-400" :
                             app.status === "Interview Scheduled" ? "border-purple-500/30 text-purple-400" :
-                            app.status === "Selected" ? "border-[#9BDF83]/30 text-[#9BDF83]" : "border-red-500/30 text-red-400"
+                            app.status === "Selected" ? "border-[#8CC63F]/30 text-[#8CC63F]" : "border-red-500/30 text-red-400"
                           }`}
                         >
                           <option value="New">New</option>
@@ -719,7 +719,7 @@ export default function HRDashboard() {
                               setResumeApp(app);
                               setShowResumeViewer(true);
                             }}
-                            className="inline-flex items-center gap-1 text-[#9BDF83] hover:underline font-bold"
+                            className="inline-flex items-center gap-1 text-[#8CC63F] hover:underline font-bold"
                           >
                             <Eye size={12} /> View Resume
                           </button>
@@ -734,7 +734,7 @@ export default function HRDashboard() {
                         
                         <div className="space-y-1.5 max-h-24 overflow-y-auto mb-3 bg-[#080808] p-2.5 rounded-xl border border-white/5">
                           {candidateComments[app.id]?.map((note, index) => (
-                            <div key={index} className="text-[11px] text-white/90 leading-relaxed pl-2 border-l border-[#9BDF83] font-sans">
+                            <div key={index} className="text-[11px] text-white/90 leading-relaxed pl-2 border-l border-[#8CC63F] font-sans">
                               "{note}"
                             </div>
                           )) || <div className="text-[10px] text-text-secondary font-mono italic">No comments evaluated.</div>}
@@ -751,11 +751,11 @@ export default function HRDashboard() {
                               setNewComment(e.target.value);
                             }}
                             onFocus={() => setSelectedApp(app)}
-                            className="flex-1 bg-black border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-text-secondary/50 focus:border-[#9BDF83] focus:outline-none"
+                            className="flex-1 bg-bg-primary border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-text-secondary/50 focus:border-[#8CC63F] focus:outline-none"
                           />
                           <button
                             onClick={() => handleAddComment(app.id)}
-                            className="bg-[#9BDF83]/10 border border-[#9BDF83]/30 hover:bg-[#9BDF83]/20 text-[#9BDF83] text-[10px] font-bold uppercase px-3 rounded-lg transition-colors font-mono"
+                            className="bg-[#8CC63F]/10 border border-[#8CC63F]/30 hover:bg-[#8CC63F]/20 text-[#8CC63F] text-[10px] font-bold uppercase px-3 rounded-lg transition-colors font-mono"
                           >
                             Save Note
                           </button>
@@ -786,11 +786,11 @@ export default function HRDashboard() {
               <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
                 <div className="space-y-4">
                   {applications.filter(a => a.status === "Interview Scheduled").map((app) => (
-                    <div key={app.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/40 border border-white/5 p-4 rounded-xl">
+                    <div key={app.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-bg-primary/40 border border-white/5 p-4 rounded-xl">
                       <div className="text-left">
                         <strong className="text-white text-sm block">{app.name}</strong>
                         <span className="text-text-secondary text-xs font-mono">{app.email} &bull; {app.phone}</span>
-                        <div className="text-[11px] text-[#9BDF83] mt-1 font-semibold flex items-center gap-1 font-mono">
+                        <div className="text-[11px] text-[#8CC63F] mt-1 font-semibold flex items-center gap-1 font-mono">
                           📅 Technical Review: 2 Days From Now (Standard)
                         </div>
                       </div>
@@ -805,7 +805,7 @@ export default function HRDashboard() {
                             setResumeApp(app);
                             setShowResumeViewer(true);
                           }}
-                          className="bg-[#9BDF83]/10 border border-[#9BDF83]/30 hover:bg-[#9BDF83]/20 text-[#9BDF83] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors font-mono"
+                          className="bg-[#8CC63F]/10 border border-[#8CC63F]/30 hover:bg-[#8CC63F]/20 text-[#8CC63F] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors font-mono"
                         >
                           View CV
                         </button>
@@ -841,7 +841,7 @@ export default function HRDashboard() {
                   <div key={i} className="bg-[#111] border border-white/10 rounded-2xl p-5 text-left">
                     <span className="text-[10px] font-bold text-text-secondary block font-mono uppercase">Track 0{i+1}</span>
                     <strong className="text-lg block text-white mt-1 font-display line-clamp-1">{track.title}</strong>
-                    <div className="text-2xl font-black text-[#9BDF83] mt-2 font-mono">{track.count} <span className="text-xs text-text-secondary font-medium">Applied</span></div>
+                    <div className="text-2xl font-black text-[#8CC63F] mt-2 font-mono">{track.count} <span className="text-xs text-text-secondary font-medium">Applied</span></div>
                     <p className="text-[10px] text-text-secondary mt-1 font-mono leading-relaxed">{track.desc}</p>
                   </div>
                 ))}
@@ -852,7 +852,7 @@ export default function HRDashboard() {
                 
                 <div className="space-y-4">
                   {applications.filter(a => a.jobTitle.toLowerCase().includes("intern") || a.jobTitle.toLowerCase().includes("trainee") || a.deptInterest === "Internship").map((intern) => (
-                    <div key={intern.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/40 border border-white/5 p-4 rounded-xl">
+                    <div key={intern.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-bg-primary/40 border border-white/5 p-4 rounded-xl">
                       <div>
                         <div className="flex items-center gap-2">
                           <strong className="text-white text-sm">{intern.name}</strong>
@@ -865,7 +865,7 @@ export default function HRDashboard() {
                         <select
                           value={intern.status}
                           onChange={(e) => handleStatusChange(intern.id, e.target.value as Application["status"])}
-                          className="bg-black border border-white/10 text-white text-[11px] font-bold font-mono py-1 px-2.5 rounded-lg focus:outline-none"
+                          className="bg-bg-primary border border-white/10 text-white text-[11px] font-bold font-mono py-1 px-2.5 rounded-lg focus:outline-none"
                         >
                           <option value="New">New</option>
                           <option value="Shortlisted">Shortlisted</option>
@@ -879,7 +879,7 @@ export default function HRDashboard() {
                             setResumeApp(intern);
                             setShowResumeViewer(true);
                           }}
-                          className="text-text-secondary hover:text-[#9BDF83] p-1.5"
+                          className="text-text-secondary hover:text-[#8CC63F] p-1.5"
                           title="View CV"
                         >
                           <Eye size={14} />
@@ -914,7 +914,7 @@ export default function HRDashboard() {
                   </p>
                   <button
                     onClick={() => alert("[Reports Server] Compiled candidate pipeline spreadsheet: candidate_registry_2026.csv. Dispatched download.")}
-                    className="inline-flex items-center gap-2 bg-[#9BDF83] text-black px-4 py-2.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide hover:bg-opacity-90 transition-all"
+                    className="inline-flex items-center gap-2 bg-[#8CC63F] text-black px-4 py-2.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide hover:bg-opacity-90 transition-all"
                   >
                     <Download size={13} /> Export Candidates Spreadsheet (CSV)
                   </button>
@@ -927,7 +927,7 @@ export default function HRDashboard() {
                   </p>
                   <button
                     onClick={() => alert("[Reports Server] Compiled graphics analytics summary PDF. Dispatched download.")}
-                    className="inline-flex items-center gap-2 border border-white/15 hover:border-[#9BDF83] text-white hover:text-[#9BDF83] bg-black/40 px-4 py-2.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all"
+                    className="inline-flex items-center gap-2 border border-white/15 hover:border-[#8CC63F] text-white hover:text-[#8CC63F] bg-bg-primary/40 px-4 py-2.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all"
                   >
                     <Download size={13} /> Download Summary Report (PDF)
                   </button>
@@ -946,7 +946,7 @@ export default function HRDashboard() {
 
               <div className="bg-[#111] border border-white/10 rounded-2xl p-6 max-w-xl">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="h-16 w-16 bg-[#9BDF83]/15 border border-[#9BDF83]/30 text-[#9BDF83] rounded-full flex items-center justify-center font-display text-2xl font-bold">
+                  <div className="h-16 w-16 bg-[#8CC63F]/15 border border-[#8CC63F]/30 text-[#8CC63F] rounded-full flex items-center justify-center font-display text-2xl font-bold">
                     {username[0]}
                   </div>
                   <div>
@@ -962,7 +962,7 @@ export default function HRDashboard() {
                   </div>
                   <div className="flex justify-between font-mono">
                     <span className="text-text-secondary">Assigned Division:</span>
-                    <strong className="text-[#9BDF83]">Engineering Recruitment</strong>
+                    <strong className="text-[#8CC63F]">Engineering Recruitment</strong>
                   </div>
                   <div className="flex justify-between font-mono">
                     <span className="text-text-secondary">System Access Status:</span>
@@ -978,7 +978,7 @@ export default function HRDashboard() {
 
       {/* MODAL: Create/Edit Job Post */}
       {showJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto">
             
             <button
@@ -1001,7 +1001,7 @@ export default function HRDashboard() {
                     required
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. Senior Embedded Systems Engineer"
                   />
                 </div>
@@ -1011,7 +1011,7 @@ export default function HRDashboard() {
                   <select
                     value={jobDept}
                     onChange={(e) => setJobDept(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-semibold"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
                   >
                     <option value="Software">Software</option>
                     <option value="Electrical">Electrical</option>
@@ -1029,7 +1029,7 @@ export default function HRDashboard() {
                     required
                     value={jobLoc}
                     onChange={(e) => setJobLoc(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. Chennai / Hybrid"
                   />
                 </div>
@@ -1039,7 +1039,7 @@ export default function HRDashboard() {
                   <select
                     value={jobType}
                     onChange={(e) => setJobType(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-semibold"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
                   >
                     <option value="Full Time">Full Time</option>
                     <option value="Internship">Internship</option>
@@ -1055,7 +1055,7 @@ export default function HRDashboard() {
                     required
                     value={jobExp}
                     onChange={(e) => setJobExp(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. 3+ Years"
                   />
                 </div>
@@ -1069,7 +1069,7 @@ export default function HRDashboard() {
                     required
                     value={jobSalary}
                     onChange={(e) => setJobSalary(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. ₹8,00,000 - ₹12,00,000 PA"
                   />
                 </div>
@@ -1081,7 +1081,7 @@ export default function HRDashboard() {
                     required
                     value={jobDeadline}
                     onChange={(e) => setJobDeadline(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-mono"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-mono"
                   />
                 </div>
               </div>
@@ -1093,7 +1093,7 @@ export default function HRDashboard() {
                   required
                   value={jobSkills}
                   onChange={(e) => setJobSkills(e.target.value)}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                  className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                   placeholder="e.g. Altium Designer, ESP32, KiCAD, Firmware (C++)"
                 />
               </div>
@@ -1105,7 +1105,7 @@ export default function HRDashboard() {
                   rows={5}
                   value={jobDesc}
                   onChange={(e) => setJobDesc(e.target.value)}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none resize-none"
+                  className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none resize-none"
                   placeholder="Provide comprehensive job description details..."
                 />
               </div>
@@ -1116,7 +1116,7 @@ export default function HRDashboard() {
                   <select
                     value={jobStatus}
                     onChange={(e) => setJobStatus(e.target.value as any)}
-                    className="bg-black border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none"
+                    className="bg-bg-primary border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none"
                   >
                     <option value="Open">Open</option>
                     <option value="Closed">Closed</option>
@@ -1126,7 +1126,7 @@ export default function HRDashboard() {
 
               <button
                 type="submit"
-                className="w-full bg-[#9BDF83] text-black font-bold uppercase text-xs tracking-wider py-3.5 rounded-xl hover:bg-opacity-90 shadow-crisp transition-all mt-4 font-mono"
+                className="w-full bg-[#8CC63F] text-black font-bold uppercase text-xs tracking-wider py-3.5 rounded-xl hover:bg-opacity-90 shadow-crisp transition-all mt-4 font-mono"
               >
                 {editingJob ? "Save Changes" : "Publish Job Posting"}
               </button>
@@ -1137,7 +1137,7 @@ export default function HRDashboard() {
 
       {/* MODAL: Inline Resume Viewer */}
       {showResumeViewer && resumeApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]">
             
             <button
@@ -1159,22 +1159,22 @@ export default function HRDashboard() {
                 
                 <div className="mt-6 space-y-3.5 text-xs text-text-secondary border-t border-white/5 pt-5 font-mono">
                   <div className="flex items-center gap-2">
-                    <Mail size={13} className="text-[#9BDF83]" />
+                    <Mail size={13} className="text-[#8CC63F]" />
                     <span className="truncate">{resumeApp.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone size={13} className="text-[#9BDF83]" />
+                    <Phone size={13} className="text-[#8CC63F]" />
                     <span>{resumeApp.phone}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar size={13} className="text-[#9BDF83]" />
+                    <Calendar size={13} className="text-[#8CC63F]" />
                     <span>Applied: {resumeApp.dateApplied}</span>
                   </div>
                 </div>
 
                 <div className="mt-8">
                   <span className="text-[10px] font-bold text-white uppercase font-mono block mb-2">Verification Check</span>
-                  <div className="p-3 rounded-xl bg-green-950/20 border border-[#9BDF83]/20 text-[10px] text-[#9BDF83] leading-relaxed">
+                  <div className="p-3 rounded-xl bg-green-950/20 border border-[#8CC63F]/20 text-[10px] text-[#8CC63F] leading-relaxed">
                     <div className="flex items-center gap-1 font-bold">
                       <CheckCircle2 size={12} />
                       Format OK
@@ -1187,7 +1187,7 @@ export default function HRDashboard() {
               <div className="pt-6">
                 <button
                   onClick={() => alert(`Initiating secure direct download of PDF resume: ${resumeApp.resumeName}`)}
-                  className="w-full flex items-center justify-center gap-1.5 border border-white/10 hover:border-[#9BDF83] text-white hover:text-[#9BDF83] bg-black/40 py-2.5 rounded-xl text-xs font-bold font-mono uppercase transition-all"
+                  className="w-full flex items-center justify-center gap-1.5 border border-white/10 hover:border-[#8CC63F] text-white hover:text-[#8CC63F] bg-bg-primary/40 py-2.5 rounded-xl text-xs font-bold font-mono uppercase transition-all"
                 >
                   <Download size={13} /> Download PDF
                 </button>
@@ -1195,7 +1195,7 @@ export default function HRDashboard() {
             </div>
 
             {/* Simulated Interactive Document Pane */}
-            <div className="p-8 md:p-12 overflow-y-auto text-left bg-black max-h-[85vh]">
+            <div className="p-8 md:p-12 overflow-y-auto text-left bg-bg-primary max-h-[85vh]">
               <div className="border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
                 {/* PDF overlay layout header */}
                 <div className="absolute right-6 top-6 text-[9px] text-text-secondary border border-white/10 px-2 py-0.5 rounded font-mono">
@@ -1210,7 +1210,7 @@ export default function HRDashboard() {
                 <div className="space-y-6 text-xs text-white/90">
                   {/* Summary */}
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Professional Summary</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Professional Summary</h4>
                     <p className="leading-relaxed text-text-secondary text-[11px]">
                       Detail-oriented and dedicated engineering professional. Experienced with PCB designs,Altium design layout structures, firmware code design in C/C++, and hardware systems bring-up tests. Excited to apply interdisciplinary skills at Texawave to streamline hardware-software integrity.
                     </p>
@@ -1218,7 +1218,7 @@ export default function HRDashboard() {
 
                   {/* Work Experience */}
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Professional Experience</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Professional Experience</h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between font-bold">
@@ -1247,7 +1247,7 @@ export default function HRDashboard() {
 
                   {/* Skills */}
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Key Skills</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Key Skills</h4>
                     <div className="flex flex-wrap gap-1.5">
                       {["Altium Designer", "SolidWorks", "PCB Layouts", "C/C++ Programming", "STM32 MCU", "ESP32 Prototyping", "BOM sourcing"].map((skill, index) => (
                         <span key={index} className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-text-secondary font-mono text-[10px]">
@@ -1259,7 +1259,7 @@ export default function HRDashboard() {
 
                   {/* Message */}
                   <div className="border-t border-white/5 pt-4 mt-6">
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Candidate Cover Message</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Candidate Cover Message</h4>
                     <p className="leading-relaxed text-text-secondary italic font-sans text-[11px]">
                       "{resumeApp.message}"
                     </p>

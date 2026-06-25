@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -145,7 +145,7 @@ export default function CareersPage() {
   if (!isMounted) {
     return (
       <PageChrome>
-        <div className="min-h-[80vh] flex flex-col items-center justify-center bg-black">
+        <div className="min-h-[80vh] flex flex-col items-center justify-center bg-bg-primary">
           <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
           <div className="h-10 w-10 border-4 border-signal border-t-transparent rounded-full animate-spin mb-4" />
           <p className="text-xs text-text-secondary uppercase tracking-[0.2em] font-bold">Initializing Portal...</p>

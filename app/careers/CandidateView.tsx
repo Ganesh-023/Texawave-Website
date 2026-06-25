@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { 
   Briefcase, 
@@ -231,7 +231,7 @@ export function CandidateView({
 
   const getDeptIcon = (dept: string) => {
     switch(dept.toLowerCase()) {
-      case "software": return <Terminal className="text-[#00D4FF]" size={18} />;
+      case "software": return <Terminal className="text-[#14B8A6]" size={18} />;
       case "electrical": return <Cpu className="text-[var(--primary-green)]" size={18} />;
       case "mechanical": return <Wrench className="text-orange-400" size={18} />;
       case "procurement": return <PackageCheck className="text-amber-500" size={18} />;
@@ -240,20 +240,20 @@ export function CandidateView({
   };
 
   return (
-    <div ref={containerRef} className="relative bg-black min-h-screen text-text-primary font-sans">
+    <div ref={containerRef} className="relative bg-bg-primary min-h-screen text-text-primary font-sans">
       {/* Blueprint Grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Top Gradient Overlay */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--primary-green)]/5 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#00D4FF]/4 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#14B8A6]/4 blur-3xl pointer-events-none" />
 
       {/* Hero Section */}
       <section className="relative pt-12 pb-20 z-10">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] flex flex-col items-center justify-center text-center">
         
         <h1 className="fade-in-up-hero text-hero text-white max-w-5xl">
-          Build Your Future <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-green)] to-[#00D4FF]">at TEXAWAVE</span>
+          Build Your Future <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-green)] to-[#14B8A6]">at TEXAWAVE</span>
         </h1>
         
         <p className="fade-in-up-hero text-body-large text-text-secondary max-w-2xl mt-6">
@@ -272,7 +272,7 @@ export function CandidateView({
               setFormType("talent");
               setShowTalentPoolModal(true);
             }}
-            className="inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-black/40 backdrop-blur-sm px-8 py-4 font-bold text-text-primary hover:border-signal transition-all w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 rounded border border-border-primary bg-bg-primary/40 backdrop-blur-sm px-8 py-4 font-bold text-text-primary hover:border-signal transition-all w-full sm:w-auto"
           >
             Join Talent Pool
           </button>
@@ -301,7 +301,7 @@ export function CandidateView({
               placeholder="Enter your applied email address..."
               value={statusEmail}
               onChange={(e) => setStatusEmail(e.target.value)}
-              className="flex-1 bg-black border border-border-primary rounded-xl px-3 py-2 text-xs text-white placeholder-text-secondary/50 focus:border-signal focus:outline-none"
+              className="flex-1 bg-bg-primary border border-border-primary rounded-xl px-3 py-2 text-xs text-white placeholder-text-secondary/50 focus:border-signal focus:outline-none"
             />
             <button
               type="submit"
@@ -319,7 +319,7 @@ export function CandidateView({
             <div className="mt-4 border-t border-white/5 pt-4 text-left space-y-3.5">
               {statusResults.length > 0 ? (
                 statusResults.map((app) => (
-                  <div key={app.id} className="p-3 bg-black/40 border border-border-primary rounded-xl space-y-1.5">
+                  <div key={app.id} className="p-3 bg-bg-primary/40 border border-border-primary rounded-xl space-y-1.5">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-white">{app.jobTitle}</span>
                       <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-mono ${
@@ -363,7 +363,7 @@ export function CandidateView({
             {featuredJobs.map((job) => (
               <div 
                 key={job.id}
-                className="relative rounded-2xl p-6 bg-gradient-to-br from-bg-card to-black border-2 border-signal/20 hover:border-signal transition-all duration-300 group shadow-crisp overflow-hidden"
+                className="relative rounded-2xl p-6 bg-gradient-to-br from-bg-card to-bg-primary border-2 border-signal/20 hover:border-signal transition-all duration-300 group shadow-crisp overflow-hidden"
               >
                 {/* Pulsing border animation block */}
                 <div className="absolute inset-0 border border-signal opacity-0 group-hover:opacity-100 rounded-2xl pointer-events-none transition-opacity duration-300 animate-[pulse_2s_infinite]" />
@@ -456,7 +456,7 @@ export function CandidateView({
                 placeholder="Search job title, skills, keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/60 border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-white transition-colors"
+                className="w-full bg-bg-primary/60 border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-white transition-colors"
               />
             </div>
             
@@ -464,7 +464,7 @@ export function CandidateView({
             <select
               value={selectedDept}
               onChange={(e) => setSelectedDept(e.target.value)}
-              className="bg-black/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
+              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
             >
               <option value="All">All Departments</option>
               <option value="Software">Software</option>
@@ -477,7 +477,7 @@ export function CandidateView({
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="bg-black/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
+              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
             >
               <option value="All">All Job Types</option>
               <option value="Full Time">Full Time</option>
@@ -492,7 +492,7 @@ export function CandidateView({
           {filteredJobs.map((job) => (
             <div 
               key={job.id}
-              className="rounded-2xl border border-border-primary bg-bg-card/80 p-6 shadow-crisp relative hover:border-signal/50 hover:shadow-[0_0_25px_rgba(155,223,131,0.15)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
+              className="rounded-2xl border border-border-primary bg-bg-card/80 p-6 shadow-crisp relative hover:border-signal/50 hover:shadow-[0_0_25px_rgba(140,198,63,0.15)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
             >
               <div>
                 <div className="flex justify-between items-center mb-4">
@@ -775,7 +775,7 @@ export function CandidateView({
               >
                 {/* Image panel */}
                 {update.image && (
-                  <div className="relative h-60 md:h-80 w-full bg-neutral-900 border-b border-border-primary">
+                  <div className="relative h-60 md:h-80 w-full bg-bg-primary border-b border-border-primary">
                     <Image
                       src={update.image}
                       alt={update.title}
@@ -830,10 +830,10 @@ export function CandidateView({
       </section>
 
       {/* Staff Login Link */}
-      <div className="py-12 border-t border-white/5 text-center flex flex-col items-center justify-center bg-black">
+      <div className="py-12 border-t border-white/5 text-center flex flex-col items-center justify-center bg-bg-primary">
         <button
           onClick={onToggleAdmin}
-          className="text-xs text-text-secondary hover:text-[#9BDF83] transition-colors inline-flex items-center gap-1 font-mono uppercase font-bold tracking-wider"
+          className="text-xs text-text-secondary hover:text-[#8CC63F] transition-colors inline-flex items-center gap-1 font-mono uppercase font-bold tracking-wider"
         >
           Staff Login &rarr;
         </button>
@@ -841,13 +841,13 @@ export function CandidateView({
 
       {/* Modal - Apply Job / Join Talent Pool */}
       {(activeJobForModal || showTalentPoolModal) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-4xl bg-bg-card border border-border-primary rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[1.2fr_1.8fr] max-h-[90vh]">
             
             {/* Close Button */}
             <button
               onClick={handleCloseModal}
-              className="absolute right-4 top-4 z-10 bg-black/60 text-white hover:text-signal p-1.5 rounded-full border border-white/5 hover:border-signal/30 transition-colors"
+              className="absolute right-4 top-4 z-10 bg-bg-primary/60 text-white hover:text-signal p-1.5 rounded-full border border-white/5 hover:border-signal/30 transition-colors"
             >
               <X size={18} />
             </button>
@@ -909,15 +909,15 @@ export function CandidateView({
                   </p>
                   
                   <div className="mt-6 space-y-4 font-sans">
-                    <div className="p-3 bg-black/40 border border-white/5 rounded-xl">
+                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
                       <span className="text-[10px] font-bold text-white block">Step 1</span>
                       <p className="text-[11px] text-text-secondary mt-1">Submit your engineering division interest and capabilities profile.</p>
                     </div>
-                    <div className="p-3 bg-black/40 border border-white/5 rounded-xl">
+                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
                       <span className="text-[10px] font-bold text-white block">Step 2</span>
                       <p className="text-[11px] text-text-secondary mt-1">Your cv is indexed inside our matching skills database.</p>
                     </div>
-                    <div className="p-3 bg-black/40 border border-white/5 rounded-xl">
+                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
                       <span className="text-[10px] font-bold text-white block">Step 3</span>
                       <p className="text-[11px] text-text-secondary mt-1">When matching vacancies open, we reach out to schedule assessments.</p>
                     </div>
@@ -970,7 +970,7 @@ export function CandidateView({
                       required
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
-                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                       placeholder="e.g., Jane Doe"
                     />
                   </div>
@@ -984,7 +984,7 @@ export function CandidateView({
                         required
                         value={formEmail}
                         onChange={(e) => setFormEmail(e.target.value)}
-                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         placeholder="yourname@domain.com"
                       />
                     </div>
@@ -995,7 +995,7 @@ export function CandidateView({
                         required
                         value={formPhone}
                         onChange={(e) => setFormPhone(e.target.value)}
-                        className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         placeholder="+91 XXXXX XXXXX"
                       />
                     </div>
@@ -1009,7 +1009,7 @@ export function CandidateView({
                         <select
                           value={formDeptInterest}
                           onChange={(e) => setFormDeptInterest(e.target.value)}
-                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                         >
                           <option value="Software">Software</option>
                           <option value="Electrical">Electrical</option>
@@ -1023,7 +1023,7 @@ export function CandidateView({
                           type="text"
                           value={formSkillsInput}
                           onChange={(e) => setFormSkillsInput(e.target.value)}
-                          className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
                           placeholder="React, PCB, SolidWorks, ESP32"
                         />
                       </div>
@@ -1033,7 +1033,7 @@ export function CandidateView({
                   {/* Resume Upload */}
                   <div>
                     <label className="block text-small-text font-bold uppercase tracking-wider text-text-secondary mb-1 font-display">Resume / CV Upload *</label>
-                    <div className="border border-dashed border-border-primary hover:border-signal/50 rounded-xl p-4 text-center cursor-pointer relative bg-black/40">
+                    <div className="border border-dashed border-border-primary hover:border-signal/50 rounded-xl p-4 text-center cursor-pointer relative bg-bg-primary/40">
                       <input
                         type="file"
                         required={!formResume}
@@ -1066,7 +1066,7 @@ export function CandidateView({
                       value={formMessage}
                       onChange={(e) => setFormMessage(e.target.value)}
                       rows={3}
-                      className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white resize-none"
+                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white resize-none"
                       placeholder="Briefly share any projects, hardware lab experience, or details you want to highlight..."
                     />
                   </div>

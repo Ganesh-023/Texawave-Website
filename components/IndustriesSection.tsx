@@ -13,24 +13,34 @@ if (typeof window !== "undefined") {
 /* ─── Industry Data ──────────────────────────────────────────── */
 const INDUSTRIES = [
   {
-    id: "marine",
-    emoji: "🌊",
-    title: "Marine & Asset Tracking",
+    id: "digital-health",
+    emoji: "📱",
+    title: "Intelligent Health Systems",
     description:
-      "IoT tracking devices, ruggedized enclosures, fleet monitoring systems, and asset tracking solutions designed for demanding environments.",
-    accent: "#9BDF83",
-    tags: ["IoT Tracking", "Fleet Management", "Ruggedized Design"],
-    bgTheme: "marine",
+      "Appointment scheduling platforms, patient tracking applications, healthcare mobile solutions, and remote monitoring systems.",
+    accent: "#8CC63F",
+    tags: ["Health Apps", "Remote Monitoring", "Patient Tracking"],
+    bgTheme: "digitalhealth",
   },
   {
-    id: "smart-home",
-    emoji: "🏠",
-    title: "Smart Home Automation",
+    id: "manufacturing",
+    emoji: "🏭",
+    title: "Manufacturing Digitalization",
     description:
-      "Smart switches, connected devices, home automation systems, and IoT-enabled products that enhance comfort, control, and energy efficiency.",
-    accent: "#00D9FF",
-    tags: ["Connected Devices", "IoT Automation", "Energy Efficiency"],
-    bgTheme: "smarthome",
+      "Custom ERP systems, production monitoring, inventory management, workflow automation, and smart manufacturing solutions.",
+    accent: "#8CC63F",
+    tags: ["Custom ERP", "Production Monitoring", "Smart Factory"],
+    bgTheme: "manufacturing",
+  },
+  {
+    id: "ai",
+    emoji: "🧠",
+    title: "AI & Computer Vision",
+    description:
+      "AI-powered product identification, machine vision systems, edge AI devices, intelligent automation, and visual inspection solutions.",
+    accent: "#8CC63F",
+    tags: ["Machine Vision", "Edge AI", "Visual Inspection"],
+    bgTheme: "ai",
   },
   {
     id: "robotics",
@@ -38,7 +48,7 @@ const INDUSTRIES = [
     title: "Robotics & Automation",
     description:
       "Robotic systems, motion control solutions, embedded electronics, and intelligent automation platforms for industrial and commercial applications.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
     tags: ["Motion Control", "Embedded Systems", "Industrial Robotics"],
     bgTheme: "robotics",
   },
@@ -53,14 +63,14 @@ const INDUSTRIES = [
     bgTheme: "medical",
   },
   {
-    id: "ai",
-    emoji: "🧠",
-    title: "AI & Computer Vision",
+    id: "smart-home",
+    emoji: "🏠",
+    title: "Smart Home Automation",
     description:
-      "AI-powered product identification, machine vision systems, edge AI devices, intelligent automation, and visual inspection solutions.",
-    accent: "#9BDF83",
-    tags: ["Machine Vision", "Edge AI", "Visual Inspection"],
-    bgTheme: "ai",
+      "Smart switches, connected devices, home automation systems, and IoT-enabled products that enhance comfort, control, and energy efficiency.",
+    accent: "#00D9FF",
+    tags: ["Connected Devices", "IoT Automation", "Energy Efficiency"],
+    bgTheme: "smarthome",
   },
   {
     id: "energy",
@@ -73,24 +83,14 @@ const INDUSTRIES = [
     bgTheme: "energy",
   },
   {
-    id: "manufacturing",
-    emoji: "🏭",
-    title: "Manufacturing Digitalization",
+    id: "marine",
+    emoji: "🌊",
+    title: "Marine & Asset Tracking",
     description:
-      "Custom ERP systems, production monitoring, inventory management, workflow automation, and smart manufacturing solutions.",
-    accent: "#9BDF83",
-    tags: ["Custom ERP", "Production Monitoring", "Smart Factory"],
-    bgTheme: "manufacturing",
-  },
-  {
-    id: "digital-health",
-    emoji: "📱",
-    title: "Digital Health & Mobile",
-    description:
-      "Appointment scheduling platforms, patient tracking applications, healthcare mobile solutions, and remote monitoring systems.",
+      "IoT tracking devices, ruggedized enclosures, fleet monitoring systems, and asset tracking solutions designed for demanding environments.",
     accent: "#00D9FF",
-    tags: ["Health Apps", "Remote Monitoring", "Patient Tracking"],
-    bgTheme: "digitalhealth",
+    tags: ["IoT Tracking", "Fleet Management", "Ruggedized Design"],
+    bgTheme: "marine",
   },
 ] as const;
 
@@ -143,14 +143,14 @@ class BgRenderer {
 
   spawnParticles(theme: BgTheme) {
     const colors: Record<BgTheme, string[]> = {
-      marine: ["rgba(155,223,131,0.6)", "rgba(0,180,255,0.5)", "rgba(100,220,200,0.4)"],
-      smarthome: ["rgba(0,217,255,0.6)", "rgba(155,223,131,0.4)", "rgba(80,180,255,0.5)"],
-      robotics: ["rgba(155,223,131,0.7)", "rgba(200,200,200,0.3)", "rgba(100,255,180,0.4)"],
+      marine: ["rgba(140,198,63,0.6)", "rgba(0,180,255,0.5)", "rgba(100,220,200,0.4)"],
+      smarthome: ["rgba(0,217,255,0.6)", "rgba(140,198,63,0.4)", "rgba(80,180,255,0.5)"],
+      robotics: ["rgba(140,198,63,0.7)", "rgba(200,200,200,0.3)", "rgba(100,255,180,0.4)"],
       medical: ["rgba(0,217,255,0.7)", "rgba(200,240,255,0.4)", "rgba(100,200,255,0.5)"],
-      ai: ["rgba(155,223,131,0.6)", "rgba(180,100,255,0.3)", "rgba(100,255,200,0.4)"],
+      ai: ["rgba(140,198,63,0.6)", "rgba(180,100,255,0.3)", "rgba(100,255,200,0.4)"],
       energy: ["rgba(0,217,255,0.5)", "rgba(255,180,0,0.3)", "rgba(100,220,255,0.4)"],
-      manufacturing: ["rgba(155,223,131,0.6)", "rgba(200,180,100,0.3)", "rgba(100,200,150,0.4)"],
-      digitalhealth: ["rgba(0,217,255,0.6)", "rgba(155,223,131,0.4)", "rgba(180,100,255,0.3)"],
+      manufacturing: ["rgba(140,198,63,0.6)", "rgba(200,180,100,0.3)", "rgba(100,200,150,0.4)"],
+      digitalhealth: ["rgba(0,217,255,0.6)", "rgba(140,198,63,0.4)", "rgba(180,100,255,0.3)"],
     };
     const palette = colors[theme];
     if (this.particles.length < 60) {
@@ -183,7 +183,7 @@ class BgRenderer {
       ctx.stroke();
     }
     const points = [[0.2, 0.3], [0.5, 0.15], [0.8, 0.4], [0.65, 0.7], [0.35, 0.8]] as [number, number][];
-    ctx.strokeStyle = `rgba(155,223,131,${0.12 * alpha})`;
+    ctx.strokeStyle = `rgba(140,198,63,${0.12 * alpha})`;
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 8]);
     ctx.beginPath();
@@ -198,12 +198,12 @@ class BgRenderer {
       const pulse = Math.sin(tick * 0.04 + i * 1.2) * 0.5 + 0.5;
       ctx.beginPath();
       ctx.arc(px, py, 4 + pulse * 3, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(155,223,131,${(0.4 + pulse * 0.3) * alpha})`;
+      ctx.strokeStyle = `rgba(140,198,63,${(0.4 + pulse * 0.3) * alpha})`;
       ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.beginPath();
       ctx.arc(px, py, 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(155,223,131,${0.7 * alpha})`;
+      ctx.fillStyle = `rgba(140,198,63,${0.7 * alpha})`;
       ctx.fill();
     });
   }
@@ -235,7 +235,7 @@ class BgRenderer {
     });
     const hub = Math.sin(tick * 0.025) * 0.5 + 0.5;
     const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 60);
-    grad.addColorStop(0, `rgba(155,223,131,${0.12 * hub * alpha})`);
+    grad.addColorStop(0, `rgba(140,198,63,${0.12 * hub * alpha})`);
     grad.addColorStop(1, "transparent");
     ctx.fillStyle = grad;
     ctx.beginPath();
@@ -252,7 +252,7 @@ class BgRenderer {
       const a = tick * 0.015 + i * 0.5;
       return [x * width + Math.sin(a) * (i * 6), y * height + Math.cos(a * 0.7) * (i * 3)] as [number, number];
     });
-    ctx.strokeStyle = `rgba(155,223,131,${0.15 * alpha})`;
+    ctx.strokeStyle = `rgba(140,198,63,${0.15 * alpha})`;
     ctx.lineWidth = 2;
     ctx.beginPath();
     animated.forEach(([x, y], i) => { if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
@@ -260,13 +260,13 @@ class BgRenderer {
     animated.forEach(([x, y]) => {
       ctx.beginPath();
       ctx.arc(x, y, 5, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(155,223,131,${0.4 * alpha})`;
+      ctx.strokeStyle = `rgba(140,198,63,${0.4 * alpha})`;
       ctx.lineWidth = 1.5;
       ctx.stroke();
     });
     for (let p = 0; p < 3; p++) {
       ctx.beginPath();
-      ctx.strokeStyle = `rgba(155,223,131,${0.05 * alpha})`;
+      ctx.strokeStyle = `rgba(140,198,63,${0.05 * alpha})`;
       ctx.setLineDash([4, 12]);
       ctx.lineWidth = 1;
       const cx = (0.3 + p * 0.2) * width; const cy = (0.4 + p * 0.15) * height;
@@ -323,7 +323,7 @@ class BgRenderer {
       [[0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [3, 4], [4, 5], [4, 6], [4, 7], [5, 8], [6, 8], [7, 8]].forEach(([a, b]) => {
         if (nodeCoords[a] && nodeCoords[b]) {
           const pulse = Math.sin(tick * 0.04 + a * 0.5) * 0.5 + 0.5;
-          ctx.strokeStyle = `rgba(155,223,131,${(0.04 + pulse * 0.08) * alpha})`;
+          ctx.strokeStyle = `rgba(140,198,63,${(0.04 + pulse * 0.08) * alpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(nodeCoords[a][0], nodeCoords[a][1]);
@@ -336,14 +336,14 @@ class BgRenderer {
       const pulse = Math.sin(tick * 0.05 + i * 0.7) * 0.5 + 0.5;
       ctx.beginPath();
       ctx.arc(x, y, 4 + pulse * 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(155,223,131,${(0.3 + pulse * 0.4) * alpha})`;
+      ctx.fillStyle = `rgba(140,198,63,${(0.3 + pulse * 0.4) * alpha})`;
       ctx.fill();
     });
     const scanH = 30 + Math.sin(tick * 0.02) * 10;
     const scanY = ((tick * 1.2) % (height + scanH)) - scanH;
     const grad = ctx.createLinearGradient(0, scanY, 0, scanY + scanH);
     grad.addColorStop(0, "transparent");
-    grad.addColorStop(0.5, `rgba(155,223,131,${0.06 * alpha})`);
+    grad.addColorStop(0.5, `rgba(140,198,63,${0.06 * alpha})`);
     grad.addColorStop(1, "transparent");
     ctx.fillStyle = grad;
     ctx.fillRect(0, scanY, width, scanH);
@@ -390,7 +390,7 @@ class BgRenderer {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const x = c * cellW; const y = r * cellH;
-        ctx.strokeStyle = `rgba(155,223,131,${0.04 * alpha})`;
+        ctx.strokeStyle = `rgba(140,198,63,${0.04 * alpha})`;
         ctx.lineWidth = 1;
         ctx.strokeRect(x + 10, y + 10, cellW - 20, cellH - 20);
       }
@@ -399,7 +399,7 @@ class BgRenderer {
     flowY.forEach((fy, i) => {
       const offset = (tick * 1.2 + i * 60) % (width + 60);
       ctx.beginPath();
-      ctx.strokeStyle = `rgba(155,223,131,${0.2 * alpha})`;
+      ctx.strokeStyle = `rgba(140,198,63,${0.2 * alpha})`;
       ctx.lineWidth = 1.5;
       ctx.setLineDash([6, 12]);
       ctx.moveTo(0, fy);
@@ -407,7 +407,7 @@ class BgRenderer {
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.beginPath();
-      ctx.fillStyle = `rgba(155,223,131,${0.5 * alpha})`;
+      ctx.fillStyle = `rgba(140,198,63,${0.5 * alpha})`;
       const ax = offset % width;
       ctx.moveTo(ax, fy);
       ctx.lineTo(ax - 8, fy - 5);
@@ -441,7 +441,7 @@ class BgRenderer {
       if (burst > 0.6) {
         ctx.beginPath();
         ctx.arc(px + pw * 0.5, py + ph * 0.5, burst * 20, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(155,223,131,${0.1 * burst * alpha})`;
+        ctx.strokeStyle = `rgba(140,198,63,${0.1 * burst * alpha})`;
         ctx.lineWidth = 1;
         ctx.stroke();
       }
@@ -504,7 +504,7 @@ class BgRenderer {
   stop() { cancelAnimationFrame(this.animFrame); }
 }
 
-/* ─── Industry Card Component ────────────────────────────────── */
+/* â”€â”€â”€ Industry Card Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function IndustryCard({
   industry,
   onHover,
@@ -526,10 +526,7 @@ function IndustryCard({
     gsap.to(card, { scale: 1.04, y: -6, duration: 0.4, ease: "power3.out" });
     gsap.to(card.querySelector(".ind-glow"), { opacity: 1, duration: 0.35 });
     gsap.to(card.querySelector(".ind-icon"), { scale: 1.15, duration: 0.4, ease: "back.out(2)" });
-    if (descRef.current)
-      gsap.fromTo(descRef.current, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" });
-    if (tagsRef.current)
-      gsap.fromTo(tagsRef.current, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.05, ease: "power2.out" });
+
     const border = borderRef.current;
     if (border) {
       const rect = border.querySelector("rect");
@@ -549,8 +546,7 @@ function IndustryCard({
     gsap.to(card, { scale: 1, y: 0, duration: 0.5, ease: "power3.out" });
     gsap.to(card.querySelector(".ind-glow"), { opacity: 0, duration: 0.3 });
     gsap.to(card.querySelector(".ind-icon"), { scale: 1, duration: 0.35 });
-    if (descRef.current) gsap.to(descRef.current, { opacity: 0, y: 4, duration: 0.25 });
-    if (tagsRef.current) gsap.to(tagsRef.current, { opacity: 0, y: 3, duration: 0.2 });
+
     const border = borderRef.current;
     if (border) {
       const rect = border.querySelector("rect");
@@ -563,8 +559,7 @@ function IndustryCard({
     const isMobileOrTablet = window.innerWidth < 1024;
     if (isMobileOrTablet) {
       gsap.set(cardRef.current, { opacity: 1, y: 0 });
-      if (descRef.current) gsap.set(descRef.current, { opacity: 1, y: 0 });
-      if (tagsRef.current) gsap.set(tagsRef.current, { opacity: 1, y: 0 });
+
     } else {
       gsap.set(cardRef.current, { opacity: 0, y: 30 });
     }
@@ -646,17 +641,17 @@ function IndustryCard({
           {industry.title}
         </h3>
 
-        {/* Description – visible on hover */}
+        {/* Description */}
         <p
           ref={descRef}
-          className="text-sm leading-relaxed opacity-0"
-          style={{ color: "rgba(255,255,255,0.55)" }}
+          className="text-sm leading-relaxed"
+          style={{ color: "rgba(255,255,255,0.7)" }}
         >
           {industry.description}
         </p>
 
-        {/* Tags – visible on hover */}
-        <div ref={tagsRef} className="mt-4 flex flex-wrap gap-1.5 opacity-0">
+        {/* Tags */}
+        <div ref={tagsRef} className="mt-4 flex flex-wrap gap-1.5">
           {industry.tags.map((tag) => (
             <span
               key={tag}
@@ -676,7 +671,7 @@ function IndustryCard({
   );
 }
 
-/* ─── Main Section Component ─────────────────────────────────── */
+/* â”€â”€â”€ Main Section Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export function IndustriesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -806,15 +801,15 @@ export function IndustriesSection() {
         className="ind-bg-grid pointer-events-none absolute inset-0 opacity-[0.035]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(155,223,131,0.6) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(155,223,131,0.6) 1px, transparent 1px)
+            linear-gradient(rgba(140,198,63,0.6) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(140,198,63,0.6) 1px, transparent 1px)
           `,
           backgroundSize: "48px 48px",
         }}
         aria-hidden="true"
       />
 
-      {/* Canvas – theme morphing animations */}
+      {/* Canvas â€“ theme morphing animations */}
       <canvas
         ref={canvasRef}
         className="pointer-events-none absolute inset-0 w-full h-full opacity-40"
@@ -825,7 +820,7 @@ export function IndustriesSection() {
       {/* Ambient radial glows */}
       <div
         className="pointer-events-none absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, #9BDF83 0%, transparent 65%)" }}
+        style={{ background: "radial-gradient(circle, #8CC63F 0%, transparent 65%)" }}
         aria-hidden="true"
       />
       <div
@@ -838,25 +833,25 @@ export function IndustriesSection() {
       <div
         ref={mouseGlowRef}
         className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-        style={{ background: "radial-gradient(circle, rgba(155,223,131,1) 0%, transparent 70%)", left: "50%", top: "50%" }}
+        style={{ background: "radial-gradient(circle, rgba(140,198,63,1) 0%, transparent 70%)", left: "50%", top: "50%" }}
         aria-hidden="true"
       />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] py-24 z-10">
 
-        {/* ── Section Header ─────────────────────────────── */}
+        {/* â”€â”€ Section Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div ref={headingRef} className="mb-16 text-center">
           <div
             className="ind-badge mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.2em]"
             style={{
-              background: "rgba(155,223,131,0.07)",
-              border: "1px solid rgba(155,223,131,0.35)",
-              color: "#9BDF83",
+              background: "rgba(140,198,63,0.07)",
+              border: "1px solid rgba(140,198,63,0.35)",
+              color: "#8CC63F",
               backdropFilter: "blur(10px)",
-              boxShadow: "0 0 20px rgba(155,223,131,0.1)",
+              boxShadow: "0 0 20px rgba(140,198,63,0.1)",
             }}
           >
-            <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: "#9BDF83", boxShadow: "0 0 6px #9BDF83" }} />
+            <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: "#8CC63F", boxShadow: "0 0 6px #8CC63F" }} />
             Industries We Serve
           </div>
 
@@ -865,25 +860,25 @@ export function IndustriesSection() {
             className="overflow-hidden text-section text-white font-black tracking-tight"
           >
             <span className="block overflow-hidden">
-              {["Engineering", "Solutions"].map((w, i) => (
+              {["Next", "- Gen"].map((w, i) => (
                 <span key={i} className="ind-word inline-block" style={{ marginRight: "0.3em" }}>{w}</span>
               ))}
             </span>
             <span className="block overflow-hidden">
-              {["Across", "Industries"].map((w, i) => (
+              {["Industry", "Solutions"].map((w, i) => (
                 <span
                   key={i}
                   className="ind-word inline-block"
                   style={{
                     marginRight: i === 0 ? "0.3em" : 0,
                     ...(i === 1 ? {
-                      background: "linear-gradient(90deg, #9BDF83 0%, #00D9FF 60%, #9BDF83 120%)",
+                      background: "linear-gradient(90deg, #8CC63F 0%, #00D9FF 60%, #8CC63F 120%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
                       backgroundSize: "200% 100%",
                       animation: "ind-shimmer 4s linear infinite",
-                      filter: "drop-shadow(0 0 16px rgba(155,223,131,0.45))",
+                      filter: "drop-shadow(0 0 16px rgba(140,198,63,0.45))",
                     } : {}),
                   }}
                 >
@@ -897,11 +892,11 @@ export function IndustriesSection() {
             className="ind-sub mx-auto mt-6 max-w-2xl text-body-large"
             style={{ color: "rgba(255,255,255,0.48)" }}
           >
-            Building innovative products and digital solutions that power the next generation of industry.
+            Transforming complex physical and digital ideas into scalable, market-ready realities across multiple domains.
           </p>
         </div>
 
-        {/* ── Industry Cards Grid ─────────────────────────── */}
+        {/* â”€â”€ Industry Cards Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div
           ref={gridRef}
           className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
@@ -916,7 +911,7 @@ export function IndustriesSection() {
           ))}
         </div>
 
-        {/* ── Bottom CTA ──────────────────────────────────── */}
+        {/* â”€â”€ Bottom CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div ref={ctaRef} className="mt-20 relative overflow-hidden rounded-3xl text-center" style={{ opacity: 0 }}>
           <div
             className="relative overflow-hidden rounded-3xl border p-10 md:p-16"
@@ -924,51 +919,51 @@ export function IndustriesSection() {
               background: "rgba(255,255,255,0.025)",
               backdropFilter: "blur(24px) saturate(160%)",
               WebkitBackdropFilter: "blur(24px) saturate(160%)",
-              borderColor: "rgba(155,223,131,0.15)",
+              borderColor: "rgba(140,198,63,0.15)",
               boxShadow: "0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)",
             }}
           >
             {/* Top gradient line */}
-            <div className="absolute left-0 top-0 w-full h-[1px]" style={{ background: "linear-gradient(90deg, transparent, #9BDF83, #00D9FF, transparent)" }} />
+            <div className="absolute left-0 top-0 w-full h-[1px]" style={{ background: "linear-gradient(90deg, transparent, #8CC63F, #00D9FF, transparent)" }} />
 
             {/* Radial glow */}
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full opacity-20 blur-[60px] pointer-events-none"
-              style={{ background: "radial-gradient(ellipse, rgba(155,223,131,0.3) 0%, rgba(0,217,255,0.15) 50%, transparent 100%)" }}
+              style={{ background: "radial-gradient(ellipse, rgba(140,198,63,0.3) 0%, rgba(0,217,255,0.15) 50%, transparent 100%)" }}
             />
 
             <div className="relative z-10 mx-auto max-w-3xl flex flex-col items-center">
               <span
                 className="mb-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em]"
-                style={{ background: "rgba(155,223,131,0.08)", border: "1px solid rgba(155,223,131,0.25)", color: "#9BDF83" }}
+                style={{ background: "rgba(140,198,63,0.08)", border: "1px solid rgba(140,198,63,0.25)", color: "#8CC63F" }}
               >
-                <span className="h-1 w-1 rounded-full bg-[#9BDF83] animate-pulse" />
+                <span className="h-1 w-1 rounded-full bg-[#8CC63F] animate-pulse" />
                 Custom Engineering
               </span>
 
               <h3 className="text-section font-black tracking-tight text-white leading-tight">
-                Need a Custom<br />
-                <span style={{ background: "linear-gradient(90deg, #9BDF83, #00D9FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  Industry Solution?
+                Let's Build Your Next <br />
+                <span style={{ background: "linear-gradient(90deg, #8CC63F, #00D9FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                  Custom Solutions
                 </span>
               </h3>
 
               <p className="mt-5 max-w-2xl text-body-large leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
-                From concept to production, TexaWave helps organizations build innovative hardware, embedded,
-                software, and digital products tailored to their industry.
+                Partner with Texawave to turn industry challenges into market-ready products,
+                leading with robust software and cloud platforms backed by embedded systems and electronics.
               </p>
 
               <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center">
                 <Link
                   href="/contact"
-                  className="cta-magnetic group inline-flex items-center justify-center gap-2 rounded-xl bg-[#9BDF83] px-8 py-4 font-bold text-black border border-transparent shadow-[0_0_20px_rgba(155,223,131,0.25)] transition-all duration-300 hover:bg-[#aff094] hover:shadow-[0_0_35px_rgba(155,223,131,0.5)]"
+                  className="cta-magnetic group inline-flex items-center justify-center gap-2 rounded-xl bg-[#8CC63F] px-8 py-4 font-bold text-black border border-transparent shadow-[0_0_20px_rgba(140,198,63,0.25)] transition-all duration-300 hover:bg-[#aff094] hover:shadow-[0_0_35px_rgba(140,198,63,0.5)]"
                 >
                   Discuss Your Project
                   <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
                   href="/solutions"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-sm px-8 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#9BDF83]/50 hover:bg-white/[0.07] hover:text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-sm px-8 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F]/50 hover:bg-white/[0.07] hover:text-white"
                 >
                   Explore Solutions
                 </Link>
@@ -987,7 +982,7 @@ export function IndustriesSection() {
         }
         .ind-card { transition: box-shadow 0.4s ease; }
         .ind-card:hover {
-          box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(155,223,131,0.08) !important;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(140,198,63,0.08) !important;
         }
       `}</style>
     </section>

@@ -4,34 +4,34 @@
 
 /* ─── Permanent Dark Theme Variables ──────────────────────────────────────── */
 :root {
-  --primary-green: #9BDF83;
-  --primary-green-dark: #62ba46;
-  --primary-green-darker: #2b521e;
-  --primary-green-glow: 0 0 20px rgba(155, 223, 131, 0.35);
+  --primary-green: #8CC63F;
+  --primary-green-dark: #3FAE49;
+  --primary-green-darker: #1E3A0E;
+  --primary-green-glow: 0 0 20px rgba(140, 198, 63, 0.35);
 
   --signal: var(--primary-green);
-  --bg-primary: #000000;
-  --bg-secondary: #080808;
-  --bg-card: #111111;
-  --text-primary: #EEEEEE;
-  --text-secondary: #B5B5B5;
+  --bg-primary: #0F1115;
+  --bg-secondary: #0A0B0E;
+  --bg-card: #171A21;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
   --accent: var(--primary-green);
-  --accent-hover: #b4eb9f;
+  --accent-hover: #14B8A6;
   --accent-light: var(--primary-green);
-  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color: #22252F;
   --grid-color: rgba(255, 255, 255, 0.04);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
-  --conveyor-bg: linear-gradient(160deg, #000000 0%, #060a0f 60%, #000000 100%);
-  --blueprint-grid: rgba(0, 212, 255, 0.04);
+  --conveyor-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 60%, #0F1115 100%);
+  --blueprint-grid: rgba(20, 184, 166, 0.04);
   --conveyor-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
-  --conveyor-card-border: rgba(0, 212, 255, 0.18);
+  --conveyor-card-border: rgba(20, 184, 166, 0.18);
   --conveyor-card-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
-  --testimonial-bg: linear-gradient(160deg, #000000 0%, #060a0f 55%, #000000 100%);
+  --testimonial-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 55%, #0F1115 100%);
   --testimonial-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.04) 100%);
-  --bg: #000000;
-  --card: #111111;
-  --text: #EEEEEE;
+  --bg: #0F1115;
+  --card: #171A21;
+  --text: #FFFFFF;
 
   /* Typography Design Scale CSS Variables */
   --text-hero: clamp(2.5rem, 6vw, 5.5rem);
@@ -191,7 +191,7 @@ textarea {
 
 .pcb-trace {
   background:
-    radial-gradient(circle at 18% 24%, rgba(155, 223, 131, 0.35), transparent 18%),
+    radial-gradient(circle at 18% 24%, rgba(140, 198, 63, 0.35), transparent 18%),
     radial-gradient(circle at 72% 28%, rgba(200, 117, 55, 0.18), transparent 16%),
     linear-gradient(135deg, rgba(18, 59, 83, 0.95), rgba(16, 19, 24, 0.98));
 }
@@ -232,7 +232,7 @@ textarea {
 
 /* Dropdown item tint */
 .hover\:bg-signal\/25:hover {
-  background-color: rgba(155, 223, 131, 0.35);
+  background-color: rgba(140, 198, 63, 0.35);
 }
 
 /* Ensure backdrop-blur-0 is generated */
@@ -268,9 +268,9 @@ textarea {
 
 .navbar-link:hover {
   color: var(--primary-green) !important;
-  background-color: rgba(155, 223, 131, 0.15) !important;
-  box-shadow: 0 0 15px rgba(155, 223, 131, 0.3) !important;
-  text-shadow: 0 0 12px rgba(155, 223, 131, 0.6);
+  background-color: rgba(140, 198, 63, 0.15) !important;
+  box-shadow: 0 0 15px rgba(140, 198, 63, 0.3) !important;
+  text-shadow: 0 0 12px rgba(140, 198, 63, 0.6);
 }
 
 .navbar-link-active {
@@ -278,7 +278,7 @@ textarea {
   font-weight: 600 !important;
   font-size: 15px !important;
   letter-spacing: 0.02em !important;
-  text-shadow: 0 0 12px rgba(155, 223, 131, 0.4);
+  text-shadow: 0 0 12px rgba(140, 198, 63, 0.4);
   transition: color 0.3s ease, text-shadow 0.3s ease !important;
 }
 
@@ -303,7 +303,7 @@ textarea {
 .services-card-custom:hover {
   transform: translateY(-4px) scale(1.02);
   border-color: var(--accent) !important;
-  box-shadow: 0 20px 40px rgba(155, 223, 131, 0.25), 0 0 0 1px rgba(155, 223, 131, 0.35) !important;
+  box-shadow: 0 20px 40px rgba(140, 198, 63, 0.25), 0 0 0 1px rgba(140, 198, 63, 0.35) !important;
 }
 
 /* Animated Arrow in Service cards */
@@ -319,14 +319,14 @@ textarea {
 
 /* Grid and trace background patterns */
 .pcb-experience {
-  background-color: #000000;
+  background-color: var(--bg-primary);
   position: relative;
   overflow: hidden;
 }
 
 .pcb-grid-overlay {
   background-image: 
-    radial-gradient(rgba(155, 223, 131, 0.08) 1px, transparent 1px),
+    radial-gradient(rgba(140, 198, 63, 0.08) 1px, transparent 1px),
     linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 24px 24px, 96px 96px, 96px 96px;
@@ -336,7 +336,7 @@ textarea {
 /* Base Trace Style */
 .pcb-trace-path {
   fill: none;
-  stroke: rgba(155, 223, 131, 0.15);
+  stroke: rgba(140, 198, 63, 0.15);
   stroke-width: 2px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -345,15 +345,15 @@ textarea {
 
 /* Active/Highlighted Trace */
 .pcb-trace-path.is-active {
-  stroke: rgba(155, 223, 131, 0.8);
+  stroke: rgba(140, 198, 63, 0.8);
   stroke-width: 2.5px;
-  filter: drop-shadow(0 0 4px rgba(155, 223, 131, 0.7));
+  filter: drop-shadow(0 0 4px rgba(140, 198, 63, 0.7));
 }
 
 .pcb-trace-path.is-hovered {
-  stroke: rgba(155, 223, 131, 1) !important;
+  stroke: rgba(140, 198, 63, 1) !important;
   stroke-width: 3px !important;
-  filter: drop-shadow(0 0 8px rgba(155, 223, 131, 0.9)) !important;
+  filter: drop-shadow(0 0 8px rgba(140, 198, 63, 0.9)) !important;
 }
 
 /* Flowing Current / Energy Particles */
@@ -390,7 +390,7 @@ textarea {
 /* Circuit Nodes */
 .pcb-node {
   fill: #111111;
-  stroke: rgba(155, 223, 131, 0.45);
+  stroke: rgba(140, 198, 63, 0.45);
   stroke-width: 2px;
   transition: stroke 0.4s ease, fill 0.4s ease, r 0.4s ease, filter 0.4s ease;
   transform-origin: center;
@@ -400,7 +400,7 @@ textarea {
   fill: var(--primary-green-darker);
   stroke: var(--primary-green);
   stroke-width: 3px;
-  filter: drop-shadow(0 0 6px rgba(155, 223, 131, 0.8));
+  filter: drop-shadow(0 0 6px rgba(140, 198, 63, 0.8));
   animation: pcb-node-pulse-anim 2s infinite ease-in-out;
 }
 
@@ -413,11 +413,11 @@ textarea {
 @keyframes pcb-node-pulse-anim {
   0%, 100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 5px rgba(155, 223, 131, 0.6));
+    filter: drop-shadow(0 0 5px rgba(140, 198, 63, 0.6));
   }
   50% {
     transform: scale(1.25);
-    filter: drop-shadow(0 0 10px rgba(155, 223, 131, 0.9));
+    filter: drop-shadow(0 0 10px rgba(140, 198, 63, 0.9));
   }
 }
 
@@ -437,15 +437,15 @@ textarea {
 .pcb-project-card.is-active {
   opacity: 1;
   transform: scale(1);
-  border-color: rgba(155, 223, 131, 0.5);
-  box-shadow: 0 0 30px rgba(155, 223, 131, 0.25), 0 10px 30px rgba(0, 0, 0, 0.8);
+  border-color: rgba(140, 198, 63, 0.5);
+  box-shadow: 0 0 30px rgba(140, 198, 63, 0.25), 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
 .pcb-project-card:hover {
   transform: translateY(-8px) scale(1.02) !important;
   opacity: 1 !important;
-  border-color: rgba(155, 223, 131, 0.65) !important;
-  box-shadow: 0 0 40px rgba(155, 223, 131, 0.35), 0 20px 40px rgba(0, 0, 0, 0.9) !important;
+  border-color: rgba(140, 198, 63, 0.65) !important;
+  box-shadow: 0 0 40px rgba(140, 198, 63, 0.35), 0 20px 40px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Dynamic Tags */
@@ -455,8 +455,8 @@ textarea {
 
 .pcb-project-card:hover .pcb-tag {
   transform: translateY(-1px) scale(1.03);
-  border-color: rgba(155, 223, 131, 0.4);
-  background-color: rgba(155, 223, 131, 0.15);
+  border-color: rgba(140, 198, 63, 0.4);
+  background-color: rgba(140, 198, 63, 0.15);
   color: var(--primary-green);
 }
 
@@ -464,7 +464,7 @@ textarea {
 .pcb-hub-glow {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(155, 223, 131, 0.3) 0%, rgba(155, 223, 131, 0.1) 50%, transparent 100%);
+  background: radial-gradient(circle, rgba(140, 198, 63, 0.3) 0%, rgba(140, 198, 63, 0.1) 50%, transparent 100%);
   filter: blur(40px);
   pointer-events: none;
   opacity: 0;
@@ -493,17 +493,17 @@ textarea {
   background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(155, 223, 131, 0.3);
+  border: 1px solid rgba(140, 198, 63, 0.3);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
-              0 0 40px rgba(155, 223, 131, 0.15),
+              0 0 40px rgba(140, 198, 63, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .glassmorphism-hub-panel:hover {
-  border-color: rgba(155, 223, 131, 0.45);
+  border-color: rgba(140, 198, 63, 0.45);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 
-              0 0 50px rgba(155, 223, 131, 0.25),
+              0 0 50px rgba(140, 198, 63, 0.25),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
@@ -514,11 +514,11 @@ textarea {
 }
 
 .hub-option-btn:hover {
-  background: rgba(155, 223, 131, 0.15);
-  border-color: rgba(155, 223, 131, 0.4);
+  background: rgba(140, 198, 63, 0.15);
+  border-color: rgba(140, 198, 63, 0.4);
   color: #EEEEEE;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 20px rgba(155, 223, 131, 0.25);
+  box-shadow: 0 0 20px rgba(140, 198, 63, 0.25);
 }
 
 /* ─── Premium Vision & Mission Animations ─────────────────────────────── */
@@ -555,6 +555,110 @@ textarea {
     top: 100%;
     opacity: 0;
   }
+}
+
+/* ─── Case Study Markdown Content Styles ────────────────────────────────── */
+.markdown-content strong {
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+
+.markdown-content em {
+  font-style: italic !important;
+}
+
+.markdown-content h2,
+.markdown-content .markdown-h2 {
+  font-family: var(--font-sora), "Sora", sans-serif !important;
+  font-size: 1.75rem !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.25rem !important;
+  font-weight: 750 !important;
+  color: #ffffff !important;
+}
+
+@media (min-width: 1024px) {
+  .markdown-content h2,
+  .markdown-content .markdown-h2 {
+    font-size: 2rem !important;
+  }
+}
+
+.markdown-content h1,
+.markdown-content .markdown-h1 {
+  font-family: var(--font-sora), "Sora", sans-serif !important;
+  font-size: 2.25rem !important;
+  margin-top: 3rem !important;
+  margin-bottom: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+}
+
+@media (min-width: 1024px) {
+  .markdown-content h1,
+  .markdown-content .markdown-h1 {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* MAIN PROSE SELECTORS (Problem Statement, Key Challenges, The Solution, Results & Impact) */
+.markdown-content.main-prose p {
+  font-family: var(--font-inter), "Inter", sans-serif !important;
+  font-size: 1.05rem !important; /* ~17px */
+  line-height: 1.7 !important;
+  margin-bottom: 1.5rem !important;
+  color: #E0E0E0 !important; /* Premium high contrast off-white */
+}
+
+@media (min-width: 1024px) {
+  .markdown-content.main-prose p {
+    font-size: 1.125rem !important; /* 18px on desktop */
+  }
+}
+
+.markdown-content.main-prose ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.markdown-content.main-prose li {
+  font-family: var(--font-inter), "Inter", sans-serif !important;
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+  margin-bottom: 0.5rem !important;
+  color: #E0E0E0 !important;
+}
+
+@media (min-width: 1024px) {
+  .markdown-content.main-prose li {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* CARD PROSE SELECTORS (Multi-disciplinary engineering breakdown cards) */
+.markdown-content.card-prose p {
+  font-family: var(--font-inter), "Inter", sans-serif !important;
+  font-size: 0.8125rem !important; /* 13px */
+  line-height: 1.6 !important;
+  margin-bottom: 0.75rem !important;
+  color: #D4D4D8 !important; /* Zinc 300 */
+}
+
+.markdown-content.card-prose ul {
+  list-style-type: disc !important;
+  padding-left: 1.25rem !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.markdown-content.card-prose li {
+  font-family: var(--font-inter), "Inter", sans-serif !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 0.375rem !important;
+  color: #D4D4D8 !important;
 }
 
 

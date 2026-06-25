@@ -7,7 +7,8 @@ import {
   Lock, LogOut, Plus, Trash2, Edit, Eye, Search, FileText, 
   TrendingUp, Users, Cpu, Calendar, X, Sparkles, PieChart, 
   BarChart2, FileSpreadsheet, CheckCircle2, ShieldAlert, 
-  MessageSquare, UserCheck, Settings, Globe, Shield, UserPlus, Mail, Key
+  MessageSquare, UserCheck, Settings, Globe, Shield, UserPlus, Mail, Key,
+  Link
 } from "lucide-react";
 import { Job, Application, WalkInDrive } from "@/app/careers/types";
 import { 
@@ -27,12 +28,42 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState("");
 
   // Navigation states
-  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings" | "case-studies">("dashboard");
 
   // Core Data States
   const [jobs, setJobs] = useState<Job[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [hrUsers, setHrUsers] = useState<HRUser[]>([]);
+
+  // Case Studies States
+  const [caseStudies, setCaseStudies] = useState<any[]>([]);
+  const [csSearch, setCsSearch] = useState("");
+  const [csFilterStatus, setCsFilterStatus] = useState("All");
+  const [showCSModal, setShowCSModal] = useState(false);
+  const [editingCS, setEditingCS] = useState<any | null>(null);
+  const [showCommentsModal, setShowCommentsModal] = useState<any | null>(null);
+
+  // Case Studies Inputs
+  const [csTitle, setCsTitle] = useState("");
+  const [csCategory, setCsCategory] = useState("Mechanical Engineering");
+  const [csHeroImage, setCsHeroImage] = useState("");
+  const [csProblemStatement, setCsProblemStatement] = useState("");
+  const [csChallenges, setCsChallenges] = useState("");
+  const [csSolution, setCsSolution] = useState("");
+  const [csHardwareEngineering, setCsHardwareEngineering] = useState("");
+  const [csSoftwareEngineering, setCsSoftwareEngineering] = useState("");
+  const [csMechanicalEngineering, setCsMechanicalEngineering] = useState("");
+  const [csResultsImpact, setCsResultsImpact] = useState("");
+  const [csGallery, setCsGallery] = useState("");
+  const [csStatus, setCsStatus] = useState<"Draft" | "Published">("Draft");
+
+  // Toast notifications state
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
   
   // HR User Management Form inputs
   const [newHRName, setNewHRName] = useState("");
@@ -117,8 +148,320 @@ export default function AdminDashboard() {
     // Fetch HR accounts list from `/api/hr`
     fetchHRAccounts();
 
+    // Fetch Case Studies
+    fetchCaseStudies();
+
     setIsMounted(true);
   }, [router]);
+
+  const fetchCaseStudies = async () => {
+    try {
+      const response = await fetch("/api/case-studies", {
+        headers: {
+          "Authorization": "Bearer jwt_mock_admin_token"
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setCaseStudies(data.caseStudies);
+      }
+    } catch (err) {
+      console.error("Failed to load case studies");
+    }
+  };
+
+  const handleCSChangeStatus = async (cs: any, newStatus: "Draft" | "Published") => {
+    try {
+      const response = await fetch("/api/case-studies", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_mock_admin_token"
+        },
+        body: JSON.stringify({ id: cs.id, status: newStatus })
+      });
+      const data = await response.json();
+      if (data.success) {
+        showToast(`Status updated to ${newStatus}`);
+        fetchCaseStudies();
+      } else {
+        alert("Failed to update status: " + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteCS = async (id: string) => {
+    if (confirm("Are you sure you want to permanently delete this case study? All comments and analytics will be lost.")) {
+      try {
+        const response = await fetch(`/api/case-studies/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": "Bearer jwt_mock_admin_token"
+          }
+        });
+        const data = await response.json();
+        if (data.success) {
+          showToast("Case study deleted successfully");
+          fetchCaseStudies();
+        } else {
+          alert("Failed to delete case study: " + data.error);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const handleEditCSClick = (cs: any) => {
+    setEditingCS(cs);
+    setCsTitle(cs.title);
+    setCsCategory(cs.category);
+    setCsHeroImage(cs.heroImage);
+    setCsProblemStatement(cs.problemStatement);
+    setCsChallenges(cs.challenges);
+    setCsSolution(cs.solution);
+    setCsHardwareEngineering(cs.hardwareEngineering);
+    setCsSoftwareEngineering(cs.softwareEngineering);
+    setCsMechanicalEngineering(cs.mechanicalEngineering);
+    setCsResultsImpact(cs.resultsImpact);
+    setCsGallery(cs.gallery ? cs.gallery.join(", ") : "");
+    setCsStatus(cs.status);
+    setShowCSModal(true);
+  };
+
+  const resetCSForm = () => {
+    setEditingCS(null);
+    setCsTitle("");
+    setCsCategory("Mechanical Engineering");
+    setCsHeroImage("");
+    setCsProblemStatement("");
+    setCsChallenges("");
+    setCsSolution("");
+    setCsHardwareEngineering("");
+    setCsSoftwareEngineering("");
+    setCsMechanicalEngineering("");
+    setCsResultsImpact("");
+    setCsGallery("");
+    setCsStatus("Draft");
+  };
+
+  const handleCSSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!csTitle || !csCategory) return;
+
+    const galleryArray = csGallery ? csGallery.split(",").map(u => u.trim()).filter(Boolean) : [];
+
+    const payload = {
+      title: csTitle,
+      category: csCategory,
+      heroImage: csHeroImage,
+      problemStatement: csProblemStatement,
+      challenges: csChallenges,
+      solution: csSolution,
+      hardwareEngineering: csHardwareEngineering,
+      softwareEngineering: csSoftwareEngineering,
+      mechanicalEngineering: csMechanicalEngineering,
+      resultsImpact: csResultsImpact,
+      gallery: galleryArray,
+      status: csStatus
+    };
+
+    try {
+      const url = "/api/case-studies";
+      const method = editingCS ? "PUT" : "POST";
+      const body = editingCS ? { ...payload, id: editingCS.id } : payload;
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_mock_admin_token"
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        showToast(editingCS ? "Case study updated successfully!" : "Case study created successfully!");
+        setShowCSModal(false);
+        resetCSForm();
+        fetchCaseStudies();
+      } else {
+        alert("Error saving case study: " + data.error);
+      }
+    } catch (err) {
+      console.error("Save error", err);
+    }
+  };
+
+  const handleToggleCommentApproval = async (csId: string, commentId: string, currentApproved: boolean) => {
+    try {
+      const response = await fetch(`/api/case-studies/${csId}/comments`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_mock_admin_token"
+        },
+        body: JSON.stringify({ commentId, approved: !currentApproved })
+      });
+      const data = await response.json();
+      if (data.success) {
+        showToast(currentApproved ? "Comment disapproved" : "Comment approved");
+        if (showCommentsModal && showCommentsModal.id === csId) {
+          const updatedComments = showCommentsModal.comments.map((c: any) => {
+            if (c.id === commentId) {
+              return { ...c, approved: !currentApproved };
+            }
+            return c;
+          });
+          setShowCommentsModal({ ...showCommentsModal, comments: updatedComments });
+        }
+        fetchCaseStudies();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteComment = async (csId: string, commentId: string) => {
+    if (confirm("Are you sure you want to delete this comment?")) {
+      try {
+        const response = await fetch(`/api/case-studies/${csId}/comments`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer jwt_mock_admin_token"
+          },
+          body: JSON.stringify({ commentId })
+        });
+        const data = await response.json();
+        if (data.success) {
+          showToast("Comment deleted");
+          if (showCommentsModal && showCommentsModal.id === csId) {
+            const updatedComments = showCommentsModal.comments.filter((c: any) => c.id !== commentId);
+            setShowCommentsModal({ ...showCommentsModal, comments: updatedComments });
+          }
+          fetchCaseStudies();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const insertMarkdown = (textareaId: string, syntax: string) => {
+    const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    textarea.focus();
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selected = text.substring(start, end);
+
+    let replacement = "";
+    let cursorOffsetStart = 0;
+    let cursorOffsetEnd = 0;
+
+    if (syntax === "bold") {
+      replacement = `**${selected || "bold text"}**`;
+      cursorOffsetStart = start + 2;
+      cursorOffsetEnd = selected ? end + 2 : start + 11;
+    } else if (syntax === "italic") {
+      replacement = `*${selected || "italic text"}*`;
+      cursorOffsetStart = start + 1;
+      cursorOffsetEnd = selected ? end + 1 : start + 12;
+    } else if (syntax === "list") {
+      replacement = `\n- ${selected || "list item"}`;
+      cursorOffsetStart = start + 3;
+      cursorOffsetEnd = selected ? end + 3 : start + 12;
+    } else if (syntax === "h2") {
+      replacement = `\n## ${selected || "heading"}\n`;
+      cursorOffsetStart = start + 4;
+      cursorOffsetEnd = selected ? end + 4 : start + 11;
+    }
+
+    const newValue = text.substring(0, start) + replacement + text.substring(end);
+    
+    // Set directly on the element
+    textarea.value = newValue;
+    textarea.setSelectionRange(cursorOffsetStart, cursorOffsetEnd);
+
+    // Sync to React state
+    if (textareaId === "csProblem") setCsProblemStatement(newValue);
+    else if (textareaId === "csChallenges") setCsChallenges(newValue);
+    else if (textareaId === "csSolution") setCsSolution(newValue);
+    else if (textareaId === "csHardware") setCsHardwareEngineering(newValue);
+    else if (textareaId === "csSoftware") setCsSoftwareEngineering(newValue);
+    else if (textareaId === "csMechanical") setCsMechanicalEngineering(newValue);
+    else if (textareaId === "csResults") setCsResultsImpact(newValue);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, target: "hero" | "gallery") => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/case-studies/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (target === "hero") {
+          setCsHeroImage(data.url);
+          showToast("Hero image uploaded successfully!");
+        } else {
+          const current = csGallery ? csGallery.split(",").map(u => u.trim()).filter(Boolean) : [];
+          current.push(data.url);
+          setCsGallery(current.join(", "));
+          showToast("Gallery snapshot uploaded!");
+        }
+      } else {
+        alert("Failed to upload image: " + data.error);
+      }
+    } catch (err) {
+      alert("Image upload failed due to network error.");
+    }
+  };
+
+  const renderMarkdownToolbar = (id: string) => (
+    <div className="flex gap-2 mb-1">
+      <button
+        type="button"
+        onClick={() => insertMarkdown(id, "bold")}
+        className="px-3 py-1 text-[11px] font-bold bg-white/5 hover:bg-white/10 border border-white/10 rounded font-mono text-text-secondary hover:text-white transition-colors"
+      >
+        B
+      </button>
+      <button
+        type="button"
+        onClick={() => insertMarkdown(id, "italic")}
+        className="px-3 py-1 text-[11px] italic bg-white/5 hover:bg-white/10 border border-white/10 rounded font-mono text-text-secondary hover:text-white transition-colors"
+      >
+        I
+      </button>
+      <button
+        type="button"
+        onClick={() => insertMarkdown(id, "list")}
+        className="px-3 py-1 text-[11px] bg-white/5 hover:bg-white/10 border border-white/10 rounded font-mono text-text-secondary hover:text-white transition-colors"
+      >
+        List
+      </button>
+      <button
+        type="button"
+        onClick={() => insertMarkdown(id, "h2")}
+        className="px-3 py-1 text-[11px] bg-white/5 hover:bg-white/10 border border-white/10 rounded font-mono text-text-secondary hover:text-white transition-colors"
+      >
+        H2
+      </button>
+    </div>
+  );
 
   const fetchHRAccounts = async () => {
     try {
@@ -359,16 +702,16 @@ export default function AdminDashboard() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center text-white">
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center text-white">
         <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
-        <div className="h-10 w-10 border-4 border-[#9BDF83] border-t-transparent rounded-full animate-spin mb-4" />
+        <div className="h-10 w-10 border-4 border-[#8CC63F] border-t-transparent rounded-full animate-spin mb-4" />
         <p className="text-xs font-bold uppercase tracking-wider ml-4 text-text-secondary">Securing administrative panel...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-text-primary font-sans text-left relative">
+    <div className="min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Top Navbar */}
@@ -381,7 +724,7 @@ export default function AdminDashboard() {
             height={40}
             className="h-8 w-auto object-contain"
           />
-          <span className="hidden sm:inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-[#9BDF83] bg-[#9BDF83]/10 border border-[#9BDF83]/20 rounded font-mono">
+          <span className="hidden sm:inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-[#8CC63F] bg-[#8CC63F]/10 border border-[#8CC63F]/20 rounded font-mono">
             🛡️ MASTER ADMIN
           </span>
         </div>
@@ -389,7 +732,7 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-6 text-xs font-semibold">
           <div className="text-right">
             <span className="text-text-secondary block text-[10px] uppercase font-mono">System Owner</span>
-            <span className="text-[#9BDF83] font-bold">{username}</span>
+            <span className="text-[#8CC63F] font-bold">{username}</span>
           </div>
           
           <button
@@ -415,16 +758,17 @@ export default function AdminDashboard() {
               </span>
               <ul className="text-[10px] font-bold space-y-2 font-mono">
                 <li className="flex items-center gap-2 text-white">✅ Everything HR Can Do</li>
-                <li className="flex items-center gap-2 text-[#9BDF83]">✅ Create/Remove HR Accounts</li>
-                <li className="flex items-center gap-2 text-[#9BDF83]">✅ Manage Roles</li>
-                <li className="flex items-center gap-2 text-[#9BDF83]">✅ View Analytics</li>
-                <li className="flex items-center gap-2 text-[#9BDF83]">✅ Configure Career Portal</li>
+                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Create/Remove HR Accounts</li>
+                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Manage Roles</li>
+                <li className="flex items-center gap-2 text-[#8CC63F]">✅ View Analytics</li>
+                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Configure Career Portal</li>
               </ul>
             </div>
 
             <nav className="space-y-1">
               {[
                 { id: "dashboard", label: "📊 Dashboard", icon: TrendingUp },
+                { id: "case-studies", label: "📚 Case Studies", icon: FileSpreadsheet },
                 { id: "hr", label: "👥 HR Management", icon: UserCheck },
                 { id: "jobs", label: "💼 Job Management", icon: Cpu },
                 { id: "candidates", label: "📝 Candidates", icon: FileText },
@@ -437,7 +781,7 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
                     activeTab === tab.id
-                      ? "bg-[#9BDF83]/10 border-[#9BDF83]/30 text-[#9BDF83] shadow-[0_0_12px_rgba(155,223,131,0.08)]"
+                      ? "bg-[#8CC63F]/10 border-[#8CC63F]/30 text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.08)]"
                       : "bg-transparent border-transparent text-text-secondary hover:text-white"
                   }`}
                 >
@@ -466,8 +810,8 @@ export default function AdminDashboard() {
               {/* Cards row */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                  { label: "Total Jobs", value: totalJobsCount, desc: "Listed positions", color: "text-[#9BDF83]" },
-                  { label: "Total Candidates", value: totalCandidatesCount, desc: "Received submissions", color: "text-[#00D4FF]" },
+                  { label: "Total Jobs", value: totalJobsCount, desc: "Listed positions", color: "text-[#8CC63F]" },
+                  { label: "Total Candidates", value: totalCandidatesCount, desc: "Received submissions", color: "text-[#14B8A6]" },
                   { label: "Total HR Users", value: totalHRUsersCount, desc: "Active recruiter accounts", color: "text-purple-400" },
                   { label: "Website Visitors", value: websiteVisitorsCount, desc: "Sourcing page traffic", color: "text-amber-400" }
                 ].map((card, idx) => (
@@ -485,7 +829,7 @@ export default function AdminDashboard() {
                 {/* Chart 1: Applications by division */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
-                    <BarChart2 size={16} className="text-[#9BDF83]" />
+                    <BarChart2 size={16} className="text-[#8CC63F]" />
                     Applications per Division
                   </h3>
 
@@ -497,11 +841,11 @@ export default function AdminDashboard() {
                         <div key={dept} className="space-y-1 text-left">
                           <div className="flex justify-between text-xs font-semibold">
                             <span className="text-white">{dept} Division</span>
-                            <span className="text-[#9BDF83] font-mono">{count} ({percentage}%)</span>
+                            <span className="text-[#8CC63F] font-mono">{count} ({percentage}%)</span>
                           </div>
                           <div className="w-full bg-[#080808] h-3 border border-white/5 rounded-full overflow-hidden">
                             <div 
-                              className="bg-[#9BDF83] h-full rounded-full transition-all duration-700" 
+                              className="bg-[#8CC63F] h-full rounded-full transition-all duration-700" 
                               style={{ width: `${Math.max(percentage, 5)}%` }} 
                             />
                           </div>
@@ -514,7 +858,7 @@ export default function AdminDashboard() {
                 {/* System Diagnostics status */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left flex flex-col justify-between">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
-                    <Shield size={16} className="text-[#9BDF83]" />
+                    <Shield size={16} className="text-[#8CC63F]" />
                     System Status & Operations
                   </h3>
 
@@ -550,7 +894,7 @@ export default function AdminDashboard() {
                 {/* Form: Add Recruiter */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
-                    <UserPlus size={16} className="text-[#9BDF83]" />
+                    <UserPlus size={16} className="text-[#8CC63F]" />
                     Add HR Recruiter Account
                   </h3>
 
@@ -561,7 +905,7 @@ export default function AdminDashboard() {
                   )}
 
                   {hrSuccess && (
-                    <div className="p-3 bg-green-950/20 border border-[#9BDF83]/20 text-xs text-[#9BDF83] rounded-xl mb-4 flex items-center gap-2">
+                    <div className="p-3 bg-green-950/20 border border-[#8CC63F]/20 text-xs text-[#8CC63F] rounded-xl mb-4 flex items-center gap-2">
                       <CheckCircle2 size={14} /> <span>{hrSuccess}</span>
                     </div>
                   )}
@@ -575,7 +919,7 @@ export default function AdminDashboard() {
                         value={newHRName}
                         onChange={(e) => setNewHRName(e.target.value)}
                         placeholder="e.g. John Recruiter"
-                        className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                        className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                       />
                     </div>
 
@@ -589,7 +933,7 @@ export default function AdminDashboard() {
                           value={newHREmail}
                           onChange={(e) => setNewHREmail(e.target.value)}
                           placeholder="e.g. recruiter@texawave.com"
-                          className="w-full bg-black border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                          className="w-full bg-bg-primary border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -604,7 +948,7 @@ export default function AdminDashboard() {
                           value={newHRPassword}
                           onChange={(e) => setNewHRPassword(e.target.value)}
                           placeholder="Password"
-                          className="w-full bg-black border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                          className="w-full bg-bg-primary border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -612,7 +956,7 @@ export default function AdminDashboard() {
                     <button
                       type="submit"
                       disabled={hrLoading}
-                      className="w-full bg-[#9BDF83] text-black font-bold uppercase text-[10px] tracking-wider py-3 rounded-xl hover:bg-opacity-95 shadow-crisp font-mono"
+                      className="w-full bg-[#8CC63F] text-black font-bold uppercase text-[10px] tracking-wider py-3 rounded-xl hover:bg-opacity-95 shadow-crisp font-mono"
                     >
                       {hrLoading ? "Provisioning..." : "Create Account"}
                     </button>
@@ -622,7 +966,7 @@ export default function AdminDashboard() {
                 {/* Recruiter list table */}
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
-                    <Users size={16} className="text-[#9BDF83]" />
+                    <Users size={16} className="text-[#8CC63F]" />
                     Recruiter Directory List
                   </h3>
 
@@ -644,7 +988,7 @@ export default function AdminDashboard() {
                             </td>
                             <td className="py-3 px-3 uppercase text-[9px] font-bold font-mono">
                               <span className={`px-2 py-0.5 rounded ${
-                                user.role === "admin" ? "bg-red-950/20 text-red-400 border border-red-500/10" : "bg-[#9BDF83]/10 text-[#9BDF83] border border-[#9BDF83]/10"
+                                user.role === "admin" ? "bg-red-950/20 text-red-400 border border-red-500/10" : "bg-[#8CC63F]/10 text-[#8CC63F] border border-[#8CC63F]/10"
                               }`}>
                                 {user.role}
                               </span>
@@ -686,7 +1030,7 @@ export default function AdminDashboard() {
                     resetJobForm();
                     setShowJobModal(true);
                   }}
-                  className="bg-[#9BDF83] text-black px-4 py-2.5 rounded-lg text-xs font-bold shadow-crisp hover:bg-opacity-95 flex items-center gap-2"
+                  className="bg-[#8CC63F] text-black px-4 py-2.5 rounded-lg text-xs font-bold shadow-crisp hover:bg-opacity-95 flex items-center gap-2"
                 >
                   <Plus size={14} /> Publish Job
                 </button>
@@ -721,7 +1065,7 @@ export default function AdminDashboard() {
                         </td>
                         <td className="py-4 px-6">
                           <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
-                            job.status === "Open" ? "bg-[#9BDF83]/20 text-[#9BDF83] border border-[#9BDF83]/30" : "bg-neutral-800 text-text-secondary border border-white/5"
+                            job.status === "Open" ? "bg-[#8CC63F]/20 text-[#8CC63F] border border-[#8CC63F]/30" : "bg-neutral-800 text-text-secondary border border-white/5"
                           }`}>
                             {job.status}
                           </span>
@@ -765,14 +1109,14 @@ export default function AdminDashboard() {
                     placeholder="Search candidate name..."
                     value={appSearch}
                     onChange={(e) => setAppSearch(e.target.value)}
-                    className="w-full bg-black border border-white/10 focus:border-[#9BDF83] focus:outline-none rounded-xl pl-9 pr-3 py-2.5 text-xs text-white"
+                    className="w-full bg-bg-primary border border-white/10 focus:border-[#8CC63F] focus:outline-none rounded-xl pl-9 pr-3 py-2.5 text-xs text-white"
                   />
                 </div>
                 
                 <select
                   value={appFilterStatus}
                   onChange={(e) => setAppFilterStatus(e.target.value)}
-                  className="bg-black border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none"
+                  className="bg-bg-primary border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none"
                 >
                   <option value="All">All Pipelines Statuses</option>
                   <option value="New">New</option>
@@ -785,7 +1129,7 @@ export default function AdminDashboard() {
                 <select
                   value={appFilterJob}
                   onChange={(e) => setAppFilterJob(e.target.value)}
-                  className="bg-black border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none"
+                  className="bg-bg-primary border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none"
                 >
                   <option value="All">All Job Postings</option>
                   {jobs.map(j => <option key={j.id} value={j.id}>{j.title}</option>)}
@@ -808,11 +1152,11 @@ export default function AdminDashboard() {
                         <select
                           value={app.status}
                           onChange={(e) => handleStatusChange(app.id, e.target.value as Application["status"])}
-                          className={`px-3 py-1.5 rounded-xl border text-[10px] font-bold focus:outline-none bg-black font-mono cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-xl border text-[10px] font-bold focus:outline-none bg-bg-primary font-mono cursor-pointer ${
                             app.status === "New" ? "border-blue-500/30 text-blue-400" :
                             app.status === "Shortlisted" ? "border-amber-500/30 text-amber-400" :
                             app.status === "Interview Scheduled" ? "border-purple-500/30 text-purple-400" :
-                            app.status === "Selected" ? "border-[#9BDF83]/30 text-[#9BDF83]" : "border-red-500/30 text-red-400"
+                            app.status === "Selected" ? "border-[#8CC63F]/30 text-[#8CC63F]" : "border-red-500/30 text-red-400"
                           }`}
                         >
                           <option value="New">New</option>
@@ -839,7 +1183,7 @@ export default function AdminDashboard() {
                               setResumeApp(app);
                               setShowResumeViewer(true);
                             }}
-                            className="inline-flex items-center gap-1 text-[#9BDF83] hover:underline font-bold"
+                            className="inline-flex items-center gap-1 text-[#8CC63F] hover:underline font-bold"
                           >
                             <Eye size={12} /> View Resume (Simulated)
                           </button>
@@ -854,7 +1198,7 @@ export default function AdminDashboard() {
                         
                         <div className="space-y-1.5 max-h-24 overflow-y-auto mb-3 bg-[#080808] p-2.5 rounded-xl border border-white/5">
                           {candidateComments[app.id]?.map((note, index) => (
-                            <div key={index} className="text-[11px] text-white/90 pl-2 border-l border-[#9BDF83] font-sans">
+                            <div key={index} className="text-[11px] text-white/90 pl-2 border-l border-[#8CC63F] font-sans">
                               "{note}"
                             </div>
                           )) || <div className="text-[10px] text-text-secondary font-mono italic">No comments evaluated.</div>}
@@ -871,11 +1215,11 @@ export default function AdminDashboard() {
                               setNewComment(e.target.value);
                             }}
                             onFocus={() => setSelectedApp(app)}
-                            className="flex-1 bg-black border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-text-secondary/50 focus:border-[#9BDF83] focus:outline-none"
+                            className="flex-1 bg-bg-primary border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-text-secondary/50 focus:border-[#8CC63F] focus:outline-none"
                           />
                           <button
                             onClick={() => handleAddComment(app.id)}
-                            className="bg-[#9BDF83]/10 border border-[#9BDF83]/30 hover:bg-[#9BDF83]/20 text-[#9BDF83] text-[10px] font-bold uppercase px-3 rounded-lg transition-colors font-mono"
+                            className="bg-[#8CC63F]/10 border border-[#8CC63F]/30 hover:bg-[#8CC63F]/20 text-[#8CC63F] text-[10px] font-bold uppercase px-3 rounded-lg transition-colors font-mono"
                           >
                             Save Note
                           </button>
@@ -910,8 +1254,8 @@ export default function AdminDashboard() {
                       { m: "June", val: totalCandidatesCount + 4, h: "h-[85%]" }
                     ].map((month, i) => (
                       <div key={i} className="flex flex-col items-center flex-1">
-                        <span className="text-[#9BDF83] font-bold block mb-2">{month.val}</span>
-                        <div className={`w-12 bg-gradient-to-t from-[#9BDF83]/20 to-[#9BDF83] rounded-t ${month.h}`} />
+                        <span className="text-[#8CC63F] font-bold block mb-2">{month.val}</span>
+                        <div className={`w-12 bg-gradient-to-t from-[#8CC63F]/20 to-[#8CC63F] rounded-t ${month.h}`} />
                         <span className="mt-2 text-[9px] uppercase font-bold">{month.m}</span>
                       </div>
                     ))}
@@ -930,7 +1274,7 @@ export default function AdminDashboard() {
                           <span className="text-text-secondary font-bold uppercase">{dept}</span>
                           <div className="flex items-center gap-4">
                             <span className="text-white font-mono font-bold">{count} profiles</span>
-                            <span className="text-[#9BDF83] font-mono font-bold bg-[#9BDF83]/10 px-2 py-0.5 rounded text-[10px]">{percentage}%</span>
+                            <span className="text-[#8CC63F] font-mono font-bold bg-[#8CC63F]/10 px-2 py-0.5 rounded text-[10px]">{percentage}%</span>
                           </div>
                         </div>
                       );
@@ -955,7 +1299,7 @@ export default function AdminDashboard() {
                   <select
                     value={portalMode}
                     onChange={(e) => setPortalMode(e.target.value)}
-                    className="bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#9BDF83]"
+                    className="bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#8CC63F]"
                   >
                     <option value="Open Recruitment">Open Sourcing Mode (Hiring Candidates)</option>
                     <option value="Off-Season Pool">Off-Season Pool Only (General applications)</option>
@@ -974,7 +1318,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => setEmailNotifications(!emailNotifications)}
                       className={`px-3 py-1.5 rounded-lg font-bold font-mono text-[10px] uppercase transition-all ${
-                        emailNotifications ? "bg-[#9BDF83] text-black" : "bg-white/5 border border-white/10 text-text-secondary"
+                        emailNotifications ? "bg-[#8CC63F] text-black" : "bg-white/5 border border-white/10 text-text-secondary"
                       }`}
                     >
                       {emailNotifications ? "ENABLED" : "DISABLED"}
@@ -1008,14 +1352,14 @@ export default function AdminDashboard() {
                   <span className="text-text-secondary">Debug Operational Logs:</span>
                   <button
                     onClick={() => setDebugLogs(!debugLogs)}
-                    className="text-[#9BDF83] hover:underline"
+                    className="text-[#8CC63F] hover:underline"
                   >
                     {debugLogs ? "Show Log Output" : "Enable Debug Mode"}
                   </button>
                 </div>
 
                 {debugLogs && (
-                  <div className="bg-black p-3 rounded-xl border border-white/5 text-[10px] text-green-400 space-y-1 overflow-x-auto max-h-32">
+                  <div className="bg-bg-primary p-3 rounded-xl border border-white/5 text-[10px] text-green-400 space-y-1 overflow-x-auto max-h-32">
                     <p>[06-17 18:05:12] AUTH: Authenticated admin account.</p>
                     <p>[06-17 18:05:15] DB: Synced 6 active jobs posts.</p>
                     <p>[06-17 18:05:22] API: Fetched HR recruiter listings file successfully.</p>
@@ -1025,12 +1369,166 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* Tab 8: Case Studies Panel */}
+          {activeTab === "case-studies" && (
+            <div className="space-y-8 animate-fade-in text-left">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h1 className="text-3xl font-bold font-display text-white">Case Studies Management</h1>
+                  <p className="text-text-secondary text-sm mt-1">Manage published engineering case studies, track views & likes, and moderate comments.</p>
+                </div>
+                <button
+                  onClick={() => { resetCSForm(); setShowCSModal(true); }}
+                  className="btn-premium inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#8CC63F] text-black text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-opacity-95 shadow-[0_0_24px_rgba(140,198,63,0.18)]"
+                >
+                  <Plus size={14} /> Add Case Study
+                </button>
+              </div>
+
+              {/* Case Study Analytics Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { label: "Total Projects", value: caseStudies.length, desc: "Draft + Published", color: "text-[#8CC63F]" },
+                  { label: "Published Works", value: caseStudies.filter(c => c.status === "Published").length, desc: "Visible to public", color: "text-[#14B8A6]" },
+                  { label: "Aggregated Views", value: caseStudies.reduce((sum, c) => sum + (c.views || 0), 0), desc: "Times clicked", color: "text-amber-400" },
+                  { label: "Aggregated Likes", value: caseStudies.reduce((sum, c) => sum + (c.likes || 0), 0), desc: "User recommendations", color: "text-purple-400" }
+                ].map((card, idx) => (
+                  <div key={idx} className="bg-[#111] border border-white/10 rounded-2xl p-6 shadow-crisp">
+                    <span className="text-[10px] font-bold text-text-secondary uppercase block font-mono">{card.label}</span>
+                    <strong className="text-4xl block mt-2 font-mono font-black text-white">{card.value}</strong>
+                    <span className="text-[10px] text-text-secondary mt-1.5 block leading-none font-medium">{card.desc}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Filter controls */}
+              <div className="bg-[#111] border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div className="relative w-full md:w-80">
+                  <span className="absolute inset-y-0 left-3 flex items-center text-text-secondary">
+                    <Search size={15} />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search by title or category..."
+                    value={csSearch}
+                    onChange={(e) => setCsSearch(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                  <span className="text-xs text-text-secondary font-mono">Status:</span>
+                  <select
+                    value={csFilterStatus}
+                    onChange={(e) => setCsFilterStatus(e.target.value)}
+                    className="bg-bg-primary border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:outline-none focus:border-[#8CC63F] font-mono"
+                  >
+                    <option value="All">All Statuses</option>
+                    <option value="Published">Published Only</option>
+                    <option value="Draft">Drafts Only</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Case Studies Table */}
+              <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-crisp">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 bg-white/[0.02] text-text-secondary font-mono uppercase text-[9px] tracking-wider">
+                        <th className="p-4 w-16">Cover</th>
+                        <th className="p-4">Project Title</th>
+                        <th className="p-4">Category</th>
+                        <th className="p-4 w-28 text-center">Status</th>
+                        <th className="p-4 w-20 text-center">Views</th>
+                        <th className="p-4 w-20 text-center">Likes</th>
+                        <th className="p-4 w-20 text-center">Comments</th>
+                        <th className="p-4 w-44 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5 font-sans font-medium text-white/95">
+                      {caseStudies
+                        .filter(cs => {
+                          const matchesSearch = cs.title.toLowerCase().includes(csSearch.toLowerCase()) || cs.category.toLowerCase().includes(csSearch.toLowerCase());
+                          const matchesStatus = csFilterStatus === "All" || cs.status === csFilterStatus;
+                          return matchesSearch && matchesStatus;
+                        })
+                        .map((cs) => (
+                          <tr key={cs.id} className="hover:bg-white/[0.01] transition-colors">
+                            <td className="p-4">
+                              <div className="relative h-10 w-16 overflow-hidden rounded bg-[#080808] border border-white/5">
+                                <img src={cs.heroImage} alt="" className="object-cover h-full w-full" />
+                              </div>
+                            </td>
+                            <td className="p-4 font-bold max-w-xs truncate">
+                              {cs.title}
+                            </td>
+                            <td className="p-4 font-semibold text-text-secondary">
+                              {cs.category}
+                            </td>
+                            <td className="p-4 text-center">
+                              <select
+                                value={cs.status}
+                                onChange={(e) => handleCSChangeStatus(cs, e.target.value as any)}
+                                className={`rounded px-2 py-1 text-[10px] font-bold font-mono focus:outline-none border ${
+                                  cs.status === "Published"
+                                    ? "bg-green-500/10 border-green-500/25 text-green-400"
+                                    : "bg-yellow-500/10 border-yellow-500/25 text-yellow-400"
+                                }`}
+                              >
+                                <option value="Published" className="bg-[#111]">Published</option>
+                                <option value="Draft" className="bg-[#111]">Draft</option>
+                              </select>
+                            </td>
+                            <td className="p-4 text-center font-mono font-bold text-text-secondary">{cs.views || 0}</td>
+                            <td className="p-4 text-center font-mono font-bold text-text-secondary">{cs.likes || 0}</td>
+                            <td className="p-4 text-center">
+                              <button
+                                onClick={() => setShowCommentsModal(cs)}
+                                className="inline-flex items-center gap-1 font-mono font-bold hover:text-[#8CC63F] text-text-secondary bg-white/5 hover:bg-white/10 border border-white/5 px-2.5 py-1 rounded-lg transition-all"
+                              >
+                                <MessageSquare size={11} /> {cs.comments?.length || 0}
+                              </button>
+                            </td>
+                            <td className="p-4 text-right space-x-2">
+                              <Link
+                                href={`/case-studies/${cs.slug}`}
+                                target="_blank"
+                                className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-white text-text-secondary hover:text-white bg-white/5 transition-all"
+                                title="View live page"
+                              >
+                                <Eye size={12} />
+                              </Link>
+                              <button
+                                onClick={() => handleEditCSClick(cs)}
+                                className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-[#8CC63F] text-text-secondary hover:text-[#8CC63F] bg-white/5 transition-all"
+                                title="Edit content"
+                              >
+                                <Edit size={12} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteCS(cs.id)}
+                                className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-red-500 text-text-secondary hover:text-red-400 bg-white/5 transition-all"
+                                title="Delete"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
         </main>
       </div>
 
       {/* MODAL: Create/Edit Job Post (Admin exclusive) */}
       {showJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto">
             
             <button
@@ -1053,7 +1551,7 @@ export default function AdminDashboard() {
                     required
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. Senior Embedded Systems Engineer"
                   />
                 </div>
@@ -1063,7 +1561,7 @@ export default function AdminDashboard() {
                   <select
                     value={jobDept}
                     onChange={(e) => setJobDept(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-semibold"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
                   >
                     <option value="Software">Software</option>
                     <option value="Electrical">Electrical</option>
@@ -1081,7 +1579,7 @@ export default function AdminDashboard() {
                     required
                     value={jobLoc}
                     onChange={(e) => setJobLoc(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. Chennai / Hybrid"
                   />
                 </div>
@@ -1091,7 +1589,7 @@ export default function AdminDashboard() {
                   <select
                     value={jobType}
                     onChange={(e) => setJobType(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-semibold"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
                   >
                     <option value="Full Time">Full Time</option>
                     <option value="Internship">Internship</option>
@@ -1107,7 +1605,7 @@ export default function AdminDashboard() {
                     required
                     value={jobExp}
                     onChange={(e) => setJobExp(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. 3+ Years"
                   />
                 </div>
@@ -1121,7 +1619,7 @@ export default function AdminDashboard() {
                     required
                     value={jobSalary}
                     onChange={(e) => setJobSalary(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                     placeholder="e.g. ₹8,00,000 - ₹12,00,000 PA"
                   />
                 </div>
@@ -1133,7 +1631,7 @@ export default function AdminDashboard() {
                     required
                     value={jobDeadline}
                     onChange={(e) => setJobDeadline(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none font-mono"
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-mono"
                   />
                 </div>
               </div>
@@ -1145,7 +1643,7 @@ export default function AdminDashboard() {
                   required
                   value={jobSkills}
                   onChange={(e) => setJobSkills(e.target.value)}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none"
+                  className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
                   placeholder="e.g. Altium Designer, ESP32, KiCAD, Firmware"
                 />
               </div>
@@ -1157,7 +1655,7 @@ export default function AdminDashboard() {
                   rows={5}
                   value={jobDesc}
                   onChange={(e) => setJobDesc(e.target.value)}
-                  className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#9BDF83] focus:outline-none resize-none"
+                  className="w-full bg-bg-primary border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none resize-none"
                   placeholder="Provide comprehensive job description details..."
                 />
               </div>
@@ -1168,7 +1666,7 @@ export default function AdminDashboard() {
                   <select
                     value={jobStatus}
                     onChange={(e) => setJobStatus(e.target.value as any)}
-                    className="bg-black border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:border-[#9BDF83] focus:outline-none font-mono"
+                    className="bg-bg-primary border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:border-[#8CC63F] focus:outline-none font-mono"
                   >
                     <option value="Open">Open</option>
                     <option value="Closed">Closed</option>
@@ -1178,7 +1676,7 @@ export default function AdminDashboard() {
 
               <button
                 type="submit"
-                className="w-full bg-[#9BDF83] text-black font-bold uppercase text-xs tracking-wider py-3.5 rounded-xl hover:bg-opacity-90 shadow-crisp transition-all mt-4 font-mono"
+                className="w-full bg-[#8CC63F] text-black font-bold uppercase text-xs tracking-wider py-3.5 rounded-xl hover:bg-opacity-90 shadow-crisp transition-all mt-4 font-mono"
               >
                 {editingJob ? "Save Changes" : "Publish Job Posting"}
               </button>
@@ -1189,7 +1687,7 @@ export default function AdminDashboard() {
 
       {/* MODAL: Inline Resume Viewer */}
       {showResumeViewer && resumeApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]">
             
             <button
@@ -1211,15 +1709,15 @@ export default function AdminDashboard() {
                 
                 <div className="mt-6 space-y-3.5 text-xs text-text-secondary border-t border-white/5 pt-5 font-mono">
                   <div className="flex items-center gap-2">
-                    <Mail size={13} className="text-[#9BDF83]" />
+                    <Mail size={13} className="text-[#8CC63F]" />
                     <span className="truncate">{resumeApp.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <UserCheck size={13} className="text-[#9BDF83]" />
+                    <UserCheck size={13} className="text-[#8CC63F]" />
                     <span>{resumeApp.phone}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar size={13} className="text-[#9BDF83]" />
+                    <Calendar size={13} className="text-[#8CC63F]" />
                     <span>Applied: {resumeApp.dateApplied}</span>
                   </div>
                 </div>
@@ -1228,7 +1726,7 @@ export default function AdminDashboard() {
               <div className="pt-6">
                 <button
                   onClick={() => alert(`Direct download: ${resumeApp.resumeName}`)}
-                  className="w-full flex items-center justify-center gap-1.5 border border-white/10 hover:border-[#9BDF83] text-white hover:text-[#9BDF83] bg-black/40 py-2.5 rounded-xl text-xs font-bold font-mono uppercase transition-all"
+                  className="w-full flex items-center justify-center gap-1.5 border border-white/10 hover:border-[#8CC63F] text-white hover:text-[#8CC63F] bg-bg-primary/40 py-2.5 rounded-xl text-xs font-bold font-mono uppercase transition-all"
                 >
                   Download PDF
                 </button>
@@ -1236,7 +1734,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Resume viewer window */}
-            <div className="p-8 md:p-12 overflow-y-auto text-left bg-black max-h-[85vh]">
+            <div className="p-8 md:p-12 overflow-y-auto text-left bg-bg-primary max-h-[85vh]">
               <div className="border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
                 <div className="absolute right-6 top-6 text-[9px] text-text-secondary border border-white/10 px-2 py-0.5 rounded font-mono">
                   PDF VIEWER
@@ -1249,14 +1747,14 @@ export default function AdminDashboard() {
 
                 <div className="space-y-6 text-xs text-white/90">
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Professional Summary</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Professional Summary</h4>
                     <p className="leading-relaxed text-text-secondary text-[11px]">
                       Detail-oriented and dedicated engineering professional. Experienced with PCB designs, Altium design layout structures, firmware code design in C/C++, and hardware systems bring-up tests. Excited to apply interdisciplinary skills at Texawave.
                     </p>
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Professional Experience</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Professional Experience</h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between font-bold">
@@ -1272,7 +1770,7 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Key Skills</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Key Skills</h4>
                     <div className="flex flex-wrap gap-1.5">
                       {["Altium Designer", "SolidWorks", "PCB Layouts", "C/C++ Programming", "STM32 MCU"].map((skill, index) => (
                         <span key={index} className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-text-secondary font-mono text-[10px]">
@@ -1283,7 +1781,7 @@ export default function AdminDashboard() {
                   </div>
 
                   <div className="border-t border-white/5 pt-4 mt-6">
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#9BDF83] mb-2 font-mono">Candidate Cover Message</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8CC63F] mb-2 font-mono">Candidate Cover Message</h4>
                     <p className="leading-relaxed text-text-secondary italic font-sans text-[11px]">
                       "{resumeApp.message}"
                     </p>
@@ -1293,6 +1791,310 @@ export default function AdminDashboard() {
             </div>
 
           </div>
+        </div>
+      )}
+
+      {/* MODAL: Create/Edit Case Study */}
+      {showCSModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left">
+            <button
+              onClick={() => { setShowCSModal(false); resetCSForm(); }}
+              className="absolute right-4 top-4 text-text-secondary hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors"
+            >
+              <X size={18} />
+            </button>
+
+            <h3 className="text-xl font-bold text-white font-display mb-6 border-b border-white/10 pb-4">
+              {editingCS ? `Edit: ${editingCS.title}` : "Create New Case Study"}
+            </h3>
+
+            <form onSubmit={handleCSSubmit} className="space-y-8">
+              
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-3 font-mono">Project Title</label>
+                  <input
+                    type="text"
+                    required
+                    value={csTitle}
+                    onChange={(e) => setCsTitle(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                    placeholder="e.g. Next-Gen IoT Water Purifier System"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-3 font-mono">Category</label>
+                  <select
+                    value={csCategory}
+                    onChange={(e) => setCsCategory(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
+                  >
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Electrical Engineering">Electrical Engineering</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="Procurement">Procurement</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8 p-6 bg-white/5 border border-white/5 rounded-2xl">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8CC63F] mb-3 font-mono">Featured Hero Image</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={csHeroImage}
+                      onChange={(e) => setCsHeroImage(e.target.value)}
+                      className="flex-1 bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none"
+                      placeholder="Paste image URL..."
+                    />
+                    <label className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold uppercase text-xs font-mono px-5 py-3.5 rounded-xl cursor-pointer flex items-center justify-center shrink-0">
+                      Upload
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(e, "hero")}
+                      />
+                    </label>
+                  </div>
+                  {csHeroImage && (
+                    <div className="mt-2 relative h-16 w-32 rounded overflow-hidden border border-white/10 bg-black">
+                      <img src={csHeroImage} alt="" className="object-cover h-full w-full" />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8CC63F] mb-3 font-mono">Gallery Snapshots (Comma-separated URLs)</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={csGallery}
+                      onChange={(e) => setCsGallery(e.target.value)}
+                      className="flex-1 bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none"
+                      placeholder="e.g. /img1.jpg, /img2.jpg..."
+                    />
+                    <label className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold uppercase text-xs font-mono px-5 py-3.5 rounded-xl cursor-pointer flex items-center justify-center shrink-0">
+                      Add
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(e, "gallery")}
+                      />
+                    </label>
+                  </div>
+                  <p className="text-[10px] text-text-secondary mt-1.5 font-mono">Upload files directly to server, or paste static assets.</p>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary font-mono">Problem Statement</label>
+                    {renderMarkdownToolbar("csProblem")}
+                  </div>
+                  <textarea
+                    id="csProblem"
+                    required
+                    rows={8}
+                    value={csProblemStatement}
+                    onChange={(e) => setCsProblemStatement(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="Describe the client context, requirements, and problem..."
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary font-mono">Key Challenges</label>
+                    {renderMarkdownToolbar("csChallenges")}
+                  </div>
+                  <textarea
+                    id="csChallenges"
+                    rows={6}
+                    value={csChallenges}
+                    onChange={(e) => setCsChallenges(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="List specific constraints, technical challenges..."
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary font-mono">The Solution</label>
+                    {renderMarkdownToolbar("csSolution")}
+                  </div>
+                  <textarea
+                    id="csSolution"
+                    required
+                    rows={8}
+                    value={csSolution}
+                    onChange={(e) => setCsSolution(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="Explain the technical solution developed..."
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 border-t border-white/5 pt-6">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#8CC63F] font-mono">Mechanical Engineering</label>
+                    {renderMarkdownToolbar("csMechanical")}
+                  </div>
+                  <textarea
+                    id="csMechanical"
+                    rows={6}
+                    value={csMechanicalEngineering}
+                    onChange={(e) => setCsMechanicalEngineering(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="3D Modeling, DFM reviews..."
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#8CC63F] font-mono">Electrical/PCB Engineering</label>
+                    {renderMarkdownToolbar("csHardware")}
+                  </div>
+                  <textarea
+                    id="csHardware"
+                    rows={6}
+                    value={csHardwareEngineering}
+                    onChange={(e) => setCsHardwareEngineering(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="PCB Multi-layer design, routing..."
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#8CC63F] font-mono">Software/Firmware</label>
+                    {renderMarkdownToolbar("csSoftware")}
+                  </div>
+                  <textarea
+                    id="csSoftware"
+                    rows={6}
+                    value={csSoftwareEngineering}
+                    onChange={(e) => setCsSoftwareEngineering(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="Microcontroller logic, calibration..."
+                  />
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 pt-6 grid md:grid-cols-3 gap-8">
+                <div className="md:col-span-2">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary font-mono">Results & Business Impact</label>
+                    {renderMarkdownToolbar("csResults")}
+                  </div>
+                  <textarea
+                    id="csResults"
+                    required
+                    rows={6}
+                    value={csResultsImpact}
+                    onChange={(e) => setCsResultsImpact(e.target.value)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:border-[#8CC63F] focus:outline-none resize-y"
+                    placeholder="E.g. Throughput increased by 150%..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-3 font-mono">Publishing Status</label>
+                  <select
+                    value={csStatus}
+                    onChange={(e) => setCsStatus(e.target.value as any)}
+                    className="w-full bg-bg-primary border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white font-semibold focus:outline-none focus:border-[#8CC63F] font-mono"
+                  >
+                    <option value="Draft">Draft (Only Admins can view)</option>
+                    <option value="Published">Published (Public view)</option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-[#8CC63F] text-black font-bold uppercase text-sm tracking-wider py-4.5 rounded-xl hover:bg-opacity-90 shadow-crisp transition-all mt-8 font-mono"
+                  >
+                    {editingCS ? "Save Case Study" : "Create Case Study"}
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Moderate Comments */}
+      {showCommentsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-3xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[85vh] overflow-y-auto text-left font-sans">
+            <button
+              onClick={() => setShowCommentsModal(null)}
+              className="absolute right-4 top-4 text-text-secondary hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors"
+            >
+              <X size={18} />
+            </button>
+
+            <h3 className="text-lg font-bold text-white font-display mb-6 border-b border-white/10 pb-4">
+              💬 Discussion Board: <span className="text-[#8CC63F]">{showCommentsModal.title}</span>
+            </h3>
+
+            <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
+              {showCommentsModal.comments?.map((comment: any) => (
+                <div key={comment.id} className="bg-[#080808] border border-white/5 rounded-xl p-5 flex justify-between items-start gap-4">
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center gap-3">
+                      <strong className="text-white text-xs">{comment.userName}</strong>
+                      <span className="text-[10px] text-text-secondary font-mono">{comment.dateSubmitted}</span>
+                      <span className={`px-2 py-0.5 rounded text-[8px] font-bold font-mono tracking-wider ${
+                        comment.approved 
+                          ? "bg-green-500/10 text-green-400 border border-green-500/20" 
+                          : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                      }`}>
+                        {comment.approved ? "APPROVED" : "PENDING"}
+                      </span>
+                    </div>
+                    <p className="text-text-secondary text-xs leading-relaxed font-sans">{comment.content}</p>
+                  </div>
+
+                  <div className="flex gap-1.5 shrink-0">
+                    <button
+                      onClick={() => handleToggleCommentApproval(showCommentsModal.id, comment.id, comment.approved)}
+                      className={`px-2.5 py-1 rounded text-[9px] font-bold font-mono uppercase border transition-colors ${
+                        comment.approved
+                          ? "bg-yellow-500/5 border-yellow-500/20 hover:border-yellow-500 text-yellow-500"
+                          : "bg-green-500/5 border-green-500/20 hover:border-green-500 text-green-400"
+                      }`}
+                    >
+                      {comment.approved ? "Disapprove" : "Approve"}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteComment(showCommentsModal.id, comment.id)}
+                      className="px-2.5 py-1 rounded text-[9px] font-bold font-mono uppercase bg-red-500/5 border border-red-500/20 hover:border-red-500 text-red-400 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              {(!showCommentsModal.comments || showCommentsModal.comments.length === 0) && (
+                <p className="text-text-secondary text-xs italic text-center py-10">No discussions submitted for this project yet.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-8 right-8 z-50 bg-[#111] border border-[#8CC63F]/30 text-white px-5 py-3 rounded-xl shadow-[0_0_24px_rgba(140,198,63,0.15)] flex items-center gap-2 animate-fade-in font-sans text-xs font-bold uppercase tracking-wider">
+          <span className="h-2 w-2 rounded-full bg-[#8CC63F]" />
+          {toastMessage}
         </div>
       )}
 

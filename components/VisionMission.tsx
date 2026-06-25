@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -37,7 +37,7 @@ function BlueprintGrid() {
 }
 
 const RadarIcon = () => (
-  <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-signal/10 border border-signal/30 text-signal shadow-[0_0_20px_rgba(155,223,131,0.15)] group-hover:scale-110 transition-transform duration-300 shrink-0">
+  <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-signal/10 border border-signal/30 text-signal shadow-[0_0_20px_rgba(140,198,63,0.15)] group-hover:scale-110 transition-transform duration-300 shrink-0">
     <Target size={24} className="relative z-10 text-signal animate-pulse" />
     <span className="absolute inset-0 rounded-2xl border border-signal/40 animate-ping opacity-25 scale-75" />
     <span className="absolute inset-0 rounded-2xl border border-signal/20 animate-ping opacity-10" style={{ animationDelay: "0.5s" }} />
@@ -45,7 +45,7 @@ const RadarIcon = () => (
 );
 
 const RocketIcon = () => (
-  <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-signal/10 border border-signal/30 text-signal shadow-[0_0_20px_rgba(155,223,131,0.15)] group-hover:scale-110 transition-transform duration-300 shrink-0 overflow-hidden">
+  <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-signal/10 border border-signal/30 text-signal shadow-[0_0_20px_rgba(140,198,63,0.15)] group-hover:scale-110 transition-transform duration-300 shrink-0 overflow-hidden">
     <Rocket size={24} className="relative z-10 text-signal group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform duration-300" />
     <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-signal/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
   </div>
@@ -130,9 +130,9 @@ export function VisionMission() {
           
           {/* Vision Card */}
           <div className="relative h-full">
-            <div className="relative group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-md p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-signal/50 hover:shadow-[0_20px_50px_rgba(155,223,131,0.15)] flex flex-col justify-between h-full">
+            <div className="relative group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-md p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-signal/50 hover:shadow-[0_20px_50px_rgba(140,198,63,0.15)] flex flex-col justify-between h-full">
               {/* Inner glow on hover */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(155,223,131,0.08)_0%,transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(140,198,63,0.08)_0%,transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               
               <div>
                 {/* Icon and Title */}
@@ -162,7 +162,7 @@ export function VisionMission() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-8 hidden lg:flex items-center justify-center pointer-events-none z-20">
             <svg width="64" height="12" viewBox="0 0 64 12" fill="none" className="overflow-visible w-full">
               {/* Background trace */}
-              <path d="M 0 6 L 64 6" stroke="rgba(155, 223, 131, 0.15)" strokeWidth="2" />
+              <path d="M 0 6 L 64 6" stroke="rgba(140, 198, 63, 0.15)" strokeWidth="2" />
               {/* Flowing current */}
               <path
                 d="M 0 6 L 64 6"
@@ -179,9 +179,9 @@ export function VisionMission() {
 
           {/* Mission Card */}
           <div className="relative h-full">
-            <div className="relative group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-md p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-signal/50 hover:shadow-[0_20px_50px_rgba(155,223,131,0.15)] flex flex-col justify-between h-full">
+            <div className="relative group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-md p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-signal/50 hover:shadow-[0_20px_50px_rgba(140,198,63,0.15)] flex flex-col justify-between h-full">
               {/* Inner glow on hover */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(155,223,131,0.08)_0%,transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(140,198,63,0.08)_0%,transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               
               <div>
                 {/* Icon and Title */}

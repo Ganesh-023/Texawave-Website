@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -42,7 +42,6 @@ import {
   Laptop,
   Sparkles,
   Info,
-  Briefcase,
   FileText,
   BookOpen,
   Mail,
@@ -65,10 +64,10 @@ type DropdownItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "What We Do", href: "/services", hasDropdown: true, isMega: true },
-  { label: "What We've Built", href: "/solutions", hasDropdown: true, isMega: true },
+  { label: "Expertise", href: "/services", hasDropdown: true, isMega: true },
+  { label: "Our work", href: "/solutions", hasDropdown: true, isMega: true },
   { label: "Resources", href: "/resources", hasDropdown: true },
-  { label: "Talk to an Expert", href: "/contact" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const RESOURCES_ITEMS = [
@@ -77,12 +76,6 @@ const RESOURCES_ITEMS = [
     href: "/about",
     icon: Info,
     desc: "Learn about Texawave, our mission, vision, values, and engineering expertise.",
-  },
-  {
-    label: "Careers",
-    href: "/careers",
-    icon: Briefcase,
-    desc: "Explore internship and career opportunities at Texawave.",
   },
   {
     label: "Case Studies",
@@ -454,8 +447,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     if (pathname === "/") {
       const sections = [
         { id: "home", label: "Home" },
-        { id: "our-works", label: "What We've Built" },
-        { id: "services", label: "What We Do" },
+        { id: "our-works", label: "Our work" },
+        { id: "services", label: "Expertise" },
         { id: "about", label: "Resources" },
         { id: "contact", label: "Talk to an Expert" },
       ];
@@ -829,7 +822,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     if (href === "/resources") {
       return (
         pathname === "/about" || pathname.startsWith("/about/") ||
-        pathname === "/careers" || pathname.startsWith("/careers/") ||
         pathname === "/case-studies" || pathname.startsWith("/case-studies/") ||
         pathname === "/blog" || pathname.startsWith("/blog/")
       );
@@ -950,13 +942,13 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     >
                       {/* Caret pip */}
                       <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-signal/20 bg-black" />
+                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-signal/20 bg-bg-primary" />
                       </div>
                       <div className="overflow-hidden rounded-2xl border border-signal/20 shadow-premium"
                         style={{
                           background: "rgba(10, 10, 10, 0.98)",
                           backdropFilter: "blur(20px)",
-                          border: "1px solid rgba(155, 223, 131, 0.25)"
+                          border: "1px solid rgba(140, 198, 63, 0.25)"
                         }}>
                         <div className="p-2">
                           {WORKS.map((work) => {
@@ -1005,7 +997,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               }
 
               /* ── Services → Mega Menu Button ── */
-              if (item.label === "What We Do") {
+              if (item.label === "Expertise") {
                 return (
                   <button
                     key={item.label}
@@ -1016,10 +1008,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                         ? "navbar-link-active"
                         : "navbar-link",
                     ].join(" ")}
-                    data-nav-label="What We Do"
+                    data-nav-label="Expertise"
                     onMouseEnter={() => {
                       handleServicesEnter();
-                      setHoveredNavItem("What We Do");
+                      setHoveredNavItem("Expertise");
                     }}
                     onMouseLeave={() => {
                       handleServicesLeave();
@@ -1047,7 +1039,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               }
 
               /* ── Solutions → Mega Menu Link ── */
-              if (item.label === "What We've Built") {
+              if (item.label === "Our work") {
                 return (
                   <Link
                     key={item.label}
@@ -1058,10 +1050,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                         ? "navbar-link-active"
                         : "navbar-link",
                     ].join(" ")}
-                    data-nav-label="What We've Built"
+                    data-nav-label="Our work"
                     onMouseEnter={() => {
                       handleSolutionsEnter();
-                      setHoveredNavItem("What We've Built");
+                      setHoveredNavItem("Our work");
                     }}
                     onMouseLeave={() => {
                       handleSolutionsLeave();
@@ -1219,7 +1211,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-black shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(155,223,131,0.05)] overflow-hidden pointer-events-auto"
+                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
                 onMouseEnter={() => {
                   if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
                   setMegaOpen(true);
@@ -1245,12 +1237,12 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           className={[
                             "flex items-center gap-3.5 w-full px-4 py-3.5 rounded-xl border-l-2 transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
                             isActiveCat
-                              ? "bg-[#9BDF83]/10 border-[#9BDF83] text-[#9BDF83] font-semibold"
+                              ? "bg-[#8CC63F]/10 border-[#8CC63F] text-[#8CC63F] font-semibold"
                               : "border-transparent text-white/70 hover:text-white hover:bg-white/5"
                           ].join(" ")}
                           onMouseEnter={() => setActiveCategory(cat.id)}
                         >
-                          <CategoryIcon size={18} className={isActiveCat ? "text-[#9BDF83]" : "text-white/40"} />
+                          <CategoryIcon size={18} className={isActiveCat ? "text-[#8CC63F]" : "text-white/40"} />
                           <span className="text-[14px]">{cat.label}</span>
                         </button>
                       );
@@ -1286,15 +1278,15 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           <Link
                             href={svc.href}
                             onClick={() => setMegaOpen(false)}
-                            className="group flex flex-col justify-between p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-[#9BDF83]/[0.02] hover:border-[#9BDF83]/30 transition-all duration-300 hover:shadow-[0_4px_20px_rgba(155,223,131,0.08)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal h-full"
+                            className="group flex flex-col justify-between p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-[#8CC63F]/[0.02] hover:border-[#8CC63F]/30 transition-all duration-300 hover:shadow-[0_4px_20px_rgba(140,198,63,0.08)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal h-full"
                           >
                             <div className="flex justify-between items-start gap-2">
-                              <span className="font-semibold text-[14px] text-white group-hover:text-[#9BDF83] transition-colors duration-200">
+                              <span className="font-semibold text-[14px] text-white group-hover:text-[#8CC63F] transition-colors duration-200">
                                 {svc.name}
                               </span>
                               <ArrowUpRight
                                 size={14}
-                                className="text-[#9BDF83] opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0"
+                                className="text-[#8CC63F] opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0"
                               />
                             </div>
                             <p className="mt-1 text-[11.5px] leading-relaxed text-white/50 group-hover:text-white/70 transition-colors duration-200">
@@ -1314,13 +1306,13 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   {/* Left Side: Checkmarks */}
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-white/60">
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> End-to-End Product Development
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> End-to-End Product Development
                     </span>
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> Hardware + Software Expertise
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Hardware + Software Expertise
                     </span>
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> Manufacturing Ready Solutions
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Manufacturing Ready Solutions
                     </span>
                   </div>
 
@@ -1328,7 +1320,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   <Link
                     href="/contact"
                     onClick={() => setMegaOpen(false)}
-                    className="flex h-[40px] items-center justify-center rounded-full bg-[#9BDF83] px-6 text-[13px] font-bold text-black hover:scale-105 transition-transform duration-200 hover:shadow-[0_0_20px_rgba(155,223,131,0.4)] whitespace-nowrap"
+                    className="flex h-[40px] items-center justify-center rounded-full bg-[#8CC63F] px-6 text-[13px] font-bold text-black hover:scale-105 transition-transform duration-200 hover:shadow-[0_0_20px_rgba(140,198,63,0.4)] whitespace-nowrap"
                   >
                     Book Free Consultation
                   </Link>
@@ -1348,7 +1340,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-black shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(155,223,131,0.05)] overflow-hidden pointer-events-auto"
+                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
                 onMouseEnter={() => {
                   if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
                   setSolutionsOpen(true);
@@ -1374,12 +1366,12 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           className={[
                             "flex items-center gap-3.5 w-full px-4 py-3.5 rounded-xl border-l-2 transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
                             isActiveCat
-                              ? "bg-[#9BDF83]/10 border-[#9BDF83] text-[#9BDF83] font-semibold"
+                              ? "bg-[#8CC63F]/10 border-[#8CC63F] text-[#8CC63F] font-semibold"
                               : "border-transparent text-white/70 hover:text-white hover:bg-white/5"
                           ].join(" ")}
                           onMouseEnter={() => setActiveSolutionCategory(cat.id)}
                         >
-                          <CategoryIcon size={18} className={isActiveCat ? "text-[#9BDF83]" : "text-white/40"} />
+                          <CategoryIcon size={18} className={isActiveCat ? "text-[#8CC63F]" : "text-white/40"} />
                           <span className="text-[14px]">{cat.label}</span>
                         </button>
                       );
@@ -1419,12 +1411,12 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             onClick={() => setSolutionsOpen(false)}
                             className="group flex items-center justify-between p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                           >
-                            <span className="text-[13.5px] text-white/70 group-hover:text-[#9BDF83] transition-colors duration-200">
+                            <span className="text-[13.5px] text-white/70 group-hover:text-[#8CC63F] transition-colors duration-200">
                               {item.name}
                             </span>
                             <ArrowUpRight
                               size={14}
-                              className="text-[#9BDF83] opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300"
+                              className="text-[#8CC63F] opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300"
                             />
                           </Link>
                         </motion.div>
@@ -1462,7 +1454,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
 
                           {/* Info */}
                           <div className="mt-3">
-                            <h4 className="text-[14px] font-bold text-white group-hover/feat:text-[#9BDF83] transition-colors duration-200">
+                            <h4 className="text-[14px] font-bold text-white group-hover/feat:text-[#8CC63F] transition-colors duration-200">
                               {feat.title}
                             </h4>
                             <p className="mt-1 text-[11.5px] text-white/50 leading-relaxed line-clamp-2">
@@ -1474,7 +1466,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           <Link
                             href={feat.cta}
                             onClick={() => setSolutionsOpen(false)}
-                            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-bold text-[#9BDF83] hover:opacity-80 transition-all duration-200"
+                            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-bold text-[#8CC63F] hover:opacity-80 transition-all duration-200"
                           >
                             View Case Study <ArrowUpRight size={13} />
                           </Link>
@@ -1489,20 +1481,20 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <div className="border-t border-white/5 px-8 py-5 flex flex-col sm:flex-row justify-between items-center bg-[#0a0a0a] gap-4">
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-white/60">
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> Enterprise Engineering Quality
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Enterprise Engineering Quality
                     </span>
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> Custom Hardware Prototyping
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Custom Hardware Prototyping
                     </span>
                     <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#9BDF83] flex-shrink-0" /> Production-Ready Designs
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Production-Ready Designs
                     </span>
                   </div>
 
                   <Link
                     href="/contact"
                     onClick={() => setSolutionsOpen(false)}
-                    className="flex h-[40px] items-center justify-center rounded-full bg-[#9BDF83] px-6 text-[13px] font-bold text-black hover:scale-105 transition-transform duration-200 hover:shadow-[0_0_20px_rgba(155,223,131,0.4)] whitespace-nowrap"
+                    className="flex h-[40px] items-center justify-center rounded-full bg-[#8CC63F] px-6 text-[13px] font-bold text-black hover:scale-105 transition-transform duration-200 hover:shadow-[0_0_20px_rgba(140,198,63,0.4)] whitespace-nowrap"
                   >
                     Request a Solution Demo
                   </Link>
@@ -1522,7 +1514,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[800px] max-w-[95vw] rounded-[20px] border border-white/10 bg-black shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(155,223,131,0.05)] overflow-hidden pointer-events-auto"
+                className="w-[800px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
                 onMouseEnter={() => {
                   if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
                   setResourcesOpen(true);
@@ -1533,7 +1525,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   {/* Left Side: Header Info */}
                   <div className="col-span-5 bg-[#0a0a0a] border-r border-white/5 p-8 flex flex-col justify-between">
                     <div>
-                      <p className="text-[11px] font-bold tracking-widest text-[#9BDF83] uppercase mb-2">
+                      <p className="text-[11px] font-bold tracking-widest text-[#8CC63F] uppercase mb-2">
                         Resources
                       </p>
                       <h3 className="text-[20px] font-extrabold text-white tracking-tight leading-snug">
@@ -1545,11 +1537,11 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     </div>
                     {/* Subtle branding or graphic */}
                     <div className="mt-8 relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.01] p-4">
-                      <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-[#9BDF83]/10 rounded-full blur-xl pointer-events-none" />
+                      <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-[#8CC63F]/10 rounded-full blur-xl pointer-events-none" />
                       <p className="text-[10px] font-bold tracking-wider text-white/40 uppercase">
                         Engineering Center
                       </p>
-                      <p className="mt-1 text-[11px] text-[#9BDF83] font-medium">
+                      <p className="mt-1 text-[11px] text-[#8CC63F] font-medium">
                         Innovate. Build. Scale.
                       </p>
                     </div>
@@ -1569,15 +1561,15 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           className={[
                             "group flex items-start gap-4 rounded-xl p-3.5 transition-all duration-300 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
                             active
-                              ? "bg-[#9BDF83]/10 border-[#9BDF83]/20"
+                              ? "bg-[#8CC63F]/10 border-[#8CC63F]/20"
                               : "bg-transparent border-transparent hover:bg-white/[0.03] hover:border-white/5 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
                           ].join(" ")}
                         >
                           <span className={[
                             "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
                             active
-                              ? "bg-[#9BDF83]/20 text-[#9BDF83]"
-                              : "bg-[#9BDF83]/10 text-white/70 group-hover:bg-[#9BDF83]/20 group-hover:text-[#9BDF83]"
+                              ? "bg-[#8CC63F]/20 text-[#8CC63F]"
+                              : "bg-[#8CC63F]/10 text-white/70 group-hover:bg-[#8CC63F]/20 group-hover:text-[#8CC63F]"
                           ].join(" ")}>
                             <Icon size={16} aria-hidden="true" />
                           </span>
@@ -1585,7 +1577,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             <div className="flex items-center justify-between">
                               <span className={[
                                 "text-[13.5px] font-bold transition-colors duration-200",
-                                active ? "text-[#9BDF83]" : "text-white group-hover:text-[#9BDF83]"
+                                active ? "text-[#8CC63F]" : "text-white group-hover:text-[#8CC63F]"
                               ].join(" ")}>
                                 {item.label}
                               </span>
@@ -1594,8 +1586,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                 className={[
                                   "transition-all duration-300",
                                   active
-                                    ? "text-[#9BDF83] opacity-100"
-                                    : "text-[#9BDF83] opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0"
+                                    ? "text-[#8CC63F] opacity-100"
+                                    : "text-[#8CC63F] opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0"
                                 ].join(" ")}
                               />
                             </div>
@@ -1619,7 +1611,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
       <div
         id="mobile-menu"
         ref={mobileMenuRef}
-        className="fixed inset-0 z-40 flex-col bg-black lg:hidden"
+        className="fixed inset-0 z-40 flex-col bg-bg-primary lg:hidden"
         style={{ display: "none", opacity: 0 }}
         role="dialog"
         aria-modal="true"
@@ -1717,7 +1709,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   onClick={() => setMobileMegaOpen((v) => !v)}
                   aria-expanded={mobileMegaOpen}
                 >
-                  What We Do
+                  Expertise
                   <ChevronDown
                     size={16}
                     className={[
@@ -1744,20 +1736,20 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             type="button"
                             className={[
                               "flex w-full items-center justify-between px-4 py-3 text-[14px] font-semibold transition-colors duration-200 hover:bg-white/5",
-                              isCatOpen ? "text-[#9BDF83] bg-[#9BDF83]/5" : "text-white/80"
+                              isCatOpen ? "text-[#8CC63F] bg-[#8CC63F]/5" : "text-white/80"
                             ].join(" ")}
                             onClick={() => setMobileCategoryOpen(isCatOpen ? null : category.id)}
                             aria-expanded={isCatOpen}
                           >
                             <span className="flex items-center gap-2.5">
-                              <CategoryIcon size={16} className={isCatOpen ? "text-[#9BDF83]" : "text-white/60"} />
+                              <CategoryIcon size={16} className={isCatOpen ? "text-[#8CC63F]" : "text-white/60"} />
                               {category.label}
                             </span>
                             <ChevronDown
                               size={14}
                               className={[
                                 "transition-transform duration-300",
-                                isCatOpen ? "rotate-180 text-[#9BDF83]" : "text-white/40",
+                                isCatOpen ? "rotate-180 text-[#8CC63F]" : "text-white/40",
                               ].join(" ")}
                             />
                           </button>
@@ -1775,7 +1767,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                   key={svc.name}
                                   href={svc.href}
                                   onClick={closeMobile}
-                                  className="block py-2 text-[13px] text-white/70 hover:text-[#9BDF83] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
+                                  className="block py-2 text-[13px] text-white/70 hover:text-[#8CC63F] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
                                 >
                                   {svc.name}
                                 </Link>
@@ -1835,20 +1827,20 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                             type="button"
                             className={[
                               "flex w-full items-center justify-between px-4 py-3 text-[14px] font-semibold transition-colors duration-200 hover:bg-white/5",
-                              isCatOpen ? "text-[#9BDF83] bg-[#9BDF83]/5" : "text-white/80"
+                              isCatOpen ? "text-[#8CC63F] bg-[#8CC63F]/5" : "text-white/80"
                             ].join(" ")}
                             onClick={() => setMobileCategoryOpen(isCatOpen ? null : category.id)}
                             aria-expanded={isCatOpen}
                           >
                             <span className="flex items-center gap-2.5">
-                              <CategoryIcon size={16} className={isCatOpen ? "text-[#9BDF83]" : "text-white/60"} />
+                              <CategoryIcon size={16} className={isCatOpen ? "text-[#8CC63F]" : "text-white/60"} />
                               {category.label}
                             </span>
                             <ChevronDown
                               size={14}
                               className={[
                                 "transition-transform duration-300",
-                                isCatOpen ? "rotate-180 text-[#9BDF83]" : "text-white/40",
+                                isCatOpen ? "rotate-180 text-[#8CC63F]" : "text-white/40",
                               ].join(" ")}
                             />
                           </button>
@@ -1866,7 +1858,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                   key={svc.name}
                                   href={svc.href}
                                   onClick={closeMobile}
-                                  className="block py-2 text-[13px] text-white/70 hover:text-[#9BDF83] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
+                                  className="block py-2 text-[13px] text-white/70 hover:text-[#8CC63F] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
                                 >
                                   {svc.name}
                                 </Link>
@@ -1943,7 +1935,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
 
               {/* ── Regular mobile links ── */}
               {([
-                { label: "Talk to an Expert", href: "/contact" },
+                { label: "Careers", href: "/careers" },
               ] as const).map((item) => (
                 <li key={item.href} className="mobile-nav-item">
                   <Link
@@ -1969,7 +1961,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             <Link
               href="/contact"
               onClick={closeMobile}
-              className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(155,223,131,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(155,223,131,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
+              className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(140,198,63,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(140,198,63,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
             >
               BOOK A MEETING
               <ArrowUpRight

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -57,12 +57,12 @@ export default async function SolutionDetailPage({ params }: Props) {
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(155, 223, 131, 0.2) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(140, 198, 63, 0.2) 0%, transparent 70%)" }}
         />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(155, 223, 131, 0.1) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(140, 198, 63, 0.1) 0%, transparent 70%)" }}
         />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -80,7 +80,7 @@ export default async function SolutionDetailPage({ params }: Props) {
             <p className="mt-5 max-w-2xl text-body-large text-text-secondary">{category.short}</p>
             <Link
               href="/contact"
-              className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-3.5 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(155,223,131,0.2)] hover:scale-105 transition-transform duration-200"
+              className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-3.5 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(140,198,63,0.2)] hover:scale-105 transition-transform duration-200"
             >
               Discuss your requirements <ArrowRight size={18} />
             </Link>
@@ -114,7 +114,7 @@ export default async function SolutionDetailPage({ params }: Props) {
             {category.subSolutions.map((sub, idx) => (
               <div
                 key={idx}
-                className="group flex flex-col justify-between rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp transition duration-300 hover:border-signal/30 hover:shadow-[0_4px_20px_rgba(155,223,131,0.04)]"
+                className="group flex flex-col justify-between rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp transition duration-300 hover:border-signal/30 hover:shadow-[0_4px_20px_rgba(140,198,63,0.04)]"
               >
                 <div>
                   <h3 className="text-card font-bold text-text-primary group-hover:text-signal transition-colors duration-200">
@@ -192,7 +192,7 @@ export default async function SolutionDetailPage({ params }: Props) {
           </p>
           <Link
             href="/contact"
-            className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-7 py-4 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(155,223,131,0.2)] hover:shadow-[0_0_30px_rgba(155,223,131,0.4)] transition-all duration-300"
+            className="cta-magnetic mt-8 inline-flex items-center gap-2 rounded-xl bg-signal px-7 py-4 font-bold text-white border border-transparent shadow-[0_0_20px_rgba(140,198,63,0.2)] hover:shadow-[0_0_30px_rgba(140,198,63,0.4)] transition-all duration-300"
           >
             Book Free Feasibility Call <ArrowRight size={18} />
           </Link>

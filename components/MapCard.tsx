@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ExternalLink, MapPin } from "lucide-react";
 
@@ -38,22 +38,22 @@ export function MapCard() {
         .pin-glow {
           width: 32px;
           height: 32px;
-          background-color: rgba(155, 223, 131, 0.25);
+          background-color: rgba(140, 198, 63, 0.25);
           border-radius: 50%;
           position: absolute;
-          border: 1.5px solid rgba(155, 223, 131, 0.45);
-          box-shadow: 0 0 15px 5px rgba(155, 223, 131, 0.55);
+          border: 1.5px solid rgba(140, 198, 63, 0.45);
+          box-shadow: 0 0 15px 5px rgba(140, 198, 63, 0.55);
           animation: pinPulse 2s infinite ease-in-out;
         }
         /* Solid inner pin point */
         .pin-pulse {
           width: 12px;
           height: 12px;
-          background-color: #9BDF83;
+          background-color: #8CC63F;
           border-radius: 50%;
           position: absolute;
           border: 2px solid #EEEEEE;
-          box-shadow: 0 0 10px #9BDF83;
+          box-shadow: 0 0 10px #8CC63F;
         }
         @keyframes pinPulse {
           0% {
@@ -82,7 +82,7 @@ export function MapCard() {
         }
         .leaflet-bar a:hover {
           background-color: #111111 !important;
-          color: #9BDF83 !important;
+          color: #8CC63F !important;
         }
         .leaflet-control-attribution {
           background: rgba(0, 0, 0, 0.75) !important;
@@ -91,7 +91,7 @@ export function MapCard() {
           border-top-left-radius: 4px;
         }
         .leaflet-control-attribution a {
-          color: #9BDF83 !important;
+          color: #8CC63F !important;
           text-decoration: none;
         }
         .leaflet-control-attribution a:hover {
@@ -130,7 +130,7 @@ export function MapCard() {
   `;
 
   return (
-    <div className="mt-8 rounded-xl border border-border-primary bg-bg-card p-4 shadow-premium hover:border-signal/50 hover:shadow-[0_0_25px_rgba(155,223,131,0.18)] transition-all duration-300 group overflow-hidden">
+    <div className="mt-8 rounded-xl border border-border-primary bg-bg-card p-4 shadow-premium hover:border-signal/50 hover:shadow-[0_0_25px_rgba(140,198,63,0.18)] transition-all duration-300 group overflow-hidden">
       {/* Map Container */}
       <div className="relative h-64 w-full rounded-lg overflow-hidden border border-border-primary/50 group-hover:border-signal/30 transition-all duration-300">
         <iframe

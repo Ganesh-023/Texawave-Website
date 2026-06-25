@@ -1,44 +1,48 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import fs from "fs";
+import path from "path";
 import { PageChrome } from "@/components/PageChrome";
-import { caseStudies } from "@/lib/content";
+import { CaseStudiesList } from "@/components/CaseStudiesList";
 
 export const metadata = {
-  title: "Case Studies",
+  title: "Case Studies | Texawave",
   description: "Texawave hardware engineering case studies across machine design, SPM manufacturing support, and performance improvement."
 };
 
 export default function CaseStudiesPage() {
+  // Read case studies server side for fast initial load & SEO
+  const dbPath = path.join(process.cwd(), "lib", "case_studies.json");
+  let studies = [];
+  try {
+    if (fs.existsSync(dbPath)) {
+      const data = fs.readFileSync(dbPath, "utf-8");
+      studies = JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("Error reading case studies", err);
+  }
+
+  // Filter drafts on server render
+  const publishedStudies = studies.filter((s: any) => s.status === "Published");
+
   return (
     <PageChrome>
-      <section className="bg-mist py-20">
-        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Case studies</p>
-          <h1 className="mt-3 max-w-4xl text-hero text-ink">Engineering work shaped around measurable product outcomes.</h1>
+      <section className="bg-bg-secondary border-b border-white/5 pt-36 pb-24 relative overflow-hidden">
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern opacity-5 pointer-events-none" />
+        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] relative z-10 text-left">
+          <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal font-mono">Case studies</p>
+          <h1 className="mt-4 max-w-4xl text-4xl sm:text-5xl lg:text-6xl text-text-primary leading-[1.15] font-display font-black tracking-tight">
+            Engineering work shaped around <span className="text-[#8CC63F]">measurable outcomes.</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-body-large text-text-secondary">
+            Explore how Texawave delivers high-performance mechanical designs, custom PCBs, embedded systems, and connected IoT cloud platforms.
+          </p>
         </div>
       </section>
-      <section className="bg-bg-primary py-16">
+
+      <section className="bg-bg-primary py-20 relative">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <div className="grid gap-6 lg:grid-cols-3">
-            {caseStudies.map((study) => (
-              <article data-reveal key={study.title} className="service-card-premium rounded-2xl border border-line bg-mist p-7 transition duration-300">
-                <h2 className="text-card text-ink">{study.title}</h2>
-                <p className="mt-5 text-small-text font-black uppercase tracking-[0.16em] text-signal">Problem</p>
-                <p className="mt-2 text-body-normal text-graphite">{study.problem}</p>
-                <p className="mt-5 text-small-text font-black uppercase tracking-[0.16em] text-signal">Solution</p>
-                <p className="mt-2 text-body-normal text-graphite">{study.solution}</p>
-                <p className="mt-5 text-small-text font-black uppercase tracking-[0.16em] text-signal">Deliverables</p>
-                <p className="mt-2 text-body-normal text-graphite">{study.deliverables}</p>
-                <p className="mt-5 text-small-text font-black uppercase tracking-[0.16em] text-signal">Result</p>
-                <p className="mt-2 text-body-normal text-graphite">{study.result}</p>
-              </article>
-            ))}
-          </div>
-          <div className="mt-10">
-            <Link href="/contact" className="cta-magnetic inline-flex items-center gap-2 rounded bg-signal px-6 py-4 font-bold text-white border border-transparent">
-              Start a similar project <ArrowRight size={18} />
-            </Link>
-          </div>
+          <CaseStudiesList initialStudies={publishedStudies} />
         </div>
       </section>
     </PageChrome>

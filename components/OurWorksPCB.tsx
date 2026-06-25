@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import Image from "next/image";
@@ -611,7 +611,7 @@ export function OurWorksPCB() {
           <path 
             className="pcb-trace-path mob-path-draw" 
             d="M 10 0 L 10 2380" 
-            style={{ stroke: 'rgba(155, 223, 131, 0.25)', strokeWidth: '3px' }}
+            style={{ stroke: 'rgba(140, 198, 63, 0.25)', strokeWidth: '3px' }}
           />
 
           {/* Flow path */}
@@ -677,7 +677,7 @@ export function OurWorksPCB() {
           id="metrics-container-1"
           className="relative z-20 mx-auto max-w-xl my-24 lg:my-32 p-6 lg:p-8 rounded-xl border border-border-primary bg-[#080808]/90 backdrop-blur-md transition-all duration-500 hover:border-accent/40"
         >
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-signal rounded-full uppercase">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-bg-primary border border-border-primary text-[10px] tracking-[0.2em] font-mono text-signal rounded-full uppercase">
             BUS MONITOR 01
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
@@ -735,7 +735,7 @@ export function OurWorksPCB() {
           id="metrics-container-2"
           className="relative z-20 mx-auto max-w-xl my-24 lg:my-32 p-6 lg:p-8 rounded-xl border border-border-primary bg-[#080808]/90 backdrop-blur-md transition-all duration-500 hover:border-accent/40"
         >
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black border border-border-primary text-[10px] tracking-[0.2em] font-mono text-signal rounded-full uppercase">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-bg-primary border border-border-primary text-[10px] tracking-[0.2em] font-mono text-signal rounded-full uppercase">
             BUS MONITOR 02
           </div>
           <div className="grid grid-cols-2 gap-6 text-center">
@@ -796,7 +796,7 @@ export function OurWorksPCB() {
 
           {/* Central convergence node label */}
           <div className="mb-12 text-center relative">
-            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-signal bg-black/80 px-4 py-1.5 border border-accent/20 rounded-md">
+            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-signal bg-bg-primary/80 px-4 py-1.5 border border-accent/20 rounded-md">
               SYSTEM CONVERGENCE NODE
             </span>
           </div>
@@ -836,7 +836,7 @@ export function OurWorksPCB() {
                         : ''
                     }`}
                   >
-                    <div className="w-10 h-10 rounded-full bg-black border border-border-primary flex items-center justify-center text-signal">
+                    <div className="w-10 h-10 rounded-full bg-bg-primary border border-border-primary flex items-center justify-center text-signal">
                       <OptionIcon size={18} />
                     </div>
                     <span className="text-sm font-bold tracking-wide">{option.label}</span>
@@ -917,7 +917,7 @@ function ProjectCard({ work, index, setActiveHover }: ProjectCardProps) {
             {work.services.map((svc) => (
               <span 
                 key={svc} 
-                className="pcb-tag flex items-center gap-1.5 border border-border-primary bg-black/40 px-2 py-1 rounded text-small-text font-semibold text-[#999999]"
+                className="pcb-tag flex items-center gap-1.5 border border-border-primary bg-bg-primary/40 px-2 py-1 rounded text-small-text font-semibold text-[#999999]"
               >
                 <CheckCircle2 className="shrink-0 text-signal group-hover:text-signal" size={12} />
                 {svc}
@@ -945,7 +945,7 @@ function SchemaVisual({ title, subtitle, specs, isActive }: SchemaVisualProps) {
   return (
     <div className={`border border-border-primary rounded-xl p-6 bg-[#080808]/40 backdrop-blur-sm transition-all duration-700 ${
       isActive 
-        ? 'border-accent/40 bg-accent/[0.02] shadow-[0_0_20px_rgba(155,223,131,0.15)]' 
+        ? 'border-accent/40 bg-accent/[0.02] shadow-[0_0_20px_rgba(140,198,63,0.15)]' 
         : 'opacity-50'
     }`}>
       {/* Dynamic tech terminal bar */}

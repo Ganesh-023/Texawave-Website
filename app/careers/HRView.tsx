@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { 
   Lock, 
   LogOut, 
@@ -311,7 +311,7 @@ export function HRView({
   // Login View
   if (!isAuthenticated) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 bg-black font-sans text-left">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 bg-bg-primary font-sans text-left">
         <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
         
         <div className="relative w-full max-w-md bg-bg-card border border-border-primary rounded-2xl p-6 sm:p-8 shadow-premium z-10">
@@ -337,7 +337,7 @@ export function HRView({
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
+                className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
                 placeholder="admin"
               />
             </div>
@@ -349,7 +349,7 @@ export function HRView({
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
+                className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-body-normal text-white"
                 placeholder="••••••••"
               />
             </div>
@@ -377,7 +377,7 @@ export function HRView({
 
   // Dashboard Interface
   return (
-    <div className="bg-black text-text-primary min-h-screen font-sans text-left">
+    <div className="bg-bg-primary text-text-primary min-h-screen font-sans text-left">
       <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] py-10">
         
         {/* Admin Header */}
@@ -428,7 +428,7 @@ export function HRView({
                 onClick={() => setActiveTab(tab.id as "analytics" | "jobs" | "walkins" | "applications" | "talent" | "updates")}
                 className={`flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all whitespace-nowrap lg:w-full text-left border ${
                   activeTab === tab.id
-                    ? "bg-signal/15 border-signal/30 text-signal shadow-[0_0_12px_rgba(155,223,131,0.1)]"
+                    ? "bg-signal/15 border-signal/30 text-signal shadow-[0_0_12px_rgba(140,198,63,0.1)]"
                     : "bg-transparent border-transparent text-text-secondary hover:text-white"
                 }`}
               >
@@ -457,7 +457,7 @@ export function HRView({
                     { label: "Total Applications", val: totalAppsCount, desc: "Submitted profiles" },
                     { label: "Intern Candidates", val: internAppsCount, desc: "Students/Trainees" }
                   ].map((stat, i) => (
-                    <div key={i} className="bg-black/40 border border-white/5 rounded-xl p-4 text-center">
+                    <div key={i} className="bg-bg-primary/40 border border-white/5 rounded-xl p-4 text-center">
                       <span className="text-small-text font-bold text-text-secondary uppercase block font-display">{stat.label}</span>
                       <strong className="text-subtitle text-signal block mt-1.5 font-mono">{stat.val}</strong>
                       <span className="text-small-text text-text-secondary mt-1 block">{stat.desc}</span>
@@ -487,9 +487,9 @@ export function HRView({
                               <span className="text-white">{dept}</span>
                               <span className="text-signal font-mono">{count} ({pct}%)</span>
                             </div>
-                            <div className="w-full bg-neutral-900 h-2.5 rounded-full overflow-hidden border border-white/5">
+                            <div className="w-full bg-bg-primary h-2.5 rounded-full overflow-hidden border border-white/5">
                               <div 
-                                className="bg-gradient-to-r from-[var(--primary-green)] to-[#00D4FF] h-full rounded-full transition-all duration-500" 
+                                className="bg-gradient-to-r from-[var(--primary-green)] to-[#14B8A6] h-full rounded-full transition-all duration-500" 
                                 style={{ width: `${Math.max(pct, 4)}%` }} 
                               />
                             </div>
@@ -644,7 +644,7 @@ export function HRView({
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   {walkins.map((drive) => (
-                    <div key={drive.id} className="border border-white/5 bg-black/40 rounded-xl p-4 flex flex-col justify-between">
+                    <div key={drive.id} className="border border-white/5 bg-bg-primary/40 rounded-xl p-4 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start mb-2">
                           <span className="text-[10px] font-mono text-signal tracking-widest uppercase font-bold">{drive.date}</span>
@@ -690,7 +690,7 @@ export function HRView({
                 </div>
 
                 {/* Filtering controls */}
-                <div className="grid sm:grid-cols-3 gap-3 bg-black/40 p-3 rounded-xl border border-white/5">
+                <div className="grid sm:grid-cols-3 gap-3 bg-bg-primary/40 p-3 rounded-xl border border-white/5">
                   <div className="relative flex items-center">
                     <Search className="absolute left-3 text-text-secondary" size={14} />
                     <input
@@ -698,14 +698,14 @@ export function HRView({
                       placeholder="Search name, role..."
                       value={appSearch}
                       onChange={(e) => setAppSearch(e.target.value)}
-                      className="w-full bg-black border border-white/5 rounded-lg pl-8 pr-3 py-2 text-xs focus:outline-none focus:border-signal text-white"
+                      className="w-full bg-bg-primary border border-white/5 rounded-lg pl-8 pr-3 py-2 text-xs focus:outline-none focus:border-signal text-white"
                     />
                   </div>
                   
                   <select
                     value={appFilterStatus}
                     onChange={(e) => setAppFilterStatus(e.target.value)}
-                    className="bg-black border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
+                    className="bg-bg-primary border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
                   >
                     <option value="All">All Statuses</option>
                     <option value="New">New</option>
@@ -718,7 +718,7 @@ export function HRView({
                   <select
                     value={appFilterJob}
                     onChange={(e) => setAppFilterJob(e.target.value)}
-                    className="bg-black border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
+                    className="bg-bg-primary border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
                   >
                     <option value="All">All Jobs</option>
                     {jobs.map(j => <option key={j.id} value={j.id}>{j.title}</option>)}
@@ -761,7 +761,7 @@ export function HRView({
                             <select
                               value={app.status}
                               onChange={(e) => onUpdateAppStatus(app.id, e.target.value as Application["status"])}
-                              className={`px-2 py-1.5 rounded border text-[10px] font-bold focus:outline-none bg-black ${
+                              className={`px-2 py-1.5 rounded border text-[10px] font-bold focus:outline-none bg-bg-primary ${
                                 app.status === "New" ? "border-blue-500/30 text-blue-400" :
                                 app.status === "Shortlisted" ? "border-amber-500/30 text-amber-400" :
                                 app.status === "Interview Scheduled" ? "border-purple-500/30 text-purple-400" :
@@ -808,7 +808,7 @@ export function HRView({
                   <p className="text-body-normal text-text-secondary mt-1">Browse profiles and resumes of builders expressing generic interest in future project launch pipelines.</p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-3 bg-black/40 p-3 rounded-xl border border-white/5">
+                <div className="grid sm:grid-cols-2 gap-3 bg-bg-primary/40 p-3 rounded-xl border border-white/5">
                   <div className="relative flex items-center">
                     <Search className="absolute left-3 text-text-secondary" size={14} />
                     <input
@@ -816,14 +816,14 @@ export function HRView({
                       placeholder="Search name, skills, keywords..."
                       value={talentSearch}
                       onChange={(e) => setTalentSearch(e.target.value)}
-                      className="w-full bg-black border border-white/5 rounded-lg pl-8 pr-3 py-2 text-xs focus:outline-none focus:border-signal text-white"
+                      className="w-full bg-bg-primary border border-white/5 rounded-lg pl-8 pr-3 py-2 text-xs focus:outline-none focus:border-signal text-white"
                     />
                   </div>
                   
                   <select
                     value={talentFilterDept}
                     onChange={(e) => setTalentFilterDept(e.target.value)}
-                    className="bg-black border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
+                    className="bg-bg-primary border border-white/5 rounded-lg px-3 py-2 text-xs text-white font-semibold"
                   >
                     <option value="All">All Departments</option>
                     <option value="Software">Software</option>
@@ -908,7 +908,7 @@ export function HRView({
                   {updates.map((update) => (
                     <div key={update.id} className="bg-black/30 border border-white/5 rounded-xl p-4 flex gap-4">
                       {update.image && (
-                        <div className="relative h-20 w-28 bg-neutral-900 rounded overflow-hidden shrink-0 border border-white/5">
+                        <div className="relative h-20 w-28 bg-bg-primary rounded overflow-hidden shrink-0 border border-white/5">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={update.image}
@@ -948,7 +948,7 @@ export function HRView({
 
       {/* MODAL: Create / Edit Job Posting */}
       {showJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md overflow-y-auto">
           <div className="relative w-full max-w-2xl bg-bg-card border border-border-primary rounded-2xl p-6 sm:p-8 shadow-premium max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => {
@@ -973,7 +973,7 @@ export function HRView({
                     required
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="e.g., Senior Embedded Engineer"
                   />
                 </div>
@@ -983,7 +983,7 @@ export function HRView({
                   <select
                     value={jobDept}
                     onChange={(e) => setJobDept(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   >
                     <option value="Software">Software</option>
                     <option value="Electrical">Electrical</option>
@@ -1001,7 +1001,7 @@ export function HRView({
                     required
                     value={jobLoc}
                     onChange={(e) => setJobLoc(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="Chennai / Hybrid"
                   />
                 </div>
@@ -1011,7 +1011,7 @@ export function HRView({
                   <select
                     value={jobType}
                     onChange={(e) => setJobType(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   >
                     <option value="Full Time">Full Time</option>
                     <option value="Internship">Internship</option>
@@ -1027,7 +1027,7 @@ export function HRView({
                     required
                     value={jobExp}
                     onChange={(e) => setJobExp(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="2+ Years Experience"
                   />
                 </div>
@@ -1041,7 +1041,7 @@ export function HRView({
                     required
                     value={jobSalary}
                     onChange={(e) => setJobSalary(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="e.g., ₹8,00,000 - ₹12,00,000 PA"
                   />
                 </div>
@@ -1053,19 +1053,19 @@ export function HRView({
                     required
                     value={jobDeadline}
                     onChange={(e) => setJobDeadline(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   />
                 </div>
               </div>
 
               {/* Status and Banner checks */}
-              <div className="bg-black/40 border border-white/5 rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-bg-primary/40 border border-white/5 rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <label className="flex items-center gap-2 text-xs text-white cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={jobStatus === "Open"}
                     onChange={(e) => setJobStatus(e.target.checked ? "Open" : "Closed")}
-                    className="rounded bg-black border-white/10 text-signal focus:ring-0"
+                    className="rounded bg-bg-primary border-white/10 text-signal focus:ring-0"
                   />
                   <span>Hiring Open</span>
                 </label>
@@ -1075,7 +1075,7 @@ export function HRView({
                     type="checkbox"
                     checked={jobFeatured}
                     onChange={(e) => setJobFeatured(e.target.checked)}
-                    className="rounded bg-black border-white/10 text-signal focus:ring-0"
+                    className="rounded bg-bg-primary border-white/10 text-signal focus:ring-0"
                   />
                   <span>⭐ Featured Job</span>
                 </label>
@@ -1085,7 +1085,7 @@ export function HRView({
                     type="checkbox"
                     checked={jobUrgent}
                     onChange={(e) => setJobUrgent(e.target.checked)}
-                    className="rounded bg-black border-white/10 text-signal focus:ring-0"
+                    className="rounded bg-bg-primary border-white/10 text-signal focus:ring-0"
                   />
                   <span>Urgent Hiring</span>
                 </label>
@@ -1095,7 +1095,7 @@ export function HRView({
                     type="checkbox"
                     checked={jobInternship}
                     onChange={(e) => setJobInternship(e.target.checked)}
-                    className="rounded bg-black border-white/10 text-signal focus:ring-0"
+                    className="rounded bg-bg-primary border-white/10 text-signal focus:ring-0"
                   />
                   <span>Internship role</span>
                 </label>
@@ -1107,7 +1107,7 @@ export function HRView({
                   type="text"
                   value={jobSkills}
                   onChange={(e) => setJobSkills(e.target.value)}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   placeholder="React, TypeScript, Embedded, ESP32"
                 />
               </div>
@@ -1119,7 +1119,7 @@ export function HRView({
                   value={jobDesc}
                   onChange={(e) => setJobDesc(e.target.value)}
                   rows={4}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
                   placeholder="Summarize the core expectations and role scope..."
                 />
               </div>
@@ -1137,7 +1137,7 @@ export function HRView({
 
       {/* MODAL: Create Walkin Announcement */}
       {showWalkinModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md">
           <div className="relative w-full max-w-md bg-bg-card border border-border-primary rounded-2xl p-6 sm:p-8 shadow-premium">
             <button
               onClick={() => setShowWalkinModal(false)}
@@ -1156,7 +1156,7 @@ export function HRView({
                   required
                   value={walkinTitle}
                   onChange={(e) => setWalkinTitle(e.target.value)}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   placeholder="e.g., Mechanical Design Walk-In Interview"
                 />
               </div>
@@ -1169,7 +1169,7 @@ export function HRView({
                     required
                     value={walkinDate}
                     onChange={(e) => setWalkinDate(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   />
                 </div>
                 
@@ -1180,7 +1180,7 @@ export function HRView({
                     required
                     value={walkinPositions}
                     onChange={(e) => setWalkinPositions(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="Mechanical Engineer, CAD"
                   />
                 </div>
@@ -1192,7 +1192,7 @@ export function HRView({
                   type="text"
                   value={walkinLoc}
                   onChange={(e) => setWalkinLoc(e.target.value)}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   placeholder="Guindy Industrial Estate, Chennai"
                 />
               </div>
@@ -1203,7 +1203,7 @@ export function HRView({
                   value={walkinDesc}
                   onChange={(e) => setWalkinDesc(e.target.value)}
                   rows={3}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
                   placeholder="Candidates must bring portfolio files and graduation details..."
                 />
               </div>
@@ -1221,7 +1221,7 @@ export function HRView({
 
       {/* MODAL: Post Life Update */}
       {showUpdateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md">
           <div className="relative w-full max-w-md bg-bg-card border border-border-primary rounded-2xl p-6 sm:p-8 shadow-premium">
             <button
               onClick={() => setShowUpdateModal(false)}
@@ -1239,7 +1239,7 @@ export function HRView({
                   <select
                     value={updateType}
                     onChange={(e) => setUpdateType(e.target.value as "update" | "life")}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   >
                     <option value="life">📷 Culture & Team</option>
                     <option value="update">📢 Company Announcement</option>
@@ -1252,7 +1252,7 @@ export function HRView({
                     type="text"
                     value={updateImage}
                     onChange={(e) => setUpdateImage(e.target.value)}
-                    className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                     placeholder="https://images.unsplash.com/..."
                   />
                 </div>
@@ -1265,7 +1265,7 @@ export function HRView({
                   required
                   value={updateTitle}
                   onChange={(e) => setUpdateTitle(e.target.value)}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white"
                   placeholder="e.g., TEXAWAVE Welcomes 12 New Interns"
                 />
               </div>
@@ -1277,7 +1277,7 @@ export function HRView({
                   value={updateContent}
                   onChange={(e) => setUpdateContent(e.target.value)}
                   rows={4}
-                  className="w-full bg-black border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
+                  className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-xs text-white resize-none"
                   placeholder="Share a story, employee milestone, or hackathon outcomes..."
                 />
               </div>
@@ -1295,7 +1295,7 @@ export function HRView({
 
       {/* MODAL: Application / Candidate Message details review */}
       {selectedApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md">
           <div className="relative w-full max-w-lg bg-bg-card border border-border-primary rounded-2xl p-6 sm:p-8 shadow-premium">
             <button
               onClick={() => setSelectedApp(null)}

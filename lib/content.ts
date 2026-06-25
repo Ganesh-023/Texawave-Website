@@ -1,4 +1,4 @@
-import {
+﻿import {
   BadgeCheck,
   Blocks,
   Box,
@@ -355,7 +355,7 @@ export const testimonials = [
     company: "AeroTech Solutions",
     initials: "AC",
     blueprintId: "TXW-TS-01",
-    accentColor: "#9BDF83",
+    accentColor: "#8CC63F",
   },
   {
     quote:
@@ -365,7 +365,7 @@ export const testimonials = [
     company: "Vortex Electronics",
     initials: "SJ",
     blueprintId: "TXW-TS-02",
-    accentColor: "#00D4FF",
+    accentColor: "#14B8A6",
   },
   {
     quote:
@@ -375,7 +375,7 @@ export const testimonials = [
     company: "Lumen Robotics",
     initials: "MS",
     blueprintId: "TXW-TS-03",
-    accentColor: "#9BDF83",
+    accentColor: "#8CC63F",
   },
   {
     quote:
@@ -385,7 +385,7 @@ export const testimonials = [
     company: "Kinetix IoT",
     initials: "ER",
     blueprintId: "TXW-TS-04",
-    accentColor: "#00D4FF",
+    accentColor: "#14B8A6",
   },
   {
     quote:
@@ -395,7 +395,7 @@ export const testimonials = [
     company: "Apex Automations",
     initials: "RC",
     blueprintId: "TXW-TS-05",
-    accentColor: "#9BDF83",
+    accentColor: "#8CC63F",
   }
 ];
 

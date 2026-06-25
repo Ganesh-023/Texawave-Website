@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
@@ -21,37 +21,37 @@ const FEATURES = [
     icon: ShieldCheck,
     title: "Transparency in Project",
     desc: "Full visibility into every milestone, design decision, and progress update throughout the engagement.",
-    accent: "#00D4FF",
+    accent: "#14B8A6",
   },
   {
     icon: Gauge,
     title: "Cost Efficient Solutions",
     desc: "Engineering-grade outcomes optimised for budget without compromising reliability or performance.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
   },
   {
     icon: BadgeCheck,
     title: "Certified Engineers",
     desc: "Experienced specialists across mechanical, electrical, embedded, and IoT disciplines.",
-    accent: "#00D4FF",
+    accent: "#14B8A6",
   },
   {
     icon: Layers3,
     title: "End-to-End Solutions",
     desc: "From concept and CAD through manufacturing, testing, and launch — one team, one roof.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
   },
   {
     icon: BrainCircuit,
     title: "Subject Matter Experts",
     desc: "Deep domain knowledge applied at every stage so your product is engineered right, first time.",
-    accent: "#00D4FF",
+    accent: "#14B8A6",
   },
   {
     icon: PenTool,
     title: "Custom Build",
     desc: "Purpose-built solutions tailored to your exact specifications, constraints, and market needs.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
   },
 ];
 
@@ -175,7 +175,7 @@ export function ConveyorBelt() {
       gsap.to(cardRefs.current[idx], {
         y: entering ? "-=18" : "+=18",
         boxShadow: entering
-          ? "0 0 60px rgba(0,212,255,0.35), 0 32px 64px rgba(0,0,0,0.6)"
+          ? "0 0 60px rgba(20,184,166,0.35), 0 32px 64px rgba(0,0,0,0.6)"
           : "0 16px 48px rgba(0,0,0,0.45)",
         duration: 0.4,
         ease: "power2.out",
@@ -215,12 +215,12 @@ export function ConveyorBelt() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(20,184,166,0.12) 0%, transparent 70%)" }}
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(155, 223, 131, 0.18) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(140, 198, 63, 0.18) 0%, transparent 70%)" }}
       />
 
       {/* ── Decorative SVG schematic lines ── */}
@@ -231,19 +231,19 @@ export function ConveyorBelt() {
         preserveAspectRatio="xMidYMid slice"
       >
         {/* Diagonal schematic rails */}
-        <line x1="0" y1="580" x2="1200" y2="180" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.35" />
-        <line x1="0" y1="620" x2="1200" y2="220" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.2" />
+        <line x1="0" y1="580" x2="1200" y2="180" stroke="#14B8A6" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.35" />
+        <line x1="0" y1="620" x2="1200" y2="220" stroke="#14B8A6" strokeWidth="1" strokeDasharray="8 16" strokeOpacity="0.2" />
         <line x1="0" y1="540" x2="1200" y2="140" stroke="var(--primary-green)" strokeWidth="0.5" strokeDasharray="4 20" strokeOpacity="0.2" />
 
         {/* Corner tech brackets */}
-        <polyline points="24,24 24,56 56,56" fill="none" stroke="#00D4FF" strokeWidth="1.5" strokeOpacity="0.5" />
-        <polyline points="1176,24 1176,56 1144,56" fill="none" stroke="#00D4FF" strokeWidth="1.5" strokeOpacity="0.5" />
+        <polyline points="24,24 24,56 56,56" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeOpacity="0.5" />
+        <polyline points="1176,24 1176,56 1144,56" fill="none" stroke="#14B8A6" strokeWidth="1.5" strokeOpacity="0.5" />
         <polyline points="24,676 24,644 56,644" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.5" />
         <polyline points="1176,676 1176,644 1144,644" fill="none" stroke="var(--primary-green)" strokeWidth="1.5" strokeOpacity="0.5" />
 
         {/* Floating particles */}
         {particles.map((p, i) => (
-          <circle key={i} cx={`${p.cx}%`} cy={`${p.cy}%`} r={p.r} fill="#00D4FF" opacity={p.opacity} />
+          <circle key={i} cx={`${p.cx}%`} cy={`${p.cy}%`} r={p.r} fill="#14B8A6" opacity={p.opacity} />
         ))}
       </svg>
 
@@ -251,7 +251,7 @@ export function ConveyorBelt() {
       <div className="relative z-10 mx-auto max-w-7xl px-5 pb-0 pt-20 text-center lg:px-8">
         <div
           className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em]"
-          style={{ border: "1px solid rgba(0,212,255,0.25)", color: "#00D4FF", background: "rgba(0,212,255,0.08)" }}
+          style={{ border: "1px solid rgba(20,184,166,0.25)", color: "#14B8A6", background: "rgba(20,184,166,0.08)" }}
         >
           Why Texawave
         </div>
@@ -259,7 +259,7 @@ export function ConveyorBelt() {
           className="mx-auto mt-2 max-w-3xl text-4xl font-black leading-tight md:text-5xl text-text-primary"
         >
           Why Companies Choose{" "}
-          <span style={{ background: "linear-gradient(90deg,#00D4FF,var(--primary-green))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <span style={{ background: "linear-gradient(90deg,#14B8A6,var(--primary-green))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Texawave
           </span>
         </h2>
@@ -279,8 +279,8 @@ export function ConveyorBelt() {
           className="pointer-events-none absolute left-1/2 top-1/2"
           style={{ transform: "translate(-50%,-50%) rotateX(55deg) rotateZ(-18deg)", width: "110%", height: "4px" }}
         >
-          <div style={{ height: "2px", background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent)" }} />
-          <div style={{ height: "2px", marginTop: "32px", background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.25), transparent)" }} />
+          <div style={{ height: "2px", background: "linear-gradient(90deg, transparent, rgba(20,184,166,0.4), transparent)" }} />
+          <div style={{ height: "2px", marginTop: "32px", background: "linear-gradient(90deg, transparent, rgba(20,184,166,0.25), transparent)" }} />
         </div>
 
         {/* Belt conveyor track line (lower) */}
@@ -288,7 +288,7 @@ export function ConveyorBelt() {
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-[58%]"
           style={{ transform: "translateX(-50%) rotateX(72deg) rotateZ(-18deg)", width: "85%", height: "2px",
-            background: "linear-gradient(90deg, transparent 0%, rgba(155, 223, 131, 0.4) 30%, rgba(155, 223, 131, 0.4) 70%, transparent 100%)" }}
+            background: "linear-gradient(90deg, transparent 0%, rgba(140, 198, 63, 0.4) 30%, rgba(140, 198, 63, 0.4) 70%, transparent 100%)" }}
         />
 
         {/* Cards container */}
@@ -367,7 +367,7 @@ export function ConveyorBelt() {
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-[68%]"
           style={{ transform: "translateX(-50%)", width: "420px", height: "40px",
-            background: "radial-gradient(ellipse, rgba(0,212,255,0.12) 0%, transparent 70%)" }}
+            background: "radial-gradient(ellipse, rgba(20,184,166,0.12) 0%, transparent 70%)" }}
         />
       </div>
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
@@ -6,20 +6,14 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  ArrowRight,
-  ChevronRight,
   Lightbulb,
-  CircuitBoard,
-  Cpu,
-  Cog,
+  Palette,
+  Zap,
+  Microscope,
+  Package,
   Factory,
-  BrainCircuit,
-  Blocks,
-  Handshake,
-  ShieldCheck,
-  PenTool,
-  Box,
   Rocket,
+  BrainCircuit,
   Code2
 } from "lucide-react";
 
@@ -38,42 +32,39 @@ interface Stage {
 }
 
 const STAGES: Stage[] = [
-  { id: "idea", label: "Idea", desc: "Product requirements & concept initialization", icon: Lightbulb, color: "#9BDF83", glowColor: "rgba(155, 223, 131, 0.4)" },
-  { id: "strategy", label: "Product Strategy", desc: "Market alignment & technical roadmapping", icon: BrainCircuit, color: "#00D4FF", glowColor: "rgba(0, 212, 255, 0.4)" },
-  { id: "industrial-design", label: "Industrial Design", desc: "Ergonomics, aesthetics & casing styling", icon: PenTool, color: "#9BDF83", glowColor: "rgba(155, 223, 131, 0.4)" },
-  { id: "mechanical-design", label: "Mechanical Design", desc: "Enclosure detailing, CAD modeling & structure", icon: Cog, color: "#00D4FF", glowColor: "rgba(0, 212, 255, 0.4)" },
-  { id: "hardware-engineering", label: "Hardware Engineering", desc: "Schematics design & multi-layer PCB layout", icon: CircuitBoard, color: "#9BDF83", glowColor: "rgba(155, 223, 131, 0.4)" },
-  { id: "embedded-development", label: "Embedded Development", desc: "Bare-metal firmware & hardware integration", icon: Cpu, color: "#00D4FF", glowColor: "rgba(0, 212, 255, 0.4)" },
-  { id: "software-development", label: "Software Development", desc: "Cloud, mobile apps & IoT platform backends", icon: Code2, color: "#9BDF83", glowColor: "rgba(155, 223, 131, 0.4)" },
-  { id: "prototype-development", label: "Prototype Development", desc: "Rapid functional builds & proof-of-concepts", icon: Box, color: "#00D4FF", glowColor: "rgba(0, 212, 255, 0.4)" },
-  { id: "testing-validation", label: "Testing & Validation", desc: "EMI/EMC, safety compliance & validation", icon: ShieldCheck, color: "#9BDF83", glowColor: "rgba(155, 223, 131, 0.4)" },
-  { id: "market-launch", label: "Market Launch", desc: "Certifications, compliance & global distribution", icon: Rocket, color: "#00D4FF", glowColor: "rgba(0, 212, 255, 0.4)" }
+  { id: "idea", label: "Idea", desc: "Requirements gathering, user story mapping, and concept initialization", icon: Lightbulb, color: "#8CC63F", glowColor: "rgba(140, 198, 63, 0.4)" },
+  { id: "design", label: "Design", desc: "Ergonomics, casing styling, 3D modeling, and UX interface layouts", icon: Palette, color: "#14B8A6", glowColor: "rgba(20, 184, 166, 0.4)" },
+  { id: "engineer", label: "Engineer", desc: "Schematics, multi-layer PCB layouts, firmware integration, and cloud architecture", icon: Zap, color: "#8CC63F", glowColor: "rgba(140, 198, 63, 0.4)" },
+  { id: "prototype", label: "Prototype", desc: "3D prints, functional PCB assembly, and initial lab testing", icon: Microscope, color: "#14B8A6", glowColor: "rgba(20, 184, 166, 0.4)" },
+  { id: "source", label: "Source", desc: "BOM optimization, supplier vetting, component sourcing, and supply chain logistics", icon: Package, color: "#8CC63F", glowColor: "rgba(140, 198, 63, 0.4)" },
+  { id: "manufacture", label: "Manufacture", desc: "Tooling design, line setup, quality control calibration, and mass production", icon: Factory, color: "#14B8A6", glowColor: "rgba(20, 184, 166, 0.4)" },
+  { id: "launch", label: "Launch", desc: "Compliance certifications, packaging design, and worldwide distribution", icon: Rocket, color: "#8CC63F", glowColor: "rgba(140, 198, 63, 0.4)" }
 ];
 
 const CARDS = [
   {
-    title: "Integrated Engineering Expertise",
-    desc: "Our Electrical, Mechanical, Embedded, Software, and Supply Chain teams work together seamlessly to solve complex product development challenges and accelerate innovation.",
+    title: "Zero Vendor Fragmentation",
+    desc: "No need to juggle separate vendors for mechanical builds, electrical routing, and software coding. We handle it all under one roof.",
     icon: BrainCircuit,
-    color: "#9BDF83"
+    color: "#8CC63F"
   },
   {
-    title: "End-to-End Product Development",
-    desc: "From concept development and industrial design to prototyping, validation, procurement, and manufacturing readiness, we support every stage of the product lifecycle.",
-    icon: Blocks,
-    color: "#00D4FF"
+    title: "Manufacturability First (DFM)",
+    desc: "We don't just build designs that look good on screen; we deliver production-ready assets optimized for cost, scalability, and long-term performance.",
+    icon: Factory,
+    color: "#14B8A6"
   },
   {
-    title: "Agile & Customer-Centric Approach",
-    desc: "We work closely with our clients, adapting quickly to evolving requirements while maintaining a strong focus on quality, transparency, and delivery.",
-    icon: Handshake,
-    color: "#9BDF83"
+    title: "Deep Software & IoT Mastery",
+    desc: "We don't treat software as an afterthought. Our team builds robust digital platforms, cloud integrations, and mobile interfaces that synchronize flawlessly with physical devices.",
+    icon: Code2,
+    color: "#8CC63F"
   },
   {
-    title: "Production-Ready Engineering",
-    desc: "Every solution is designed with manufacturability, scalability, reliability, and cost optimization in mind, ensuring a smooth transition from prototype to production.",
-    icon: ShieldCheck,
-    color: "#00D4FF"
+    title: "Transparency & Speed",
+    desc: "From BOM (Bill of Materials) optimization to rapid prototyping, we minimize production delays and eliminate unexpected costs.",
+    icon: Rocket,
+    color: "#14B8A6"
   }
 ];
 
@@ -86,9 +77,9 @@ function PCBBackground() {
             <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.5" />
           </pattern>
           <linearGradient id="glow-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#9BDF83" stopOpacity="0.4" />
-            <stop offset="50%" stopColor="#00D4FF" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#9BDF83" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="#8CC63F" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="#14B8A6" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#8CC63F" stopOpacity="0.4" />
           </linearGradient>
         </defs>
         <rect width="100%" height="100%" fill="url(#pcb-grid-about)" />
@@ -106,14 +97,14 @@ function PCBBackground() {
         <path d="M 1200,250 L 950,250 L 900,300 L 900,600 L 1050,750" stroke="url(#glow-grad-1)" strokeWidth="1.5" fill="none" className="pcb-flow" style={{ animationDelay: "-2s" }} />
         
         {/* Dynamic PCB solder pads */}
-        <circle cx="250" cy="150" r="3" fill="#9BDF83" className="animate-pulse" />
-        <circle cx="300" cy="200" r="3.5" fill="#00D4FF" />
-        <circle cx="300" cy="450" r="3" fill="#9BDF83" />
-        <circle cx="450" cy="300" r="3" fill="#00D4FF" />
-        <circle cx="950" cy="250" r="3.5" fill="#9BDF83" />
-        <circle cx="900" cy="600" r="3" fill="#00D4FF" />
-        <circle cx="250" cy="1250" r="3" fill="#9BDF83" />
-        <circle cx="950" cy="1300" r="3" fill="#00D4FF" />
+        <circle cx="250" cy="150" r="3" fill="#8CC63F" className="animate-pulse" />
+        <circle cx="300" cy="200" r="3.5" fill="#14B8A6" />
+        <circle cx="300" cy="450" r="3" fill="#8CC63F" />
+        <circle cx="450" cy="300" r="3" fill="#14B8A6" />
+        <circle cx="950" cy="250" r="3.5" fill="#8CC63F" />
+        <circle cx="900" cy="600" r="3" fill="#14B8A6" />
+        <circle cx="250" cy="1250" r="3" fill="#8CC63F" />
+        <circle cx="950" cy="1300" r="3" fill="#14B8A6" />
       </svg>
       <style jsx>{`
         @keyframes pcb-flow-anim {
@@ -155,7 +146,7 @@ export function AboutWhyTexawave() {
         if (node) {
           gsap.set(node, {
             borderColor: "var(--primary-green)",
-            backgroundColor: "rgba(155, 223, 131, 0.15)",
+            backgroundColor: "rgba(140, 198, 63, 0.15)",
             color: "#ffffff"
           });
         }
@@ -198,7 +189,7 @@ export function AboutWhyTexawave() {
         nodeRefs.current[index],
         {
           borderColor: stage.color,
-          backgroundColor: stage.color === "#9BDF83" ? "rgba(155, 223, 131, 0.18)" : "rgba(0, 212, 255, 0.18)",
+          backgroundColor: stage.color === "#8CC63F" ? "rgba(140, 198, 63, 0.18)" : "rgba(20, 184, 166, 0.18)",
           color: "#ffffff",
           boxShadow: `0 0 20px ${stage.glowColor}`,
           scale: 1.15,
@@ -257,7 +248,7 @@ export function AboutWhyTexawave() {
     <section
       ref={sectionRef}
       id="about-why"
-      className="relative bg-black border-b border-border-primary py-24 overflow-hidden z-10"
+      className="relative bg-bg-primary border-b border-border-primary py-24 overflow-hidden z-10"
     >
       <PCBBackground />
 
@@ -270,22 +261,19 @@ export function AboutWhyTexawave() {
             <div className="mb-12">
               <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">About TexaWave</p>
               <h2 className="mt-3 text-section text-text-primary tracking-tight font-black leading-tight">
-                A New Generation Product  <br className="hidden md:inline" />
-                Engineering Partner.
+                A New Generation <br className="hidden md:inline" />
+                Product Engineering Partner.
               </h2>
               <div className="mt-6 space-y-6 text-body-large text-text-secondary leading-relaxed">
                 <p>
-                  TexaWave is a multidisciplinary product engineering company helping startups and enterprises transform innovative ideas into market-ready products. By combining expertise in electronics, embedded systems, software development, mechanical engineering, procurement, and manufacturing support, we deliver complete product solutions from concept to production.
-                </p>
-                <p>
-                  Our collaborative engineering approach enables businesses to accelerate innovation, reduce development risks, and bring products to market faster.
+                  Texawave is a multidisciplinary product engineering partner helping startups and enterprises transform innovative ideas into market-ready products. Our core focus lies in custom software development, cloud IoT platforms, and advanced electronic hardware development. Integrated with precision mechanical design and manufacturing support, we deliver the complete, connected solutions you need to accelerate innovation and launch faster.
                 </p>
               </div>
             </div>
 
             {/* Why TexaWave content */}
             <div className="mb-12">
-              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Why TexaWave</p>
+              <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">WHY TEXAWAVE</p>
             </div>
 
             {/* 2x2 Glassmorphic capability grid */}
@@ -343,42 +331,42 @@ export function AboutWhyTexawave() {
           <div className="relative">
             <div className="md:sticky md:top-24 md:max-h-[calc(100vh-120px)]">
               {/* Headline for journey on mobile, standard subtitle on desktop */}
-              <div className="mb-8">
-                <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal mb-2">Our Process</p>
-                <h3 className="text-card font-extrabold text-[#EEEEEE] tracking-tight">The Product Journey</h3>
+              <div className="mb-8 lg:mb-10">
+                <p className="text-small-text lg:text-xs font-bold uppercase tracking-[0.18em] lg:tracking-[0.22em] text-signal mb-2">Our Process</p>
+                <h3 className="text-card lg:text-3xl font-extrabold text-[#EEEEEE] tracking-tight">The Product Journey</h3>
               </div>
 
               {/* Journey timeline container */}
               <div className="relative flex flex-col pl-4">
                 {/* Timeline connector track (dark gray base line) */}
                 <div 
-                  className="absolute left-[40px] top-[24px] bottom-[24px] w-[2px] bg-neutral-800 z-0 origin-top"
+                  className="absolute left-[40px] lg:left-[48px] top-[24px] lg:top-[32px] bottom-[24px] lg:bottom-[32px] w-[2px] lg:w-[3px] bg-neutral-800 z-0 origin-top"
                   aria-hidden="true"
                 />
                 
                 {/* Timeline active/drawn track (GSAP scroll-controlled) */}
                 <div 
                   ref={activeLineRef}
-                  className="absolute left-[40px] top-[24px] bottom-[24px] w-[2px] bg-gradient-to-b from-[#9BDF83] to-[#00D4FF] z-0 origin-top scale-y-0"
+                  className="absolute left-[40px] lg:left-[48px] top-[24px] lg:top-[32px] bottom-[24px] lg:bottom-[32px] w-[2px] lg:w-[3px] bg-gradient-to-b from-[#8CC63F] to-[#14B8A6] z-0 origin-top scale-y-0"
                   aria-hidden="true"
                 />
 
                 {/* Stages List */}
-                <div className="space-y-5 md:space-y-6">
+                <div className="space-y-5 md:space-y-6 lg:space-y-8">
                   {STAGES.map((stage, index) => {
                     const Icon = stage.icon;
                     return (
                       <div 
                         key={stage.id} 
-                        className="flex items-center gap-6 relative group"
+                        className="flex items-center gap-6 lg:gap-8 relative group"
                       >
                         {/* Node Circle */}
                         <div
                           ref={(el) => { nodeRefs.current[index] = el; }}
-                          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-neutral-800 bg-neutral-950 text-neutral-500 z-10 relative transition-all duration-300 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]"
+                          className="flex h-12 w-12 lg:h-16 lg:w-16 shrink-0 items-center justify-center rounded-full border border-neutral-800 bg-bg-card text-neutral-500 z-10 relative transition-all duration-300 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]"
                           style={{ willChange: "transform, border-color, background-color, box-shadow" }}
                         >
-                          <Icon size={20} strokeWidth={1.8} />
+                          <Icon className="w-5 h-5 lg:w-6 lg:h-6" strokeWidth={1.8} />
                         </div>
 
                         {/* Stage Content */}
@@ -386,10 +374,10 @@ export function AboutWhyTexawave() {
                           ref={(el) => { itemRefs.current[index] = el; }}
                           className="flex flex-col transition-all duration-300"
                         >
-                          <span className="text-sm md:text-base font-bold text-neutral-500 tracking-wide transition-colors duration-300 stage-title">
+                          <span className="text-sm md:text-base lg:text-lg font-bold text-neutral-500 tracking-wide transition-colors duration-300 stage-title">
                             {stage.label}
                           </span>
-                          <span className="text-[11px] md:text-xs text-neutral-600 mt-1 leading-normal max-w-xs md:max-w-sm transition-colors duration-300 stage-desc">
+                          <span className="text-[11px] md:text-xs lg:text-sm text-neutral-600 mt-1 lg:mt-1.5 leading-normal lg:leading-relaxed max-w-xs md:max-w-sm lg:max-w-md transition-colors duration-300 stage-desc">
                             {stage.desc}
                           </span>
                         </div>

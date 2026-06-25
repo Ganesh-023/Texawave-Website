@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
@@ -25,7 +25,7 @@ const CARDS = [
     title: "End-to-End Solutions",
     description:
       "Full lifecycle delivery from concept validation through mass production—one partner, zero gaps.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
     size: "large", // spans more cells
   },
   {
@@ -43,7 +43,7 @@ const CARDS = [
     title: "Embedded Systems",
     description:
       "Bare-metal to RTOS firmware developed alongside hardware so integration is seamless from day one.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
     size: "normal",
   },
   {
@@ -61,7 +61,7 @@ const CARDS = [
     title: "Product Development",
     description:
       "Mechanical, electrical, and software streams unified under a single product manager.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
     size: "large",
   },
   {
@@ -79,7 +79,7 @@ const CARDS = [
     title: "Testing & Validation",
     description:
       "Functional, EMC, environmental, and safety testing aligned to IEC, CE, UL, and FCC standards.",
-    accent: "#9BDF83",
+    accent: "#8CC63F",
     size: "normal",
   },
   {
@@ -191,7 +191,7 @@ function BeamLines() {
           width: "50vw",
           height: "50vw",
           background:
-            "radial-gradient(circle, rgba(155, 223, 131, 0.15) 0%, transparent 65%)",
+            "radial-gradient(circle, rgba(140, 198, 63, 0.15) 0%, transparent 65%)",
           borderRadius: "50%",
         }}
       />
@@ -510,7 +510,7 @@ export function WhyTexawave() {
       ref={sectionRef}
       id="why-texawave"
       aria-labelledby="why-texawave-heading"
-      style={{ background: "#000000", position: "relative" }}
+      style={{ background: "var(--bg-primary)", position: "relative" }}
     >
       {/* Background layers */}
       <BlueprintGrid />
@@ -568,7 +568,7 @@ export function WhyTexawave() {
                     backgroundClip: "text",
                     backgroundSize: "200% 100%",
                     animation: "wtx-shimmer 4s linear infinite",
-                    filter: "drop-shadow(0 0 18px rgba(155, 223, 131, 0.55))",
+                    filter: "drop-shadow(0 0 18px rgba(140, 198, 63, 0.55))",
                   }}
                 >
                   Texawave
@@ -612,11 +612,11 @@ export function WhyTexawave() {
             >
               <div
                 className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-500"
-                style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(155, 223, 131, 0.25) 0%, transparent 65%)" }}
+                style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(140, 198, 63, 0.25) 0%, transparent 65%)" }}
               />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(155, 223, 131, 0.45), 0 0 32px rgba(155, 223, 131, 0.2)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(140, 198, 63, 0.45), 0 0 32px rgba(140, 198, 63, 0.2)" }} />
               <div className="absolute left-7 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, var(--primary-green-darker), transparent)", opacity: 0.8 }} />
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.25)", border: "1px solid rgba(155, 223, 131, 0.35)", boxShadow: "0 0 24px rgba(155, 223, 131, 0.2)" }}>
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(140, 198, 63, 0.25)", border: "1px solid rgba(140, 198, 63, 0.35)", boxShadow: "0 0 24px rgba(140, 198, 63, 0.2)" }}>
                 <Layers size={26} style={{ color: "var(--primary-green)" }} strokeWidth={1.7} />
               </div>
               <h3 className="text-card text-white">End-to-End Solutions</h3>
@@ -663,10 +663,10 @@ export function WhyTexawave() {
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(155, 223, 131, 0.25) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(155, 223, 131, 0.45), 0 0 32px rgba(155, 223, 131, 0.2)" }} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(140, 198, 63, 0.25) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(140, 198, 63, 0.45), 0 0 32px rgba(140, 198, 63, 0.2)" }} />
               <div className="absolute left-6 top-0 h-[2px] w-12 rounded-b" style={{ background: "linear-gradient(90deg, var(--primary-green-darker), transparent)", opacity: 0.7 }} />
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.25)", border: "1px solid rgba(155, 223, 131, 0.35)", boxShadow: "0 0 20px rgba(155, 223, 131, 0.2)" }}>
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(140, 198, 63, 0.25)", border: "1px solid rgba(140, 198, 63, 0.35)", boxShadow: "0 0 20px rgba(140, 198, 63, 0.2)" }}>
                 <Cpu size={22} style={{ color: "var(--primary-green)" }} strokeWidth={1.8} />
               </div>
               <h3 className="text-card text-white">Embedded Systems</h3>
@@ -706,16 +706,16 @@ export function WhyTexawave() {
               data-card-id="product-development"
               data-card-index={4}
               style={{
-                background: "rgba(155, 223, 131, 0.1)",
+                background: "rgba(140, 198, 63, 0.1)",
                 backdropFilter: "blur(18px) saturate(140%)",
                 WebkitBackdropFilter: "blur(18px) saturate(140%)",
-                borderColor: "rgba(155, 223, 131, 0.25)",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.45), 0 0 0 1px rgba(155, 223, 131, 0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
+                borderColor: "rgba(140, 198, 63, 0.25)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.45), 0 0 0 1px rgba(140, 198, 63, 0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-500" style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(155, 223, 131, 0.22) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(155, 223, 131, 0.45), 0 0 40px rgba(155, 223, 131, 0.25)" }} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-500" style={{ background: "radial-gradient(ellipse at 60% 40%, rgba(140, 198, 63, 0.22) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(140, 198, 63, 0.45), 0 0 40px rgba(140, 198, 63, 0.25)" }} />
               <div className="absolute left-7 top-0 h-[2px] w-20 rounded-b" style={{ background: "linear-gradient(90deg, var(--primary-green-dark), #00D9FF, transparent)", opacity: 0.9 }} />
 
               {/* Floating dots decoration */}
@@ -725,7 +725,7 @@ export function WhyTexawave() {
                 ))}
               </div>
 
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.14)", border: "1px solid rgba(155, 223, 131, 0.45)", boxShadow: "0 0 28px rgba(155, 223, 131, 0.14)" }}>
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(140, 198, 63, 0.14)", border: "1px solid rgba(140, 198, 63, 0.45)", boxShadow: "0 0 28px rgba(140, 198, 63, 0.14)" }}>
                 <Package size={26} style={{ color: "var(--primary-green)" }} strokeWidth={1.7} />
               </div>
               <h3 className="text-card text-white">Product Development</h3>
@@ -773,11 +773,11 @@ export function WhyTexawave() {
                 willChange: "transform, opacity",
               }}
             >
-              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(155, 223, 131, 0.25) 0%, transparent 65%)" }} />
-              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(155, 223, 131, 0.45), 0 0 32px rgba(155, 223, 131, 0.2)" }} />
+              <div className="wtx-card-glow pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(140, 198, 63, 0.25) 0%, transparent 65%)" }} />
+              <div className="wtx-card-edge pointer-events-none absolute inset-0 rounded-[28px] opacity-0" style={{ boxShadow: "0 0 0 1px rgba(140, 198, 63, 0.45), 0 0 32px rgba(140, 198, 63, 0.2)" }} />
               <div className="absolute left-6 top-0 h-[2px] w-16 rounded-b" style={{ background: "linear-gradient(90deg, var(--primary-green), #00D9FF, transparent)", opacity: 0.75 }} />
               <div className="flex items-start gap-5">
-                <div className="mb-0 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(155, 223, 131, 0.25)", border: "1px solid rgba(155, 223, 131, 0.35)", boxShadow: "0 0 20px rgba(155, 223, 131, 0.2)" }}>
+                <div className="mb-0 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: "rgba(140, 198, 63, 0.25)", border: "1px solid rgba(140, 198, 63, 0.35)", boxShadow: "0 0 20px rgba(140, 198, 63, 0.2)" }}>
                   <FlaskConical size={22} style={{ color: "var(--primary-green)" }} strokeWidth={1.8} />
                 </div>
                 <div>
