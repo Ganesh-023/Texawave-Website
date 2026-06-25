@@ -7,8 +7,7 @@ import {
   Lock, LogOut, Plus, Trash2, Edit, Eye, Search, FileText, 
   TrendingUp, Users, Cpu, Calendar, X, Sparkles, PieChart, 
   BarChart2, FileSpreadsheet, CheckCircle2, ShieldAlert, 
-  MessageSquare, UserCheck, Settings, Globe, Shield, UserPlus, Mail, Key,
-  Link
+  MessageSquare, UserCheck, Settings, Globe, Shield, UserPlus, Mail, Key
 } from "lucide-react";
 import { Job, Application, WalkInDrive } from "@/app/careers/types";
 import { 
@@ -1491,14 +1490,6 @@ export default function AdminDashboard() {
                               </button>
                             </td>
                             <td className="p-4 text-right space-x-2">
-                              <Link
-                                href={`/case-studies/${cs.slug}`}
-                                target="_blank"
-                                className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-white text-text-secondary hover:text-white bg-white/5 transition-all"
-                                title="View live page"
-                              >
-                                <Eye size={12} />
-                              </Link>
                               <button
                                 onClick={() => handleEditCSClick(cs)}
                                 className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-[#8CC63F] text-text-secondary hover:text-[#8CC63F] bg-white/5 transition-all"
