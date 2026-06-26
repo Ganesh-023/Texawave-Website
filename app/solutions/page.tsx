@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -138,10 +138,10 @@ export default function SolutionsPage() {
                   <p className="mt-3 flex-1 text-body-normal text-text-secondary leading-relaxed">{project.desc}</p>
                   
                   <Link
-                    href="/our-works"
+                    href="/contact"
                     className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-signal hover:opacity-80 transition-opacity"
                   >
-                    View Project Details <ArrowRight size={14} />
+                    Discuss Project <ArrowRight size={14} />
                   </Link>
                 </div>
               </article>

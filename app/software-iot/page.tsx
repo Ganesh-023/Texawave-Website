@@ -1,10 +1,15 @@
-import { ServiceDetail } from "@/components/ServiceDetail";
+import { ServiceMainPage } from "@/components/ServiceMainPage";
+import { getMainService } from "@/lib/services-v2";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Software Engineering",
-  description: "IoT product development company for mobile apps, websites, cloud platforms, dashboards, connected product software, and device operations."
-};
+const SLUG = "software-iot";
 
-export default function SoftwareIotPage() {
-  return <ServiceDetail slug="software-iot" />;
+export async function generateMetadata(): Promise<Metadata> {
+  const s = getMainService(SLUG);
+  return { title: s?.metaTitle ?? SLUG, description: s?.metaDescription ?? "" };
+}
+
+export default function Page() {
+  const service = getMainService(SLUG)!;
+  return <ServiceMainPage service={service} />;
 }

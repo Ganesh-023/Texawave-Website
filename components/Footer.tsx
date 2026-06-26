@@ -1,6 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { clients, navItems, services } from "@/lib/content";
+import { clients, navItems } from "@/lib/content";
+
+const footerServices = [
+  { title: "Product Engineering", slug: "product-engineering" },
+  { title: "Software & AI Development", slug: "software-iot" },
+  { title: "Procurement Services", slug: "procurement" },
+  { title: "Manufacturing Support", slug: "manufacturing-support" },
+];
 
 const socialLinks = [
   {
@@ -62,7 +69,7 @@ export function Footer() {
         <div>
           <h2 className="mb-4 text-small-text font-bold uppercase tracking-[0.18em] text-text-primary font-display">Services</h2>
           <div className="grid gap-3">
-            {services.map((service) => (
+            {footerServices.map((service) => (
               <Link key={service.slug} href={`/${service.slug}`} className="text-body-normal text-text-secondary transition hover:text-signal">
                 {service.title}
               </Link>

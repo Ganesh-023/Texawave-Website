@@ -291,12 +291,6 @@ export default function Home() {
                     Book a consultation
                     <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded border border-[#8CC63F]/30 bg-bg-primary/40 backdrop-blur-sm px-6 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F] hover:bg-bg-primary/60 hover:text-white"
-                  >
-                    Get Project Estimate <ArrowRight size={18} />
-                  </Link>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +28,7 @@ import {
   Cloud,
   Brain,
   Cpu,
+  Code2,
   BarChart2,
   Wifi,
   Scissors,
@@ -65,7 +66,6 @@ type DropdownItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Expertise", href: "/services", hasDropdown: true, isMega: true },
-  { label: "Our work", href: "/solutions", hasDropdown: true, isMega: true },
   { label: "Resources", href: "/resources", hasDropdown: true },
   { label: "Careers", href: "/careers" },
 ];
@@ -104,7 +104,7 @@ const MEGA_COLUMNS = [
       { label: "Mechanical Design", href: "/mechanical-engineering", icon: Wrench },
       { label: "Product Development", href: "/services", icon: Layers },
       { label: "CAD Services", href: "/mechanical-engineering", icon: PenTool },
-      { label: "Reverse Engineering", href: "/our-works/autoclave-reverse-engineering", icon: RotateCcw },
+      { label: "Reverse Engineering", href: "/services", icon: RotateCcw },
     ],
   },
   {
@@ -127,51 +127,30 @@ const MEGA_COLUMNS = [
   },
 ] as const;
 
-const WORKS: DropdownItem[] = [
-  {
-    label: "Washer Cutting Machine",
-    href: "/our-works/washer-cutting-machine",
-    icon: Scissors,
-    desc: "Semi-automatic Teflon/Nylon washer cutting SPM",
-  },
-  {
-    label: "Espin Nano Machine",
-    href: "/our-works/espin-nano-machine",
-    icon: Zap,
-    desc: "PLC-driven electrospinning nanofiber platform",
-  },
-  {
-    label: "Autoclave Reverse Engineering",
-    href: "/our-works/autoclave-reverse-engineering",
-    icon: FlaskConical,
-    desc: "Redesigned industrial autoclave for sterilization",
-  },
-];
-
 const SERVICES: DropdownItem[] = [
   {
-    label: "Software Engineering",
+    label: "Product Engineering",
+    href: "/product-engineering",
+    icon: Cpu,
+    desc: "Industrial design, PCB, embedded, and rapid prototyping",
+  },
+  {
+    label: "Software & AI Development",
     href: "/software-iot",
-    icon: RadioTower,
-    desc: "IoT, dashboards & connected product software",
+    icon: Code2,
+    desc: "ERP, web & mobile apps, cloud, and AI analytics",
   },
   {
-    label: "Electrical Engineering",
-    href: "/electrical-engineering",
-    icon: CircuitBoard,
-    desc: "PCB design, firmware & embedded systems",
-  },
-  {
-    label: "Mechanical Engineering",
-    href: "/mechanical-engineering",
-    icon: Wrench,
-    desc: "CAD, assemblies & production-ready systems",
-  },
-  {
-    label: "Procurement",
+    label: "Procurement Services",
     href: "/procurement",
     icon: PackageCheck,
-    desc: "BOM purchasing, vendor coordination & logistics",
+    desc: "Component sourcing, supply chain & BOM optimization",
+  },
+  {
+    label: "Manufacturing Support",
+    href: "/manufacturing-support",
+    icon: Factory,
+    desc: "DFM/DFA, production transfer, testing & scale-up",
   },
 ];
 
@@ -181,14 +160,10 @@ const MEGA_SERVICES_DATA = [
     label: "Product Engineering",
     icon: Settings,
     services: [
-      { name: "Industrial Design", href: "/mechanical-engineering", desc: "Form, aesthetics, and user experience design" },
-      { name: "Electronics Development", href: "/electrical-engineering", desc: "Schematics, hardware architecture, and circuit design" },
-      { name: "PCB Design", href: "/electrical-engineering", desc: "Multi-layer layout, routing, and signal integrity" },
-      { name: "Embedded & Firmware", href: "/electrical-engineering", desc: "Microcontroller coding and real-time operating systems" },
-      { name: "IoT Development", href: "/software-iot", desc: "Connected sensors, telemetry, and smart devices" },
-      { name: "Mechanical Design", href: "/mechanical-engineering", desc: "CAD design, structural analysis, and mechanisms" },
-      { name: "Prototyping", href: "/mechanical-engineering", desc: "Rapid 3D printing, CNC machining, and functional mockups" },
-      { name: "Testing & Validation", href: "/services", desc: "Reliability testing, environmental tests, and QA" },
+      { name: "Industrial & Mechanical Design", href: "/product-engineering/industrial-mechanical-design", desc: "Market analysis, 3D CAD modelling, CMF, and DFM optimization for physical products." },
+      { name: "Hardware & PCB Design", href: "/product-engineering/hardware-pcb", desc: "Schematic design, multi-layer PCB layout, and compliance-ready circuit engineering." },
+      { name: "Embedded & IoT Solutions", href: "/product-engineering/embedded-iot", desc: "Bare-metal firmware, RTOS development, and multi-protocol IoT connectivity." },
+      { name: "Rapid Prototyping & Product Validation Services", href: "/product-engineering/rapid-prototyping", desc: "3D printing, CNC machining, and comprehensive physical and environmental validation testing." },
     ]
   },
   {
@@ -196,11 +171,10 @@ const MEGA_SERVICES_DATA = [
     label: "Software & AI Development",
     icon: Laptop,
     services: [
-      { name: "Custom ERP (Enterprise Resource Planning) Solutions", href: "/software-iot", desc: "Custom enterprise software and backend development" },
-      { name: "Web & Mobile Apps", href: "/software-iot", desc: "Modern web platforms and native iOS/Android apps" },
-      { name: "Cloud Solutions", href: "/software-iot", desc: "AWS/Azure cloud architecture, serverless, and databases" },
-      { name: "AI Solutions", href: "/software-iot", desc: "Custom AI models, integration, and natural language" },
-      { name: "Data Analytics", href: "/software-iot", desc: "Data pipelines, visualization, and business intelligence" }
+      { name: "Custom ERP Solutions", href: "/software-iot/custom-erp", desc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards." },
+      { name: "Web & Mobile Applications", href: "/software-iot/web-mobile-apps", desc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security." },
+      { name: "Cloud & Infrastructure Solutions", href: "/software-iot/cloud-infrastructure", desc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring." },
+      { name: "AI & Data Analytics", href: "/software-iot/ai-analytics", desc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions." },
     ]
   },
   {
@@ -208,9 +182,9 @@ const MEGA_SERVICES_DATA = [
     label: "Procurement Services",
     icon: PackageCheck,
     services: [
-      { name: "Component Sourcing", href: "/procurement", desc: "Global sourcing of components and alternative options" },
-      { name: "BOM Optimization", href: "/procurement", desc: "Bill of Materials cost reduction and lifecycle review" },
-      { name: "Supply Chain Management", href: "/procurement", desc: "Logistics, inventory management, and risk mitigation" }
+      { name: "Component Sourcing", href: "/procurement/component-sourcing", desc: "Global distributor network securing premium long-lifecycle components at optimal price points." },
+      { name: "Supply Chain Management", href: "/procurement/supply-chain-management", desc: "Resilient logistics pipelines, dual-sourcing strategies, and JIT inventory coordination." },
+      { name: "BOM Optimization", href: "/procurement/bom-optimization", desc: "Strategic BOM cost reduction through vendor negotiation and obsolescence profiling." },
     ]
   },
   {
@@ -218,99 +192,10 @@ const MEGA_SERVICES_DATA = [
     label: "Manufacturing Support",
     icon: Factory,
     services: [
-      { name: "DFM/DFA", href: "/procurement", desc: "Design for Manufacturing & Assembly optimization" },
-      { name: "Production Transfer", href: "/procurement", desc: "Transition from prototype to high-volume assembly lines" },
-      { name: "Production Test Solutions", href: "/electrical-engineering", desc: "Production line functional testers and test jigs" },
-      { name: "Scale-up Support", href: "/procurement", desc: "Manufacturing scaling, quality control, and auditing" }
-    ]
-  }
-];
-
-const MEGA_SOLUTIONS_DATA = [
-  {
-    id: "consumer-electronics",
-    label: "Consumer Electronics",
-    icon: Smartphone,
-    featured: {
-      title: "20W PD Charger Design",
-      desc: "Ultra-compact USB-C Power Delivery wall charger featuring high-efficiency GaN power stage and thermal protection.",
-      image: "/pd-charger.webp",
-      cta: "/our-works"
-    },
-    items: [
-      { name: "Smart Devices", href: "/solutions/consumer-electronics" },
-      { name: "Wearable Products", href: "/solutions/consumer-electronics" },
-      { name: "Home Automation", href: "/solutions/consumer-electronics" },
-      { name: "Mobile Accessories", href: "/solutions/consumer-electronics" },
-    ]
-  },
-  {
-    id: "industrial-iot",
-    label: "Industrial Solutions",
-    icon: Factory,
-    featured: {
-      title: "IoT Industrial Gateway",
-      desc: "Rugged multi-protocol edge gateway with RS485, Modbus, Wi-Fi, and LTE connectivity for real-time telemetry.",
-      image: "/industrial-gateway.webp",
-      cta: "/our-works"
-    },
-    items: [
-      { name: "IoT Monitoring Systems", href: "/solutions/industrial-iot" },
-      { name: "Automation Controllers", href: "/solutions/industrial-iot" },
-      { name: "Data Acquisition Systems", href: "/solutions/industrial-iot" },
-      { name: "Predictive Maintenance", href: "/solutions/industrial-iot" },
-    ]
-  },
-  {
-    id: "medical-devices",
-    label: "Medical Devices",
-    icon: FlaskConical,
-    featured: {
-      title: "Diabetic Neuropathy Device",
-      desc: "Non-invasive diagnostic device for early detection of peripheral neuropathy in diabetic patients.",
-      image: "/diabetic-neuropathy.webp",
-      cta: "/our-works"
-    },
-    items: [
-      { name: "Diagnostic Equipment", href: "/solutions/medical-devices" },
-      { name: "Healthcare IoT", href: "/solutions/medical-devices" },
-      { name: "Patient Monitoring", href: "/solutions/medical-devices" },
-      { name: "Assistive Devices", href: "/solutions/medical-devices" },
-    ]
-  },
-  {
-    id: "automotive-electronics",
-    label: "Automotive Electronics",
-    icon: CircuitBoard,
-    featured: {
-      title: "Smart Dashboard Systems",
-      desc: "Interactive dashboard console with integrated CAN bus communication, navigation, and vehicle health telemetry.",
-      image: "/smart-dashboard.webp",
-      cta: "/our-works"
-    },
-    items: [
-      { name: "EV Components", href: "/solutions/automotive-electronics" },
-      { name: "Vehicle Monitoring", href: "/solutions/automotive-electronics" },
-      { name: "Smart Dashboard Systems", href: "/solutions/automotive-electronics" },
-      { name: "Connectivity Solutions", href: "/solutions/automotive-electronics" },
-    ]
-  },
-  {
-    id: "featured-projects",
-    label: "Featured Projects",
-    icon: Sparkles,
-    featured: {
-      title: "Smart Cane Device",
-      desc: "An assistive smart cane with ultrasonic obstacle detection, haptic feedback, and GPS tracking.",
-      image: "/smart-cane.webp",
-      cta: "/our-works"
-    },
-    items: [
-      { name: "Smart Cane Device", href: "/our-works" },
-      { name: "IoT Industrial Gateway", href: "/our-works" },
-      { name: "Wireless Smart Switch", href: "/our-works" },
-      { name: "Diabetic Neuropathy Device", href: "/our-works" },
-      { name: "20W PD Charger Design", href: "/our-works" },
+      { name: "DFM/DFA Optimization", href: "/manufacturing-support/dfm-dfa", desc: "Part simplification, tolerance analysis, and assembly process refinement before tooling begins." },
+      { name: "Production Transfer", href: "/manufacturing-support/production-transfer", desc: "End-to-end prototype-to-production handoffs with full manufacturing documentation." },
+      { name: "Production Test Solutions", href: "/manufacturing-support/production-test", desc: "Custom test fixtures and automated ICT systems for 100% end-of-line quality control." },
+      { name: "Scale-Up Support", href: "/manufacturing-support/scale-up", desc: "Yield optimization, factory auditing, and continuous cost engineering as volumes grow." },
     ]
   }
 ];
@@ -345,33 +230,20 @@ export function Header({ delayEntrance = false }: HeaderProps) {
   const navInnerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const worksDropdownRef = useRef<HTMLDivElement>(null);
-  const worksButtonRef = useRef<HTMLButtonElement>(null);
   const megaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const worksTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const solutionsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resourcesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Custom easeReverse interaction references
-  const worksChevronRef = useRef<SVGSVGElement>(null);
-
-  const worksTl = useRef<gsap.core.Timeline | null>(null);
   const mobileTl = useRef<gsap.core.Timeline | null>(null);
 
   const bookMeetingRef = useRef<HTMLAnchorElement>(null);
 
   /* state */
   const [megaOpen, setMegaOpen] = useState(false);
-  const [worksOpen, setWorksOpen] = useState(false);
-  const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileMegaOpen, setMobileMegaOpen] = useState(false);
-  const [mobileWorksOpen, setMobileWorksOpen] = useState(false);
-  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("product-engineering");
-  const [activeSolutionCategory, setActiveSolutionCategory] = useState<string>("consumer-electronics");
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
 
   /* scroll sync states */
@@ -447,7 +319,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     if (pathname === "/") {
       const sections = [
         { id: "home", label: "Home" },
-        { id: "our-works", label: "Our work" },
         { id: "services", label: "Expertise" },
         { id: "about", label: "Resources" },
         { id: "contact", label: "Talk to an Expert" },
@@ -504,7 +375,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
   const handleNavClick = (e: React.MouseEvent, href: string, label: string) => {
     if (pathname === "/") {
       let sectionId = href === "/" ? "home" : href.replace("/", "");
-      if (sectionId === "solutions") sectionId = "our-works";
       const targetEl = document.getElementById(sectionId);
       if (targetEl) {
         e.preventDefault();
@@ -530,53 +400,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
 
   /* ── GSAP Custom easeReverse Timelines setup ─────────────────────────── */
   useGSAP(() => {
-    // 2. Works Timeline (elastic.out entry, power3.out easeReverse exit)
-    if (worksDropdownRef.current) {
-      const drop = worksDropdownRef.current;
-      const items = drop.querySelectorAll(".group\\/item");
-      const footerLink = drop.querySelector(".border-t");
 
-      worksTl.current = createEaseReverseTimeline({
-        reverseTimeScale: 2.5,
-        easeReverse: "power3.out",
-        onComplete: () => {
-          if (worksDropdownRef.current) {
-            worksDropdownRef.current.style.pointerEvents = "auto";
-          }
-        },
-        onReverseComplete: () => {
-          if (worksDropdownRef.current) {
-            worksDropdownRef.current.style.pointerEvents = "none";
-            worksDropdownRef.current.style.display = "none";
-          }
-        }
-      });
-
-      worksTl.current
-        .set(drop, { display: "block" })
-        .fromTo(drop,
-          { opacity: 0, scale: 0.9, y: 15 },
-          { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "elastic.out(1.1, 0.4)" }
-        )
-        .fromTo(items,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: "power2.out" },
-          "<0.1"
-        )
-        .fromTo(footerLink,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.25 },
-          "<0.2"
-        );
-
-      if (worksChevronRef.current) {
-        worksTl.current.to(worksChevronRef.current, {
-          rotate: 180,
-          duration: 0.35,
-          ease: "power2.out"
-        }, 0);
-      }
-    }
 
     // 3. Mobile Menu Timeline (smooth stagger, power4.out quick easeReverse exit)
     if (mobileMenuRef.current) {
@@ -613,62 +437,15 @@ export function Header({ delayEntrance = false }: HeaderProps) {
   /* ── Dropdown State Coordination (Services Mega Menu & Works Dropdown) ── */
   useEffect(() => {
     if (megaOpen) {
-      setWorksOpen(false);
-      setSolutionsOpen(false);
       setResourcesOpen(false);
-      if (worksTl.current) {
-        worksTl.current.progress(0).pause();
-        if (worksDropdownRef.current) {
-          worksDropdownRef.current.style.display = "none";
-          worksDropdownRef.current.style.pointerEvents = "none";
-        }
-      }
     }
   }, [megaOpen]);
 
   useEffect(() => {
-    if (solutionsOpen) {
-      setMegaOpen(false);
-      setWorksOpen(false);
-      setResourcesOpen(false);
-      if (worksTl.current) {
-        worksTl.current.progress(0).pause();
-        if (worksDropdownRef.current) {
-          worksDropdownRef.current.style.display = "none";
-          worksDropdownRef.current.style.pointerEvents = "none";
-        }
-      }
-    }
-  }, [solutionsOpen]);
-
-  useEffect(() => {
     if (resourcesOpen) {
       setMegaOpen(false);
-      setWorksOpen(false);
-      setSolutionsOpen(false);
-      if (worksTl.current) {
-        worksTl.current.progress(0).pause();
-        if (worksDropdownRef.current) {
-          worksDropdownRef.current.style.display = "none";
-          worksDropdownRef.current.style.pointerEvents = "none";
-        }
-      }
     }
   }, [resourcesOpen]);
-
-  useEffect(() => {
-    const wTl = worksTl.current;
-    if (!wTl) return;
-
-    if (worksOpen) {
-      setMegaOpen(false);
-      setSolutionsOpen(false);
-      setResourcesOpen(false);
-      wTl.play();
-    } else {
-      wTl.reverse();
-    }
-  }, [worksOpen]);
 
   useEffect(() => {
     if (!mobileTl.current) return;
@@ -695,11 +472,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
   /* ── Hover entry/leave with intent delay ─────────────────────────────── */
   const handleServicesEnter = useCallback(() => {
     if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
-    if (worksTimerRef.current) clearTimeout(worksTimerRef.current);
-    if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
     if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
-    setWorksOpen(false);
-    setSolutionsOpen(false);
     setResourcesOpen(false);
     setMegaOpen(true);
   }, []);
@@ -709,46 +482,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     megaTimerRef.current = setTimeout(() => setMegaOpen(false), 150);
   }, []);
 
-  const handleWorksEnter = useCallback(() => {
-    if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
-    if (worksTimerRef.current) clearTimeout(worksTimerRef.current);
-    if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
-    if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
-    setMegaOpen(false);
-    setSolutionsOpen(false);
-    setResourcesOpen(false);
-    setWorksOpen(true);
-  }, []);
-
-  const handleWorksLeave = useCallback(() => {
-    if (worksTimerRef.current) clearTimeout(worksTimerRef.current);
-    worksTimerRef.current = setTimeout(() => setWorksOpen(false), 150);
-  }, []);
-
-  const handleSolutionsEnter = useCallback(() => {
-    if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
-    if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
-    if (worksTimerRef.current) clearTimeout(worksTimerRef.current);
-    if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
-    setMegaOpen(false);
-    setWorksOpen(false);
-    setResourcesOpen(false);
-    setSolutionsOpen(true);
-  }, []);
-
-  const handleSolutionsLeave = useCallback(() => {
-    if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
-    solutionsTimerRef.current = setTimeout(() => setSolutionsOpen(false), 150);
-  }, []);
-
   const handleResourcesEnter = useCallback(() => {
     if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
     if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
-    if (worksTimerRef.current) clearTimeout(worksTimerRef.current);
-    if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
     setMegaOpen(false);
-    setWorksOpen(false);
-    setSolutionsOpen(false);
     setResourcesOpen(true);
   }, []);
 
@@ -757,27 +494,11 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     resourcesTimerRef.current = setTimeout(() => setResourcesOpen(false), 150);
   }, []);
 
-  /* ── Outside click: works dropdown ──────────────────────────────────── */
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (
-        worksDropdownRef.current &&
-        !worksDropdownRef.current.contains(e.target as Node) &&
-        worksButtonRef.current &&
-        !worksButtonRef.current.contains(e.target as Node)
-      ) setWorksOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
   /* ── Keyboard Accessibility: Escape closes menus ── */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setMegaOpen(false);
-        setWorksOpen(false);
-        setSolutionsOpen(false);
         setResourcesOpen(false);
       }
     };
@@ -797,8 +518,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
       if (window.innerWidth >= 1024) {
         setMobileOpen(false);
         setMegaOpen(false);
-        setWorksOpen(false);
-        setSolutionsOpen(false);
         setResourcesOpen(false);
       }
     };
@@ -810,15 +529,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
   const closeMobile = () => {
     setMobileOpen(false);
     setMobileMegaOpen(false);
-    setMobileWorksOpen(false);
-    setMobileSolutionsOpen(false);
     setMobileResourcesOpen(false);
   };
 
   const isActive = (href: string) => {
-    if (href === "/solutions") {
-      return pathname === "/solutions" || pathname.startsWith("/solutions/") || pathname === "/our-works" || pathname.startsWith("/our-works/");
-    }
     if (href === "/resources") {
       return (
         pathname === "/about" || pathname.startsWith("/about/") ||
@@ -894,108 +608,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             {NAV_ITEMS.map((item) => {
               const active = isActive(item.href);
 
-              /* ── Our Works small dropdown ── */
-              if (item.label === "Our Works" && item.hasDropdown) {
-                return (
-                  <div
-                    key={item.label}
-                    className="relative"
-                    onMouseEnter={() => {
-                      handleWorksEnter();
-                      setHoveredNavItem("Our Works");
-                    }}
-                    onMouseLeave={() => {
-                      handleWorksLeave();
-                      setHoveredNavItem(null);
-                    }}
-                  >
-                    <button
-                      ref={worksButtonRef}
-                      type="button"
-                      className={[
-                        "group relative desktop-nav-link flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[15px] tracking-[0.02em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
-                        active || worksOpen
-                          ? "navbar-link-active"
-                          : "navbar-link",
-                      ].join(" ")}
-                      data-nav-label="Our Works"
-                      aria-haspopup="true"
-                      aria-expanded={worksOpen}
-                      onClick={() => setWorksOpen((v) => !v)}
-                    >
-                      {item.label}
-                      <ChevronDown
-                        ref={worksChevronRef}
-                        size={13}
-                        className="opacity-70 group-hover:text-signal transition-colors duration-300"
-                        aria-hidden="true"
-                      />
-                    </button>
-
-                    {/* Works Dropdown Panel */}
-                    <div
-                      ref={worksDropdownRef}
-                      className="absolute left-1/2 top-full pt-[10px] z-[9999] w-[340px] -translate-x-1/2"
-                      style={{ display: "none", opacity: 0, pointerEvents: "none" }}
-                      role="menu"
-                      aria-label="Our Works submenu"
-                    >
-                      {/* Caret pip */}
-                      <div className="mx-auto mb-[-1px] h-3 w-6 overflow-hidden">
-                        <div className="mx-auto h-3.5 w-3.5 rotate-45 border-l border-t border-signal/20 bg-bg-primary" />
-                      </div>
-                      <div className="overflow-hidden rounded-2xl border border-signal/20 shadow-premium"
-                        style={{
-                          background: "rgba(10, 10, 10, 0.98)",
-                          backdropFilter: "blur(20px)",
-                          border: "1px solid rgba(140, 198, 63, 0.25)"
-                        }}>
-                        <div className="p-2">
-                          {WORKS.map((work) => {
-                            const Icon = work.icon;
-                            return (
-                              <Link
-                                key={work.href}
-                                href={work.href}
-                                role="menuitem"
-                                onClick={() => setWorksOpen(false)}
-                                className="group/item flex items-start gap-3.5 rounded-xl p-3 transition-all duration-300 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-                              >
-                                <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-signal/10 text-signal transition-colors duration-200 group-hover/item:bg-signal/20">
-                                  <Icon size={15} aria-hidden="true" />
-                                </span>
-                                <div>
-                                  <p className="text-[13px] font-semibold text-white group-hover/item:text-signal transition-colors duration-300">
-                                    {work.label}
-                                  </p>
-                                  <p className="mt-0.5 text-[11.5px] leading-snug" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
-                                    {work.desc}
-                                  </p>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                        <div className="border-t border-signal/10 px-4 py-3">
-                          <Link
-                            href="/our-works"
-                            onClick={() => setWorksOpen(false)}
-                            className="group/link flex items-center gap-1.5 text-[12px] font-bold text-signal transition-all duration-200 hover:opacity-80 focus-visible:outline-none"
-                          >
-                            View all works
-                            <ArrowUpRight
-                              size={12}
-                              aria-hidden="true"
-                              className="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
-                            />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
               /* ── Services → Mega Menu Button ── */
               if (item.label === "Expertise") {
                 return (
@@ -1018,8 +630,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                       setHoveredNavItem(null);
                     }}
                     onClick={() => {
-                      setWorksOpen(false);
-                      setSolutionsOpen(false);
                       setMegaOpen((v) => !v);
                     }}
                     aria-haspopup="true"
@@ -1035,48 +645,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                       aria-hidden="true"
                     />
                   </button>
-                );
-              }
-
-              /* ── Solutions → Mega Menu Link ── */
-              if (item.label === "Our work") {
-                return (
-                  <Link
-                    key={item.label}
-                    href="/solutions"
-                    className={[
-                      "group relative desktop-nav-link flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[14.5px] tracking-[-0.01em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded-xl uppercase transition-all duration-300",
-                      active || solutionsOpen
-                        ? "navbar-link-active"
-                        : "navbar-link",
-                    ].join(" ")}
-                    data-nav-label="Our work"
-                    onMouseEnter={() => {
-                      handleSolutionsEnter();
-                      setHoveredNavItem("Our work");
-                    }}
-                    onMouseLeave={() => {
-                      handleSolutionsLeave();
-                      setHoveredNavItem(null);
-                    }}
-                    onClick={() => {
-                      setWorksOpen(false);
-                      setMegaOpen(false);
-                      setSolutionsOpen(false);
-                    }}
-                    aria-haspopup="true"
-                    aria-expanded={solutionsOpen}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      size={13}
-                      className={[
-                        "opacity-70 group-hover:text-signal transition-transform duration-300",
-                        solutionsOpen ? "rotate-180 text-signal" : "",
-                      ].join(" ")}
-                      aria-hidden="true"
-                    />
-                  </Link>
                 );
               }
 
@@ -1102,9 +670,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                       setHoveredNavItem(null);
                     }}
                     onClick={() => {
-                      setWorksOpen(false);
                       setMegaOpen(false);
-                      setSolutionsOpen(false);
                       setResourcesOpen((v) => !v);
                     }}
                     aria-haspopup="true"
@@ -1331,179 +897,6 @@ export function Header({ delayEntrance = false }: HeaderProps) {
           </AnimatePresence>
         </div>
 
-        {/* ── Desktop Solutions Mega Menu ── */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-[9999] pointer-events-none">
-          <AnimatePresence>
-            {solutionsOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 15 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
-                onMouseEnter={() => {
-                  if (solutionsTimerRef.current) clearTimeout(solutionsTimerRef.current);
-                  setSolutionsOpen(true);
-                }}
-                onMouseLeave={handleSolutionsLeave}
-              >
-                {/* 3-Column Split layout */}
-                <div className="grid grid-cols-12">
-
-                  {/* Left Column: Category Navigation (vertical) */}
-                  <div className="col-span-4 border-r border-white/5 bg-[#0a0a0a] p-6 space-y-2">
-                    <p className="text-[11px] font-bold tracking-widest text-white/40 uppercase mb-4 px-4">
-                      Industries & Solutions
-                    </p>
-                    {MEGA_SOLUTIONS_DATA.map((cat) => {
-                      const CategoryIcon = cat.icon;
-                      const isActiveCat = activeSolutionCategory === cat.id;
-
-                      return (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          className={[
-                            "flex items-center gap-3.5 w-full px-4 py-3.5 rounded-xl border-l-2 transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
-                            isActiveCat
-                              ? "bg-[#8CC63F]/10 border-[#8CC63F] text-[#8CC63F] font-semibold"
-                              : "border-transparent text-white/70 hover:text-white hover:bg-white/5"
-                          ].join(" ")}
-                          onMouseEnter={() => setActiveSolutionCategory(cat.id)}
-                        >
-                          <CategoryIcon size={18} className={isActiveCat ? "text-[#8CC63F]" : "text-white/40"} />
-                          <span className="text-[14px]">{cat.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Middle Column: Sub-items list */}
-                  <div className="col-span-4 p-6 bg-[#040404] border-r border-white/5">
-                    <p className="text-[11px] font-bold tracking-widest text-white/40 uppercase mb-4 px-4">
-                      Capabilities
-                    </p>
-                    <motion.div
-                      key={activeSolutionCategory}
-                      variants={{
-                        hidden: { opacity: 0 },
-                        show: {
-                          opacity: 1,
-                          transition: {
-                            staggerChildren: 0.04
-                          }
-                        }
-                      }}
-                      initial="hidden"
-                      animate="show"
-                      className="space-y-1"
-                    >
-                      {MEGA_SOLUTIONS_DATA.find((cat) => cat.id === activeSolutionCategory)?.items.map((item) => (
-                        <motion.div
-                          key={item.name}
-                          variants={{
-                            hidden: { opacity: 0, y: 8 },
-                            show: { opacity: 1, y: 0 }
-                          }}
-                        >
-                          <Link
-                            href={item.href}
-                            onClick={() => setSolutionsOpen(false)}
-                            className="group flex items-center justify-between p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-                          >
-                            <span className="text-[13.5px] text-white/70 group-hover:text-[#8CC63F] transition-colors duration-200">
-                              {item.name}
-                            </span>
-                            <ArrowUpRight
-                              size={14}
-                              className="text-[#8CC63F] opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300"
-                            />
-                          </Link>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  </div>
-
-                  {/* Right Column: Featured Panel */}
-                  <div className="col-span-4 p-6 bg-[#080808]">
-                    <p className="text-[11px] font-bold tracking-widest text-white/40 uppercase mb-4">
-                      Featured Project
-                    </p>
-                    {(() => {
-                      const activeCatData = MEGA_SOLUTIONS_DATA.find((cat) => cat.id === activeSolutionCategory);
-                      if (!activeCatData) return null;
-                      const feat = activeCatData.featured;
-
-                      return (
-                        <motion.div
-                          key={activeSolutionCategory}
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3 }}
-                          className="group/feat flex flex-col justify-between h-[280px] rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] p-4 transition-all duration-300"
-                        >
-                          {/* Image container */}
-                          <div className="relative h-[130px] w-full rounded-lg bg-[#111] overflow-hidden border border-white/5">
-                            <Image
-                              src={feat.image}
-                              alt={feat.title}
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover/feat:scale-105"
-                            />
-                          </div>
-
-                          {/* Info */}
-                          <div className="mt-3">
-                            <h4 className="text-[14px] font-bold text-white group-hover/feat:text-[#8CC63F] transition-colors duration-200">
-                              {feat.title}
-                            </h4>
-                            <p className="mt-1 text-[11.5px] text-white/50 leading-relaxed line-clamp-2">
-                              {feat.desc}
-                            </p>
-                          </div>
-
-                          {/* Link CTA */}
-                          <Link
-                            href={feat.cta}
-                            onClick={() => setSolutionsOpen(false)}
-                            className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-bold text-[#8CC63F] hover:opacity-80 transition-all duration-200"
-                          >
-                            View Case Study <ArrowUpRight size={13} />
-                          </Link>
-                        </motion.div>
-                      );
-                    })()}
-                  </div>
-
-                </div>
-
-                {/* Bottom CTA Section */}
-                <div className="border-t border-white/5 px-8 py-5 flex flex-col sm:flex-row justify-between items-center bg-[#0a0a0a] gap-4">
-                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-white/60">
-                    <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Enterprise Engineering Quality
-                    </span>
-                    <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Custom Hardware Prototyping
-                    </span>
-                    <span className="flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Production-Ready Designs
-                    </span>
-                  </div>
-
-                  <Link
-                    href="/contact"
-                    onClick={() => setSolutionsOpen(false)}
-                    className="flex h-[40px] items-center justify-center rounded-full bg-[#8CC63F] px-6 text-[13px] font-bold text-black hover:scale-105 transition-transform duration-200 hover:shadow-[0_0_20px_rgba(140,198,63,0.4)] whitespace-nowrap"
-                  >
-                    Request a Solution Demo
-                  </Link>
-                </div>
-
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
 
         {/* ── Desktop Resources Dropdown ── */}
         <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-[9999] pointer-events-none">
@@ -1638,65 +1031,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 </Link>
               </li>
 
-              {/* ── Our Works accordion ── */}
-              <li className="mobile-nav-item">
-                <button
-                  type="button"
-                  className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                    mobileWorksOpen ? "text-signal" : "text-white hover:text-signal",
-                  ].join(" ")}
-                  onClick={() => setMobileWorksOpen((v) => !v)}
-                  aria-expanded={mobileWorksOpen}
-                >
-                  Our Works
-                  <ChevronDown
-                    size={16}
-                    className={[
-                      "text-signal transition-transform duration-300",
-                      mobileWorksOpen ? "rotate-180" : "",
-                    ].join(" ")}
-                    aria-hidden="true"
-                  />
-                </button>
-                <div
-                  className={[
-                    "overflow-hidden transition-all duration-400 ease-out",
-                    mobileWorksOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0",
-                  ].join(" ")}
-                >
-                  <div className="mt-1 space-y-0.5 pl-2">
-                    {WORKS.map((work) => {
-                      const Icon = work.icon;
-                      return (
-                        <Link
-                          key={work.href}
-                          href={work.href}
-                          onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
-                        >
-                          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-signal/15 text-signal">
-                            <Icon size={14} aria-hidden="true" />
-                          </span>
-                          <div>
-                            <p className="text-[13.5px] font-semibold text-white">
-                              {work.label}
-                            </p>
-                            <p className="text-[11.5px]" style={{ color: "rgba(255, 255, 255, 0.75)" }}>{work.desc}</p>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                    <Link
-                      href="/our-works"
-                      onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-signal hover:opacity-75 focus-visible:outline-none"
-                    >
-                      All works <ArrowUpRight size={12} aria-hidden="true" />
-                    </Link>
-                  </div>
-                </div>
-              </li>
+
 
               {/* ── Services accordion ── */}
               <li className="mobile-nav-item">
@@ -1789,96 +1124,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 </div>
               </li>
 
-              {/* ── Solutions accordion ── */}
-              <li className="mobile-nav-item">
-                <button
-                  type="button"
-                  className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                    mobileSolutionsOpen ? "text-signal" : "text-white hover:text-signal",
-                  ].join(" ")}
-                  onClick={() => setMobileSolutionsOpen((v) => !v)}
-                  aria-expanded={mobileSolutionsOpen}
-                >
-                  What We&apos;ve Built
-                  <ChevronDown
-                    size={16}
-                    className={[
-                      "text-signal transition-transform duration-300",
-                      mobileSolutionsOpen ? "rotate-180" : "",
-                    ].join(" ")}
-                    aria-hidden="true"
-                  />
-                </button>
-                <div
-                  className={[
-                    "overflow-hidden transition-all duration-400 ease-out",
-                    mobileSolutionsOpen ? "max-h-[900px] opacity-100" : "max-h-0 opacity-0",
-                  ].join(" ")}
-                >
-                  <div className="mt-1 space-y-1.5 pl-2">
-                    {MEGA_SOLUTIONS_DATA.map((category) => {
-                      const CategoryIcon = category.icon;
-                      const isCatOpen = mobileCategoryOpen === category.id;
 
-                      return (
-                        <div key={category.id} className="rounded-xl overflow-hidden">
-                          <button
-                            type="button"
-                            className={[
-                              "flex w-full items-center justify-between px-4 py-3 text-[14px] font-semibold transition-colors duration-200 hover:bg-white/5",
-                              isCatOpen ? "text-[#8CC63F] bg-[#8CC63F]/5" : "text-white/80"
-                            ].join(" ")}
-                            onClick={() => setMobileCategoryOpen(isCatOpen ? null : category.id)}
-                            aria-expanded={isCatOpen}
-                          >
-                            <span className="flex items-center gap-2.5">
-                              <CategoryIcon size={16} className={isCatOpen ? "text-[#8CC63F]" : "text-white/60"} />
-                              {category.label}
-                            </span>
-                            <ChevronDown
-                              size={14}
-                              className={[
-                                "transition-transform duration-300",
-                                isCatOpen ? "rotate-180 text-[#8CC63F]" : "text-white/40",
-                              ].join(" ")}
-                            />
-                          </button>
-
-                          {/* Nested solutions list */}
-                          <div
-                            className={[
-                              "overflow-hidden transition-all duration-300 ease-out pl-6",
-                              isCatOpen ? "max-h-[500px] opacity-100 py-1" : "max-h-0 opacity-0",
-                            ].join(" ")}
-                          >
-                            <div className="space-y-0.5 border-l border-white/10 pl-3 py-1">
-                              {category.items.map((svc) => (
-                                <Link
-                                  key={svc.name}
-                                  href={svc.href}
-                                  onClick={closeMobile}
-                                  className="block py-2 text-[13px] text-white/70 hover:text-[#8CC63F] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
-                                >
-                                  {svc.name}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-
-                    <Link
-                      href="/solutions"
-                      onClick={closeMobile}
-                      className="flex items-center gap-1.5 px-4 py-2.5 text-[12px] font-semibold text-signal hover:opacity-75 focus-visible:outline-none"
-                    >
-                      All solutions <ArrowUpRight size={12} aria-hidden="true" />
-                    </Link>
-                  </div>
-                </div>
-              </li>
 
               {/* ── Resources accordion ── */}
               <li className="mobile-nav-item">

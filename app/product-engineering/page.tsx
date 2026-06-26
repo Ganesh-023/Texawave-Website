@@ -2,7 +2,7 @@ import { ServiceMainPage } from "@/components/ServiceMainPage";
 import { getMainService } from "@/lib/services-v2";
 import type { Metadata } from "next";
 
-const SLUG = "procurement";
+const SLUG = "product-engineering";
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = getMainService(SLUG);

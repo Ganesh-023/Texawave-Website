@@ -5,7 +5,17 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Smartphone,
+  Factory,
+  Brain,
+  Bot,
+  Activity,
+  Home,
+  Zap,
+  Compass,
+} from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -15,7 +25,7 @@ if (typeof window !== "undefined") {
 const INDUSTRIES = [
   {
     id: "digital-health",
-    emoji: "📱",
+    icon: Smartphone,
     title: "Intelligent Health Systems",
     description:
       "Appointment scheduling platforms, patient tracking applications, healthcare mobile solutions, and remote monitoring systems.",
@@ -25,7 +35,7 @@ const INDUSTRIES = [
   },
   {
     id: "manufacturing",
-    emoji: "🏭",
+    icon: Factory,
     title: "Manufacturing Digitalization",
     description:
       "Custom ERP systems, production monitoring, inventory management, workflow automation, and smart manufacturing solutions.",
@@ -35,7 +45,7 @@ const INDUSTRIES = [
   },
   {
     id: "ai",
-    emoji: "🧠",
+    icon: Brain,
     title: "AI & Computer Vision",
     description:
       "AI-powered product identification, machine vision systems, edge AI devices, intelligent automation, and visual inspection solutions.",
@@ -45,7 +55,7 @@ const INDUSTRIES = [
   },
   {
     id: "robotics",
-    emoji: "🤖",
+    icon: Bot,
     title: "Robotics & Automation",
     description:
       "Robotic systems, motion control solutions, embedded electronics, and intelligent automation platforms for industrial and commercial applications.",
@@ -55,7 +65,7 @@ const INDUSTRIES = [
   },
   {
     id: "medical",
-    emoji: "🏥",
+    icon: Activity,
     title: "Medical Devices & Healthcare",
     description:
       "Medical kiosks, healthcare electronics, patient monitoring systems, connected medical devices, and digital healthcare solutions.",
@@ -65,7 +75,7 @@ const INDUSTRIES = [
   },
   {
     id: "smart-home",
-    emoji: "🏠",
+    icon: Home,
     title: "Smart Home Automation",
     description:
       "Smart switches, connected devices, home automation systems, and IoT-enabled products that enhance comfort, control, and energy efficiency.",
@@ -75,7 +85,7 @@ const INDUSTRIES = [
   },
   {
     id: "energy",
-    emoji: "⛽",
+    icon: Zap,
     title: "Energy & Fuel Management",
     description:
       "CNG control systems, fuel station electronics, energy monitoring platforms, and power management solutions.",
@@ -85,7 +95,7 @@ const INDUSTRIES = [
   },
   {
     id: "marine",
-    emoji: "🌊",
+    icon: Compass,
     title: "Marine & Asset Tracking",
     description:
       "IoT tracking devices, ruggedized enclosures, fleet monitoring systems, and asset tracking solutions designed for demanding environments.",
@@ -631,7 +641,7 @@ function IndustryCard({
             boxShadow: `0 0 20px ${industry.accent}10`,
           }}
         >
-          {industry.emoji}
+          <industry.icon className="w-6 h-6" style={{ color: industry.accent }} />
         </div>
 
         {/* Title */}
@@ -956,10 +966,10 @@ export function IndustriesSection() {
                   <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
-                  href="/solutions"
+                  href="/services"
                   className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-sm px-8 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F]/50 hover:bg-white/[0.07] hover:text-white"
                 >
-                  Explore Solutions
+                  Explore Services
                 </Link>
               </div>
             </div>
