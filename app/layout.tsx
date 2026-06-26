@@ -16,10 +16,15 @@ const sora = Sora({
   weight: ["400", "500", "600", "700", "800"]
 });
 
+import { AnimationProvider } from "@/components/AnimationProvider";
+
 export const metadata: Metadata = {
   title: {
     default: "Texawave",
     template: "%s | Texawave"
+  },
+  verification: {
+    google: "HRlCDselZbyC5sxlKsfv9VA6BcHYY4PqFRR2fvs4Pq8",
   },
   description:
     "Texawave helps global startups and manufacturers design, prototype, source, and launch reliable hardware products through mechanical, electrical, PCB, embedded, IoT, and production support.",
@@ -58,7 +63,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark dark-theme" data-theme="dark">
-      <body className={`${inter.variable} ${sora.variable} font-sans antialiased`}>{children}</body>
+      <body className={`${inter.variable} ${sora.variable} font-sans antialiased`}>
+        <AnimationProvider>{children}</AnimationProvider>
+      </body>
     </html>
   );
 }

@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import {
   ShieldCheck,
   Gauge,
@@ -118,8 +119,8 @@ export function ConveyorBelt() {
     });
   }
 
-  /* ── Belt auto-scroll tween ── */
-  useEffect(() => {
+  /* ── Scoped Auto-Scroll & ScrollTrigger Acceleration ── */
+  useGSAP(() => {
     if (isMobile) return;
 
     const proxy = { p: 0 };
@@ -137,33 +138,22 @@ export function ConveyorBelt() {
     // Initial paint
     renderFrame(0);
 
-    return () => {
-      animRef.current?.kill();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /* ── ScrollTrigger — accelerate on scroll ── */
-  useEffect(() => {
-    if (isMobile || !sectionRef.current) return;
-
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top 80%",
-      end: "bottom 20%",
-      onToggle: ({ isActive }) => {
-        if (animRef.current) {
-          gsap.to(animRef.current, {
-            timeScale: isActive ? 1 : 0.3,
-            duration: 0.6,
-          });
-        }
-      },
-    });
-
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (sectionRef.current) {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        onToggle: ({ isActive }) => {
+          if (animRef.current) {
+            gsap.to(animRef.current, {
+              timeScale: isActive ? 1 : 0.3,
+              duration: 0.6,
+            });
+          }
+        },
+      });
+    }
+  }, { scope: sectionRef });
 
   /* ── Hover: slow belt, lift card ── */
   function onCardHover(idx: number, entering: boolean) {

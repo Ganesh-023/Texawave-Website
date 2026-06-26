@@ -6,6 +6,7 @@ import { useRef, useEffect, useState } from "react";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedShell } from "@/components/AnimatedShell";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -15,24 +16,26 @@ import { OnePartnerSection } from "@/components/OnePartnerSection";
 import { TexawaveLoader } from "@/components/TexawaveLoader";
 import { AboutWhyTexawave } from "@/components/AboutWhyTexawave";
 import { IndustriesSection } from "@/components/IndustriesSection";
-import {
-  bindPremiumHover,
-  bindServiceCardHover,
-  bindProjectCardHover
-} from "@/lib/gsap-utils";
+import { useAnimation } from "@/components/AnimationProvider";
 import {
   caseStudies,
   clients,
   stats
 } from "@/lib/content";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Home() {
+  const homeContainerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
-  const [isLoaderActive, setIsLoaderActive] = useState(true);
+  
+  // Dynamic session loader checking from global AnimationProvider
+  const { hasLoadedSession, setHasLoadedSession } = useAnimation();
+  const [showLoader, setShowLoader] = useState(!hasLoadedSession);
+  const [isLoaderActive, setIsLoaderActive] = useState(!hasLoadedSession);
 
   useEffect(() => {
     if (!isLoaderActive && videoRef.current) {
@@ -73,55 +76,10 @@ export default function Home() {
       });
   }, []);
 
-  // Global premium GSAP bindings for hovers
+  // Custom Scoped Hero Entrance Timeline Sequence (Only runs when loader is finished)
   useGSAP(() => {
     if (isLoaderActive) return;
 
-    // 1. Bind Service Cards
-    const serviceCards = document.querySelectorAll(".service-card-premium");
-    const serviceCleanups = Array.from(serviceCards).map((card) =>
-      bindServiceCardHover(card as HTMLElement, {
-        glowColor: "rgba(140, 198, 63, 0.25)"
-      })
-    );
-
-    // 2. Bind Project Cards
-    const projectCards = document.querySelectorAll(".project-card-premium");
-    const projectCleanups = Array.from(projectCards).map((card) =>
-      bindProjectCardHover(card as HTMLElement)
-    );
-
-    // 3. Bind Primary magnetic CTAs
-    const ctas = document.querySelectorAll(".cta-magnetic");
-    const ctaCleanups = Array.from(ctas).map((cta) =>
-      bindPremiumHover(cta as HTMLElement, {
-        magnetic: true,
-        scale: 1.06,
-        ease: "back.out(2)",
-        easeReverse: "power2.out"
-      })
-    );
-
-    // Count animations on stats
-    const counters = document.querySelectorAll("[data-count]");
-    counters.forEach((counter) => {
-      const target = parseInt(counter.getAttribute("data-count") || "0", 10);
-      gsap.fromTo(counter,
-        { textContent: "0" },
-        {
-          textContent: target.toString(),
-          duration: 2.0,
-          ease: "power2.out",
-          snap: { textContent: 1 },
-          scrollTrigger: {
-            trigger: counter,
-            start: "top 85%"
-          }
-        }
-      );
-    });
-
-    // 4. Custom Hero Entrance Timeline Sequence
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
       gsap.set(".hero-subheading, .hero-title-line, .hero-description, .hero-ctas", {
@@ -167,13 +125,33 @@ export default function Home() {
         "-=0.5"
       );
     }
+  }, { scope: homeContainerRef, dependencies: [isLoaderActive] });
 
-    return () => {
-      serviceCleanups.forEach((cleanup) => cleanup && cleanup());
-      projectCleanups.forEach((cleanup) => cleanup && cleanup());
-      ctaCleanups.forEach((cleanup) => cleanup && cleanup());
-    };
-  }, [isLoaderActive]);
+  // Custom ScrollTrigger for Dynamic Case Studies cards (when loaded)
+  useGSAP(() => {
+    if (isLoaderActive || csList.length === 0) return;
+
+    const cards = gsap.utils.toArray<HTMLElement>(".dynamic-case-study-card", homeContainerRef.current);
+    cards.forEach((card) => {
+      gsap.fromTo(
+        card,
+        { autoAlpha: 0, y: 32 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 82%",
+            toggleActions: "play reverse play reverse"
+          }
+        }
+      );
+    });
+
+    ScrollTrigger.refresh();
+  }, { scope: homeContainerRef, dependencies: [isLoaderActive, csList] });
 
   // Parallax floating coordinates inside hero section
   const handleHeroMouseMove = (e: React.MouseEvent) => {
@@ -183,7 +161,10 @@ export default function Home() {
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    gsap.to(".hero-floating-element", {
+    const floatingElements = el.querySelectorAll(".hero-floating-element");
+    const videoBg = el.querySelector(".hero-video-bg");
+
+    gsap.to(floatingElements, {
       x: (x / rect.width) * 45,
       y: (y / rect.height) * 45,
       duration: 0.8,
@@ -191,8 +172,8 @@ export default function Home() {
       stagger: 0.12
     });
 
-    if (!prefersReducedMotion) {
-      gsap.to(".hero-video-bg", {
+    if (!prefersReducedMotion && videoBg) {
+      gsap.to(videoBg, {
         x: (x / rect.width) * -15,
         y: (y / rect.height) * -15,
         scale: 1.05,
@@ -203,15 +184,21 @@ export default function Home() {
   };
 
   const handleHeroMouseLeave = () => {
-    gsap.to(".hero-floating-element", {
+    const el = heroRef.current;
+    if (!el) return;
+
+    const floatingElements = el.querySelectorAll(".hero-floating-element");
+    const videoBg = el.querySelector(".hero-video-bg");
+
+    gsap.to(floatingElements, {
       x: 0,
       y: 0,
       duration: 1.2,
       ease: "power3.out"
     });
 
-    if (!prefersReducedMotion) {
-      gsap.to(".hero-video-bg", {
+    if (!prefersReducedMotion && videoBg) {
+      gsap.to(videoBg, {
         x: 0,
         y: 0,
         scale: 1.02,
@@ -227,12 +214,13 @@ export default function Home() {
         <TexawaveLoader
           onComplete={() => {
             setIsLoaderActive(false);
+            setHasLoadedSession(true);
           }}
         />
       )}
       <AnimatedShell>
         <Header delayEntrance={showLoader && isLoaderActive} />
-        <main className="overflow-hidden pt-[110px]">
+        <main ref={homeContainerRef} className="overflow-hidden pt-[110px] gpu-accelerated">
           {/* Hero Section */}
           <section
             id="home"
@@ -371,9 +359,8 @@ export default function Home() {
                 {csList.length > 0 ? (
                   csList.map((study) => (
                     <article
-                      data-reveal
                       key={study.id}
-                      className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-[#111] overflow-hidden transition-all duration-300 hover:border-[#8CC63F]/30 hover:scale-[1.01] shadow-crisp text-left"
+                      className="dynamic-case-study-card group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-[#111] overflow-hidden transition-all duration-300 hover:border-[#8CC63F]/30 hover:scale-[1.01] shadow-crisp text-left"
                     >
                       <div>
                         {/* Cover Image */}

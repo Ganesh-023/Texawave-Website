@@ -661,5 +661,21 @@ textarea {
   color: #D4D4D8 !important;
 }
 
+/* GPU Acceleration & Performance Layer Promotion */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0) !important;
+  will-change: transform, opacity !important;
+  backface-visibility: hidden !important;
+}
+
+/* Page Transition Layer */
+#page-transition-wrapper {
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  opacity: 1;
+}
+
+
 
 

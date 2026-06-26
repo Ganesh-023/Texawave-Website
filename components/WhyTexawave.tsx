@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Flip } from "gsap/Flip";
+import { useGSAP } from "@gsap/react";
 import {
   Layers,
   Cpu,
@@ -295,7 +296,7 @@ export function WhyTexawave() {
   const headingRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     const pinWrap = pinWrapRef.current;
     const grid = gridRef.current;
@@ -304,33 +305,38 @@ export function WhyTexawave() {
 
     // Reduce motion guard
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-    /* ── Particle ambient animation ─────────────────────────── */
+    /* ── Particle ambient animation (Disabled on Mobile for performance) ── */
     const particles = section.querySelectorAll<HTMLElement>(".wtx-particle");
-    particles.forEach((p, i) => {
-      gsap.to(p, {
-        opacity: 0.35 + (i % 4) * 0.12,
-        y: -18 - (i % 6) * 8,
-        x: (i % 2 === 0 ? 1 : -1) * (5 + (i % 4) * 3),
-        duration: 3 + (i % 5) * 0.9,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: i * 0.18,
+    if (!isMobile) {
+      particles.forEach((p, i) => {
+        gsap.to(p, {
+          opacity: 0.35 + (i % 4) * 0.12,
+          y: -18 - (i % 6) * 8,
+          x: (i % 2 === 0 ? 1 : -1) * (5 + (i % 4) * 3),
+          duration: 3 + (i % 5) * 0.9,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.18,
+        });
       });
-    });
+    }
 
-    /* ── Beam slow drift ────────────────────────────────────── */
+    /* ── Beam slow drift (Disabled on Mobile for performance) ── */
     const beams = section.querySelectorAll<HTMLElement>(".wtx-beam");
-    beams.forEach((b, i) => {
-      gsap.to(b, {
-        x: (i % 2 === 0 ? 1 : -1) * 40,
-        duration: 12 + i * 4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
+    if (!isMobile) {
+      beams.forEach((b, i) => {
+        gsap.to(b, {
+          x: (i % 2 === 0 ? 1 : -1) * 40,
+          duration: 12 + i * 4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
       });
-    });
+    }
 
     if (reduceMotion) {
       // Show everything statically
@@ -403,9 +409,6 @@ export function WhyTexawave() {
     });
 
     /* ── Pinned bento scrub ─────────────────────────────────── */
-    // We drive an extra transform scrub on cards while section is pinned:
-    // cards subtly scale up and cards shift to full expanded width.
-
     const bentoTl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
@@ -458,6 +461,7 @@ export function WhyTexawave() {
     );
 
     /* ── Card hover neon glow ───────────────────────────────── */
+    const cardCleanups: (() => void)[] = [];
     cards.forEach((card) => {
       const glow = card.querySelector<HTMLElement>(".wtx-card-glow");
       const edge = card.querySelector<HTMLElement>(".wtx-card-edge");
@@ -490,20 +494,18 @@ export function WhyTexawave() {
 
       card.addEventListener("mouseenter", onEnter);
       card.addEventListener("mouseleave", onLeave);
+
+      cardCleanups.push(() => {
+        card.removeEventListener("mouseenter", onEnter);
+        card.removeEventListener("mouseleave", onLeave);
+      });
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        // Only kill triggers we created (identified by our section as trigger)
-        if (st.vars.trigger === section || st.vars.trigger === grid || st.vars.trigger === heading.querySelector(".wtx-badge") || st.vars.trigger === heading) {
-          st.kill();
-        }
-      });
-      gsap.killTweensOf([...cards, grid, blueprint].filter(Boolean));
-      particles.forEach((p) => gsap.killTweensOf(p));
-      beams.forEach((b) => gsap.killTweensOf(b));
+      // Remove mouse event listeners
+      cardCleanups.forEach((cleanup) => cleanup());
     };
-  }, []);
+  }, { scope: sectionRef });
 
   return (
     <section

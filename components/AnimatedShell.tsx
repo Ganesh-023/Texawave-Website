@@ -1,9 +1,9 @@
 "use client";
 
-import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 import {
   createEaseReverseTimeline,
   bindPremiumHover,
@@ -14,27 +14,17 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 export function AnimatedShell({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
-    // Smooth scroll setup
-    const lenis = new Lenis({
-      duration: 1.05,
-      smoothWheel: true
-    });
-
-    // Sync Lenis scroll events with GSAP ScrollTrigger updates
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
     // 1. Scroll-linked viewport entry/exits with easeReverse
-    const reveal = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+    const reveal = gsap.utils.toArray<HTMLElement>("[data-reveal]", container);
     const revealTimelines: gsap.core.Timeline[] = [];
 
     reveal.forEach((element) => {
@@ -67,12 +57,31 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
     });
 
     // Hero timeline elements entry
-    gsap.fromTo("[data-hero-line]", { y: 34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" });
-    gsap.to("[data-hero-visual]", { y: -16, rotate: 1.5, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("[data-trace]", { strokeDashoffset: 0, duration: 2.2, stagger: 0.12, ease: "power2.out" });
+    gsap.fromTo(
+      gsap.utils.toArray("[data-hero-line]", container),
+      { y: 34, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }
+    );
+    
+    // Floating animations (properly scoped and will be cleaned up by useGSAP context)
+    gsap.to(gsap.utils.toArray("[data-hero-visual]", container), {
+      y: -16,
+      rotate: 1.5,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+    
+    gsap.to(gsap.utils.toArray("[data-trace]", container), {
+      strokeDashoffset: 0,
+      duration: 2.2,
+      stagger: 0.12,
+      ease: "power2.out"
+    });
 
     // Counter triggers
-    gsap.utils.toArray<HTMLElement>("[data-count]").forEach((element) => {
+    gsap.utils.toArray<HTMLElement>("[data-count]", container).forEach((element) => {
       const end = Number(element.dataset.count || "0");
       const value = { current: 0 };
       gsap.to(value, {
@@ -90,7 +99,7 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
     });
 
     // Stepper scroll progress
-    gsap.utils.toArray<HTMLElement>("[data-step]").forEach((element) => {
+    gsap.utils.toArray<HTMLElement>("[data-step]", container).forEach((element) => {
       gsap.fromTo(
         element,
         { autoAlpha: 0.35, x: -18 },
@@ -109,7 +118,7 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
 
     // 2. Global Hover Bindings (Active on mount/SPA changes)
     // 2a. Service Cards
-    const serviceCards = document.querySelectorAll(".service-card-premium");
+    const serviceCards = container.querySelectorAll(".service-card-premium");
     const serviceCleanups = Array.from(serviceCards).map((card) =>
       bindServiceCardHover(card as HTMLElement, {
         glowColor: "rgba(0, 255, 136, 0.18)"
@@ -117,13 +126,13 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
     );
 
     // 2b. Project Cards
-    const projectCards = document.querySelectorAll(".project-card-premium");
+    const projectCards = container.querySelectorAll(".project-card-premium");
     const projectCleanups = Array.from(projectCards).map((card) =>
       bindProjectCardHover(card as HTMLElement)
     );
 
     // 2c. Primary Magnetic CTAs
-    const ctas = document.querySelectorAll(".cta-magnetic");
+    const ctas = container.querySelectorAll(".cta-magnetic");
     const ctaCleanups = Array.from(ctas).map((cta) =>
       bindPremiumHover(cta as HTMLElement, {
         magnetic: true,
@@ -134,7 +143,7 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
     );
 
     // 2d. Standard Premium Buttons
-    const btns = document.querySelectorAll(".btn-premium");
+    const btns = container.querySelectorAll(".btn-premium");
     const btnCleanups = Array.from(btns).map((btn) =>
       bindPremiumHover(btn as HTMLElement, {
         magnetic: false,
@@ -146,21 +155,19 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
       })
     );
 
-    // Combined teardowns
+    // Teardowns for custom hover bindings (other timelines/triggers are auto-reverted by useGSAP context)
     return () => {
-      lenis.destroy();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       revealTimelines.forEach((tl) => tl.kill());
       serviceCleanups.forEach((cleanup) => cleanup && cleanup());
       projectCleanups.forEach((cleanup) => cleanup && cleanup());
       ctaCleanups.forEach((cleanup) => cleanup && cleanup());
       btnCleanups.forEach((cleanup) => cleanup && cleanup());
     };
-  }, []);
+  }, { scope: containerRef });
 
   return (
-    <>
+    <div ref={containerRef} className="gpu-accelerated">
       {children}
-    </>
+    </div>
   );
 }

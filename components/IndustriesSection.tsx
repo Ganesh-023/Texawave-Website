@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 
 if (typeof window !== "undefined") {
@@ -714,7 +715,7 @@ export function IndustriesSection() {
   }, []);
 
   // GSAP scroll animations
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
     const grid = gridRef.current;
@@ -722,6 +723,8 @@ export function IndustriesSection() {
     if (!section || !heading || !grid || !cta) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
     if (reduceMotion) {
       gsap.set([heading, cta], { opacity: 1, y: 0 });
       gsap.set(grid.querySelectorAll(".ind-card"), { opacity: 1, y: 0 });
@@ -767,21 +770,12 @@ export function IndustriesSection() {
       scrollTrigger: { trigger: cta, start: "top 88%" },
     });
 
-    // Background grid slow pan
+    // Background grid slow pan (Disabled on Mobile for CPU saving)
     const bgGrid = section.querySelector<HTMLElement>(".ind-bg-grid");
-    if (bgGrid) {
+    if (bgGrid && !isMobile) {
       gsap.to(bgGrid, { backgroundPosition: "60px 60px", duration: 20, repeat: -1, ease: "none" });
     }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        if (
-          st.vars.trigger === heading || st.vars.trigger === grid ||
-          st.vars.trigger === cta || st.vars.trigger === badge || st.vars.trigger === sub
-        ) st.kill();
-      });
-    };
-  }, []);
+  }, { scope: sectionRef });
 
   const handleCardHover = useCallback((theme: BgTheme | null) => {
     setHoveredTheme(theme);
