@@ -69,10 +69,10 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
+              className={`case-study-filter-btn px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
                 activeCategory === category
                   ? "bg-[#8CC63F]/15 border-[#8CC63F]/40 text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.1)]"
-                  : "bg-white/5 border-white/5 text-text-secondary hover:text-white hover:bg-white/10"
+                  : ""
               }`}
             >
               {category.replace(" Engineering", "")}
@@ -91,7 +91,7 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
               placeholder="Search case studies..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-bg-secondary border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-text-secondary focus:border-[#8CC63F] focus:outline-none"
+              className="case-study-search-input w-full bg-white dark:bg-bg-secondary border border-[#E5E7EB] dark:border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#010101] dark:text-white placeholder-text-secondary focus:border-[#8CC63F] focus:outline-none"
             />
           </div>
         </div>
@@ -111,11 +111,11 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.35 }}
               key={study.id}
-              className="group relative flex flex-col justify-between service-card-premium rounded-2xl border border-white/10 bg-[#111] overflow-hidden transition-all duration-300 hover:border-white/20 shadow-crisp"
+              className="case-study-card group relative flex flex-col justify-between rounded-2xl border border-[#E5E7EB] dark:border-white/10 bg-white dark:bg-[#111] overflow-hidden transition-all duration-300 shadow-sm dark:shadow-crisp"
             >
               <div>
                 {/* Hero / Cover Image */}
-                <div className="relative h-48 w-full overflow-hidden border-b border-white/5 bg-[#080808]">
+                <div className="case-study-card-image-bg relative h-48 w-full overflow-hidden border-b border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-[#080808]">
                   <Image
                     src={study.heroImage}
                     alt={study.title}
@@ -123,7 +123,7 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
                   
                   {/* Category overlay pill */}
                   <span className="absolute top-4 left-4 rounded-full border border-signal/30 bg-black/55 backdrop-blur-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#8CC63F]">
@@ -144,7 +144,7 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
 
                 {/* Card Info */}
                 <div className="p-7">
-                  <h3 className="text-xl font-bold font-display text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
+                  <h3 className="case-study-title text-xl font-bold font-display text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
                     {study.title}
                   </h3>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#8CC63F] font-mono">
@@ -157,7 +157,7 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
               </div>
 
               {/* Bottom stats row & CTA */}
-              <div className="p-7 pt-0 border-t border-white/5 bg-white/[0.01] flex items-center justify-between">
+              <div className="case-study-stats p-7 pt-0 border-t border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-white/[0.01] flex items-center justify-between">
                 <div className="flex items-center gap-4 text-text-secondary text-[10px] font-mono font-bold">
                   <span className="flex items-center gap-1.5">
                     <Eye size={12} className="text-text-secondary" /> {study.views || 0}
@@ -172,7 +172,7 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
                 
                 <Link
                   href={`/case-studies/${study.slug}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-[#8CC63F] transition-all"
+                  className="case-study-read-link inline-flex items-center gap-1.5 text-xs font-bold text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-all"
                 >
                   Read Study <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -184,9 +184,9 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
 
       {/* Empty State */}
       {filteredStudies.length === 0 && (
-        <div className="text-center py-20 border border-dashed border-white/10 rounded-2xl bg-[#111]">
+        <div className="case-study-empty-state text-center py-20 border border-dashed border-[#E5E7EB] dark:border-white/10 rounded-2xl bg-white dark:bg-[#111]">
           <Search size={36} className="mx-auto text-text-secondary mb-4 opacity-50" />
-          <h3 className="text-lg font-bold text-white font-display">No Case Studies Found</h3>
+          <h3 className="case-study-empty-title text-lg font-bold text-[#010101] dark:text-white font-display">No Case Studies Found</h3>
           <p className="text-text-secondary text-xs mt-1">Try relaxing your search terms or category filter.</p>
         </div>
       )}

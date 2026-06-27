@@ -17,8 +17,16 @@
     ],
     "relatedIds": [],
     "status": "Published",
-    "views": 198,
-    "likes": 0,
-    "comments": []
+    "views": 259,
+    "likes": 1,
+    "comments": [
+      {
+        "id": "comm-1782537492644",
+        "userName": "Ganesh",
+        "content": "Good Idea. I want a sample of this product",
+        "dateSubmitted": "2026-06-27",
+        "approved": true
+      }
+    ]
   }
 ]

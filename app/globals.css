@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Permanent Dark Theme Variables ──────────────────────────────────────── */
+/* ─── Light Mode Variables (Default) ──────────────────────────────────────── */
 :root {
   --primary-green: #8CC63F;
   --primary-green-dark: #3FAE49;
@@ -10,28 +10,28 @@
   --primary-green-glow: 0 0 20px rgba(140, 198, 63, 0.35);
 
   --signal: var(--primary-green);
-  --bg-primary: #0F1115;
-  --bg-secondary: #0A0B0E;
-  --bg-card: #171A21;
-  --text-primary: #FFFFFF;
-  --text-secondary: #A1A1AA;
+  --bg-primary: #F8F9FB;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --text-primary: #010101;
+  --text-secondary: #4B5563;
   --accent: var(--primary-green);
-  --accent-hover: #14B8A6;
+  --accent-hover: #6fa832;
   --accent-light: var(--primary-green);
-  --border-color: #22252F;
-  --grid-color: rgba(255, 255, 255, 0.04);
+  --border-color: #E5E7EB;
+  --grid-color: rgba(0, 0, 0, 0.05);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
-  --conveyor-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 60%, #0F1115 100%);
-  --blueprint-grid: rgba(20, 184, 166, 0.04);
-  --conveyor-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
-  --conveyor-card-border: rgba(20, 184, 166, 0.18);
-  --conveyor-card-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
-  --testimonial-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 55%, #0F1115 100%);
-  --testimonial-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.04) 100%);
-  --bg: #0F1115;
-  --card: #171A21;
-  --text: #FFFFFF;
+  --conveyor-bg: linear-gradient(160deg, #F8F9FB 0%, #FFFFFF 60%, #F8F9FB 100%);
+  --blueprint-grid: rgba(20, 184, 166, 0.06);
+  --conveyor-card-bg: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 100%);
+  --conveyor-card-border: rgba(20, 184, 166, 0.2);
+  --conveyor-card-shadow: 0 16px 48px rgba(0, 0, 0, 0.06);
+  --testimonial-bg: linear-gradient(160deg, #F8F9FB 0%, #FFFFFF 55%, #F8F9FB 100%);
+  --testimonial-card-bg: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.01) 100%);
+  --bg: #F8F9FB;
+  --card: #FFFFFF;
+  --text: #010101;
 
   /* Typography Design Scale CSS Variables */
   --text-hero: clamp(2.5rem, 6vw, 5.5rem);
@@ -48,6 +48,308 @@
   --line-height-card: 1.2;
   --line-height-body: 1.8;
 }
+
+/* ─── Dark Mode Variables ───────────────────────────────────────────────── */
+html.dark {
+  --bg-primary: #0F1115;
+  --bg-secondary: #0A0B0E;
+  --bg-card: #171A21;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --border-color: #22252F;
+  --grid-color: rgba(255, 255, 255, 0.04);
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --conveyor-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 60%, #0F1115 100%);
+  --blueprint-grid: rgba(20, 184, 166, 0.04);
+  --conveyor-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --conveyor-card-border: rgba(20, 184, 166, 0.18);
+  --conveyor-card-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --testimonial-bg: linear-gradient(160deg, #0F1115 0%, #0A0B0E 55%, #0F1115 100%);
+  --testimonial-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.04) 100%);
+  --bg: #0F1115;
+  --card: #171A21;
+  --text: #FFFFFF;
+}
+
+/* ─── Theme-aware Header ────────────────────────────────────────────────── */
+
+/* Light mode: header nav text */
+html:not(.dark) .navbar-link {
+  color: #1F2937 !important;
+  text-shadow: none !important;
+}
+html:not(.dark) .navbar-link:hover {
+  color: var(--primary-green) !important;
+  background-color: rgba(140, 198, 63, 0.1) !important;
+  box-shadow: 0 0 12px rgba(140, 198, 63, 0.2) !important;
+  text-shadow: none !important;
+}
+html:not(.dark) .navbar-link-active {
+  color: var(--primary-green) !important;
+  text-shadow: none !important;
+}
+
+/* Light mode: hamburger bars */
+html:not(.dark) #mobile-menu-toggle span span {
+  background-color: #1F2937 !important;
+}
+
+/* Light mode: hamburger button border */
+html:not(.dark) #mobile-menu-toggle {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+html:not(.dark) #mobile-menu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Light mode: header Book a Meeting button */
+html:not(.dark) #header-cta-btn {
+  border-color: var(--primary-green) !important;
+  color: #1F2937 !important;
+}
+html:not(.dark) #header-cta-btn:hover {
+  background-color: var(--primary-green) !important;
+  color: #ffffff !important;
+}
+html:not(.dark) #header-cta-btn .text-\[\#008000\] {
+  color: var(--primary-green) !important;
+}
+
+/* Light mode: mega menu / dropdown panel */
+html:not(.dark) [data-mega-menu],
+html:not(.dark) [data-dropdown] {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light mode: Expertise mega menu — left sidebar */
+html:not(.dark) .mega-menu-left-panel {
+  background: #F8F9FB !important;
+  border-right-color: #E5E7EB !important;
+}
+html:not(.dark) .mega-menu-left-panel .mega-section-label {
+  color: #9CA3AF !important;
+}
+html:not(.dark) .mega-cat-btn {
+  color: #374151 !important;
+}
+html:not(.dark) .mega-cat-btn:hover {
+  background: #F1F5F9 !important;
+  color: #010101 !important;
+}
+html:not(.dark) .mega-cat-btn.is-active-cat {
+  background: rgba(140, 198, 63, 0.1) !important;
+  color: #8CC63F !important;
+}
+html:not(.dark) .mega-cat-icon { color: #9CA3AF !important; }
+html:not(.dark) .mega-cat-btn.is-active-cat .mega-cat-icon { color: #8CC63F !important; }
+
+/* Light mode: Expertise mega menu — right services grid */
+html:not(.dark) .mega-menu-right-panel {
+  background: #FFFFFF !important;
+}
+html:not(.dark) .mega-svc-card {
+  background: #F8F9FB !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .mega-svc-card:hover {
+  background: rgba(140, 198, 63, 0.04) !important;
+  border-color: rgba(140, 198, 63, 0.3) !important;
+}
+html:not(.dark) .mega-svc-title {
+  color: #010101 !important;
+}
+html:not(.dark) .mega-svc-card:hover .mega-svc-title {
+  color: #8CC63F !important;
+}
+html:not(.dark) .mega-svc-desc {
+  color: #4B5563 !important;
+}
+html:not(.dark) .mega-svc-card:hover .mega-svc-desc {
+  color: #374151 !important;
+}
+
+/* Light mode: Expertise mega menu — bottom CTA bar */
+html:not(.dark) .mega-menu-cta-bar {
+  background: #F8F9FB !important;
+  border-top-color: #E5E7EB !important;
+}
+html:not(.dark) .mega-menu-cta-bar .mega-check-item {
+  color: #4B5563 !important;
+}
+
+/* Light mode: Resources dropdown — left panel */
+html:not(.dark) .resources-left-panel {
+  background: #F8F9FB !important;
+  border-right-color: #E5E7EB !important;
+}
+html:not(.dark) .resources-left-panel h3 {
+  color: #010101 !important;
+}
+html:not(.dark) .resources-left-panel p {
+  color: #4B5563 !important;
+}
+html:not(.dark) .resources-branding-box {
+  background: rgba(0,0,0,0.02) !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .resources-branding-box .resources-eng-label {
+  color: #9CA3AF !important;
+}
+
+/* Light mode: Resources dropdown — right items */
+html:not(.dark) .resources-right-panel {
+  background: #FFFFFF !important;
+}
+html:not(.dark) .resources-item-link {
+  border-color: transparent !important;
+}
+html:not(.dark) .resources-item-link:hover {
+  background: #F1F5F9 !important;
+  border-color: #E5E7EB !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+html:not(.dark) .resources-item-link.is-active-item {
+  background: rgba(140,198,63,0.08) !important;
+  border-color: rgba(140,198,63,0.2) !important;
+}
+html:not(.dark) .resources-item-title {
+  color: #010101 !important;
+}
+html:not(.dark) .resources-item-link:hover .resources-item-title,
+html:not(.dark) .resources-item-link.is-active-item .resources-item-title {
+  color: #8CC63F !important;
+}
+html:not(.dark) .resources-item-desc {
+  color: #4B5563 !important;
+}
+html:not(.dark) .resources-item-link:hover .resources-item-desc {
+  color: #374151 !important;
+}
+
+/* Light mode: mobile menu panel */
+html:not(.dark) #mobile-menu {
+  background: #FFFFFF !important;
+}
+html:not(.dark) #mobile-menu .mobile-nav-item a,
+html:not(.dark) #mobile-menu .mobile-nav-item button {
+  color: #1F2937 !important;
+}
+html:not(.dark) #mobile-menu .mobile-nav-item a:hover,
+html:not(.dark) #mobile-menu .mobile-nav-item button:hover {
+  background: #F1F5F9 !important;
+}
+html:not(.dark) #mobile-menu .text-white\/20 {
+  color: rgba(0, 0, 0, 0.2) !important;
+}
+html:not(.dark) #mobile-menu .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+html:not(.dark) #mobile-menu .mobile-resources-item-title {
+  color: #010101 !important;
+}
+html:not(.dark) #mobile-menu .mobile-resources-item-desc {
+  color: #4B5563 !important;
+}
+html:not(.dark) #mobile-menu .mobile-cat-btn {
+  color: #374151 !important;
+}
+html:not(.dark) #mobile-menu .mobile-cat-btn:hover {
+  background: #F1F5F9 !important;
+}
+html:not(.dark) #mobile-menu .mobile-svc-link {
+  color: #4B5563 !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) #mobile-menu .mobile-svc-link:hover {
+  color: #8CC63F !important;
+}
+html:not(.dark) #mobile-menu .mobile-appearance-row {
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) #mobile-menu .mobile-appearance-label {
+  color: #4B5563 !important;
+}
+html:not(.dark) #mobile-menu .mobile-tagline {
+  color: rgba(0,0,0,0.2) !important;
+}
+html:not(.dark) #mobile-menu .mobile-header-spacer {
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) #mobile-menu .mobile-divider {
+  border-color: #E5E7EB !important;
+}
+
+/* Light mode: markdown content */
+html:not(.dark) .markdown-content strong {
+  color: #0F1115 !important;
+}
+html:not(.dark) .markdown-content h2,
+html:not(.dark) .markdown-content .markdown-h2,
+html:not(.dark) .markdown-content h1,
+html:not(.dark) .markdown-content .markdown-h1 {
+  color: #0F1115 !important;
+}
+html:not(.dark) .markdown-content.main-prose p,
+html:not(.dark) .markdown-content.main-prose li {
+  color: #374151 !important;
+}
+html:not(.dark) .markdown-content.card-prose p,
+html:not(.dark) .markdown-content.card-prose li {
+  color: #52525B !important;
+}
+
+/* Light mode: glassmorphism hub panel */
+html:not(.dark) .glassmorphism-hub-panel {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(140, 198, 63, 0.35) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12),
+              0 0 40px rgba(140, 198, 63, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+html:not(.dark) .hub-option-btn {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #1F2937 !important;
+}
+html:not(.dark) .hub-option-btn:hover {
+  background: rgba(140, 198, 63, 0.12) !important;
+  border-color: rgba(140, 198, 63, 0.4) !important;
+  color: #1F2937 !important;
+}
+
+/* Light mode: PCB experience background */
+html:not(.dark) .pcb-experience {
+  background-color: var(--bg-primary) !important;
+}
+html:not(.dark) .pcb-grid-overlay {
+  background-image:
+    radial-gradient(rgba(140, 198, 63, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) !important;
+}
+html:not(.dark) .pcb-node {
+  fill: #F0F0F0 !important;
+  stroke: rgba(140, 198, 63, 0.5) !important;
+}
+html:not(.dark) .pcb-project-card {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07) !important;
+}
+html:not(.dark) .pcb-project-card.is-active {
+  border-color: rgba(140, 198, 63, 0.55) !important;
+  box-shadow: 0 0 30px rgba(140, 198, 63, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Light mode: grid pattern */
+html:not(.dark) .grid-pattern {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px) !important;
+}
+
+/* ─── Shared Layout ─────────────────────────────────────────────────────── */
 
 .responsive-container {
   width: 100%;
@@ -77,6 +379,7 @@ html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Spacing improvements between headings and sibling paragraphs */
@@ -111,18 +414,24 @@ html {
     line-height: 1.7 !important;
   }
 
-  /* Redefine button typography globally to Inter 600, 15px, tracking 0.02em */
+  /* Redefine button typography globally */
   .cta-magnetic,
   #header-cta-btn,
   .mobile-nav-item a,
   .mobile-nav-item button,
-  .hub-option-btn,
-  button,
-  .btn {
+  .hub-option-btn {
     font-family: var(--font-inter), "Inter", sans-serif !important;
     font-size: 15px !important;
     font-weight: 600 !important;
     letter-spacing: 0.02em !important;
+  }
+
+  button,
+  .btn {
+    font-family: var(--font-inter), "Inter", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -153,10 +462,7 @@ html {
 }
 
 /*
- * Project cards are fully GSAP-animated. The global body * transition above
- * would intercept GSAP's mouseleave tweens and hold border-color / box-shadow
- * in the green hovered state for 400ms after the cursor leaves.
- * Setting transition: none hands full control to GSAP.
+ * Project cards are fully GSAP-animated — transition: none hands full control to GSAP.
  */
 .project-card-premium,
 .project-card-premium .project-card-image,
@@ -222,8 +528,7 @@ textarea {
 
 /* ─── Header utilities ──────────────────────────────────────────────────── */
 
-/* NOTE: Header entrance animation is handled by GSAP (useGSAP in Header.tsx).
-   The [role="banner"] CSS animation has been removed to avoid conflicts. */
+/* NOTE: Header entrance animation is handled by GSAP (useGSAP in Header.tsx). */
 
 /* Hover subtle tint used in dropdown & mobile menu */
 .hover\:bg-white\/8:hover {
@@ -560,7 +865,7 @@ textarea {
 /* ─── Case Study Markdown Content Styles ────────────────────────────────── */
 .markdown-content strong {
   font-weight: 700 !important;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 .markdown-content em {
@@ -574,7 +879,7 @@ textarea {
   margin-top: 2.5rem !important;
   margin-bottom: 1.25rem !important;
   font-weight: 750 !important;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 @media (min-width: 1024px) {
@@ -591,7 +896,7 @@ textarea {
   margin-top: 3rem !important;
   margin-bottom: 1.5rem !important;
   font-weight: 800 !important;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 @media (min-width: 1024px) {
@@ -601,18 +906,18 @@ textarea {
   }
 }
 
-/* MAIN PROSE SELECTORS (Problem Statement, Key Challenges, The Solution, Results & Impact) */
+/* MAIN PROSE SELECTORS */
 .markdown-content.main-prose p {
   font-family: var(--font-inter), "Inter", sans-serif !important;
-  font-size: 1.05rem !important; /* ~17px */
+  font-size: 1.05rem !important;
   line-height: 1.7 !important;
   margin-bottom: 1.5rem !important;
-  color: #E0E0E0 !important; /* Premium high contrast off-white */
+  color: #E0E0E0 !important;
 }
 
 @media (min-width: 1024px) {
   .markdown-content.main-prose p {
-    font-size: 1.125rem !important; /* 18px on desktop */
+    font-size: 1.125rem !important;
   }
 }
 
@@ -637,13 +942,13 @@ textarea {
   }
 }
 
-/* CARD PROSE SELECTORS (Multi-disciplinary engineering breakdown cards) */
+/* CARD PROSE SELECTORS */
 .markdown-content.card-prose p {
   font-family: var(--font-inter), "Inter", sans-serif !important;
-  font-size: 0.8125rem !important; /* 13px */
+  font-size: 0.8125rem !important;
   line-height: 1.6 !important;
   margin-bottom: 0.75rem !important;
-  color: #D4D4D8 !important; /* Zinc 300 */
+  color: #D4D4D8 !important;
 }
 
 .markdown-content.card-prose ul {
@@ -676,6 +981,128 @@ textarea {
   opacity: 1;
 }
 
+/* ─── Light Mode: Component-level overrides ──────────────────────────────── */
 
+/* Case Studies cards */
+html:not(.dark) .case-study-card {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .case-study-card:hover {
+  border-color: rgba(140,198,63,0.4) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+}
+html:not(.dark) .case-study-card-image-bg {
+  background: #F8F9FB !important;
+}
+html:not(.dark) .case-study-title {
+  color: #010101 !important;
+}
+html:not(.dark) .case-study-card:hover .case-study-title {
+  color: #8CC63F !important;
+}
+html:not(.dark) .case-study-stats {
+  border-top-color: #E5E7EB !important;
+  background: #F8F9FB !important;
+}
+html:not(.dark) .case-study-read-link {
+  color: #010101 !important;
+}
+html:not(.dark) .case-study-card:hover .case-study-read-link {
+  color: #8CC63F !important;
+}
+html:not(.dark) .case-study-search-input {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+  color: #010101 !important;
+}
+html:not(.dark) .case-study-filter-btn {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+html:not(.dark) .case-study-filter-btn:hover {
+  background: #F1F5F9 !important;
+  color: #010101 !important;
+}
+html:not(.dark) .case-study-empty-state {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .case-study-empty-title {
+  color: #010101 !important;
+}
 
+/* Engineering Excellence tiles */
+html:not(.dark) .eng-tile {
+  background: #FFFFFF !important;
+  border-color: rgba(140,198,63,0.2) !important;
+}
+html:not(.dark) .eng-tile:hover {
+  background: #FAFFFE !important;
+  border-color: rgba(140,198,63,0.5) !important;
+  box-shadow: 0 0 40px rgba(140,198,63,0.12), 0 8px 30px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8) !important;
+}
+html:not(.dark) .eng-tile-label { color: rgba(140,198,63,0.7) !important; }
+html:not(.dark) .eng-tile-title { color: #010101 !important; }
+html:not(.dark) .eng-tile:hover .eng-tile-title { color: #010101 !important; }
+html:not(.dark) .eng-tile-desc { color: #4B5563 !important; }
+html:not(.dark) .eng-tile:hover .eng-tile-desc { color: #374151 !important; }
+html:not(.dark) .eng-tile-cap-item { color: #374151 !important; }
+html:not(.dark) .eng-tile:hover .eng-tile-cap-item { color: #010101 !important; }
 
+/* Engineering Excellence mobile tiles */
+html:not(.dark) .eng-mobile-tile {
+  background: #FFFFFF !important;
+  border-color: rgba(140,198,63,0.2) !important;
+}
+html:not(.dark) .eng-mobile-tile.is-open {
+  background: #FAFFFE !important;
+  border-color: rgba(140,198,63,0.4) !important;
+}
+html:not(.dark) .eng-mobile-tile-title { color: #010101 !important; }
+html:not(.dark) .eng-mobile-tile-desc { color: #4B5563 !important; }
+html:not(.dark) .eng-mobile-tile-cap-item { color: #374151 !important; }
+
+/* About Why Texawave — cards */
+html:not(.dark) .about-cap-card {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .about-cap-card:hover {
+  border-color: rgba(140,198,63,0.3) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.07) !important;
+}
+html:not(.dark) .about-cap-card-title { color: #010101 !important; }
+html:not(.dark) .about-timeline-heading { color: #010101 !important; }
+html:not(.dark) .about-timeline-base-line { background-color: #E5E7EB !important; }
+html:not(.dark) .about-stage-node {
+  border-color: #D1D5DB !important;
+  background-color: #FFFFFF !important;
+  color: #9CA3AF !important;
+}
+/* GSAP will override these when animating, but default state is light */
+html:not(.dark) .stage-title { color: #9CA3AF !important; }
+html:not(.dark) .stage-desc { color: #D1D5DB !important; }
+
+/* One Partner Section cards */
+html:not(.dark) .one-partner-card {
+  background: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+html:not(.dark) .one-partner-card:hover {
+  border-color: rgba(140,198,63,0.3) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.07) !important;
+}
+html:not(.dark) .one-partner-card-title { color: #010101 !important; }
+html:not(.dark) .one-partner-heading { color: #010101 !important; }
+html:not(.dark) .one-partner-secondary-btn {
+  border-color: #E5E7EB !important;
+  background: #FFFFFF !important;
+  color: #374151 !important;
+}
+html:not(.dark) .one-partner-secondary-btn:hover {
+  border-color: #8CC63F !important;
+  background: #F8F9FB !important;
+  color: #010101 !important;
+}

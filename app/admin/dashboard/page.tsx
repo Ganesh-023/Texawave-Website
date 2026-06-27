@@ -14,6 +14,7 @@ import {
   INITIAL_JOBS, 
   INITIAL_APPLICATIONS 
 } from "@/app/careers/initialData";
+import AdminTeamTab from "@/components/AdminTeamTab";
 
 interface HRUser {
   name: string;
@@ -27,7 +28,7 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState("");
 
   // Navigation states
-  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings" | "case-studies">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings" | "case-studies" | "team">("dashboard");
 
   // Core Data States
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -152,6 +153,30 @@ export default function AdminDashboard() {
 
     setIsMounted(true);
   }, [router]);
+
+  // Handle ESC key press to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (showCSModal) {
+          setShowCSModal(false);
+          resetCSForm();
+        }
+        if (showJobModal) {
+          setShowJobModal(false);
+          resetJobForm();
+        }
+        if (showCommentsModal) {
+          setShowCommentsModal(null);
+        }
+        if (showResumeViewer) {
+          setShowResumeViewer(false);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showCSModal, showJobModal, showCommentsModal, showResumeViewer]);
 
   const fetchCaseStudies = async () => {
     try {
@@ -751,40 +776,57 @@ export default function AdminDashboard() {
           <div className="space-y-6">
             
             {/* Admin permissions checklist */}
-            <div className="p-4 bg-white/5 border border-white/5 rounded-2xl">
-              <span className="text-[10px] font-bold text-text-secondary uppercase block mb-3 font-mono">
-                🛡️ Admin Permissions
+            <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+              <span className="text-[10px] font-semibold text-text-secondary uppercase tracking-wider flex items-center gap-1.5 mb-3 font-sans">
+                <Shield size={12} className="text-[#8CC63F]" /> Admin Permissions
               </span>
-              <ul className="text-[10px] font-bold space-y-2 font-mono">
-                <li className="flex items-center gap-2 text-white">✅ Everything HR Can Do</li>
-                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Create/Remove HR Accounts</li>
-                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Manage Roles</li>
-                <li className="flex items-center gap-2 text-[#8CC63F]">✅ View Analytics</li>
-                <li className="flex items-center gap-2 text-[#8CC63F]">✅ Configure Career Portal</li>
+              <ul className="text-xs space-y-2 font-sans text-text-secondary font-medium">
+                <li className="flex items-center gap-2 text-white">
+                  <CheckCircle2 size={12} className="text-[#8CC63F] shrink-0" />
+                  <span>Everything HR Can Do</span>
+                </li>
+                <li className="flex items-center gap-2 text-text-primary">
+                  <CheckCircle2 size={12} className="text-[#8CC63F] shrink-0" />
+                  <span>Create/Remove HR Accounts</span>
+                </li>
+                <li className="flex items-center gap-2 text-text-primary">
+                  <CheckCircle2 size={12} className="text-[#8CC63F] shrink-0" />
+                  <span>Manage Roles</span>
+                </li>
+                <li className="flex items-center gap-2 text-text-primary">
+                  <CheckCircle2 size={12} className="text-[#8CC63F] shrink-0" />
+                  <span>View Analytics</span>
+                </li>
+                <li className="flex items-center gap-2 text-text-primary">
+                  <CheckCircle2 size={12} className="text-[#8CC63F] shrink-0" />
+                  <span>Configure Career Portal</span>
+                </li>
               </ul>
             </div>
 
             <nav className="space-y-1">
               {[
-                { id: "dashboard", label: "📊 Dashboard", icon: TrendingUp },
-                { id: "case-studies", label: "📚 Case Studies", icon: FileSpreadsheet },
-                { id: "hr", label: "👥 HR Management", icon: UserCheck },
-                { id: "jobs", label: "💼 Job Management", icon: Cpu },
-                { id: "candidates", label: "📝 Candidates", icon: FileText },
-                { id: "analytics", label: "📈 Analytics", icon: PieChart },
-                { id: "career-settings", label: "⚙️ Career Settings", icon: Globe },
-                { id: "system-settings", label: "💻 System Settings", icon: Settings }
+                { id: "dashboard", label: "Dashboard", icon: TrendingUp },
+                { id: "case-studies", label: "Case Studies", icon: FileSpreadsheet },
+                { id: "team", label: "Team Management", icon: Users },
+                { id: "hr", label: "HR Management", icon: UserCheck },
+                { id: "jobs", label: "Job Management", icon: Cpu },
+                { id: "candidates", label: "Candidates", icon: FileText },
+                { id: "analytics", label: "Analytics", icon: PieChart },
+                { id: "career-settings", label: "Career Settings", icon: Globe },
+                { id: "system-settings", label: "System Settings", icon: Settings }
               ].map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all border ${
                     activeTab === tab.id
                       ? "bg-[#8CC63F]/10 border-[#8CC63F]/30 text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.08)]"
                       : "bg-transparent border-transparent text-text-secondary hover:text-white"
                   }`}
                 >
-                  {tab.label}
+                  <tab.icon size={14} className={activeTab === tab.id ? "text-[#8CC63F]" : "text-text-secondary"} />
+                  <span>{tab.label}</span>
                 </button>
               ))}
             </nav>
@@ -878,6 +920,11 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* Tab: Team Management */}
+          {activeTab === "team" && (
+            <AdminTeamTab />
           )}
 
           {/* Tab 2: HR Account Management */}
@@ -1392,16 +1439,16 @@ export default function AdminDashboard() {
                   { label: "Aggregated Views", value: caseStudies.reduce((sum, c) => sum + (c.views || 0), 0), desc: "Times clicked", color: "text-amber-400" },
                   { label: "Aggregated Likes", value: caseStudies.reduce((sum, c) => sum + (c.likes || 0), 0), desc: "User recommendations", color: "text-purple-400" }
                 ].map((card, idx) => (
-                  <div key={idx} className="bg-[#111] border border-white/10 rounded-2xl p-6 shadow-crisp">
-                    <span className="text-[10px] font-bold text-text-secondary uppercase block font-mono">{card.label}</span>
-                    <strong className="text-4xl block mt-2 font-mono font-black text-white">{card.value}</strong>
-                    <span className="text-[10px] text-text-secondary mt-1.5 block leading-none font-medium">{card.desc}</span>
+                  <div key={idx} className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 shadow-crisp transition-all hover:border-[#8CC63F]/20 hover:shadow-[0_4px_20px_rgba(140,198,63,0.05)]">
+                    <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block font-sans">{card.label}</span>
+                    <strong className={`text-4xl block mt-2 font-sans font-extrabold tracking-tight ${card.color}`}>{card.value}</strong>
+                    <span className="text-[10.5px] text-text-secondary mt-2 block leading-none font-medium font-sans">{card.desc}</span>
                   </div>
                 ))}
               </div>
 
               {/* Filter controls */}
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
+              <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-80">
                   <span className="absolute inset-y-0 left-3 flex items-center text-text-secondary">
                     <Search size={15} />
@@ -1411,16 +1458,16 @@ export default function AdminDashboard() {
                     placeholder="Search by title or category..."
                     value={csSearch}
                     onChange={(e) => setCsSearch(e.target.value)}
-                    className="w-full bg-bg-primary border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                    className="w-full bg-[#0F1115] border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:border-[#8CC63F] focus:outline-none transition-all placeholder-white/30"
                   />
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-                  <span className="text-xs text-text-secondary font-mono">Status:</span>
+                  <span className="text-xs text-text-secondary font-semibold font-sans">Status:</span>
                   <select
                     value={csFilterStatus}
                     onChange={(e) => setCsFilterStatus(e.target.value)}
-                    className="bg-bg-primary border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:outline-none focus:border-[#8CC63F] font-mono"
+                    className="bg-[#0F1115] border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-semibold focus:outline-none focus:border-[#8CC63F] font-sans cursor-pointer"
                   >
                     <option value="All">All Statuses</option>
                     <option value="Published">Published Only</option>
@@ -1430,11 +1477,11 @@ export default function AdminDashboard() {
               </div>
 
               {/* Case Studies Table */}
-              <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-crisp">
+              <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl overflow-hidden shadow-crisp">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="border-b border-white/10 bg-white/[0.02] text-text-secondary font-mono uppercase text-[9px] tracking-wider">
+                      <tr className="border-b border-white/10 bg-white/[0.02] text-text-secondary font-sans font-semibold uppercase text-[10px] tracking-wider">
                         <th className="p-4 w-16">Cover</th>
                         <th className="p-4">Project Title</th>
                         <th className="p-4">Category</th>
@@ -1459,34 +1506,34 @@ export default function AdminDashboard() {
                                 <img src={cs.heroImage} alt="" className="object-cover h-full w-full" />
                               </div>
                             </td>
-                            <td className="p-4 font-bold max-w-xs truncate">
+                            <td className="p-4 font-bold max-w-xs truncate text-sm">
                               {cs.title}
                             </td>
-                            <td className="p-4 font-semibold text-text-secondary">
+                            <td className="p-4 font-semibold text-text-secondary text-xs">
                               {cs.category}
                             </td>
                             <td className="p-4 text-center">
                               <select
                                 value={cs.status}
                                 onChange={(e) => handleCSChangeStatus(cs, e.target.value as any)}
-                                className={`rounded px-2 py-1 text-[10px] font-bold font-mono focus:outline-none border ${
+                                className={`rounded px-2.5 py-1 text-[10px] font-bold font-sans focus:outline-none border cursor-pointer ${
                                   cs.status === "Published"
-                                    ? "bg-green-500/10 border-green-500/25 text-green-400"
-                                    : "bg-yellow-500/10 border-yellow-500/25 text-yellow-400"
+                                    ? "bg-green-500/10 border-green-500/20 text-green-400"
+                                    : "bg-yellow-500/10 border-yellow-500/20 text-yellow-400"
                                 }`}
                               >
                                 <option value="Published" className="bg-[#111]">Published</option>
                                 <option value="Draft" className="bg-[#111]">Draft</option>
                               </select>
                             </td>
-                            <td className="p-4 text-center font-mono font-bold text-text-secondary">{cs.views || 0}</td>
-                            <td className="p-4 text-center font-mono font-bold text-text-secondary">{cs.likes || 0}</td>
+                            <td className="p-4 text-center text-xs font-mono font-medium text-text-secondary">{cs.views || 0}</td>
+                            <td className="p-4 text-center text-xs font-mono font-medium text-text-secondary">{cs.likes || 0}</td>
                             <td className="p-4 text-center">
                               <button
                                 onClick={() => setShowCommentsModal(cs)}
-                                className="inline-flex items-center gap-1 font-mono font-bold hover:text-[#8CC63F] text-text-secondary bg-white/5 hover:bg-white/10 border border-white/5 px-2.5 py-1 rounded-lg transition-all"
+                                className="inline-flex items-center gap-1 font-sans text-xs font-semibold hover:text-[#8CC63F] text-text-secondary bg-white/5 hover:bg-white/10 border border-white/5 px-2.5 py-1 rounded-lg transition-all"
                               >
-                                <MessageSquare size={11} /> {cs.comments?.length || 0}
+                                <MessageSquare size={12} /> {cs.comments?.length || 0}
                               </button>
                             </td>
                             <td className="p-4 text-right space-x-2">
@@ -1519,8 +1566,15 @@ export default function AdminDashboard() {
 
       {/* MODAL: Create/Edit Job Post (Admin exclusive) */}
       {showJobModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+        <div 
+          onClick={() => { setShowJobModal(false); resetJobForm(); }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto"
+          data-lenis-prevent
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto"
+          >
             
             <button
               onClick={() => setShowJobModal(false)}
@@ -1678,8 +1732,15 @@ export default function AdminDashboard() {
 
       {/* MODAL: Inline Resume Viewer */}
       {showResumeViewer && resumeApp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]">
+        <div 
+          onClick={() => { setShowResumeViewer(false); setResumeApp(null); }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto"
+          data-lenis-prevent
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]"
+          >
             
             <button
               onClick={() => {
@@ -1787,8 +1848,15 @@ export default function AdminDashboard() {
 
       {/* MODAL: Create/Edit Case Study */}
       {showCSModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left">
+        <div 
+          onClick={() => { setShowCSModal(false); resetCSForm(); }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto"
+          data-lenis-prevent
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left"
+          >
             <button
               onClick={() => { setShowCSModal(false); resetCSForm(); }}
               className="absolute right-4 top-4 text-text-secondary hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors"
@@ -2021,8 +2089,15 @@ export default function AdminDashboard() {
 
       {/* MODAL: Moderate Comments */}
       {showCommentsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-3xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[85vh] overflow-y-auto text-left font-sans">
+        <div 
+          onClick={() => setShowCommentsModal(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto"
+          data-lenis-prevent
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[85vh] overflow-y-auto text-left font-sans"
+          >
             <button
               onClick={() => setShowCommentsModal(null)}
               className="absolute right-4 top-4 text-text-secondary hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors"

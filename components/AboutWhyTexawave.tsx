@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
@@ -147,7 +147,7 @@ export function AboutWhyTexawave() {
           gsap.set(node, {
             borderColor: "var(--primary-green)",
             backgroundColor: "rgba(140, 198, 63, 0.15)",
-            color: "#ffffff"
+            color: "var(--primary-green)"
           });
         }
       });
@@ -155,8 +155,8 @@ export function AboutWhyTexawave() {
         if (item) {
           const title = item.querySelector(".stage-title");
           const desc = item.querySelector(".stage-desc");
-          if (title) gsap.set(title, { color: "#ffffff" });
-          if (desc) gsap.set(desc, { color: "#B5B5B5" });
+          if (title) gsap.set(title, { color: "var(--text-primary)" });
+          if (desc) gsap.set(desc, { color: "var(--text-secondary)" });
         }
       });
       cardRefs.current.forEach((card) => {
@@ -207,7 +207,7 @@ export function AboutWhyTexawave() {
         journeyTimeline.to(
           titleEl,
           {
-            color: "#ffffff",
+            color: "var(--text-primary)",
             duration: 0.05
           },
           progressPoint * 0.95
@@ -215,7 +215,7 @@ export function AboutWhyTexawave() {
         .to(
           descEl,
           {
-            color: "#B5B5B5", // var(--text-secondary)
+            color: "var(--text-secondary)",
             duration: 0.05
           },
           progressPoint * 0.95
@@ -262,7 +262,7 @@ export function AboutWhyTexawave() {
               <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">About TexaWave</p>
               <h2 className="mt-3 text-section text-text-primary tracking-tight font-black leading-tight">
                 A New Generation <br className="hidden md:inline" />
-                Product Engineering Partner.
+                Product<span style={{ color: "#8CC63F" }}> Engineering Partner.</span>
               </h2>
               <div className="mt-6 space-y-6 text-body-large text-text-secondary leading-relaxed">
                 <p>
@@ -287,13 +287,13 @@ export function AboutWhyTexawave() {
                   <div
                     key={card.title}
                     ref={(el) => { cardRefs.current[index] = el; }}
-                    className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                    className="about-cap-card group relative overflow-hidden rounded-2xl border border-[#E5E7EB] dark:border-white/[0.06] bg-white dark:bg-white/[0.02] p-6 shadow-sm dark:shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[rgba(140,198,63,0.3)] dark:hover:border-white/[0.12] hover:shadow-md dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
                   >
                     {/* Hover inner gradient glow */}
                     <div 
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                       style={{
-                        background: `radial-gradient(circle at 10% 10%, ${card.color}15 0%, transparent 60%)`
+                        background: `radial-gradient(circle at 10% 10%, ${card.color}10 0%, transparent 60%)`
                       }}
                     />
 
@@ -305,17 +305,19 @@ export function AboutWhyTexawave() {
 
                     {/* Icon container */}
                     <div 
-                      className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] transition-all duration-500 group-hover:scale-105"
+                      className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-500 group-hover:scale-105"
                       style={{
-                        backgroundColor: `${card.color}10`,
-                        borderColor: `${card.color}20`,
-                        boxShadow: `0 0 15px ${card.color}08`
+                        backgroundColor: `${card.color}12`,
+                        borderWidth: "1px",
+                        borderStyle: "solid",
+                        borderColor: `${card.color}25`,
+                        boxShadow: `0 0 12px ${card.color}08`
                       }}
                     >
                       <Icon size={20} style={{ color: card.color }} strokeWidth={1.8} />
                     </div>
 
-                    <h3 className="text-body-normal font-extrabold text-white tracking-wide leading-snug">
+                    <h3 className="about-cap-card-title text-body-normal font-extrabold text-[#010101] dark:text-white tracking-wide leading-snug">
                       {card.title}
                     </h3>
                     <p className="mt-2.5 text-xs text-text-secondary leading-relaxed">
@@ -333,14 +335,14 @@ export function AboutWhyTexawave() {
               {/* Headline for journey on mobile, standard subtitle on desktop */}
               <div className="mb-8 lg:mb-10">
                 <p className="text-small-text lg:text-xs font-bold uppercase tracking-[0.18em] lg:tracking-[0.22em] text-signal mb-2">Our Process</p>
-                <h3 className="text-card lg:text-3xl font-extrabold text-[#EEEEEE] tracking-tight">The Product Journey</h3>
+                <h3 className="about-timeline-heading text-card lg:text-3xl font-extrabold text-[#010101] dark:text-[#EEEEEE] tracking-tight">The Product Journey</h3>
               </div>
 
               {/* Journey timeline container */}
               <div className="relative flex flex-col pl-4">
-                {/* Timeline connector track (dark gray base line) */}
+                {/* Timeline connector track (light gray base line) */}
                 <div 
-                  className="absolute left-[40px] lg:left-[48px] top-[24px] lg:top-[32px] bottom-[24px] lg:bottom-[32px] w-[2px] lg:w-[3px] bg-neutral-800 z-0 origin-top"
+                  className="about-timeline-base-line absolute left-[40px] lg:left-[48px] top-[24px] lg:top-[32px] bottom-[24px] lg:bottom-[32px] w-[2px] lg:w-[3px] bg-[#E5E7EB] dark:bg-neutral-800 z-0 origin-top"
                   aria-hidden="true"
                 />
                 
@@ -363,7 +365,7 @@ export function AboutWhyTexawave() {
                         {/* Node Circle */}
                         <div
                           ref={(el) => { nodeRefs.current[index] = el; }}
-                          className="flex h-12 w-12 lg:h-16 lg:w-16 shrink-0 items-center justify-center rounded-full border border-neutral-800 bg-bg-card text-neutral-500 z-10 relative transition-all duration-300 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]"
+                          className="about-stage-node flex h-12 w-12 lg:h-16 lg:w-16 shrink-0 items-center justify-center rounded-full border border-[#D1D5DB] dark:border-neutral-800 bg-white dark:bg-bg-card text-[#9CA3AF] dark:text-neutral-500 z-10 relative transition-all duration-300 shadow-sm dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)]"
                           style={{ willChange: "transform, border-color, background-color, box-shadow" }}
                         >
                           <Icon className="w-5 h-5 lg:w-6 lg:h-6" strokeWidth={1.8} />
@@ -374,10 +376,10 @@ export function AboutWhyTexawave() {
                           ref={(el) => { itemRefs.current[index] = el; }}
                           className="flex flex-col transition-all duration-300"
                         >
-                          <span className="text-sm md:text-base lg:text-lg font-bold text-neutral-500 tracking-wide transition-colors duration-300 stage-title">
+                          <span className="text-sm md:text-base lg:text-lg font-bold text-[#9CA3AF] dark:text-neutral-500 tracking-wide transition-colors duration-300 stage-title">
                             {stage.label}
                           </span>
-                          <span className="text-[11px] md:text-xs lg:text-sm text-neutral-600 mt-1 lg:mt-1.5 leading-normal lg:leading-relaxed max-w-xs md:max-w-sm lg:max-w-md transition-colors duration-300 stage-desc">
+                          <span className="text-[11px] md:text-xs lg:text-sm text-[#D1D5DB] dark:text-neutral-600 mt-1 lg:mt-1.5 leading-normal lg:leading-relaxed max-w-xs md:max-w-sm lg:max-w-md transition-colors duration-300 stage-desc">
                             {stage.desc}
                           </span>
                         </div>

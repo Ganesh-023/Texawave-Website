@@ -1,0 +1,74 @@
+[
+  {
+    "id": "team-1",
+    "name": "Arun Kumar",
+    "department": "Software Engineering",
+    "role": "Lead Full Stack Architect",
+    "description": "Specialized in scalable web applications, cloud systems, and enterprise software architecture.",
+    "skills": ["React", "NodeJS", "AWS", "IoT"],
+    "experience": "3+ Years",
+    "linkedinUrl": "https://linkedin.com/in/arunkumar-tech",
+    "profileImage": "",
+    "displayOrder": 1
+  },
+  {
+    "id": "team-2",
+    "name": "Marcus Chen",
+    "department": "Electrical Engineering",
+    "role": "Senior PCB Designer",
+    "description": "Expert in high-speed digital circuit design, signal integrity, and multi-layer board layouts.",
+    "skills": ["Altium", "PCB Design", "STM32", "High-Speed Design"],
+    "experience": "8+ Years",
+    "linkedinUrl": "https://linkedin.com/in/marcuschen-hw",
+    "profileImage": "",
+    "displayOrder": 2
+  },
+  {
+    "id": "team-3",
+    "name": "Elena Rostova",
+    "department": "Mechanical Engineering",
+    "role": "Structural & Thermal Engineer",
+    "description": "Focuses on CAD design, FEA structural simulation, and thermal analysis for rugged enclosures.",
+    "skills": ["SolidWorks", "FEA", "Ansys", "Enclosure Design"],
+    "experience": "6+ Years",
+    "linkedinUrl": "https://linkedin.com/in/elenarostova-mech",
+    "profileImage": "",
+    "displayOrder": 3
+  },
+  {
+    "id": "team-4",
+    "name": "Sarah Jenkins",
+    "department": "Product Design",
+    "role": "Chief UX/UI Designer",
+    "description": "Crafting premium user interfaces and interactive prototypes that bridge hardware and software.",
+    "skills": ["Figma", "Design Systems", "Prototyping", "WebGL"],
+    "experience": "5+ Years",
+    "linkedinUrl": "https://linkedin.com/in/sarahjenkins-design",
+    "profileImage": "",
+    "displayOrder": 4
+  },
+  {
+    "id": "team-5",
+    "name": "Rajeev Nair",
+    "department": "IoT Engineering",
+    "role": "Firmware & Connectivity Specialist",
+    "description": "Specializes in embedded C/C++, FreeRTOS, MQTT protocols, and low-energy wireless telemetry.",
+    "skills": ["ESP32", "RTOS", "MQTT", "BLE", "C++"],
+    "experience": "5+ Years",
+    "linkedinUrl": "https://linkedin.com/in/rajeevnair-iot",
+    "profileImage": "",
+    "displayOrder": 5
+  },
+  {
+    "id": "team-6",
+    "name": "David Vance",
+    "department": "Procurement",
+    "role": "Global Sourcing Lead",
+    "description": "Coordinates bill of materials component sourcing, factory DFM handoffs, and logistics.",
+    "skills": ["BOM Optimization", "Sourcing", "Logistics", "DFM Compliance"],
+    "experience": "4+ Years",
+    "linkedinUrl": "https://linkedin.com/in/davidvance-procure",
+    "profileImage": "",
+    "displayOrder": 6
+  }
+]

@@ -10,6 +10,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { createEaseReverseTimeline, bindPremiumHover } from "@/lib/gsap-utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Register ScrollTrigger and ScrollToPlugin
 if (typeof window !== "undefined") {
@@ -545,7 +546,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
 
   /* ── Themed Background classes ── */
   const headerBgCls = scrolled
-    ? "border-b border-[#005900]/20 bg-black/95 backdrop-blur-md shadow-premium"
+    ? "border-b border-[#005900]/20 dark:bg-black/95 bg-white/95 backdrop-blur-md shadow-premium"
     : "border-b border-transparent bg-transparent backdrop-blur-none";
 
   /* ─────────────────────────────── RENDER ──────────────────────────────── */
@@ -734,6 +735,9 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               </div>
             </Link>
 
+            {/* Theme Toggle */}
+            <ThemeToggle className="shrink-0" />
+
             {/* Hamburger (mobile) — 3-bar morph to X */}
             <button
               type="button"
@@ -777,7 +781,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[1150px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
+                className="w-[1150px] max-w-[95vw] rounded-[20px] border dark:border-white/10 border-[#E5E7EB] dark:bg-bg-primary bg-white shadow-[0_24px_50px_-12px_rgba(0,0,0,0.2),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
                 onMouseEnter={() => {
                   if (megaTimerRef.current) clearTimeout(megaTimerRef.current);
                   setMegaOpen(true);
@@ -788,8 +792,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <div className="grid grid-cols-12">
 
                   {/* Left Side: Category Navigation (vertical) */}
-                  <div className="col-span-4 border-r border-white/5 bg-[#0a0a0a] p-6 space-y-2">
-                    <p className="text-[11px] font-bold tracking-widest text-white/40 uppercase mb-4 px-4">
+                  <div className="mega-menu-left-panel col-span-4 border-r dark:border-white/5 border-[#E5E7EB] dark:bg-[#0a0a0a] bg-[#F8F9FB] p-6 space-y-2">
+                    <p className="mega-section-label text-[11px] font-bold tracking-widest dark:text-white/40 text-[#9CA3AF] uppercase mb-4 px-4">
                       Texawave Offers
                     </p>
                     {MEGA_SERVICES_DATA.map((cat) => {
@@ -801,14 +805,14 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           key={cat.id}
                           type="button"
                           className={[
-                            "flex items-center gap-3.5 w-full px-4 py-3.5 rounded-xl border-l-2 transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
+                            "mega-cat-btn flex items-center gap-3.5 w-full px-4 py-3.5 rounded-xl border-l-2 transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
                             isActiveCat
-                              ? "bg-[#8CC63F]/10 border-[#8CC63F] text-[#8CC63F] font-semibold"
-                              : "border-transparent text-white/70 hover:text-white hover:bg-white/5"
+                              ? "is-active-cat bg-[#8CC63F]/10 border-[#8CC63F] text-[#8CC63F] font-semibold"
+                              : "border-transparent dark:text-white/70 dark:hover:text-white dark:hover:bg-white/5"
                           ].join(" ")}
                           onMouseEnter={() => setActiveCategory(cat.id)}
                         >
-                          <CategoryIcon size={18} className={isActiveCat ? "text-[#8CC63F]" : "text-white/40"} />
+                          <CategoryIcon size={18} className={["mega-cat-icon", isActiveCat ? "text-[#8CC63F]" : "dark:text-white/40"].join(" ")} />
                           <span className="text-[14px]">{cat.label}</span>
                         </button>
                       );
@@ -816,7 +820,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   </div>
 
                   {/* Right Side: Dynamic Services Card Grid */}
-                  <div className="col-span-8 p-8 bg-[#040404]">
+                  <div className="mega-menu-right-panel col-span-8 p-8 dark:bg-[#040404] bg-white">
                     {/* Wrap the service grid in an motion.div to trigger staggered entry transitions on activeCategory changes */}
                     <motion.div
                       key={activeCategory}
@@ -844,10 +848,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           <Link
                             href={svc.href}
                             onClick={() => setMegaOpen(false)}
-                            className="group flex flex-col justify-between p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-[#8CC63F]/[0.02] hover:border-[#8CC63F]/30 transition-all duration-300 hover:shadow-[0_4px_20px_rgba(140,198,63,0.08)] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal h-full"
+                            className="mega-svc-card group flex flex-col justify-between p-4 rounded-xl border dark:border-white/5 dark:bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal h-full"
                           >
                             <div className="flex justify-between items-start gap-2">
-                              <span className="font-semibold text-[14px] text-white group-hover:text-[#8CC63F] transition-colors duration-200">
+                              <span className="mega-svc-title font-semibold text-[14px] dark:text-white transition-colors duration-200">
                                 {svc.name}
                               </span>
                               <ArrowUpRight
@@ -855,7 +859,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                 className="text-[#8CC63F] opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0"
                               />
                             </div>
-                            <p className="mt-1 text-[11.5px] leading-relaxed text-white/50 group-hover:text-white/70 transition-colors duration-200">
+                            <p className="mega-svc-desc mt-1 text-[11.5px] leading-relaxed dark:text-white/50 transition-colors duration-200">
                               {svc.desc}
                             </p>
                           </Link>
@@ -867,17 +871,17 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 </div>
 
                 {/* Bottom CTA Section */}
-                <div className="border-t border-white/5 px-8 py-5 flex flex-col sm:flex-row justify-between items-center bg-[#0a0a0a] gap-4">
+                <div className="mega-menu-cta-bar border-t dark:border-white/5 border-[#E5E7EB] px-8 py-5 flex flex-col sm:flex-row justify-between items-center dark:bg-[#0a0a0a] bg-[#F8F9FB] gap-4">
 
                   {/* Left Side: Checkmarks */}
-                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] text-white/60">
-                    <span className="flex items-center gap-2 font-medium">
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] dark:text-white/60">
+                    <span className="mega-check-item flex items-center gap-2 font-medium">
                       <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> End-to-End Product Development
                     </span>
-                    <span className="flex items-center gap-2 font-medium">
+                    <span className="mega-check-item flex items-center gap-2 font-medium">
                       <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Hardware + Software Expertise
                     </span>
-                    <span className="flex items-center gap-2 font-medium">
+                    <span className="mega-check-item flex items-center gap-2 font-medium">
                       <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Manufacturing Ready Solutions
                     </span>
                   </div>
@@ -907,7 +911,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-[800px] max-w-[95vw] rounded-[20px] border border-white/10 bg-bg-primary shadow-[0_24px_50px_-12px_rgba(0,0,0,0.9),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
+                className="w-[800px] max-w-[95vw] rounded-[20px] border dark:border-white/10 border-[#E5E7EB] dark:bg-bg-primary bg-white shadow-[0_24px_50px_-12px_rgba(0,0,0,0.15),0_0_40px_rgba(140,198,63,0.05)] overflow-hidden pointer-events-auto"
                 onMouseEnter={() => {
                   if (resourcesTimerRef.current) clearTimeout(resourcesTimerRef.current);
                   setResourcesOpen(true);
@@ -916,22 +920,22 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               >
                 <div className="grid grid-cols-12">
                   {/* Left Side: Header Info */}
-                  <div className="col-span-5 bg-[#0a0a0a] border-r border-white/5 p-8 flex flex-col justify-between">
+                  <div className="resources-left-panel col-span-5 dark:bg-[#0a0a0a] border-r dark:border-white/5 border-[#E5E7EB] p-8 flex flex-col justify-between">
                     <div>
                       <p className="text-[11px] font-bold tracking-widest text-[#8CC63F] uppercase mb-2">
                         Resources
                       </p>
-                      <h3 className="text-[20px] font-extrabold text-white tracking-tight leading-snug">
+                      <h3 className="text-[20px] font-extrabold dark:text-white tracking-tight leading-snug">
                         Texawave Insights
                       </h3>
-                      <p className="mt-4 text-[12.5px] leading-relaxed text-white/50">
+                      <p className="mt-4 text-[12.5px] leading-relaxed dark:text-white/50">
                         Explore Texawave&apos;s company information, career opportunities, technical insights, and customer success stories.
                       </p>
                     </div>
                     {/* Subtle branding or graphic */}
-                    <div className="mt-8 relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.01] p-4">
+                    <div className="resources-branding-box mt-8 relative overflow-hidden rounded-xl border dark:border-white/5 dark:bg-white/[0.01] p-4">
                       <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-[#8CC63F]/10 rounded-full blur-xl pointer-events-none" />
-                      <p className="text-[10px] font-bold tracking-wider text-white/40 uppercase">
+                      <p className="resources-eng-label text-[10px] font-bold tracking-wider dark:text-white/40 uppercase">
                         Engineering Center
                       </p>
                       <p className="mt-1 text-[11px] text-[#8CC63F] font-medium">
@@ -941,7 +945,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   </div>
 
                   {/* Right Side: Resources Menu Items Grid */}
-                  <div className="col-span-7 p-6 bg-[#040404] flex flex-col gap-2">
+                  <div className="resources-right-panel col-span-7 p-6 dark:bg-[#040404] flex flex-col gap-2">
                     {RESOURCES_ITEMS.map((item) => {
                       const Icon = item.icon;
                       const active = isActive(item.href);
@@ -952,25 +956,25 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           href={item.href}
                           onClick={() => setResourcesOpen(false)}
                           className={[
-                            "group flex items-start gap-4 rounded-xl p-3.5 transition-all duration-300 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
+                            "resources-item-link group flex items-start gap-4 rounded-xl p-3.5 transition-all duration-300 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal",
                             active
-                              ? "bg-[#8CC63F]/10 border-[#8CC63F]/20"
-                              : "bg-transparent border-transparent hover:bg-white/[0.03] hover:border-white/5 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
+                              ? "is-active-item dark:bg-[#8CC63F]/10 dark:border-[#8CC63F]/20"
+                              : "bg-transparent border-transparent dark:hover:bg-white/[0.03] dark:hover:border-white/5 hover:-translate-y-0.5"
                           ].join(" ")}
                         >
                           <span className={[
                             "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
                             active
                               ? "bg-[#8CC63F]/20 text-[#8CC63F]"
-                              : "bg-[#8CC63F]/10 text-white/70 group-hover:bg-[#8CC63F]/20 group-hover:text-[#8CC63F]"
+                              : "bg-[#8CC63F]/10 dark:text-white/70 text-[#8CC63F] group-hover:bg-[#8CC63F]/20 group-hover:text-[#8CC63F]"
                           ].join(" ")}>
                             <Icon size={16} aria-hidden="true" />
                           </span>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
                               <span className={[
-                                "text-[13.5px] font-bold transition-colors duration-200",
-                                active ? "text-[#8CC63F]" : "text-white group-hover:text-[#8CC63F]"
+                                "resources-item-title text-[13.5px] font-bold transition-colors duration-200",
+                                active ? "text-[#8CC63F]" : "dark:text-white group-hover:text-[#8CC63F]"
                               ].join(" ")}>
                                 {item.label}
                               </span>
@@ -984,7 +988,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                                 ].join(" ")}
                               />
                             </div>
-                            <p className="mt-1 text-[11.5px] leading-relaxed text-white/50 group-hover:text-white/70 transition-colors duration-200">
+                            <p className="resources-item-desc mt-1 text-[11.5px] leading-relaxed dark:text-white/50 transition-colors duration-200">
                               {item.desc}
                             </p>
                           </div>
@@ -1004,7 +1008,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
       <div
         id="mobile-menu"
         ref={mobileMenuRef}
-        className="fixed inset-0 z-40 flex-col bg-bg-primary lg:hidden"
+        className="fixed inset-0 z-40 flex-col dark:bg-bg-primary bg-white lg:hidden"
         style={{ display: "none", opacity: 0 }}
         role="dialog"
         aria-modal="true"
@@ -1012,7 +1016,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
         aria-hidden={!mobileOpen}
       >
         {/* Spacer that matches header height */}
-        <div className="h-[88px] flex-none border-b border-white/10" />
+        <div className="mobile-header-spacer h-[88px] flex-none border-b dark:border-white/10 border-[#E5E7EB]" />
 
         <div className="flex flex-1 flex-col overflow-y-auto px-5 pt-5 pb-16">
           <nav aria-label="Mobile navigation links">
@@ -1023,8 +1027,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   href="/"
                   onClick={closeMobile}
                   className={[
-                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                    isActive("/") ? "text-signal" : "text-white hover:text-signal",
+                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    isActive("/") ? "text-signal" : "dark:text-white hover:text-signal",
                   ].join(" ")}
                 >
                   Home
@@ -1038,8 +1042,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                    mobileMegaOpen ? "text-signal" : "text-white hover:text-signal",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    mobileMegaOpen ? "text-signal" : "dark:text-white hover:text-signal",
                   ].join(" ")}
                   onClick={() => setMobileMegaOpen((v) => !v)}
                   aria-expanded={mobileMegaOpen}
@@ -1070,14 +1074,14 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           <button
                             type="button"
                             className={[
-                              "flex w-full items-center justify-between px-4 py-3 text-[14px] font-semibold transition-colors duration-200 hover:bg-white/5",
-                              isCatOpen ? "text-[#8CC63F] bg-[#8CC63F]/5" : "text-white/80"
+                              "mobile-cat-btn flex w-full items-center justify-between px-4 py-3 text-[14px] font-semibold transition-colors duration-200",
+                              isCatOpen ? "text-[#8CC63F] bg-[#8CC63F]/5" : "dark:text-white/80"
                             ].join(" ")}
                             onClick={() => setMobileCategoryOpen(isCatOpen ? null : category.id)}
                             aria-expanded={isCatOpen}
                           >
                             <span className="flex items-center gap-2.5">
-                              <CategoryIcon size={16} className={isCatOpen ? "text-[#8CC63F]" : "text-white/60"} />
+                              <CategoryIcon size={16} className={isCatOpen ? "text-[#8CC63F]" : "dark:text-white/60"} />
                               {category.label}
                             </span>
                             <ChevronDown
@@ -1096,13 +1100,13 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                               isCatOpen ? "max-h-[500px] opacity-100 py-1" : "max-h-0 opacity-0",
                             ].join(" ")}
                           >
-                            <div className="space-y-0.5 border-l border-white/10 pl-3 py-1">
+                            <div className="space-y-0.5 border-l dark:border-white/10 border-[#E5E7EB] pl-3 py-1">
                               {category.services.map((svc) => (
                                 <Link
                                   key={svc.name}
                                   href={svc.href}
                                   onClick={closeMobile}
-                                  className="block py-2 text-[13px] text-white/70 hover:text-[#8CC63F] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
+                                  className="mobile-svc-link block py-2 text-[13px] dark:text-white/70 hover:text-[#8CC63F] transition-colors duration-200 focus-visible:outline-none focus-visible:underline"
                                 >
                                   {svc.name}
                                 </Link>
@@ -1131,8 +1135,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 <button
                   type="button"
                   className={[
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                    mobileResourcesOpen ? "text-signal" : "text-white hover:text-signal",
+                    "flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    mobileResourcesOpen ? "text-signal" : "dark:text-white hover:text-signal",
                   ].join(" ")}
                   onClick={() => setMobileResourcesOpen((v) => !v)}
                   aria-expanded={mobileResourcesOpen}
@@ -1161,16 +1165,16 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                           key={item.href}
                           href={item.href}
                           onClick={closeMobile}
-                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal"
                         >
                           <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-signal/15 text-signal">
                             <Icon size={14} aria-hidden="true" />
                           </span>
                           <div>
-                            <p className="text-[13.5px] font-semibold text-white">
+                            <p className="mobile-resources-item-title text-[13.5px] font-semibold dark:text-white">
                               {item.label}
                             </p>
-                            <p className="text-[11.5px]" style={{ color: "rgba(255, 255, 255, 0.75)" }}>{item.desc}</p>
+                            <p className="mobile-resources-item-desc text-[11.5px] dark:text-white/75">{item.desc}</p>
                           </div>
                         </Link>
                       );
@@ -1188,8 +1192,8 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                     href={item.href}
                     onClick={closeMobile}
                     className={[
-                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
-                      isActive(item.href) ? "text-signal font-bold" : "text-white hover:text-signal",
+                      "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                      isActive(item.href) ? "text-signal font-bold" : "dark:text-white hover:text-signal",
                     ].join(" ")}
                   >
                     {item.label}
@@ -1200,14 +1204,14 @@ export function Header({ delayEntrance = false }: HeaderProps) {
           </nav>
 
           {/* ── Divider ── */}
-          <div className="my-5 h-px w-full border-b border-white/10" />
+          <div className="mobile-divider my-5 h-px w-full border-b dark:border-white/10 border-[#E5E7EB]" />
 
           {/* ── CTA button (mobile) ── */}
           <div className="mobile-nav-item">
             <Link
               href="/contact"
               onClick={closeMobile}
-              className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(140,198,63,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(140,198,63,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-black uppercase"
+              className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(140,198,63,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(140,198,63,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary uppercase"
             >
               BOOK A MEETING
               <ArrowUpRight
@@ -1218,8 +1222,16 @@ export function Header({ delayEntrance = false }: HeaderProps) {
             </Link>
           </div>
 
+          {/* ── Theme Toggle (mobile) ── */}
+          <div className="mobile-appearance-row mobile-nav-item mt-3 flex items-center justify-between rounded-2xl border dark:border-white/10 border-[#E5E7EB] px-5 py-3">
+            <span className="mobile-appearance-label text-[13px] font-medium dark:text-white/60 uppercase tracking-wider">
+              Appearance
+            </span>
+            <ThemeToggle />
+          </div>
+
           {/* ── Brand tagline ── */}
-          <p className="mt-auto pt-8 text-center text-[10.5px] font-medium tracking-[0.2em] text-white/20 uppercase select-none">
+          <p className="mobile-tagline mt-auto pt-8 text-center text-[10.5px] font-medium tracking-[0.2em] dark:text-white/20 uppercase select-none">
             Texawave · Engineering Excellence
           </p>
         </div>

@@ -368,7 +368,7 @@ function EngineeringTile({
       href={`/${discipline.slug}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className="relative overflow-hidden cursor-pointer group block"
+      className="eng-tile relative overflow-hidden cursor-pointer group block"
       style={{
         background: isHovered
           ? "rgba(23, 26, 33, 0.95)"
@@ -440,13 +440,13 @@ function EngineeringTile({
           </div>
           <div>
             <p
-              className="text-[10px] font-bold uppercase tracking-widest transition-colors duration-300"
+              className="eng-tile-label text-[10px] font-bold uppercase tracking-widest transition-colors duration-300"
               style={{ color: isHovered ? "rgba(140,198,63,0.75)" : "rgba(140,198,63,0.5)" }}
             >
               {discipline.label}
             </p>
             <h3
-              className="font-black text-white leading-tight transition-colors duration-300"
+              className="eng-tile-title font-black text-white dark:text-white leading-tight transition-colors duration-300"
               style={{
                 fontFamily: "var(--font-sora), Sora, sans-serif",
                 fontSize: "clamp(17px, 1.2vw + 9px, 21px)",
@@ -460,7 +460,7 @@ function EngineeringTile({
 
         {/* Description */}
         <p
-          className="text-[15px] leading-relaxed mb-4 transition-colors duration-300"
+          className="eng-tile-desc text-[15px] leading-relaxed mb-4 transition-colors duration-300"
           style={{ color: isHovered ? "rgba(225,225,225,0.95)" : "rgba(180,180,180,0.85)" }}
         >
           {discipline.shortDesc}
@@ -477,7 +477,7 @@ function EngineeringTile({
           {discipline.capabilities.map((cap, i) => (
             <li
               key={i}
-              className="flex items-start gap-2.5 text-[14px] font-medium transition-colors duration-300"
+              className="eng-tile-cap-item flex items-start gap-2.5 text-[14px] font-medium transition-colors duration-300"
               style={{ color: isHovered ? "rgba(225,225,225,0.95)" : "rgba(180,180,180,0.8)" }}
             >
               <CheckCircle2
@@ -526,7 +526,7 @@ function MobileTile({ discipline, index }: { discipline: (typeof DISCIPLINES)[0]
 
   return (
     <div
-      className="rounded-sm overflow-hidden"
+      className={["eng-mobile-tile rounded-sm overflow-hidden", open ? "is-open" : ""].join(" ")}
       style={{
         background: open ? "rgba(23, 26, 33, 0.95)" : "rgba(23, 26, 33, 0.85)",
         border: `1px solid ${open ? "rgba(140,198,63,0.4)" : "rgba(140,198,63,0.12)"}`,
@@ -554,7 +554,7 @@ function MobileTile({ discipline, index }: { discipline: (typeof DISCIPLINES)[0]
           <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>
             0{index + 1}
           </p>
-          <h3 className="font-black text-white text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}>
+          <h3 className="eng-mobile-tile-title font-black text-[#010101] dark:text-white text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}>
             {discipline.title}
           </h3>
         </div>
@@ -570,10 +570,10 @@ function MobileTile({ discipline, index }: { discipline: (typeof DISCIPLINES)[0]
       <div ref={bodyRef} style={{ height: 0, overflow: "hidden", opacity: 0 }}>
         <div className="px-5 pb-5">
           <div className="h-px mb-4" style={{ background: "rgba(140,198,63,0.12)" }} />
-          <p className="text-neutral-300 text-[15px] leading-relaxed mb-4">{discipline.shortDesc}</p>
+          <p className="eng-mobile-tile-desc text-[#374151] dark:text-neutral-300 text-[15px] leading-relaxed mb-4">{discipline.shortDesc}</p>
           <ul className="space-y-2.5 mb-5">
             {discipline.capabilities.map((cap, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-[14px] text-neutral-200 font-medium">
+              <li key={i} className="eng-mobile-tile-cap-item flex items-start gap-2.5 text-[14px] text-[#374151] dark:text-neutral-200 font-medium">
                 <CheckCircle2 size={16} className="shrink-0 mt-[3px]" style={{ color: "#8CC63F" }} />
                 {cap}
               </li>
@@ -695,7 +695,7 @@ export function EngineeringExcellence() {
             Engineering Services
           </span>
           <h2
-            className="font-black text-white leading-tight"
+            className="font-black text-[#010101] dark:text-white leading-tight"
             style={{
               fontFamily: "var(--font-sora), Sora, sans-serif",
               fontSize: "clamp(2rem, 3.2vw + 0.8rem, 3.2rem)",
@@ -706,7 +706,7 @@ export function EngineeringExcellence() {
             <span style={{ color: "#8CC63F" }}>Product Engineering Partner</span>
           </h2>
           <p
-            className="mt-5 mx-auto max-w-2xl text-neutral-400 leading-relaxed"
+            className="mt-5 mx-auto max-w-2xl text-[#4B5563] dark:text-neutral-400 leading-relaxed"
             style={{ fontSize: "clamp(14px, 1.1vw + 9px, 17px)" }}
           >
             From concept to production, Texawave delivers product engineering, software & AI development, procurement, and manufacturing support — one partner, zero gaps.
@@ -757,7 +757,7 @@ export function EngineeringExcellence() {
               <Link
                 key={d.id}
                 href={`/${d.slug}`}
-                className="relative rounded-sm overflow-hidden p-6 cursor-pointer group block"
+                className="eng-tile relative rounded-sm overflow-hidden p-6 cursor-pointer group block"
                 style={{
                   background: "rgba(23, 26, 33, 0.85)",
                   border: "1px solid rgba(140,198,63,0.12)",
@@ -790,14 +790,14 @@ export function EngineeringExcellence() {
                     <Icon size={20} />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>0{i + 1}</p>
-                    <h3 className="font-black text-white text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}>{d.title}</h3>
+                    <p className="eng-tile-label text-[11px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>0{i + 1}</p>
+                    <h3 className="eng-tile-title font-black text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif", color: "rgba(255,255,255,0.9)" }}>{d.title}</h3>
                   </div>
                 </div>
-                <p className="text-neutral-300 text-[15px] leading-relaxed mb-3">{d.shortDesc}</p>
+                <p className="eng-tile-desc text-[15px] leading-relaxed mb-3" style={{ color: "rgba(180,180,180,0.85)" }}>{d.shortDesc}</p>
                 <ul className="space-y-2 mb-4">
                   {d.capabilities.map((cap, ci) => (
-                    <li key={ci} className="flex items-start gap-2.5 text-[14px] text-neutral-200">
+                    <li key={ci} className="eng-tile-cap-item flex items-start gap-2.5 text-[14px]" style={{ color: "rgba(180,180,180,0.8)" }}>
                       <CheckCircle2 size={16} className="shrink-0 mt-[3px]" style={{ color: "#8CC63F" }} />
                       {cap}
                     </li>

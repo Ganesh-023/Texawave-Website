@@ -167,7 +167,7 @@ export function ServiceSubPage({ sub }: { sub: SubService }) {
               className="mt-3 text-section text-text-primary"
               style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}
             >
-              What we do in {sub.title.toLowerCase()}
+              What we do in {sub.title.toString()}
             </h2>
           </div>
 
@@ -213,7 +213,7 @@ export function ServiceSubPage({ sub }: { sub: SubService }) {
             className="text-section text-text-primary"
             style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}
           >
-            Ready to shape your next {sub.title.toLowerCase()} project?
+            Ready to shape your next {sub.title.toString()} project?
           </h2>
           <p className="mt-4 max-w-xl text-body-large text-text-secondary">
             Bring us your technical specifications or rough concepts. Our engineers will respond within 24 hours.

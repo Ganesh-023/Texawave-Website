@@ -581,11 +581,11 @@ function IndustryCard({
       ref={cardRef}
       className="ind-card group relative rounded-2xl border cursor-pointer overflow-hidden"
       style={{
-        background: "rgba(255,255,255,0.025)",
+        background: "var(--bg-card, #FFFFFF)",
         backdropFilter: "blur(16px) saturate(140%)",
         WebkitBackdropFilter: "blur(16px) saturate(140%)",
         borderColor: `${industry.accent}20`,
-        boxShadow: "0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
         willChange: "transform, opacity",
       }}
       onMouseEnter={handleEnter}
@@ -646,7 +646,7 @@ function IndustryCard({
 
         {/* Title */}
         <h3
-          className="text-base font-bold text-white leading-snug mb-3"
+          className="text-base font-bold text-[#010101] dark:text-white leading-snug mb-3"
           style={{ letterSpacing: "-0.01em" }}
         >
           {industry.title}
@@ -656,7 +656,7 @@ function IndustryCard({
         <p
           ref={descRef}
           className="text-sm leading-relaxed"
-          style={{ color: "rgba(255,255,255,0.7)" }}
+          style={{ color: "var(--text-secondary, #4B5563)" }}
         >
           {industry.description}
         </p>
@@ -797,27 +797,27 @@ export function IndustriesSection() {
       id="industries"
       aria-labelledby="industries-heading"
       className="relative overflow-hidden"
-      style={{ background: "#000000" }}
+      style={{ background: "var(--bg-primary, #F8F9FB)" }}
       onMouseMove={handleMouseMove}
     >
       {/* Animated grid background */}
       <div
-        className="ind-bg-grid pointer-events-none absolute inset-0 opacity-[0.035]"
+        className="ind-bg-grid pointer-events-none absolute inset-0 dark:opacity-[0.035] opacity-[0.06]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(140,198,63,0.6) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(140,198,63,0.6) 1px, transparent 1px)
+            linear-gradient(rgba(140,198,63,0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(140,198,63,0.4) 1px, transparent 1px)
           `,
           backgroundSize: "48px 48px",
         }}
         aria-hidden="true"
       />
 
-      {/* Canvas â€“ theme morphing animations */}
+      {/* Canvas – theme morphing animations */}
       <canvas
         ref={canvasRef}
-        className="pointer-events-none absolute inset-0 w-full h-full opacity-40"
-        style={{ mixBlendMode: "screen" }}
+        className="pointer-events-none absolute inset-0 w-full h-full dark:opacity-40 opacity-15"
+        style={{ mixBlendMode: "multiply" }}
         aria-hidden="true"
       />
 
@@ -861,7 +861,7 @@ export function IndustriesSection() {
 
           <h2
             id="industries-heading"
-            className="overflow-hidden text-section text-white font-black tracking-tight"
+            className="overflow-hidden text-section text-[#010101] dark:text-white font-black tracking-tight"
           >
             <span className="block overflow-hidden">
               {["Next", "- Gen"].map((w, i) => (
@@ -894,7 +894,7 @@ export function IndustriesSection() {
 
           <p
             className="ind-sub mx-auto mt-6 max-w-2xl text-body-large"
-            style={{ color: "rgba(255,255,255,0.48)" }}
+            style={{ color: "var(--text-secondary, #4B5563)" }}
           >
             Transforming complex physical and digital ideas into scalable, market-ready realities across multiple domains.
           </p>
@@ -920,11 +920,11 @@ export function IndustriesSection() {
           <div
             className="relative overflow-hidden rounded-3xl border p-10 md:p-16"
             style={{
-              background: "rgba(255,255,255,0.025)",
+              background: "var(--bg-card, rgba(255,255,255,0.7))",
               backdropFilter: "blur(24px) saturate(160%)",
               WebkitBackdropFilter: "blur(24px) saturate(160%)",
-              borderColor: "rgba(140,198,63,0.15)",
-              boxShadow: "0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)",
+              borderColor: "rgba(140,198,63,0.25)",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)",
             }}
           >
             {/* Top gradient line */}
@@ -945,14 +945,14 @@ export function IndustriesSection() {
                 Custom Engineering
               </span>
 
-              <h3 className="text-section font-black tracking-tight text-white leading-tight">
+              <h3 className="text-section font-black tracking-tight text-[#010101] dark:text-white leading-tight">
                 Let's Build Your Next <br />
                 <span style={{ background: "linear-gradient(90deg, #8CC63F, #00D9FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                   Custom Solutions
                 </span>
               </h3>
 
-              <p className="mt-5 max-w-2xl text-body-large leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+              <p className="mt-5 max-w-2xl text-body-large leading-relaxed" style={{ color: "var(--text-secondary, #4B5563)" }}>
                 Partner with Texawave to turn industry challenges into market-ready products,
                 leading with robust software and cloud platforms backed by embedded systems and electronics.
               </p>
@@ -967,7 +967,7 @@ export function IndustriesSection() {
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] backdrop-blur-sm px-8 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F]/50 hover:bg-white/[0.07] hover:text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] dark:border-white/15 bg-white dark:bg-white/[0.04] backdrop-blur-sm px-8 py-4 font-bold text-[#374151] dark:text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F]/50 hover:text-[#010101] dark:hover:text-white"
                 >
                   Explore Services
                 </Link>

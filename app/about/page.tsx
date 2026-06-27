@@ -19,7 +19,8 @@ import {
   CheckCircle2,
   Workflow,
   Sparkles,
-  Layers
+  Layers,
+  Linkedin
 } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
 
@@ -347,7 +348,7 @@ function GlassCard({ children, className = "", hasTilt = false }: GlassCardProps
         willChange: "transform",
         backfaceVisibility: "hidden"
       }}
-      className={`relative overflow-hidden rounded-2xl border border-neutral-800 bg-[#060606]/40 p-8 backdrop-blur-xl transition-all duration-500 hover:border-[#8CC63F]/80 hover:shadow-[0_0_40px_rgba(140,198,63,0.12)] ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-[#E5E7EB] dark:border-neutral-800 bg-white/80 dark:bg-[#060606]/40 p-8 backdrop-blur-xl transition-all duration-500 hover:border-[#8CC63F]/80 hover:shadow-[0_0_40px_rgba(140,198,63,0.12)] shadow-sm dark:shadow-none ${className}`}
     >
       {children}
     </div>
@@ -413,6 +414,256 @@ function StatCounter({ target, suffix = "", prefix = "", duration = 1.5 }: StatC
   return <span ref={elementRef}>{prefix}{formattedVal}{suffix}</span>;
 }
 
+interface TeamMember {
+  id: string;
+  name: string;
+  department: string;
+  role: string;
+  description: string;
+  skills: string[];
+  experience: string;
+  linkedinUrl: string;
+  profileImage: string;
+  displayOrder: number;
+}
+
+const DEPT_MAP: Record<string, { icon: string; label: string }> = {
+  "Software Engineering": { icon: "💻", label: "Software" },
+  "Electrical Engineering": { icon: "⚡", label: "Electrical" },
+  "Mechanical Engineering": { icon: "⚙️", label: "Mechanical" },
+  "Procurement": { icon: "📦", label: "Procurement" },
+  "IoT Engineering": { icon: "📡", label: "IoT" },
+  "Product Design": { icon: "🎨", label: "Design" }
+};
+
+function TeamCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = canvas.parentElement?.clientWidth || 800);
+    let height = (canvas.height = canvas.parentElement?.clientHeight || 600);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.parentElement?.clientWidth || 800;
+      height = canvas.height = canvas.parentElement?.clientHeight || 600;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      opacity: number;
+    }> = [];
+
+    const particleCount = 20;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        radius: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.35 + 0.1,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Cyber green dots grid
+      ctx.fillStyle = "rgba(0, 89, 0, 0.03)";
+      const gridSize = 40;
+      for (let x = 0; x < width; x += gridSize) {
+        for (let y = 0; y < height; y += gridSize) {
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.fillStyle = `rgba(140, 198, 63, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-40 pointer-events-none" />;
+}
+
+function TeamMemberCard({ member }: { member: TeamMember }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setCoords({ x, y });
+
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    const angleX = (yc - y) / 14;
+    const angleY = (x - xc) / 14;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.01, 1.01, 1.01)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    setIsHovered(false);
+  };
+
+  const initials = member.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  const deptInfo = DEPT_MAP[member.department] || { icon: "⚙️", label: "Engineering" };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transformStyle: "preserve-3d",
+        transform: "translateZ(0)",
+        willChange: "transform",
+        backfaceVisibility: "hidden"
+      }}
+      className="relative overflow-hidden rounded-2xl border border-[#E5E7EB] dark:border-neutral-900 bg-white dark:bg-neutral-950 p-5 transition-all duration-500 hover:border-[#8CC63F]/40 group shadow-sm dark:shadow-lg"
+    >
+      {isHovered && (
+        <div
+          className="pointer-events-none absolute -inset-px rounded-2xl opacity-100 transition-opacity duration-300 z-10"
+          style={{
+            background: `radial-gradient(180px circle at ${coords.x}px ${coords.y}px, rgba(140, 198, 63, 0.12), transparent 80%)`
+          }}
+        />
+      )}
+
+      <div className="absolute top-0 right-0 w-24 h-24 bg-[#005900]/10 rounded-bl-full blur-xl group-hover:bg-[#005900]/20 transition-all duration-500" />
+
+      <div className="relative">
+        {member.profileImage ? (
+          <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden border border-neutral-900">
+            <img
+              src={member.profileImage}
+              alt={member.name}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 transform translate-z-0 will-change-transform"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+            <div className="absolute bottom-2 left-3 right-3 flex justify-between items-center text-[8px] font-mono text-neutral-400">
+              <span>SYS // NOMINAL</span>
+              <span>EXP // {member.experience}</span>
+            </div>
+          </div>
+        ) : (
+          <div className="relative w-full aspect-[4/5] rounded-xl bg-gradient-to-br from-[#060A08] via-[#0D1612] to-[#040605] border border-neutral-900 flex flex-col justify-between p-4 overflow-hidden group-hover:border-[#8CC63F]/20 transition-colors duration-500">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(140,198,63,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(140,198,63,0.02)_1px,transparent_1px)] bg-[size:10px_10px]" />
+            <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(0,89,0,0.05)_0%,transparent_50%)] animate-pulse" />
+
+            <div className="relative font-mono text-[8px] text-neutral-600 tracking-wider flex justify-between select-none">
+              <span>SYSTEM // ENG_DIR</span>
+              <span>{member.id}</span>
+            </div>
+
+            <div className="relative text-center self-center flex items-center justify-center">
+              <span className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-[#8CC63F] drop-shadow-[0_0_12px_rgba(140,198,63,0.25)] tracking-tighter">
+                {initials}
+              </span>
+            </div>
+
+            <div className="relative font-mono text-[8px] text-neutral-600 tracking-widest uppercase flex justify-between select-none">
+              <span>DEP // {deptInfo.label}</span>
+              <span>EXP // {member.experience}</span>
+            </div>
+          </div>
+        )}
+
+        <div className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 text-[8px] font-mono font-bold uppercase tracking-wider rounded bg-black/75 text-[#8CC63F] border border-[#8CC63F]/30 backdrop-blur-md">
+          {member.experience}
+        </div>
+      </div>
+
+      <div className="mt-4 text-left">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="font-display font-bold text-base text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-colors duration-300 truncate">
+            {member.name}
+          </h3>
+          {member.linkedinUrl && (
+            <a
+              href={member.linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#9CA3AF] dark:text-neutral-500 hover:text-[#8CC63F] dark:hover:text-white transition-colors duration-300 relative z-20"
+              title={`${member.name} LinkedIn Profile`}
+            >
+              <Linkedin size={14} />
+            </a>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1.5 mt-1 text-[10px] font-mono text-neutral-500 select-none">
+          <span>{deptInfo.icon}</span>
+          <span className="truncate">{member.department}</span>
+        </div>
+
+        <div className="text-xs font-semibold text-[#8CC63F]/90 mt-1">
+          {member.role}
+        </div>
+
+        <p className="text-[11px] text-[#4B5563] dark:text-neutral-400 mt-2.5 leading-relaxed line-clamp-3">
+          {member.description}
+        </p>
+
+        <div className="flex flex-wrap gap-1 mt-4">
+          {member.skills.slice(0, 4).map((skill, idx) => (
+            <span
+              key={idx}
+              className="px-2 py-0.5 text-[9px] font-mono rounded bg-[#005900]/15 text-[#8CC63F] border border-[#005900]/30 transition-all duration-300 hover:bg-[#8CC63F]/10"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ==========================================
 // 4. MAIN ABOUT PAGE
 // ==========================================
@@ -420,6 +671,40 @@ export default function AboutPage() {
   const [hoveredOrbitIdx, setHoveredOrbitIdx] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const ctaButtonRef = useRef<HTMLAnchorElement>(null);
+
+  // Team Section States
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState("ALL");
+  const [teamLoading, setTeamLoading] = useState(true);
+
+  // Fetch Team Members
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const res = await fetch("/api/team");
+        const data = await res.json();
+        if (data.success) {
+          setTeamMembers(data.team);
+        }
+      } catch (err) {
+        console.error("Failed to load team data:", err);
+      } finally {
+        setTeamLoading(false);
+      }
+    };
+    fetchTeam();
+  }, []);
+
+  const filteredMembers = teamMembers.filter((member) => {
+    if (selectedFilter === "ALL") return true;
+    if (selectedFilter === "SOFTWARE") return member.department === "Software Engineering";
+    if (selectedFilter === "ELECTRICAL") return member.department === "Electrical Engineering";
+    if (selectedFilter === "MECHANICAL") return member.department === "Mechanical Engineering";
+    if (selectedFilter === "PROCUREMENT") return member.department === "Procurement";
+    if (selectedFilter === "IoT") return member.department === "IoT Engineering";
+    if (selectedFilter === "DESIGN") return member.department === "Product Design";
+    return true;
+  });
 
   // GSAP Entrance Animations
   useGSAP(() => {
@@ -599,14 +884,14 @@ export default function AboutPage() {
       <div
         ref={containerRef}
         style={{ contentVisibility: "auto" }}
-        className="bg-[#0F1115] text-[#EEEEEE] font-sans antialiased overflow-hidden min-h-screen relative z-10"
+        className="bg-[#F8F9FB] dark:bg-[#0F1115] text-[#010101] dark:text-[#EEEEEE] font-sans antialiased overflow-hidden min-h-screen relative z-10"
       >
         {/* Subtle Cyber Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.025)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
         {/* Dynamic Glow Orbs matching homepage */}
-        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#8CC63F]/12 blur-[130px] pointer-events-none animate-pulse" />
-        <div className="absolute bottom-[30%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#14B8A6]/4 blur-[150px] pointer-events-none" />
+        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#8CC63F]/8 dark:bg-[#8CC63F]/12 blur-[130px] pointer-events-none animate-pulse" />
+        <div className="absolute bottom-[30%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#14B8A6]/3 dark:bg-[#14B8A6]/4 blur-[150px] pointer-events-none" />
 
         {/* ==========================================
             SECTION 1 — HERO INTRODUCTION
@@ -616,17 +901,17 @@ export default function AboutPage() {
             <span className="reveal-hero-text text-[12px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-4">
               About Texawave
             </span>
-            <h1 className="reveal-hero-text font-display font-bold text-hero leading-[1.05] tracking-tight text-white mb-6">
+            <h1 className="reveal-hero-text font-display font-bold text-hero leading-[1.05] tracking-tight text-[#010101] dark:text-white mb-6">
               Shaping the Future <br />
-              Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#EEEEEE] to-[#8CC63F]">Engineering</span> <br />
+              Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#010101] dark:from-white via-[#8CC63F] to-[#14B8A6]">Engineering</span> <br />
               Excellence
             </h1>
-            <p className="reveal-hero-text text-body-large text-[#CCCCCC] leading-relaxed max-w-xl">
+            <p className="reveal-hero-text text-body-large text-[#4B5563] dark:text-[#CCCCCC] leading-relaxed max-w-xl">
               Welcome to Texawave. We are a team of visionary builders, problem solvers, and technologists dedicated to transforming complex challenges into seamless digital realities. By combining deep technical mastery with a passion for innovation, we empower businesses to navigate the evolving digital landscape and scale efficiently.
             </p>
           </div>
 
-          <div className="lg:col-span-6 relative w-full h-[350px] sm:h-[450px] lg:h-[550px] flex items-center justify-center border border-neutral-900 rounded-3xl bg-neutral-950/20 backdrop-blur-sm overflow-hidden group shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
+          <div className="lg:col-span-6 relative w-full h-[350px] sm:h-[450px] lg:h-[550px] flex items-center justify-center border border-[#E5E7EB] dark:border-neutral-900 rounded-3xl bg-white/60 dark:bg-neutral-950/20 backdrop-blur-sm overflow-hidden group shadow-md dark:shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
             {/* Absolute overlay visual details */}
             <div className="absolute top-4 left-4 font-mono text-[9px] text-neutral-600 tracking-wider uppercase select-none">
               Texawave Engine // Vis_Active
@@ -642,10 +927,10 @@ export default function AboutPage() {
         {/* ==========================================
             SECTION 2 — MISSION & VISION
             ========================================== */}
-        <section className="mission-section py-24 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-neutral-900/50">
+        <section className="mission-section py-24 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-[#E5E7EB] dark:border-neutral-900/50">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-display font-bold text-section text-white mb-4">Core Principles</h2>
-            <p className="text-[#AAAAAA]">The principles that drive our engineering decisions and project lifecycle support.</p>
+            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Core Principles</h2>
+            <p className="text-[#4B5563] dark:text-[#AAAAAA]">The principles that drive our engineering decisions and project lifecycle support.</p>
           </div>
 
           <div className="reveal-mission-cards grid md:grid-cols-2 gap-8 lg:gap-12">
@@ -653,15 +938,15 @@ export default function AboutPage() {
             <GlassCard hasTilt={true} className="flex flex-col h-full justify-between group">
               <div className="absolute top-0 right-0 w-24 h-24 bg-[#1E3A0E]/15 rounded-bl-full blur-xl group-hover:bg-[#8CC63F]/10 transition-all duration-500" />
               <div>
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-neutral-900 border border-neutral-800 text-white mb-8 group-hover:border-[#8CC63F] group-hover:text-[#8CC63F] transition-colors duration-500 shadow-md">
+                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-[#F1F5F9] dark:bg-neutral-900 border border-[#E5E7EB] dark:border-neutral-800 text-[#374151] dark:text-white mb-8 group-hover:border-[#8CC63F] group-hover:text-[#8CC63F] transition-colors duration-500 shadow-md">
                   <Rocket size={24} className="group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform duration-300" />
                 </div>
-                <h3 className="font-display font-bold text-card text-white mb-4">Our Mission</h3>
-                <p className="text-[#EEEEEE] text-[15px] leading-relaxed">
+                <h3 className="font-display font-bold text-card text-[#010101] dark:text-white mb-4">Our Mission</h3>
+                <p className="text-[#4B5563] dark:text-[#EEEEEE] text-[15px] leading-relaxed">
                   To engineer high-performance, scalable technology solutions that drive measurable business impact. We build software and systems that don&apos;t just solve today&apos;s problems but unlock tomorrow&apos;s opportunities.
                 </p>
               </div>
-              <div className="mt-8 border-t border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
+              <div className="mt-8 border-t border-[#E5E7EB] dark:border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-[#9CA3AF] dark:text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
                 <span>[ACTIVATE MISSION ENGINE]</span>
               </div>
             </GlassCard>
@@ -688,15 +973,15 @@ export default function AboutPage() {
               
               <div className="absolute top-0 right-0 w-24 h-24 bg-[#1E3A0E]/15 rounded-bl-full blur-xl group-hover:bg-[#8CC63F]/10 transition-all duration-500" />
               <div>
-                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-neutral-900 border border-neutral-800 text-white mb-8 group-hover:border-[#8CC63F] group-hover:text-[#8CC63F] transition-colors duration-500 shadow-md">
+                <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-[#F1F5F9] dark:bg-neutral-900 border border-[#E5E7EB] dark:border-neutral-800 text-[#374151] dark:text-white mb-8 group-hover:border-[#8CC63F] group-hover:text-[#8CC63F] transition-colors duration-500 shadow-md">
                   <Globe size={24} className="group-hover:rotate-12 transition-transform duration-300" />
                 </div>
-                <h3 className="font-display font-bold text-card text-white mb-4">Our Vision</h3>
-                <p className="text-[#EEEEEE] text-[15px] leading-relaxed">
+                <h3 className="font-display font-bold text-card text-[#010101] dark:text-white mb-4">Our Vision</h3>
+                <p className="text-[#4B5563] dark:text-[#EEEEEE] text-[15px] leading-relaxed">
                   To be the global benchmark for technical innovation and a trusted partner for enterprises looking to redefine their industries through cutting-edge engineering.
                 </p>
               </div>
-              <div className="mt-8 border-t border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
+              <div className="mt-8 border-t border-[#E5E7EB] dark:border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-[#9CA3AF] dark:text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
                 <span>[GLOBAL BLUEPRINT VISUAL]</span>
               </div>
             </GlassCard>
@@ -706,11 +991,11 @@ export default function AboutPage() {
         {/* ==========================================
             SECTION 3 — ENGINEERING EXPERTISE
             ========================================== */}
-        <section className="py-28 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-neutral-900/50">
+        <section className="py-28 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-[#E5E7EB] dark:border-neutral-900/50">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-3">Ecosystem</span>
-            <h2 className="font-display font-bold text-section text-white mb-4">Engineering Expertise</h2>
-            <p className="text-[#AAAAAA]">A multi-disciplinary stack designed to build, scale, and secure complex hardware and software systems.</p>
+            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Engineering Expertise</h2>
+            <p className="text-[#4B5563] dark:text-[#AAAAAA]">A multi-disciplinary stack designed to build, scale, and secure complex hardware and software systems.</p>
           </div>
 
           {/* Desktop Orbit Component */}
@@ -869,6 +1154,118 @@ export default function AboutPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* ==========================================
+            SECTION: STATS & MEET OUR TEAM
+            ========================================== */}
+        {/* Statistics Row Section */}
+        <section className="relative bg-[#000000] py-16 border-t border-b border-neutral-900 z-20">
+          <div className="max-w-[1400px] mx-auto px-[clamp(1rem,4vw,4rem)]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+              {[
+                { label: "Engineers", val: 45, suffix: "+" },
+                { label: "Projects Completed", val: 120, suffix: "+" },
+                { label: "Years Experience", val: 15, suffix: "+" },
+                { label: "Countries Served", val: 20, suffix: "+" }
+              ].map((stat, i) => (
+                <div key={i} className="text-center group border-r border-neutral-900 last:border-r-0 md:pr-4">
+                  <span className="block text-[32px] md:text-[40px] font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#8CC63F] to-emerald-500 drop-shadow-[0_0_15px_rgba(140,198,63,0.15)]">
+                    <StatCounter target={stat.val} suffix={stat.suffix} />
+                  </span>
+                  <span className="block text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-[#AAAAAA] mt-2 group-hover:text-white transition-colors duration-300">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Our Team Section */}
+        <section id="our-team" className="relative bg-[#000000] py-28 px-[clamp(1rem,4vw,4rem)] border-b border-neutral-900 z-20 overflow-hidden">
+          {/* Cyber Canvas Background specifically for Team section */}
+          <TeamCanvas />
+          
+          {/* Subtle Glows */}
+          <div className="absolute top-[10%] left-[-10%] w-[300px] h-[300px] rounded-full bg-[#005900]/10 blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-[10%] right-[-10%] w-[300px] h-[300px] rounded-full bg-[#8CC63F]/5 blur-[90px] pointer-events-none" />
+
+          <div className="max-w-[1400px] mx-auto relative z-10">
+            {/* Section Header */}
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[#8CC63F] inline-block mb-3">
+                THE PEOPLE BEHIND TEXAWAVE
+              </span>
+              <h2 className="font-display font-bold text-section text-white mb-4">
+                Meet Our Engineering Team
+              </h2>
+              <p className="text-[#AAAAAA] text-sm md:text-base leading-relaxed">
+                Our multidisciplinary engineers, designers, and innovators collaborate to transform ideas into world-class products and digital experiences.
+              </p>
+            </div>
+
+            {/* Department Filter Tabs */}
+            <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
+              {["ALL", "SOFTWARE", "ELECTRICAL", "MECHANICAL", "PROCUREMENT", "IoT", "DESIGN"].map((filter) => {
+                const labelMap: Record<string, string> = {
+                  ALL: "All Divisions",
+                  SOFTWARE: "Software",
+                  ELECTRICAL: "Electrical",
+                  MECHANICAL: "Mechanical",
+                  PROCUREMENT: "Procurement",
+                  IoT: "IoT",
+                  DESIGN: "Design"
+                };
+                const isActive = selectedFilter === filter;
+                return (
+                  <button
+                    key={filter}
+                    onClick={() => setSelectedFilter(filter)}
+                    className={`px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg border transition-all duration-300 ${
+                      isActive
+                        ? "bg-[#005900]/30 border-[#8CC63F] text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.15)]"
+                        : "bg-transparent border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700"
+                    }`}
+                  >
+                    {labelMap[filter]}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Team Grid */}
+            {teamLoading ? (
+              <div className="py-20 flex flex-col items-center justify-center text-[#AAAAAA]">
+                <div className="h-8 w-8 border-2 border-[#8CC63F] border-t-transparent rounded-full animate-spin mb-4" />
+                <p className="text-xs font-bold uppercase tracking-wider font-mono">Assembling crew dashboard...</p>
+              </div>
+            ) : filteredMembers.length === 0 ? (
+              <div className="py-16 text-center border border-dashed border-neutral-800 rounded-2xl bg-neutral-950/20">
+                <p className="text-xs font-mono text-neutral-500">No team members active in this division.</p>
+              </div>
+            ) : (
+              <motion.div
+                layout
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              >
+                <AnimatePresence mode="popLayout">
+                  {filteredMembers.map((member) => (
+                    <motion.div
+                      layout
+                      key={member.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <TeamMemberCard member={member} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            )}
           </div>
         </section>
 

@@ -17,6 +17,7 @@ const sora = Sora({
 });
 
 import { AnimationProvider } from "@/components/AnimationProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -62,9 +63,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark dark-theme" data-theme="dark">
+    // Start with no dark class — ThemeProvider will apply "light" or "dark"
+    // on the client after reading localStorage (default: light).
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${sora.variable} font-sans antialiased`}>
-        <AnimationProvider>{children}</AnimationProvider>
+        <ThemeProvider>
+          <AnimationProvider>{children}</AnimationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
@@ -165,7 +165,7 @@ export function OnePartnerSection() {
             <span className="flex h-1.5 w-1.5 rounded-full bg-[#8CC63F]" />
             Full-Scale Lifecycle Delivery
           </span>
-          <h2 className="animate-fade-in text-section font-black tracking-tight text-white leading-tight">
+          <h2 className="one-partner-heading animate-fade-in text-section font-black tracking-tight text-[#010101] dark:text-white leading-tight">
             One Partner. Infinite Innovation.
           </h2>
           <p className="animate-fade-in mt-6 text-body-large text-text-secondary leading-relaxed">
@@ -181,13 +181,13 @@ export function OnePartnerSection() {
               <div
                 key={adv.title}
                 ref={(el) => { cardRefs.current[index] = el; }}
-                className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                className="one-partner-card group relative overflow-hidden rounded-2xl border border-[#E5E7EB] dark:border-white/[0.06] bg-white dark:bg-white/[0.02] p-8 shadow-sm dark:shadow-2xl backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:shadow-md dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
               >
                 {/* Hover inner gradient glow */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle at 10% 10%, ${adv.color}15 0%, transparent 60%)`
+                    background: `radial-gradient(circle at 10% 10%, ${adv.color}10 0%, transparent 60%)`
                   }}
                   aria-hidden="true"
                 />
@@ -202,11 +202,13 @@ export function OnePartnerSection() {
                 <div className="flex gap-5 items-start">
                   {/* Icon container */}
                   <div
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] transition-all duration-500 group-hover:scale-105"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-500 group-hover:scale-105"
                     style={{
-                      backgroundColor: `${adv.color}10`,
-                      borderColor: `${adv.color}20`,
-                      boxShadow: `0 0 15px ${adv.color}08`
+                      backgroundColor: `${adv.color}12`,
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                      borderColor: `${adv.color}25`,
+                      boxShadow: `0 0 12px ${adv.color}08`
                     }}
                   >
                     <Icon size={22} style={{ color: adv.color }} strokeWidth={1.8} />
@@ -214,7 +216,7 @@ export function OnePartnerSection() {
 
                   {/* Content */}
                   <div>
-                    <h3 className="text-body-large font-bold text-white tracking-wide leading-snug">
+                    <h3 className="one-partner-card-title text-body-large font-bold text-[#010101] dark:text-white tracking-wide leading-snug">
                       {adv.title}
                     </h3>
                     <p className="mt-3 text-sm text-text-secondary leading-relaxed">
@@ -240,7 +242,7 @@ export function OnePartnerSection() {
           <Link
             ref={buttonSecondaryRef}
             href="/services"
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded border border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 font-bold text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F] hover:bg-bg-primary/60 hover:text-white"
+            className="one-partner-secondary-btn inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded border border-[#E5E7EB] dark:border-white/20 bg-white dark:bg-white/5 backdrop-blur-sm px-8 py-4 font-bold text-[#374151] dark:text-[#EEEEEE] transition-all duration-300 hover:border-[#8CC63F] hover:bg-[#F8F9FB] dark:hover:bg-bg-primary/60 hover:text-[#010101] dark:hover:text-white"
           >
             View Our Services
             <ChevronRight size={17} />
