@@ -45,7 +45,68 @@ export type SubService = {
 // ─── MAIN SERVICES ───────────────────────────────────────────────────────────
 
 export const MAIN_SERVICES: MainService[] = [
-  // ── 1. Product Engineering ─────────────────────────────────────────────────
+  // ── 1. Software & AI Solutions ─────────────────────────────────────────────
+  {
+    id: "software-ai",
+    slug: "software-iot",
+    iconKey: "brainCircuit",
+    label: "SOFTWARE & AI",
+    title: "Software & AI Solutions",
+    tagline: "Bridge physical operations and digital scale with intelligent software.",
+    description:
+      "At Texawave, our custom software and enterprise AI solutions bridge the gap between physical operations and digital scale. We transform complex data streams into user-centric operational intelligence—optimising data pipelines, application architecture, and real-time edge processing while ensuring seamless business scalability. From training machine learning models to deploying secure cloud backends, we engineer high-performance ecosystems built to scale.",
+    metaTitle: "Software & AI Solutions Services | Texawave",
+    metaDescription:
+      "Custom software, ERP, cloud, web & mobile apps, and enterprise AI solutions. Texawave bridges physical operations and digital scale.",
+    challenges: [
+      {
+        title: "Siloed Data Architecture",
+        desc: "Disconnected hardware outputs, IoT streams, and legacy systems create blind spots. We unify them into a single high-throughput data pipeline.",
+      },
+      {
+        title: "Stagnant Operational Efficiency",
+        desc: "Manual data processing stalls growth. We replace legacy workflows with autonomous machine learning integration and predictive analytics.",
+      },
+      {
+        title: "Cloud Scalability & Security Risks",
+        desc: "Poorly architected cloud platforms invite downtime and data exposure. We build highly available systems protected by end-to-end encryption.",
+      },
+    ],
+    highlights: [
+      "Custom ERP Solutions",
+      "Web & Mobile Applications",
+      "Cloud & Infrastructure",
+      "AI & Data Analytics",
+    ],
+    subServices: [
+      {
+        slug: "custom-erp",
+        name: "Custom ERP Solutions",
+        shortDesc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards.",
+        iconKey: "settings",
+      },
+      {
+        slug: "web-mobile-apps",
+        name: "Web & Mobile Applications",
+        shortDesc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security.",
+        iconKey: "monitorSmartphone",
+      },
+      {
+        slug: "cloud-infrastructure",
+        name: "Cloud & Infrastructure Solutions",
+        shortDesc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring.",
+        iconKey: "cloud",
+      },
+      {
+        slug: "ai-analytics",
+        name: "AI & Data Analytics",
+        shortDesc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions.",
+        iconKey: "brainCircuit",
+      },
+    ],
+  },
+
+  // ── 2. Product Engineering ─────────────────────────────────────────────────
   {
     id: "product-engineering",
     slug: "product-engineering",
@@ -102,67 +163,6 @@ export const MAIN_SERVICES: MainService[] = [
         name: "Rapid Prototyping & Product Validation",
         shortDesc: "3D printing, CNC machining, and comprehensive physical and environmental validation.",
         iconKey: "box",
-      },
-    ],
-  },
-
-  // ── 2. Software & AI Development ──────────────────────────────────────────
-  {
-    id: "software-ai",
-    slug: "software-iot",
-    iconKey: "brainCircuit",
-    label: "SOFTWARE & AI",
-    title: "Software & AI Development",
-    tagline: "Bridge physical operations and digital scale with intelligent software.",
-    description:
-      "At Texawave, our custom software and enterprise AI solutions bridge the gap between physical operations and digital scale. We transform complex data streams into user-centric operational intelligence—optimising data pipelines, application architecture, and real-time edge processing while ensuring seamless business scalability. From training machine learning models to deploying secure cloud backends, we engineer high-performance ecosystems built to scale.",
-    metaTitle: "Software & AI Development Services | Texawave",
-    metaDescription:
-      "Custom software, ERP, cloud, web & mobile apps, and enterprise AI solutions. Texawave bridges physical operations and digital scale.",
-    challenges: [
-      {
-        title: "Siloed Data Architecture",
-        desc: "Disconnected hardware outputs, IoT streams, and legacy systems create blind spots. We unify them into a single high-throughput data pipeline.",
-      },
-      {
-        title: "Stagnant Operational Efficiency",
-        desc: "Manual data processing stalls growth. We replace legacy workflows with autonomous machine learning integration and predictive analytics.",
-      },
-      {
-        title: "Cloud Scalability & Security Risks",
-        desc: "Poorly architected cloud platforms invite downtime and data exposure. We build highly available systems protected by end-to-end encryption.",
-      },
-    ],
-    highlights: [
-      "Custom ERP Solutions",
-      "Web & Mobile Applications",
-      "Cloud & Infrastructure",
-      "AI & Data Analytics",
-    ],
-    subServices: [
-      {
-        slug: "custom-erp",
-        name: "Custom ERP Solutions",
-        shortDesc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards.",
-        iconKey: "settings",
-      },
-      {
-        slug: "web-mobile-apps",
-        name: "Web & Mobile Applications",
-        shortDesc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security.",
-        iconKey: "monitorSmartphone",
-      },
-      {
-        slug: "cloud-infrastructure",
-        name: "Cloud & Infrastructure Solutions",
-        shortDesc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring.",
-        iconKey: "cloud",
-      },
-      {
-        slug: "ai-analytics",
-        name: "AI & Data Analytics",
-        shortDesc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions.",
-        iconKey: "brainCircuit",
       },
     ],
   },
@@ -287,6 +287,204 @@ export const MAIN_SERVICES: MainService[] = [
 // ─── SUB-SERVICES ─────────────────────────────────────────────────────────────
 
 export const SUB_SERVICES: SubService[] = [
+  // ── Software & AI subpages ─────────────────────────────────────────────────
+
+  {
+    parentId: "software-ai",
+    parentSlug: "software-iot",
+    parentTitle: "Software & AI Solutions",
+    slug: "custom-erp",
+    fullSlug: "software-iot/custom-erp",
+    iconKey: "settings",
+    title: "Custom ERP Solutions",
+    heroTitle: "Empowering Enterprise Growth Through Intelligent Automation",
+    tagline: "ERP systems built around your workflows, not the other way around.",
+    description:
+      "We design and deploy high-performance, tailor-made Enterprise Resource Planning (ERP) systems built around your specific operational workflows. Instead of forcing your business into the constraints of rigid, off-the-shelf software, we build scalable platforms that unify your data, optimise resource allocation, and give your teams the real-time intelligence they need to scale with confidence.",
+    metaTitle: "Custom ERP Solutions | Texawave",
+    metaDescription:
+      "Tailor-made ERP systems built around your operational workflows. Centralised inventory, HR, finance, and real-time reporting dashboards.",
+    highlights: [
+      "Custom Enterprise Backends",
+      "Centralised Inventory & HR Modules",
+      "Real-time Reporting Dashboards",
+      "Legacy System Migration",
+    ],
+    capabilities: [
+      {
+        title: "Custom Enterprise Software & Backend Development",
+        desc: "Building scalable, maintainable enterprise backends with the architecture flexibility to adapt as your business evolves.",
+      },
+      {
+        title: "Centralised Management Modules",
+        desc: "Unified inventory, human resources, and financial management modules that eliminate departmental silos and data inconsistencies.",
+      },
+      {
+        title: "Real-Time Reporting Dashboards",
+        desc: "Executive-facing dashboards delivering live operational metrics, KPI tracking, and actionable business intelligence for faster decision-making.",
+      },
+      {
+        title: "Legacy System Migration",
+        desc: "Seamless migration from outdated legacy platforms with zero data loss, minimal downtime, and comprehensive staff training.",
+      },
+      {
+        title: "Third-Party API Integrations",
+        desc: "Connecting your ERP to existing tools—CRMs, payment gateways, logistics platforms—for a fully unified operational ecosystem.",
+      },
+      {
+        title: "Workflow Automation",
+        desc: "Replacing manual, repetitive processes with intelligent automation to reduce overhead, eliminate human error, and accelerate throughput.",
+      },
+    ],
+  },
+
+  {
+    parentId: "software-ai",
+    parentSlug: "software-iot",
+    parentTitle: "Software & AI Solutions",
+    slug: "web-mobile-apps",
+    fullSlug: "software-iot/web-mobile-apps",
+    iconKey: "monitorSmartphone",
+    title: "Web & Mobile Applications",
+    heroTitle: "Seamless Digital Experiences Engineered for Impact",
+    tagline: "Production-ready digital platforms built for scale and retention.",
+    description:
+      "Turn your product vision into flawless, production-ready digital platforms. Our full-stack engineering teams combine robust frontend frameworks with highly scalable backends to deliver exceptional user experiences, high retention rates, and enterprise-grade security. From concept to app store, we handle the complete engineering lifecycle.",
+    metaTitle: "Web & Mobile App Development | Texawave",
+    metaDescription:
+      "Full-stack web platforms and native iOS/Android apps. PWAs, cross-platform frameworks, UI/UX design, and enterprise-grade security.",
+    highlights: [
+      "Native iOS & Android Apps",
+      "Progressive Web Apps (PWA)",
+      "React Native & Flutter",
+      "UI/UX Design & Prototyping",
+    ],
+    capabilities: [
+      {
+        title: "Modern Web Platforms",
+        desc: "Responsive, performant web applications built with modern frameworks (React, Next.js, Vue) optimised for speed, SEO, and accessibility.",
+      },
+      {
+        title: "Native iOS & Android Apps",
+        desc: "Platform-native mobile apps delivering premium performance, smooth animations, and deep OS integration for both consumer and enterprise markets.",
+      },
+      {
+        title: "Progressive Web Apps (PWAs) & Cross-Platform Frameworks",
+        desc: "Maximising reach with React Native and Flutter solutions that deliver near-native performance across platforms from a single codebase.",
+      },
+      {
+        title: "Intuitive UI/UX Design",
+        desc: "User-centric interface design, wireframing, and interactive prototyping that reduces friction, increases engagement, and drives conversion.",
+      },
+      {
+        title: "Performance & Speed Optimisation",
+        desc: "Code splitting, lazy loading, CDN configuration, and database query optimisation to ensure sub-second load times at any scale.",
+      },
+      {
+        title: "Security & Compliance",
+        desc: "End-to-end encryption, secure authentication (OAuth, MFA), GDPR compliance, and penetration-tested backends protecting user data.",
+      },
+    ],
+  },
+
+  {
+    parentId: "software-ai",
+    parentSlug: "software-iot",
+    parentTitle: "Software & AI Solutions",
+    slug: "cloud-infrastructure",
+    fullSlug: "software-iot/cloud-infrastructure",
+    iconKey: "cloud",
+    title: "Cloud & Infrastructure Solutions",
+    heroTitle: "Resilient, Cost-Efficient, and Secure Cloud Architectures",
+    tagline: "Zero infrastructure headaches. Maximum uptime.",
+    description:
+      "Maximise your uptime and accelerate development velocity with zero infrastructure headaches. We design and maintain cloud-native frameworks and continuous deployment pipelines that grow effortlessly with your business demands. From day-one architecture to ongoing operations, we ensure your platform is always available, always secure, and always cost-efficient.",
+    metaTitle: "Cloud & Infrastructure Solutions | Texawave",
+    metaDescription:
+      "AWS and Azure cloud architecture, serverless deployments, CI/CD pipelines, and cost optimisation. Resilient, secure cloud architectures by Texawave.",
+    highlights: [
+      "AWS & Azure Architecture",
+      "Serverless & Microservices",
+      "CI/CD Pipelines",
+      "Disaster Recovery Planning",
+    ],
+    capabilities: [
+      {
+        title: "AWS & Azure Cloud Architecture",
+        desc: "Designing highly available, fault-tolerant cloud infrastructures with serverless deployments, managed databases, and auto-scaling compute.",
+      },
+      {
+        title: "Automated DevOps Pipelines (CI/CD)",
+        desc: "Building fully automated continuous integration and deployment pipelines for rapid, reliable software releases with zero manual intervention.",
+      },
+      {
+        title: "Infrastructure Monitoring & Alerting",
+        desc: "Proactive real-time monitoring, automated anomaly detection, and incident response playbooks that catch issues before they affect users.",
+      },
+      {
+        title: "Disaster Recovery & Failover Planning",
+        desc: "Multi-region redundancy, automated backups, and tested recovery runbooks ensuring your platform survives any failure scenario.",
+      },
+      {
+        title: "Cloud Cost Optimisation",
+        desc: "Comprehensive audits to identify wasteful resource spending, right-size compute instances, and implement reserved capacity strategies.",
+      },
+      {
+        title: "Security & Compliance Hardening",
+        desc: "IAM policies, VPC configuration, end-to-end encryption, and compliance frameworks (SOC 2, ISO 27001) built into the infrastructure from day one.",
+      },
+    ],
+  },
+
+  {
+    parentId: "software-ai",
+    parentSlug: "software-iot",
+    parentTitle: "Software & AI Solutions",
+    slug: "ai-analytics",
+    fullSlug: "software-iot/ai-analytics",
+    iconKey: "brainCircuit",
+    title: "AI & Data Analytics",
+    heroTitle: "Turning Complex Enterprise Data into Actionable Business Intelligence",
+    tagline: "Stop guessing. Start predicting.",
+    description:
+      "We construct the intelligent data pipelines and advanced AI models required to process raw data, automate repetitive workflows, and uncover high-value business insights. From deploying computer vision neural networks on the edge to building enterprise-wide business intelligence platforms, we bring the full spectrum of modern AI engineering to your operations.",
+    metaTitle: "AI & Data Analytics Solutions | Texawave",
+    metaDescription:
+      "Custom AI models, data pipelines, and business intelligence dashboards. Predictive modelling, anomaly detection, and NLP applications by Texawave.",
+    highlights: [
+      "Custom Machine Learning Models",
+      "Computer Vision & Edge AI",
+      "NLP Applications",
+      "BI Dashboards & Data Pipelines",
+    ],
+    capabilities: [
+      {
+        title: "Machine Learning Integration & Edge AI",
+        desc: "Deploying predictive models, computer vision neural networks, and lightweight edge-AI algorithms to make your systems autonomous and highly responsive.",
+      },
+      {
+        title: "Enterprise Cloud AI Platforms",
+        desc: "Engineering resilient cloud backends, scalable microservices, and responsive data dashboards designed to handle complex, concurrent enterprise operations.",
+      },
+      {
+        title: "Hardware-Software Co-Design for AI",
+        desc: "Optimising the synchronisation layer between physical hardware nodes, low-level firmware protocols, and high-level AI application interfaces for zero-latency performance.",
+      },
+      {
+        title: "Data Analytics & Business Intelligence",
+        desc: "Robust data pipelines, interactive visualisation dashboards, and comprehensive BI tools that transform raw operational data into strategic decisions.",
+      },
+      {
+        title: "Predictive Modelling & Anomaly Detection",
+        desc: "Statistical and deep learning models that forecast demand, detect quality defects, flag anomalies, and automate smart workflows.",
+      },
+      {
+        title: "Natural Language Processing (NLP)",
+        desc: "Custom NLP applications for document intelligence, conversational AI, sentiment analysis, and enterprise knowledge management systems.",
+      },
+    ],
+  },
+
   // ── Product Engineering subpages ──────────────────────────────────────────
 
   {
@@ -353,11 +551,11 @@ export const SUB_SERVICES: SubService[] = [
     metaTitle: "Custom Hardware Development & PCB Design | Texawave",
     metaDescription:
       "Expert custom hardware development & PCB design services. From schematics to multilayer layouts, we design reliable, compliance-ready circuits.",
-    highlights: [
+    highlights: [      
+      "Schematic & BOM Optimisation",
       "Multi-layer PCB Layout",
       "Power & Battery Optimisation",
-      "FCC / CE / RoHS Compliance",
-      "Schematic & BOM Optimisation",
+      "BIS/CE/FCC/RoHS Compliance",
     ],
     capabilities: [
       {
@@ -481,204 +679,6 @@ export const SUB_SERVICES: SubService[] = [
       {
         title: "QA & Metrology",
         desc: "Utilising advanced 3D scanning and precision metrology tools to verify physical prototypes match digital CAD specifications down to the micron.",
-      },
-    ],
-  },
-
-  // ── Software & AI subpages ─────────────────────────────────────────────────
-
-  {
-    parentId: "software-ai",
-    parentSlug: "software-iot",
-    parentTitle: "Software & AI Development",
-    slug: "custom-erp",
-    fullSlug: "software-iot/custom-erp",
-    iconKey: "settings",
-    title: "Custom ERP Solutions",
-    heroTitle: "Empowering Enterprise Growth Through Intelligent Automation",
-    tagline: "ERP systems built around your workflows, not the other way around.",
-    description:
-      "We design and deploy high-performance, tailor-made Enterprise Resource Planning (ERP) systems built around your specific operational workflows. Instead of forcing your business into the constraints of rigid, off-the-shelf software, we build scalable platforms that unify your data, optimise resource allocation, and give your teams the real-time intelligence they need to scale with confidence.",
-    metaTitle: "Custom ERP Solutions | Texawave",
-    metaDescription:
-      "Tailor-made ERP systems built around your operational workflows. Centralised inventory, HR, finance, and real-time reporting dashboards.",
-    highlights: [
-      "Custom Enterprise Backends",
-      "Centralised Inventory & HR Modules",
-      "Real-time Reporting Dashboards",
-      "Legacy System Migration",
-    ],
-    capabilities: [
-      {
-        title: "Custom Enterprise Software & Backend Development",
-        desc: "Building scalable, maintainable enterprise backends with the architecture flexibility to adapt as your business evolves.",
-      },
-      {
-        title: "Centralised Management Modules",
-        desc: "Unified inventory, human resources, and financial management modules that eliminate departmental silos and data inconsistencies.",
-      },
-      {
-        title: "Real-Time Reporting Dashboards",
-        desc: "Executive-facing dashboards delivering live operational metrics, KPI tracking, and actionable business intelligence for faster decision-making.",
-      },
-      {
-        title: "Legacy System Migration",
-        desc: "Seamless migration from outdated legacy platforms with zero data loss, minimal downtime, and comprehensive staff training.",
-      },
-      {
-        title: "Third-Party API Integrations",
-        desc: "Connecting your ERP to existing tools—CRMs, payment gateways, logistics platforms—for a fully unified operational ecosystem.",
-      },
-      {
-        title: "Workflow Automation",
-        desc: "Replacing manual, repetitive processes with intelligent automation to reduce overhead, eliminate human error, and accelerate throughput.",
-      },
-    ],
-  },
-
-  {
-    parentId: "software-ai",
-    parentSlug: "software-iot",
-    parentTitle: "Software & AI Development",
-    slug: "web-mobile-apps",
-    fullSlug: "software-iot/web-mobile-apps",
-    iconKey: "monitorSmartphone",
-    title: "Web & Mobile Applications",
-    heroTitle: "Seamless Digital Experiences Engineered for Impact",
-    tagline: "Production-ready digital platforms built for scale and retention.",
-    description:
-      "Turn your product vision into flawless, production-ready digital platforms. Our full-stack engineering teams combine robust frontend frameworks with highly scalable backends to deliver exceptional user experiences, high retention rates, and enterprise-grade security. From concept to app store, we handle the complete engineering lifecycle.",
-    metaTitle: "Web & Mobile App Development | Texawave",
-    metaDescription:
-      "Full-stack web platforms and native iOS/Android apps. PWAs, cross-platform frameworks, UI/UX design, and enterprise-grade security.",
-    highlights: [
-      "Native iOS & Android Apps",
-      "Progressive Web Apps (PWA)",
-      "React Native & Flutter",
-      "UI/UX Design & Prototyping",
-    ],
-    capabilities: [
-      {
-        title: "Modern Web Platforms",
-        desc: "Responsive, performant web applications built with modern frameworks (React, Next.js, Vue) optimised for speed, SEO, and accessibility.",
-      },
-      {
-        title: "Native iOS & Android Apps",
-        desc: "Platform-native mobile apps delivering premium performance, smooth animations, and deep OS integration for both consumer and enterprise markets.",
-      },
-      {
-        title: "Progressive Web Apps (PWAs) & Cross-Platform Frameworks",
-        desc: "Maximising reach with React Native and Flutter solutions that deliver near-native performance across platforms from a single codebase.",
-      },
-      {
-        title: "Intuitive UI/UX Design",
-        desc: "User-centric interface design, wireframing, and interactive prototyping that reduces friction, increases engagement, and drives conversion.",
-      },
-      {
-        title: "Performance & Speed Optimisation",
-        desc: "Code splitting, lazy loading, CDN configuration, and database query optimisation to ensure sub-second load times at any scale.",
-      },
-      {
-        title: "Security & Compliance",
-        desc: "End-to-end encryption, secure authentication (OAuth, MFA), GDPR compliance, and penetration-tested backends protecting user data.",
-      },
-    ],
-  },
-
-  {
-    parentId: "software-ai",
-    parentSlug: "software-iot",
-    parentTitle: "Software & AI Development",
-    slug: "cloud-infrastructure",
-    fullSlug: "software-iot/cloud-infrastructure",
-    iconKey: "cloud",
-    title: "Cloud & Infrastructure Solutions",
-    heroTitle: "Resilient, Cost-Efficient, and Secure Cloud Architectures",
-    tagline: "Zero infrastructure headaches. Maximum uptime.",
-    description:
-      "Maximise your uptime and accelerate development velocity with zero infrastructure headaches. We design and maintain cloud-native frameworks and continuous deployment pipelines that grow effortlessly with your business demands. From day-one architecture to ongoing operations, we ensure your platform is always available, always secure, and always cost-efficient.",
-    metaTitle: "Cloud & Infrastructure Solutions | Texawave",
-    metaDescription:
-      "AWS and Azure cloud architecture, serverless deployments, CI/CD pipelines, and cost optimisation. Resilient, secure cloud architectures by Texawave.",
-    highlights: [
-      "AWS & Azure Architecture",
-      "Serverless & Microservices",
-      "CI/CD Pipelines",
-      "Disaster Recovery Planning",
-    ],
-    capabilities: [
-      {
-        title: "AWS & Azure Cloud Architecture",
-        desc: "Designing highly available, fault-tolerant cloud infrastructures with serverless deployments, managed databases, and auto-scaling compute.",
-      },
-      {
-        title: "Automated DevOps Pipelines (CI/CD)",
-        desc: "Building fully automated continuous integration and deployment pipelines for rapid, reliable software releases with zero manual intervention.",
-      },
-      {
-        title: "Infrastructure Monitoring & Alerting",
-        desc: "Proactive real-time monitoring, automated anomaly detection, and incident response playbooks that catch issues before they affect users.",
-      },
-      {
-        title: "Disaster Recovery & Failover Planning",
-        desc: "Multi-region redundancy, automated backups, and tested recovery runbooks ensuring your platform survives any failure scenario.",
-      },
-      {
-        title: "Cloud Cost Optimisation",
-        desc: "Comprehensive audits to identify wasteful resource spending, right-size compute instances, and implement reserved capacity strategies.",
-      },
-      {
-        title: "Security & Compliance Hardening",
-        desc: "IAM policies, VPC configuration, end-to-end encryption, and compliance frameworks (SOC 2, ISO 27001) built into the infrastructure from day one.",
-      },
-    ],
-  },
-
-  {
-    parentId: "software-ai",
-    parentSlug: "software-iot",
-    parentTitle: "Software & AI Development",
-    slug: "ai-analytics",
-    fullSlug: "software-iot/ai-analytics",
-    iconKey: "brainCircuit",
-    title: "AI & Data Analytics",
-    heroTitle: "Turning Complex Enterprise Data into Actionable Business Intelligence",
-    tagline: "Stop guessing. Start predicting.",
-    description:
-      "We construct the intelligent data pipelines and advanced AI models required to process raw data, automate repetitive workflows, and uncover high-value business insights. From deploying computer vision neural networks on the edge to building enterprise-wide business intelligence platforms, we bring the full spectrum of modern AI engineering to your operations.",
-    metaTitle: "AI & Data Analytics Solutions | Texawave",
-    metaDescription:
-      "Custom AI models, data pipelines, and business intelligence dashboards. Predictive modelling, anomaly detection, and NLP applications by Texawave.",
-    highlights: [
-      "Custom Machine Learning Models",
-      "Computer Vision & Edge AI",
-      "NLP Applications",
-      "BI Dashboards & Data Pipelines",
-    ],
-    capabilities: [
-      {
-        title: "Machine Learning Integration & Edge AI",
-        desc: "Deploying predictive models, computer vision neural networks, and lightweight edge-AI algorithms to make your systems autonomous and highly responsive.",
-      },
-      {
-        title: "Enterprise Cloud AI Platforms",
-        desc: "Engineering resilient cloud backends, scalable microservices, and responsive data dashboards designed to handle complex, concurrent enterprise operations.",
-      },
-      {
-        title: "Hardware-Software Co-Design for AI",
-        desc: "Optimising the synchronisation layer between physical hardware nodes, low-level firmware protocols, and high-level AI application interfaces for zero-latency performance.",
-      },
-      {
-        title: "Data Analytics & Business Intelligence",
-        desc: "Robust data pipelines, interactive visualisation dashboards, and comprehensive BI tools that transform raw operational data into strategic decisions.",
-      },
-      {
-        title: "Predictive Modelling & Anomaly Detection",
-        desc: "Statistical and deep learning models that forecast demand, detect quality defects, flag anomalies, and automate smart workflows.",
-      },
-      {
-        title: "Natural Language Processing (NLP)",
-        desc: "Custom NLP applications for document intelligence, conversational AI, sentiment analysis, and enterprise knowledge management systems.",
       },
     ],
   },

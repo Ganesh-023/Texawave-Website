@@ -297,7 +297,7 @@ export default function AdminTeamTab() {
           <p className="text-xs text-text-secondary mt-1">Add your first team member to display them on the About page.</p>
         </div>
       ) : (
-        <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-crisp">
+        <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-crisp">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -409,7 +409,7 @@ export default function AdminTeamTab() {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0f0f0f] border border-white/10 w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl animate-scale-in text-left">
+          <div className="dashboard-modal bg-[#0f0f0f] border border-white/10 w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl animate-scale-in text-left">
             <div className="px-6 py-5 border-b border-white/10 bg-white/[0.01] flex items-center justify-between">
               <h3 className="font-display font-bold text-white text-lg">
                 {editingMember ? "Edit Team Member" : "Add Team Member"}

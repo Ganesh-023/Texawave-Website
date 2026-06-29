@@ -100,7 +100,6 @@ export async function POST(request: Request) {
       relatedIds: relatedIds || [],
       status,
       views: 0,
-      likes: 0,
       comments: []
     };
     

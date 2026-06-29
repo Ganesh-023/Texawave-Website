@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ThumbsUp, MessageSquare, Send, CheckCircle2, X } from "lucide-react";
+import { ArrowLeft, MessageSquare, Send, CheckCircle2, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 function parseMarkdown(text: string) {
@@ -108,7 +108,6 @@ interface CaseStudy {
   gallery: string[];
   status: "Draft" | "Published";
   views: number;
-  likes: number;
   comments: Comment[];
   relatedIds?: string[];
 }
@@ -121,8 +120,7 @@ interface CaseStudyDetailClientProps {
 export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetailClientProps) {
   // Client states
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [likesCount, setLikesCount] = useState(study.likes || 0);
-  const [hasLiked, setHasLiked] = useState(false);
+  const [viewsCount, setViewsCount] = useState(study.views || 0);
   const [comments, setComments] = useState<Comment[]>(study.comments || []);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
@@ -146,33 +144,27 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Check if liked before
+  // Handle tracking unique view count
   useEffect(() => {
-    const key = `liked_case_study_${study.id}`;
-    if (localStorage.getItem(key)) {
-      setHasLiked(true);
+    const key = `viewed_case_study_${study.id}`;
+    if (!localStorage.getItem(key)) {
+      const incrementView = async () => {
+        try {
+          const response = await fetch(`/api/case-studies/${study.id}/view`, {
+            method: "POST",
+          });
+          const data = await response.json();
+          if (data.success) {
+            setViewsCount(data.views);
+            localStorage.setItem(key, "true");
+          }
+        } catch (err) {
+          console.error("Failed to increment view count", err);
+        }
+      };
+      incrementView();
     }
   }, [study.id]);
-
-  // Handle Like Action
-  const handleLike = async () => {
-    if (hasLiked) return;
-
-    try {
-      const response = await fetch(`/api/case-studies/${study.id}/like`, {
-        method: "POST",
-      });
-      const data = await response.json();
-      if (data.success) {
-        setLikesCount(data.likes);
-        setHasLiked(true);
-        localStorage.setItem(`liked_case_study_${study.id}`, "true");
-        showToast("Case study liked!");
-      }
-    } catch (err) {
-      console.error("Failed to like case study", err);
-    }
-  };
 
   // Handle Comment Submission
   const handleCommentSubmit = async (e: React.FormEvent) => {
@@ -213,7 +205,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
   const approvedComments = comments.filter((c) => c.approved);
 
   return (
-    <div className="relative text-left">
+    <div className="relative text-left case-study-detail-container">
       {/* Reading Progress Indicator */}
       <div 
         className="fixed top-0 left-0 h-[4px] bg-[#8CC63F] z-50 transition-all duration-75"
@@ -253,8 +245,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
             
             {/* Quick Analytics Row */}
             <div className="mt-6 flex items-center gap-6 text-xs text-[#A0A0A0] font-mono">
-              <span>VIEWS: <strong className="text-[#E0E0E0] font-semibold">{study.views || 0}</strong></span>
-              <span>LIKES: <strong className="text-[#E0E0E0] font-semibold">{likesCount}</strong></span>
+              <span>VIEWS: <strong className="text-[#E0E0E0] font-semibold">{viewsCount}</strong></span>
               <span>COMMENTS: <strong className="text-[#E0E0E0] font-semibold">{approvedComments.length}</strong></span>
             </div>
           </div>
@@ -279,7 +270,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
 
       {/* ── Core Details Structure ── */}
       <section className="bg-bg-primary px-5 py-8 lg:px-8">
-        <div className="mx-auto max-w-4xl space-y-16">
+        <div className="mx-auto max-w-4xl space-y-16 case-study-content-card">
           
           {/* Problem Statement */}
           <div data-reveal>
@@ -320,7 +311,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
           <div className="grid gap-8 md:grid-cols-3 pt-6">
             {/* Mechanical Engineering */}
             {study.mechanicalEngineering && (
-              <div className="bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
+              <div className="case-study-tech-card bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
                 <span className="text-[10px] font-bold tracking-widest text-[#8CC63F] uppercase font-mono block mb-2">Mechanical</span>
                 <div 
                   className="text-left markdown-content card-prose"
@@ -331,7 +322,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
 
             {/* Hardware Engineering */}
             {study.hardwareEngineering && (
-              <div className="bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
+              <div className="case-study-tech-card bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
                 <span className="text-[10px] font-bold tracking-widest text-[#8CC63F] uppercase font-mono block mb-2">Electrical/PCB</span>
                 <div 
                   className="text-left markdown-content card-prose"
@@ -342,7 +333,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
 
             {/* Software Engineering */}
             {study.softwareEngineering && (
-              <div className="bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
+              <div className="case-study-tech-card bg-[#111] border border-white/15 rounded-2xl p-6 shadow-crisp" data-reveal>
                 <span className="text-[10px] font-bold tracking-widest text-[#8CC63F] uppercase font-mono block mb-2">Firmware/IoT</span>
                 <div 
                   className="text-left markdown-content card-prose"
@@ -353,7 +344,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
           </div>
 
           {/* Results & Impact */}
-          <div className="bg-gradient-to-r from-bg-secondary to-[#111] border border-white/10 rounded-2xl p-8 md:p-10 shadow-crisp max-w-3xl" data-reveal>
+          <div className="case-study-results-card bg-gradient-to-r from-bg-secondary to-[#111] border border-white/10 rounded-2xl p-8 md:p-10 shadow-crisp max-w-3xl" data-reveal>
             <h2 className="text-[28px] lg:text-[32px] font-bold font-display text-white mb-4">
               ✨ Results & Business Impact
             </h2>
@@ -389,24 +380,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
             </div>
           )}
 
-          {/* Likes Action Box */}
-          <div className="flex flex-col items-center py-10 border-t border-b border-white/5" data-reveal>
-            <span className="text-xs text-text-secondary font-mono uppercase mb-3">
-              Did you find this engineering case study interesting?
-            </span>
-            <button
-              onClick={handleLike}
-              disabled={hasLiked}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold uppercase text-xs tracking-wider transition-all border shadow-crisp ${
-                hasLiked 
-                  ? "bg-white/5 border-white/10 text-[#8CC63F] cursor-default" 
-                  : "bg-[#8CC63F] border-transparent text-black hover:scale-[1.03] hover:shadow-[0_0_24px_rgba(140,198,63,0.35)]"
-              }`}
-            >
-              <ThumbsUp size={14} className={hasLiked ? "" : "animate-bounce"} />
-              {hasLiked ? "Liked" : "Like Project"} ({likesCount})
-            </button>
-          </div>
+
 
           {/* Comments System */}
           <div className="space-y-8" data-reveal>
@@ -417,7 +391,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
             {/* List of comments */}
             <div className="space-y-4">
               {approvedComments.map((comment) => (
-                <div key={comment.id} className="bg-[#111] border border-white/5 rounded-2xl p-5 text-xs text-left shadow-crisp">
+                <div key={comment.id} className="case-study-comment-card bg-[#111] border border-white/5 rounded-2xl p-5 text-xs text-left shadow-crisp">
                   <div className="flex justify-between items-center text-text-secondary border-b border-white/5 pb-2.5 mb-2.5 font-mono">
                     <span className="text-white font-bold font-sans">{comment.userName}</span>
                     <span>{comment.dateSubmitted}</span>
@@ -432,7 +406,7 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
             </div>
 
             {/* Add Comment Form */}
-            <div className="bg-[#080808] border border-white/10 rounded-2xl p-6">
+            <div className="case-study-comment-form bg-[#080808] border border-white/10 rounded-2xl p-6">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 font-mono">Submit a comment</h3>
               
               <form onSubmit={handleCommentSubmit} className="space-y-4">

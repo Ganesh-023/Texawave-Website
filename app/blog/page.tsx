@@ -429,7 +429,7 @@ export default function BlogPage() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
                 <Sparkles size={12} /> Share Your Expertise
               </span>
-              <h3 className="mt-3 text-card text-text-primary">Have an engineering story or project to share?</h3>
+              <h3 className="mt-3 text-card text-text-primary">Have an Engineering Story or Project to share?</h3>
               <p className="mt-2 text-text-secondary max-w-2xl text-body-normal">
                 Contribute to the Texawave Knowledge Hub. Submit articles on software engineering, electronics, custom hardware, or your internship experiences.
               </p>

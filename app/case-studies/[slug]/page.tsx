@@ -49,10 +49,6 @@ export default async function CaseStudyDetailPage({ params }: Props) {
     notFound();
   }
 
-  // Increment view count server-side
-  study.views = (study.views || 0) + 1;
-  fs.writeFileSync(dbPath, JSON.stringify(studies, null, 2), "utf-8");
-
   // Get related studies (sharing category or just other published ones)
   let related = studies.filter(
     (s: any) => s.category === study.category && s.id !== study.id && s.status === "Published"

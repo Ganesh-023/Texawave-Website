@@ -155,8 +155,8 @@ export function AboutWhyTexawave() {
         if (item) {
           const title = item.querySelector(".stage-title");
           const desc = item.querySelector(".stage-desc");
-          if (title) gsap.set(title, { color: "var(--text-primary)" });
-          if (desc) gsap.set(desc, { color: "var(--text-secondary)" });
+          if (title) gsap.set(title, { color: "var(--journey-active-title)" });
+          if (desc) gsap.set(desc, { color: "var(--journey-active-desc)" });
         }
       });
       cardRefs.current.forEach((card) => {
@@ -207,7 +207,7 @@ export function AboutWhyTexawave() {
         journeyTimeline.to(
           titleEl,
           {
-            color: "var(--text-primary)",
+            color: "var(--journey-active-title)",
             duration: 0.05
           },
           progressPoint * 0.95
@@ -215,7 +215,7 @@ export function AboutWhyTexawave() {
         .to(
           descEl,
           {
-            color: "var(--text-secondary)",
+            color: "var(--journey-active-desc)",
             duration: 0.05
           },
           progressPoint * 0.95
@@ -376,10 +376,16 @@ export function AboutWhyTexawave() {
                           ref={(el) => { itemRefs.current[index] = el; }}
                           className="flex flex-col transition-all duration-300"
                         >
-                          <span className="text-sm md:text-base lg:text-lg font-bold text-[#9CA3AF] dark:text-neutral-500 tracking-wide transition-colors duration-300 stage-title">
+                          <span 
+                            className="text-sm md:text-base lg:text-lg font-bold tracking-wide transition-colors duration-300 stage-title"
+                            style={{ color: "var(--journey-inactive-title)" }}
+                          >
                             {stage.label}
                           </span>
-                          <span className="text-[11px] md:text-xs lg:text-sm text-[#D1D5DB] dark:text-neutral-600 mt-1 lg:mt-1.5 leading-normal lg:leading-relaxed max-w-xs md:max-w-sm lg:max-w-md transition-colors duration-300 stage-desc">
+                          <span 
+                            className="text-[11px] md:text-xs lg:text-sm mt-1 lg:mt-1.5 leading-normal lg:leading-relaxed max-w-xs md:max-w-sm lg:max-w-md transition-colors duration-300 stage-desc"
+                            style={{ color: "var(--journey-inactive-desc)" }}
+                          >
                             {stage.desc}
                           </span>
                         </div>

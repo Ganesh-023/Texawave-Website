@@ -328,11 +328,11 @@ export default function HRDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
+    <div className="hr-dashboard min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Top navbar */}
-      <nav className="fixed top-0 left-0 right-0 h-[75px] bg-[#0c0c0c] border-b border-white/10 flex items-center justify-between px-6 lg:px-12 z-40">
+      <nav className="hr-topbar fixed top-0 left-0 right-0 h-[75px] bg-[#0c0c0c] border-b border-white/10 flex items-center justify-between px-6 lg:px-12 z-40">
         <div className="flex items-center gap-4">
           <Image
             src="/texawave_logo.webp"
@@ -365,7 +365,7 @@ export default function HRDashboard() {
       <div className="pt-[75px] min-h-screen grid lg:grid-cols-[260px_1fr] relative z-10">
         
         {/* Left Sidebar Menu */}
-        <aside className="bg-[#080808]/90 border-r border-white/10 p-6 flex flex-col justify-between max-h-[calc(100vh-75px)] lg:sticky lg:top-[75px]">
+        <aside className="hr-sidebar bg-[#080808]/90 border-r border-white/10 p-6 flex flex-col justify-between max-h-[calc(100vh-75px)] lg:sticky lg:top-[75px]">
           <div className="space-y-6">
             <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
               <span className="text-[10px] font-semibold text-text-secondary uppercase tracking-wider flex items-center gap-1.5 mb-3 font-sans">
@@ -453,7 +453,7 @@ export default function HRDashboard() {
                   { label: "Interviews", value: interviewsScheduled, desc: "Candidates scheduled", color: "text-purple-400" },
                   { label: "Active Interns", value: activeInternsCount, desc: "Onboarded student pool", color: "text-amber-400" }
                 ].map((card, idx) => (
-                  <div key={idx} className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 shadow-crisp transition-all hover:border-[#8CC63F]/20 hover:shadow-[0_4px_20px_rgba(140,198,63,0.05)]">
+                  <div key={idx} className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 shadow-crisp transition-all hover:border-[#8CC63F]/20 hover:shadow-[0_4px_20px_rgba(140,198,63,0.05)]">
                     <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block font-sans">{card.label}</span>
                     <strong className={`text-4xl block mt-2 font-sans font-extrabold tracking-tight ${card.color}`}>{card.value}</strong>
                     <span className="text-[10.5px] text-text-secondary mt-2 block leading-none font-medium font-sans">{card.desc}</span>
@@ -465,7 +465,7 @@ export default function HRDashboard() {
               <div className="grid md:grid-cols-2 gap-8 pt-4">
                 
                 {/* Chart 1: Applications by Division */}
-                <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
+                <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
                   <h3 className="text-[11px] font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-sans">
                     <BarChart2 size={16} className="text-[#8CC63F]" />
                     Applications per Division
@@ -494,7 +494,7 @@ export default function HRDashboard() {
                 </div>
 
                 {/* Chart 2: Pipeline Conversion Rates */}
-                <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left flex flex-col justify-between transition-all hover:border-[#8CC63F]/10">
+                <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left flex flex-col justify-between transition-all hover:border-[#8CC63F]/10">
                   <div>
                     <h3 className="text-[11px] font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-sans">
                       <PieChart size={16} className="text-[#8CC63F]" />
@@ -538,7 +538,7 @@ export default function HRDashboard() {
               {/* Hiring Conversion Rate & Internship Applications charts combined */}
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Chart 3: Department openings */}
-                <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
+                <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
                   <h3 className="text-[11px] font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-sans">
                     <Cpu size={16} className="text-[#8CC63F]" />
                     Hiring Conversion Ratios
@@ -564,7 +564,7 @@ export default function HRDashboard() {
                 </div>
 
                 {/* Chart 4: Internship applications */}
-                <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
+                <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 text-left transition-all hover:border-[#8CC63F]/10">
                   <h3 className="text-[11px] font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-sans">
                     <Users size={16} className="text-[#8CC63F]" />
                     Internship Sourcing Tracks
@@ -605,7 +605,7 @@ export default function HRDashboard() {
                 </button>
               </div>
 
-              <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl overflow-hidden shadow-crisp">
+              <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl overflow-hidden shadow-crisp">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="border-b border-white/10 text-text-secondary uppercase font-sans font-semibold text-[10px] tracking-wider bg-white/5">
@@ -677,7 +677,7 @@ export default function HRDashboard() {
               </div>
 
               {/* Filtering / Search */}
-              <div className="grid sm:grid-cols-3 gap-4 bg-[#171A21] p-4 rounded-2xl border border-white/[0.06]">
+              <div className="dashboard-filter-row grid sm:grid-cols-3 gap-4 bg-[#171A21] p-4 rounded-2xl border border-white/[0.06]">
                 <div className="relative flex items-center">
                   <Search className="absolute left-3 text-text-secondary" size={14} />
                   <input
@@ -716,7 +716,7 @@ export default function HRDashboard() {
               {/* Candidate Cards Grid */}
               <div className="grid gap-6 md:grid-cols-2">
                 {filteredApplications.map((app) => (
-                  <div key={app.id} className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between shadow-crisp relative overflow-hidden transition-all hover:border-[#8CC63F]/10">
+                  <div key={app.id} className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between shadow-crisp relative overflow-hidden transition-all hover:border-[#8CC63F]/10">
                     <div>
                       <div className="flex justify-between items-start gap-4 mb-4">
                         <div>
@@ -822,7 +822,7 @@ export default function HRDashboard() {
                 <p className="text-text-secondary text-sm mt-1">Review schedules and technical evaluation logs for upcoming evaluations.</p>
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6">
                 <div className="space-y-4">
                   {applications.filter(a => a.status === "Interview Scheduled").map((app) => (
                     <div key={app.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-bg-primary/40 border border-white/5 p-4 rounded-xl">
@@ -877,7 +877,7 @@ export default function HRDashboard() {
                   { title: "Software Developer Intern", count: applications.filter(a => a.jobTitle.includes("Software Developer Intern")).length, desc: "React, Next.js & IoT APIs" },
                   { title: "Electronics Design Intern", count: applications.filter(a => a.jobTitle.includes("Electronics Design Intern")).length, desc: "Lab testing & wiring schematics" }
                 ].map((track, i) => (
-                  <div key={i} className="bg-[#111] border border-white/10 rounded-2xl p-5 text-left">
+                  <div key={i} className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-5 text-left">
                     <span className="text-[10px] font-bold text-text-secondary block font-mono uppercase">Track 0{i+1}</span>
                     <strong className="text-lg block text-white mt-1 font-display line-clamp-1">{track.title}</strong>
                     <div className="text-2xl font-black text-[#8CC63F] mt-2 font-mono">{track.count} <span className="text-xs text-text-secondary font-medium">Applied</span></div>
@@ -886,7 +886,7 @@ export default function HRDashboard() {
                 ))}
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6">
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 font-mono">Intern Applicants Queue</h3>
                 
                 <div className="space-y-4">
@@ -946,7 +946,7 @@ export default function HRDashboard() {
               </div>
 
               <div className="grid gap-6 md:grid-cols-2">
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
                   <h3 className="text-white font-bold text-base">Hiring Pipeline CSV</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     Export full database rows containing candidate names, contacts, divisions interest, pipeline status, and internal comments.
@@ -959,7 +959,7 @@ export default function HRDashboard() {
                   </button>
                 </div>
 
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
                   <h3 className="text-white font-bold text-base">Hiring Metrics Summary</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     Download graphic summary analysis of openings, conversion ratios, department openings distribution, and candidate volumes.
@@ -983,7 +983,7 @@ export default function HRDashboard() {
                 <p className="text-text-secondary text-sm mt-1">Recruiter configuration details and operational role verification.</p>
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-6 max-w-xl">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 max-w-xl">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="h-16 w-16 bg-[#8CC63F]/15 border border-[#8CC63F]/30 text-[#8CC63F] rounded-full flex items-center justify-center font-display text-2xl font-bold">
                     {username[0]}
@@ -1024,7 +1024,7 @@ export default function HRDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto"
+            className="dashboard-modal relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto"
           >
             
             <button
@@ -1190,7 +1190,7 @@ export default function HRDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]"
+            className="resume-viewer-modal relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]"
           >
             
             <button
@@ -1204,7 +1204,7 @@ export default function HRDashboard() {
             </button>
 
             {/* Resume Viewer Sidebar (Metadata) */}
-            <div className="bg-[#080808] p-6 md:p-8 border-r border-white/10 text-left flex flex-col justify-between overflow-y-auto">
+            <div className="resume-sidebar bg-[#080808] p-6 md:p-8 border-r border-white/10 text-left flex flex-col justify-between overflow-y-auto">
               <div>
                 <span className="text-[9px] font-bold text-text-secondary font-mono block uppercase">Candidate CV Info</span>
                 <strong className="text-white text-lg block mt-1.5 font-display">{resumeApp.name}</strong>
@@ -1249,7 +1249,7 @@ export default function HRDashboard() {
 
             {/* Simulated Interactive Document Pane */}
             <div className="p-8 md:p-12 overflow-y-auto text-left bg-bg-primary max-h-[85vh]">
-              <div className="border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
+              <div className="resume-document border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
                 {/* PDF overlay layout header */}
                 <div className="absolute right-6 top-6 text-[9px] text-text-secondary border border-white/10 px-2 py-0.5 rounded font-mono">
                   PDF VIEWER

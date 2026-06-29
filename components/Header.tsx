@@ -67,6 +67,8 @@ type DropdownItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Expertise", href: "/services", hasDropdown: true, isMega: true },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog", href: "/blog" },
   { label: "Resources", href: "/resources", hasDropdown: true },
   { label: "Careers", href: "/careers" },
 ];
@@ -77,18 +79,6 @@ const RESOURCES_ITEMS = [
     href: "/about",
     icon: Info,
     desc: "Learn about Texawave, our mission, vision, values, and engineering expertise.",
-  },
-  {
-    label: "Case Studies",
-    href: "/case-studies",
-    icon: FileText,
-    desc: "Discover how we help clients transform ideas into successful products.",
-  },
-  {
-    label: "Blog",
-    href: "/blog",
-    icon: BookOpen,
-    desc: "Engineering insights, product development knowledge, and industry trends.",
   },
   {
     label: "Contact Us",
@@ -130,16 +120,16 @@ const MEGA_COLUMNS = [
 
 const SERVICES: DropdownItem[] = [
   {
+    label: "Software & AI Solutions",
+    href: "/software-iot",
+    icon: Code2,
+    desc: "ERP, web & mobile apps, cloud, and AI analytics",
+  },
+  {
     label: "Product Engineering",
     href: "/product-engineering",
     icon: Cpu,
     desc: "Industrial design, PCB, embedded, and rapid prototyping",
-  },
-  {
-    label: "Software & AI Development",
-    href: "/software-iot",
-    icon: Code2,
-    desc: "ERP, web & mobile apps, cloud, and AI analytics",
   },
   {
     label: "Procurement Services",
@@ -157,6 +147,17 @@ const SERVICES: DropdownItem[] = [
 
 const MEGA_SERVICES_DATA = [
   {
+    id: "software-ai",
+    label: "Software & AI Solutions",
+    icon: Laptop,
+    services: [
+      { name: "Custom ERP Solutions", href: "/software-iot/custom-erp", desc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards." },
+      { name: "Web & Mobile Applications", href: "/software-iot/web-mobile-apps", desc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security." },
+      { name: "Cloud & Infrastructure Solutions", href: "/software-iot/cloud-infrastructure", desc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring." },
+      { name: "AI & Data Analytics", href: "/software-iot/ai-analytics", desc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions." },
+    ]
+  },
+  {
     id: "product-engineering",
     label: "Product Engineering",
     icon: Settings,
@@ -165,17 +166,6 @@ const MEGA_SERVICES_DATA = [
       { name: "Hardware & PCB Design", href: "/product-engineering/hardware-pcb", desc: "Schematic design, multi-layer PCB layout, and compliance-ready circuit engineering." },
       { name: "Embedded & IoT Solutions", href: "/product-engineering/embedded-iot", desc: "Bare-metal firmware, RTOS development, and multi-protocol IoT connectivity." },
       { name: "Rapid Prototyping & Product Validation Services", href: "/product-engineering/rapid-prototyping", desc: "3D printing, CNC machining, and comprehensive physical and environmental validation testing." },
-    ]
-  },
-  {
-    id: "software-ai",
-    label: "Software & AI Development",
-    icon: Laptop,
-    services: [
-      { name: "Custom ERP Solutions", href: "/software-iot/custom-erp", desc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards." },
-      { name: "Web & Mobile Applications", href: "/software-iot/web-mobile-apps", desc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security." },
-      { name: "Cloud & Infrastructure Solutions", href: "/software-iot/cloud-infrastructure", desc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring." },
-      { name: "AI & Data Analytics", href: "/software-iot/ai-analytics", desc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions." },
     ]
   },
   {
@@ -273,6 +263,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
       duration: 0.85,
       ease: "power3.out",
       delay: 0.12,
+      clearProps: "y",
     });
   }, [delayEntrance]);
 
@@ -537,8 +528,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     if (href === "/resources") {
       return (
         pathname === "/about" || pathname.startsWith("/about/") ||
-        pathname === "/case-studies" || pathname.startsWith("/case-studies/") ||
-        pathname === "/blog" || pathname.startsWith("/blog/")
+        pathname === "/contact" || pathname.startsWith("/contact/")
       );
     }
     return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
@@ -546,7 +536,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
 
   /* ── Themed Background classes ── */
   const headerBgCls = scrolled
-    ? "border-b border-[#005900]/20 dark:bg-black/95 bg-white/95 backdrop-blur-md shadow-premium"
+    ? "border-b border-[#005900]/20 dark:bg-[#16191F]/95 bg-white/95 backdrop-blur-md shadow-premium"
     : "border-b border-transparent bg-transparent backdrop-blur-none";
 
   /* ─────────────────────────────── RENDER ──────────────────────────────── */
@@ -712,24 +702,24 @@ export function Header({ delayEntrance = false }: HeaderProps) {
           {/* ── Right Controls ── */}
           <div className="flex items-center gap-2.5">
 
-            {/* Book a Meeting CTA (desktop) */}
+            {/* Get In touch CTA (desktop) */}
             <Link
               ref={bookMeetingRef}
               href="/contact"
               id="header-cta-btn"
               className="group relative hidden h-[38px] items-center justify-center overflow-hidden rounded-full border border-[#005900] bg-transparent px-5 text-[12.5px] font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#005900] hover:text-white hover:shadow-[0_0_24px_rgba(0,89,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005900] focus-visible:ring-offset-2 lg:inline-flex"
-              aria-label="Book a meeting with Texawave"
+              aria-label="Get In touch with Texawave"
             >
               <div className="relative flex items-center justify-center overflow-hidden">
                 {/* Non-hover state */}
                 <div className="flex items-center gap-1.5 transition-all duration-300 ease-out group-hover:-translate-x-[110%] group-hover:opacity-0">
-                  <span>Book a Meeting</span>
+                  <span>Get In touch</span>
                   <ArrowUpRight size={13} className="transition-transform duration-300 text-[#008000]" />
                 </div>
 
                 {/* Hover state (slides in from right) */}
                 <div className="absolute flex items-center gap-1.5 transition-all duration-300 ease-out translate-x-[110%] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 whitespace-nowrap">
-                  <span>Book a Meeting</span>
+                  <span>Get In touch</span>
                   <ArrowUpRight size={13} className="translate-x-0.5 -translate-y-0.5 text-black" />
                 </div>
               </div>
@@ -1128,7 +1118,33 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                 </div>
               </li>
 
+              {/* ── Case Studies mobile link ── */}
+              <li className="mobile-nav-item">
+                <Link
+                  href="/case-studies"
+                  onClick={closeMobile}
+                  className={[
+                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    isActive("/case-studies") ? "text-signal font-bold" : "dark:text-white hover:text-signal",
+                  ].join(" ")}
+                >
+                  Case Studies
+                </Link>
+              </li>
 
+              {/* ── Blog mobile link ── */}
+              <li className="mobile-nav-item">
+                <Link
+                  href="/blog"
+                  onClick={closeMobile}
+                  className={[
+                    "flex items-center rounded-xl px-4 py-3.5 text-[15.5px] font-semibold transition-colors duration-200 dark:hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal uppercase",
+                    isActive("/blog") ? "text-signal font-bold" : "dark:text-white hover:text-signal",
+                  ].join(" ")}
+                >
+                  Blog
+                </Link>
+              </li>
 
               {/* ── Resources accordion ── */}
               <li className="mobile-nav-item">
@@ -1213,7 +1229,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               onClick={closeMobile}
               className="group flex items-center justify-center gap-2 rounded-2xl bg-signal px-6 py-4 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(140,198,63,0.35)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(140,198,63,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary uppercase"
             >
-              BOOK A MEETING
+              Get In touch
               <ArrowUpRight
                 size={16}
                 aria-hidden="true"

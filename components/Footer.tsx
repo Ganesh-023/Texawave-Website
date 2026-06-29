@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const servicesColumn = [
+  { label: "Software & AI Solutions", href: "/software-iot" },
   { label: "Product Engineering", href: "/product-engineering" },
-  { label: "Software & AI Development", href: "/software-iot" },
   { label: "Procurement Services", href: "/procurement" },
   { label: "Manufacturing Support", href: "/manufacturing-support" },
 ];
@@ -20,18 +20,18 @@ const companyColumn = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#f8fafc] border-t border-slate-200 text-slate-600 font-sans">
+    <footer className="bg-[#f8fafc] dark:bg-bg-primary border-t border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 font-sans">
       {/* 4-Column Grid Layout */}
       <div className="mx-auto w-full max-w-[1400px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-8 px-[clamp(1rem,4vw,4rem)] py-14">
         {/* Column 1: Services */}
         <div>
-          <h3 className="mb-4 font-semibold text-slate-800 text-[16px] font-display">Services</h3>
+          <h3 className="mb-4 font-semibold text-slate-800 dark:text-white text-[16px] font-display">Services</h3>
           <div className="flex flex-col gap-2">
             {servicesColumn.map((item, idx) => (
               <Link
                 key={idx}
                 href={item.href}
-                className="text-[15px] text-slate-600 hover:text-[#3FAE49] hover:underline transition-colors duration-150"
+                className="text-[15px] text-slate-600 dark:text-slate-400 hover:text-[#3FAE49] dark:hover:text-[#8CC63F] transition-colors duration-150"
               >
                 {item.label}
               </Link>
@@ -41,13 +41,13 @@ export function Footer() {
 
         {/* Column 2: Resources */}
         <div>
-          <h3 className="mb-4 font-semibold text-slate-800 text-[16px] font-display">Resources</h3>
+          <h3 className="mb-4 font-semibold text-slate-800 dark:text-white text-[16px] font-display">Resources</h3>
           <div className="flex flex-col gap-2">
             {resourcesColumn.map((item, idx) => (
               <Link
                 key={idx}
                 href={item.href}
-                className="text-[15px] text-slate-600 hover:text-[#3FAE49] hover:underline transition-colors duration-150"
+                className="text-[15px] text-slate-600 dark:text-slate-400 hover:text-[#3FAE49] dark:hover:text-[#8CC63F] transition-colors duration-150"
               >
                 {item.label}
               </Link>
@@ -57,13 +57,13 @@ export function Footer() {
 
         {/* Column 3: Company */}
         <div>
-          <h3 className="mb-4 font-semibold text-slate-800 text-[16px] font-display">Company</h3>
+          <h3 className="mb-4 font-semibold text-slate-800 dark:text-white text-[16px] font-display">Company</h3>
           <div className="flex flex-col gap-2">
             {companyColumn.map((item, idx) => (
               <Link
                 key={idx}
                 href={item.href}
-                className="text-[15px] text-slate-600 hover:text-[#3FAE49] hover:underline transition-colors duration-150"
+                className="text-[15px] text-slate-600 dark:text-slate-400 hover:text-[#3FAE49] dark:hover:text-[#8CC63F] transition-colors duration-150"
               >
                 {item.label}
               </Link>
@@ -73,20 +73,20 @@ export function Footer() {
 
         {/* Column 4: Contact Us */}
         <div className="col-span-2 sm:col-span-1">
-          <h3 className="mb-4 font-semibold text-slate-800 text-[16px] font-display">Contact Us</h3>
+          <h3 className="mb-4 font-semibold text-slate-800 dark:text-white text-[16px] font-display">Contact Us</h3>
           <div className="flex flex-col">
-            <span className="text-[13px] font-bold text-slate-800 uppercase tracking-wider mb-1">Phone</span>
+            <span className="text-[13px] font-bold text-slate-800 dark:text-slate-300 uppercase tracking-wider mb-1">Phone</span>
             <a
               href="tel:+918680845604"
-              className="text-[15px] text-slate-600 hover:text-[#3FAE49] hover:underline block mb-4 font-medium transition-colors duration-150"
+              className="text-[15px] text-slate-600 dark:text-slate-400 hover:text-[#3FAE49] dark:hover:text-[#8CC63F] block mb-4 font-medium transition-colors duration-150"
             >
               +91 8680845604
             </a>
 
-            <span className="text-[13px] font-bold text-slate-800 uppercase tracking-wider mb-1">Email</span>
+            <span className="text-[13px] font-bold text-slate-800 dark:text-slate-300 uppercase tracking-wider mb-1">Email</span>
             <a
               href="mailto:contact@texawave.com"
-              className="text-[15px] text-slate-600 hover:text-[#3FAE49] hover:underline block font-medium transition-colors duration-150"
+              className="text-[15px] text-slate-600 dark:text-slate-400 hover:text-[#3FAE49] dark:hover:text-[#8CC63F] block font-medium transition-colors duration-150"
             >
               contact@texawave.com
             </a>
@@ -95,7 +95,7 @@ export function Footer() {
       </div>
 
       {/* Social Icons & Policy Links Area */}
-      <div className="border-t border-slate-200 bg-[#f8fafc]">
+      <div className="border-t border-slate-200 dark:border-white/5 bg-[#f8fafc] dark:bg-bg-secondary">
         {/* Social Icons Row */}
         <div className="flex justify-center items-center gap-6 py-6">
           {/* LinkedIn */}
@@ -163,7 +163,7 @@ export function Footer() {
             aria-label="X"
             className="hover:scale-110 transition-transform duration-200"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-black hover:text-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-black dark:text-white hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>

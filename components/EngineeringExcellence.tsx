@@ -19,6 +19,23 @@ gsap.registerPlugin(ScrollTrigger);
 // ─── Data ────────────────────────────────────────────────────────────────────
 const DISCIPLINES = [
   {
+    id: "software",
+    slug: "software-iot",
+    label: "SOFTWARE & AI",
+    title: "Software & AI Solutions",
+    icon: Code2,
+    shortDesc: "Bridge physical operations and digital scale with intelligent software.",
+    capabilities: [
+      "Custom ERP Solutions",
+      "Web & Mobile Applications",
+      "Cloud & Infrastructure Solutions",
+      "AI & Data Analytics",
+    ],
+    cta: "Explore Software & AI",
+    bgVisual: "electrical",
+    accentGlow: "rgba(140,198,63,0.18)",
+  },
+  {
     id: "product-engineering",
     slug: "product-engineering",
     label: "PRODUCT ENGINEERING",
@@ -33,23 +50,6 @@ const DISCIPLINES = [
     ],
     cta: "Explore Product Engineering",
     bgVisual: "software",
-    accentGlow: "rgba(140,198,63,0.18)",
-  },
-  {
-    id: "software",
-    slug: "software-iot",
-    label: "SOFTWARE & AI",
-    title: "Software & AI Development",
-    icon: Code2,
-    shortDesc: "Bridge physical operations and digital scale with intelligent software.",
-    capabilities: [
-      "Custom ERP Solutions",
-      "Web & Mobile Applications",
-      "Cloud & Infrastructure Solutions",
-      "AI & Data Analytics",
-    ],
-    cta: "Explore Software & AI",
-    bgVisual: "electrical",
     accentGlow: "rgba(140,198,63,0.18)",
   },
   {
@@ -384,13 +384,6 @@ function EngineeringTile({
         minWidth: 0,
       }}
     >
-      {/* Corner index */}
-      <div
-        className="absolute top-4 left-5 font-mono text-[10px] font-bold tracking-widest z-10 transition-opacity duration-300"
-        style={{ color: isHovered ? "rgba(140,198,63,0.65)" : "rgba(140,198,63,0.3)" }}
-      >
-        0{index + 1}
-      </div>
 
       {/* Top glow streak — brightens on hover */}
       <div
@@ -552,7 +545,7 @@ function MobileTile({ discipline, index }: { discipline: (typeof DISCIPLINES)[0]
         </div>
         <div className="flex-1">
           <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>
-            0{index + 1}
+            {discipline.label}
           </p>
           <h3 className="eng-mobile-tile-title font-black text-[#010101] dark:text-white text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif" }}>
             {discipline.title}
@@ -709,7 +702,7 @@ export function EngineeringExcellence() {
             className="mt-5 mx-auto max-w-2xl text-[#4B5563] dark:text-neutral-400 leading-relaxed"
             style={{ fontSize: "clamp(14px, 1.1vw + 9px, 17px)" }}
           >
-            From concept to production, Texawave delivers product engineering, software & AI development, procurement, and manufacturing support — one partner, zero gaps.
+            From concept to production, Texawave delivers software & AI solutions, product engineering, procurement services, and manufacturing support — one partner, zero gaps.
           </p>
         </div>
 
@@ -790,7 +783,7 @@ export function EngineeringExcellence() {
                     <Icon size={20} />
                   </div>
                   <div>
-                    <p className="eng-tile-label text-[11px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>0{i + 1}</p>
+                    <p className="eng-tile-label text-[11px] font-bold uppercase tracking-widest" style={{ color: "rgba(140,198,63,0.6)" }}>{d.label}</p>
                     <h3 className="eng-tile-title font-black text-[17px]" style={{ fontFamily: "var(--font-sora), Sora, sans-serif", color: "rgba(255,255,255,0.9)" }}>{d.title}</h3>
                   </div>
                 </div>
@@ -823,8 +816,7 @@ export function EngineeringExcellence() {
 
         {/* ── Hover hint (desktop only) ── */}
         <p
-          className="hidden lg:block text-center mt-6 text-[11px] font-medium tracking-widest uppercase"
-          style={{ color: "rgba(140,198,63,0.25)" }}
+          className="engineering-hover-hint hidden lg:block text-center mt-6 text-[11px] font-medium tracking-widest uppercase"
         >
           Hover a discipline to explore capabilities
         </p>

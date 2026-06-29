@@ -46,6 +46,25 @@ export const navItems = [
 
 export const services = [
   {
+    slug: "software-iot",
+    title: "Software & AI Solutions",
+    short: "Bridge physical operations and digital scale with intelligent software.",
+    icon: Code2,
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    deliverables: [
+      "Custom ERP Solutions",
+      "Web & Mobile Applications",
+      "Cloud & Infrastructure Solutions",
+      "AI & Data Analytics"
+    ],
+    subServices: [
+      { icon: Settings,          title: "Custom ERP Solutions",                desc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards." },
+      { icon: MonitorSmartphone, title: "Web & Mobile Applications",           desc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security." },
+      { icon: Cloud,             title: "Cloud & Infrastructure Solutions",    desc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring." },
+      { icon: BrainCircuit,      title: "AI & Data Analytics",                 desc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions." }
+    ]
+  },
+  {
     slug: "product-engineering",
     title: "Product Engineering",
     short: "Turn complex concepts into market-ready physical products.",
@@ -62,25 +81,6 @@ export const services = [
       { icon: CircuitBoard,      title: "Hardware & PCB Design",               desc: "Schematic design, multi-layer PCB layout, and compliance-ready circuit engineering." },
       { icon: Cpu,               title: "Embedded & IoT Solutions",            desc: "Bare-metal firmware, RTOS development, and multi-protocol IoT connectivity." },
       { icon: Box,               title: "Rapid Prototyping & Product Validation", desc: "3D printing, CNC machining, and comprehensive physical and environmental validation." }
-    ]
-  },
-  {
-    slug: "software-iot",
-    title: "Software & AI Development",
-    short: "Bridge physical operations and digital scale with intelligent software.",
-    icon: Code2,
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
-    deliverables: [
-      "Custom ERP Solutions",
-      "Web & Mobile Applications",
-      "Cloud & Infrastructure Solutions",
-      "AI & Data Analytics"
-    ],
-    subServices: [
-      { icon: Settings,          title: "Custom ERP Solutions",                desc: "Tailor-made ERP platforms unifying inventory, HR, and finance with real-time dashboards." },
-      { icon: MonitorSmartphone, title: "Web & Mobile Applications",           desc: "Full-stack web platforms and native iOS/Android apps with enterprise-grade security." },
-      { icon: Cloud,             title: "Cloud & Infrastructure Solutions",    desc: "AWS/Azure cloud architecture, CI/CD pipelines, and proactive infrastructure monitoring." },
-      { icon: BrainCircuit,      title: "AI & Data Analytics",                 desc: "Custom AI models, intelligent data pipelines, and predictive analytics solutions." }
     ]
   },
   {

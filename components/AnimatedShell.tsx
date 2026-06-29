@@ -219,7 +219,7 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="gpu-accelerated">
+    <div ref={containerRef}>
       {children}
     </div>
   );

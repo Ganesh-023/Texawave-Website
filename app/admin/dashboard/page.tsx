@@ -735,11 +735,11 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
+    <div className="admin-dashboard min-h-screen bg-bg-primary text-text-primary font-sans text-left relative">
       <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none z-0" aria-hidden="true" />
       
       {/* Top Navbar */}
-      <nav className="fixed top-0 left-0 right-0 h-[75px] bg-[#0c0c0c] border-b border-white/10 flex items-center justify-between px-6 lg:px-12 z-40">
+      <nav className="admin-topbar fixed top-0 left-0 right-0 h-[75px] bg-[#0c0c0c] border-b border-white/10 flex items-center justify-between px-6 lg:px-12 z-40">
         <div className="flex items-center gap-4">
           <Image
             src="/texawave_logo.webp"
@@ -772,7 +772,7 @@ export default function AdminDashboard() {
       <div className="pt-[75px] min-h-screen grid lg:grid-cols-[260px_1fr] relative z-10">
         
         {/* Left Side menu */}
-        <aside className="bg-[#080808]/90 border-r border-white/10 p-6 flex flex-col justify-between max-h-[calc(100vh-75px)] lg:sticky lg:top-[75px]">
+        <aside className="admin-sidebar bg-[#080808]/90 border-r border-white/10 p-6 flex flex-col justify-between max-h-[calc(100vh-75px)] lg:sticky lg:top-[75px]">
           <div className="space-y-6">
             
             {/* Admin permissions checklist */}
@@ -856,7 +856,7 @@ export default function AdminDashboard() {
                   { label: "Total HR Users", value: totalHRUsersCount, desc: "Active recruiter accounts", color: "text-purple-400" },
                   { label: "Website Visitors", value: websiteVisitorsCount, desc: "Sourcing page traffic", color: "text-amber-400" }
                 ].map((card, idx) => (
-                  <div key={idx} className="bg-[#111] border border-white/10 rounded-2xl p-6 shadow-crisp">
+                  <div key={idx} className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 shadow-crisp">
                     <span className="text-[10px] font-bold text-text-secondary uppercase block font-mono">{card.label}</span>
                     <strong className="text-4xl block mt-2 font-mono font-black text-white">{card.value}</strong>
                     <span className="text-[10px] text-text-secondary mt-1.5 block leading-none font-medium">{card.desc}</span>
@@ -868,7 +868,7 @@ export default function AdminDashboard() {
               <div className="grid md:grid-cols-2 gap-8 pt-4">
                 
                 {/* Chart 1: Applications by division */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
                     <BarChart2 size={16} className="text-[#8CC63F]" />
                     Applications per Division
@@ -897,7 +897,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* System Diagnostics status */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left flex flex-col justify-between">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 text-left flex flex-col justify-between">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-mono">
                     <Shield size={16} className="text-[#8CC63F]" />
                     System Status & Operations
@@ -938,7 +938,7 @@ export default function AdminDashboard() {
               <div className="grid md:grid-cols-[1fr_1.5fr] gap-8 items-start">
                 
                 {/* Form: Add Recruiter */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
                     <UserPlus size={16} className="text-[#8CC63F]" />
                     Add HR Recruiter Account
@@ -1010,7 +1010,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Recruiter list table */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 text-left">
                   <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2 font-mono">
                     <Users size={16} className="text-[#8CC63F]" />
                     Recruiter Directory List
@@ -1082,7 +1082,7 @@ export default function AdminDashboard() {
                 </button>
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="border-b border-white/10 text-text-secondary uppercase font-bold tracking-wider bg-white/5">
@@ -1147,7 +1147,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Filtering row */}
-              <div className="grid sm:grid-cols-3 gap-4 bg-[#111] p-4 rounded-2xl border border-white/10">
+              <div className="dashboard-filter-row grid sm:grid-cols-3 gap-4 bg-[#111] p-4 rounded-2xl border border-white/10">
                 <div className="relative flex items-center">
                   <Search className="absolute left-3 text-text-secondary" size={14} />
                   <input
@@ -1186,7 +1186,7 @@ export default function AdminDashboard() {
               {/* Candidate Grid list */}
               <div className="grid gap-6 md:grid-cols-2 text-left">
                 {filteredCandidates.map((app) => (
-                  <div key={app.id} className="bg-[#111] border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-crisp relative">
+                  <div key={app.id} className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-crisp relative">
                     <div>
                       <div className="flex justify-between items-start gap-4 mb-4">
                         <div>
@@ -1289,7 +1289,7 @@ export default function AdminDashboard() {
 
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Chart 1: Applications per month */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-6 font-mono">Applications Volume (Month-wise)</h3>
                   
                   <div className="h-48 flex items-end justify-between pt-6 border-b border-white/5 font-mono text-[10px] text-text-secondary">
@@ -1309,7 +1309,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Conversion Summary info */}
-                <div className="bg-[#111] border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
+                <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 font-mono">Department Openings Distribution</h3>
                   
                   <div className="space-y-4 pt-2">
@@ -1339,7 +1339,7 @@ export default function AdminDashboard() {
                 <p className="text-text-secondary text-sm mt-1">Configure candidate-facing interfaces parameters and recruitment campaigns status.</p>
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-6 max-w-2xl space-y-6">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 max-w-2xl space-y-6">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Portal Sourcing Campaign Status</label>
                   <select
@@ -1383,7 +1383,7 @@ export default function AdminDashboard() {
                 <p className="text-text-secondary text-sm mt-1">Monitor diagnostic systems registries, logs tracking, and access levels.</p>
               </div>
 
-              <div className="bg-[#111] border border-white/10 rounded-2xl p-6 max-w-xl space-y-4 text-xs font-mono">
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 max-w-xl space-y-4 text-xs font-mono">
                 <h3 className="text-white font-bold text-sm font-display mb-3">Diagnostics Terminal</h3>
 
                 <div className="flex justify-between items-center border-b border-white/5 pb-2">
@@ -1421,7 +1421,7 @@ export default function AdminDashboard() {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <h1 className="text-3xl font-bold font-display text-white">Case Studies Management</h1>
-                  <p className="text-text-secondary text-sm mt-1">Manage published engineering case studies, track views & likes, and moderate comments.</p>
+                  <p className="text-text-secondary text-sm mt-1">Manage published engineering case studies, track views, and moderate comments.</p>
                 </div>
                 <button
                   onClick={() => { resetCSForm(); setShowCSModal(true); }}
@@ -1432,14 +1432,13 @@ export default function AdminDashboard() {
               </div>
 
               {/* Case Study Analytics Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                   { label: "Total Projects", value: caseStudies.length, desc: "Draft + Published", color: "text-[#8CC63F]" },
                   { label: "Published Works", value: caseStudies.filter(c => c.status === "Published").length, desc: "Visible to public", color: "text-[#14B8A6]" },
-                  { label: "Aggregated Views", value: caseStudies.reduce((sum, c) => sum + (c.views || 0), 0), desc: "Times clicked", color: "text-amber-400" },
-                  { label: "Aggregated Likes", value: caseStudies.reduce((sum, c) => sum + (c.likes || 0), 0), desc: "User recommendations", color: "text-purple-400" }
+                  { label: "Aggregated Views", value: caseStudies.reduce((sum, c) => sum + (c.views || 0), 0), desc: "Times clicked", color: "text-amber-400" }
                 ].map((card, idx) => (
-                  <div key={idx} className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 shadow-crisp transition-all hover:border-[#8CC63F]/20 hover:shadow-[0_4px_20px_rgba(140,198,63,0.05)]">
+                  <div key={idx} className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl p-6 shadow-crisp transition-all hover:border-[#8CC63F]/20 hover:shadow-[0_4px_20px_rgba(140,198,63,0.05)]">
                     <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block font-sans">{card.label}</span>
                     <strong className={`text-4xl block mt-2 font-sans font-extrabold tracking-tight ${card.color}`}>{card.value}</strong>
                     <span className="text-[10.5px] text-text-secondary mt-2 block leading-none font-medium font-sans">{card.desc}</span>
@@ -1448,7 +1447,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Filter controls */}
-              <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
+              <div className="dashboard-filter-row bg-[#171A21] border border-white/[0.06] rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-80">
                   <span className="absolute inset-y-0 left-3 flex items-center text-text-secondary">
                     <Search size={15} />
@@ -1477,7 +1476,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Case Studies Table */}
-              <div className="bg-[#171A21] border border-white/[0.06] rounded-2xl overflow-hidden shadow-crisp">
+              <div className="dashboard-card bg-[#171A21] border border-white/[0.06] rounded-2xl overflow-hidden shadow-crisp">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
@@ -1487,7 +1486,6 @@ export default function AdminDashboard() {
                         <th className="p-4">Category</th>
                         <th className="p-4 w-28 text-center">Status</th>
                         <th className="p-4 w-20 text-center">Views</th>
-                        <th className="p-4 w-20 text-center">Likes</th>
                         <th className="p-4 w-20 text-center">Comments</th>
                         <th className="p-4 w-44 text-right">Actions</th>
                       </tr>
@@ -1527,7 +1525,6 @@ export default function AdminDashboard() {
                               </select>
                             </td>
                             <td className="p-4 text-center text-xs font-mono font-medium text-text-secondary">{cs.views || 0}</td>
-                            <td className="p-4 text-center text-xs font-mono font-medium text-text-secondary">{cs.likes || 0}</td>
                             <td className="p-4 text-center">
                               <button
                                 onClick={() => setShowCommentsModal(cs)}
@@ -1573,7 +1570,7 @@ export default function AdminDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto"
+            className="dashboard-modal relative w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto"
           >
             
             <button
@@ -1739,7 +1736,7 @@ export default function AdminDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]"
+            className="resume-viewer-modal relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[280px_1fr] max-h-[85vh]"
           >
             
             <button
@@ -1753,7 +1750,7 @@ export default function AdminDashboard() {
             </button>
 
             {/* Sidebar info */}
-            <div className="bg-[#080808] p-6 md:p-8 border-r border-white/10 text-left flex flex-col justify-between overflow-y-auto">
+            <div className="resume-sidebar bg-[#080808] p-6 md:p-8 border-r border-white/10 text-left flex flex-col justify-between overflow-y-auto">
               <div>
                 <span className="text-[9px] font-bold text-text-secondary font-mono block uppercase">Candidate CV Info</span>
                 <strong className="text-white text-lg block mt-1.5 font-display">{resumeApp.name}</strong>
@@ -1787,7 +1784,7 @@ export default function AdminDashboard() {
 
             {/* Resume viewer window */}
             <div className="p-8 md:p-12 overflow-y-auto text-left bg-bg-primary max-h-[85vh]">
-              <div className="border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
+              <div className="resume-document border border-white/10 rounded-2xl bg-[#080808] p-8 max-w-xl mx-auto shadow-crisp relative">
                 <div className="absolute right-6 top-6 text-[9px] text-text-secondary border border-white/10 px-2 py-0.5 rounded font-mono">
                   PDF VIEWER
                 </div>
@@ -1855,7 +1852,7 @@ export default function AdminDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left"
+            className="dashboard-modal relative w-full max-w-5xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left"
           >
             <button
               onClick={() => { setShowCSModal(false); resetCSForm(); }}
@@ -2096,7 +2093,7 @@ export default function AdminDashboard() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-3xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[85vh] overflow-y-auto text-left font-sans"
+            className="dashboard-modal relative w-full max-w-3xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[85vh] overflow-y-auto text-left font-sans"
           >
             <button
               onClick={() => setShowCommentsModal(null)}
@@ -2158,7 +2155,7 @@ export default function AdminDashboard() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-8 right-8 z-50 bg-[#111] border border-[#8CC63F]/30 text-white px-5 py-3 rounded-xl shadow-[0_0_24px_rgba(140,198,63,0.15)] flex items-center gap-2 animate-fade-in font-sans text-xs font-bold uppercase tracking-wider">
+        <div className="dashboard-toast fixed bottom-8 right-8 z-50 bg-[#111] border border-[#8CC63F]/30 text-white px-5 py-3 rounded-xl shadow-[0_0_24px_rgba(140,198,63,0.15)] flex items-center gap-2 animate-fade-in font-sans text-xs font-bold uppercase tracking-wider">
           <span className="h-2 w-2 rounded-full bg-[#8CC63F]" />
           {toastMessage}
         </div>

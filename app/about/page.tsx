@@ -17,7 +17,6 @@ import {
   ArrowRight,
   Shield,
   CheckCircle2,
-  Workflow,
   Sparkles,
   Layers,
   Linkedin
@@ -355,64 +354,6 @@ function GlassCard({ children, className = "", hasTilt = false }: GlassCardProps
   );
 }
 
-// ==========================================
-// 3. STATS COUNT-UP VISUALIZATION
-// ==========================================
-interface StatCounterProps {
-  target: number;
-  suffix?: string;
-  prefix?: string;
-  duration?: number;
-}
-
-function StatCounter({ target, suffix = "", prefix = "", duration = 1.5 }: StatCounterProps) {
-  const [count, setCount] = useState(0);
-  const elementRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          let start = 0;
-          const end = target;
-          const totalFrames = Math.round(duration * 60);
-          let frame = 0;
-
-          const counter = () => {
-            frame++;
-            const progress = frame / totalFrames;
-            // Ease out formula
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const currentCount = start + easeProgress * (end - start);
-            setCount(currentCount);
-
-            if (frame < totalFrames) {
-              requestAnimationFrame(counter);
-            } else {
-              setCount(end);
-            }
-          };
-
-          requestAnimationFrame(counter);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [target, duration]);
-
-  // Handle floats or rounded ints
-  const displayVal = target % 1 === 0 ? Math.round(count) : count.toFixed(1);
-  const formattedVal = Number(displayVal).toLocaleString("en-US");
-
-  return <span ref={elementRef}>{prefix}{formattedVal}{suffix}</span>;
-}
 
 interface TeamMember {
   id: string;
@@ -591,7 +532,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             </div>
           </div>
         ) : (
-          <div className="relative w-full aspect-[4/5] rounded-xl bg-gradient-to-br from-[#060A08] via-[#0D1612] to-[#040605] border border-neutral-900 flex flex-col justify-between p-4 overflow-hidden group-hover:border-[#8CC63F]/20 transition-colors duration-500">
+          <div className="team-initials-box relative w-full aspect-[4/5] rounded-xl bg-gradient-to-br from-[#060A08] via-[#0D1612] to-[#040605] border border-neutral-900 flex flex-col justify-between p-4 overflow-hidden group-hover:border-[#8CC63F]/20 transition-colors duration-500">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(140,198,63,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(140,198,63,0.02)_1px,transparent_1px)] bg-[size:10px_10px]" />
             <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(0,89,0,0.05)_0%,transparent_50%)] animate-pulse" />
 
@@ -601,7 +542,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
             </div>
 
             <div className="relative text-center self-center flex items-center justify-center">
-              <span className="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-[#8CC63F] drop-shadow-[0_0_12px_rgba(140,198,63,0.25)] tracking-tighter">
+              <span className="team-initials-text text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-[#8CC63F] drop-shadow-[0_0_12px_rgba(140,198,63,0.25)] tracking-tighter">
                 {initials}
               </span>
             </div>
@@ -674,7 +615,6 @@ export default function AboutPage() {
 
   // Team Section States
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState("ALL");
   const [teamLoading, setTeamLoading] = useState(true);
 
   // Fetch Team Members
@@ -695,16 +635,7 @@ export default function AboutPage() {
     fetchTeam();
   }, []);
 
-  const filteredMembers = teamMembers.filter((member) => {
-    if (selectedFilter === "ALL") return true;
-    if (selectedFilter === "SOFTWARE") return member.department === "Software Engineering";
-    if (selectedFilter === "ELECTRICAL") return member.department === "Electrical Engineering";
-    if (selectedFilter === "MECHANICAL") return member.department === "Mechanical Engineering";
-    if (selectedFilter === "PROCUREMENT") return member.department === "Procurement";
-    if (selectedFilter === "IoT") return member.department === "IoT Engineering";
-    if (selectedFilter === "DESIGN") return member.department === "Product Design";
-    return true;
-  });
+  const filteredMembers = teamMembers;
 
   // GSAP Entrance Animations
   useGSAP(() => {
@@ -742,40 +673,6 @@ export default function AboutPage() {
       }
     );
 
-    // Staggered stats reveal
-    gsap.fromTo(
-      ".reveal-stat-cards",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".stats-section",
-          start: "top 80%"
-        }
-      }
-    );
-
-    // Workflow steps reveal
-    gsap.fromTo(
-      ".reveal-timeline-step",
-      { opacity: 0, scale: 0.9, y: 20 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".timeline-section",
-          start: "top 75%"
-        }
-      }
-    );
   }, { scope: containerRef });
 
   // CTA Magnetic Button Effect
@@ -884,7 +781,7 @@ export default function AboutPage() {
       <div
         ref={containerRef}
         style={{ contentVisibility: "auto" }}
-        className="bg-[#F8F9FB] dark:bg-[#0F1115] text-[#010101] dark:text-[#EEEEEE] font-sans antialiased overflow-hidden min-h-screen relative z-10"
+        className="about-us-page bg-[#F8F9FB] dark:bg-[#0F1115] text-[#010101] dark:text-[#EEEEEE] font-sans antialiased overflow-hidden min-h-screen relative z-10"
       >
         {/* Subtle Cyber Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.025)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
@@ -907,7 +804,14 @@ export default function AboutPage() {
               Excellence
             </h1>
             <p className="reveal-hero-text text-body-large text-[#4B5563] dark:text-[#CCCCCC] leading-relaxed max-w-xl">
-              Welcome to Texawave. We are a team of visionary builders, problem solvers, and technologists dedicated to transforming complex challenges into seamless digital realities. By combining deep technical mastery with a passion for innovation, we empower businesses to navigate the evolving digital landscape and scale efficiently.
+              TexaWave was founded with a simple belief: great products are built when engineering disciplines work together.Businesses often struggle with multiple vendors for software, electronics, mechanical design, procurement, and manufacturing.
+
+
+TexaWave brings these disciplines together
+
+under one roof, helping organizations
+
+transform ideas into market-ready products.
             </p>
           </div>
 
@@ -929,10 +833,8 @@ export default function AboutPage() {
             ========================================== */}
         <section className="mission-section py-24 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-[#E5E7EB] dark:border-neutral-900/50">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Core Principles</h2>
-            <p className="text-[#4B5563] dark:text-[#AAAAAA]">The principles that drive our engineering decisions and project lifecycle support.</p>
+            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Mission & Vision</h2>
           </div>
-
           <div className="reveal-mission-cards grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Mission Card */}
             <GlassCard hasTilt={true} className="flex flex-col h-full justify-between group">
@@ -945,9 +847,6 @@ export default function AboutPage() {
                 <p className="text-[#4B5563] dark:text-[#EEEEEE] text-[15px] leading-relaxed">
                   To engineer high-performance, scalable technology solutions that drive measurable business impact. We build software and systems that don&apos;t just solve today&apos;s problems but unlock tomorrow&apos;s opportunities.
                 </p>
-              </div>
-              <div className="mt-8 border-t border-[#E5E7EB] dark:border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-[#9CA3AF] dark:text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
-                <span>[ACTIVATE MISSION ENGINE]</span>
               </div>
             </GlassCard>
 
@@ -980,9 +879,6 @@ export default function AboutPage() {
                 <p className="text-[#4B5563] dark:text-[#EEEEEE] text-[15px] leading-relaxed">
                   To be the global benchmark for technical innovation and a trusted partner for enterprises looking to redefine their industries through cutting-edge engineering.
                 </p>
-              </div>
-              <div className="mt-8 border-t border-[#E5E7EB] dark:border-neutral-900 pt-4 flex items-center gap-2 text-xs font-mono text-[#9CA3AF] dark:text-neutral-500 group-hover:text-[#8CC63F] transition-colors duration-300">
-                <span>[GLOBAL BLUEPRINT VISUAL]</span>
               </div>
             </GlassCard>
           </div>
@@ -1077,9 +973,9 @@ export default function AboutPage() {
                     willChange: "transform, opacity",
                     backfaceVisibility: "hidden"
                   }}
-                  className={`absolute z-20 w-[240px] rounded-xl border p-5 backdrop-blur-md transition-all duration-300 cursor-pointer ${
+                  className={`orbit-card absolute z-20 w-[240px] rounded-xl border p-5 backdrop-blur-md transition-all duration-300 cursor-pointer ${
                     isHovered
-                      ? "border-[#8CC63F] bg-neutral-950 shadow-[0_0_30px_rgba(140,198,63,0.25)] scale-[1.05]"
+                      ? "orbit-card-hovered border-[#8CC63F] bg-neutral-950 shadow-[0_0_30px_rgba(140,198,63,0.25)] scale-[1.05]"
                       : hoveredOrbitIdx !== null
                       ? "border-neutral-900 bg-neutral-950/20 opacity-35 scale-[0.96]"
                       : "border-neutral-800 bg-neutral-950/65"
@@ -1117,7 +1013,7 @@ export default function AboutPage() {
                 <div
                   key={i}
                   onClick={() => setHoveredOrbitIdx(isHovered ? null : i)}
-                  className={`rounded-xl border p-5 bg-neutral-950/60 border-neutral-800 transition-all duration-300 ${isHovered ? "border-[#8CC63F] shadow-[0_0_20px_rgba(140,198,63,0.15)]" : ""}`}
+                  className={`orbit-card rounded-xl border p-5 bg-neutral-950/60 border-neutral-800 transition-all duration-300 ${isHovered ? "orbit-card-hovered border-[#8CC63F] shadow-[0_0_20px_rgba(140,198,63,0.15)]" : ""}`}
                 >
                   <div className="flex items-center justify-between cursor-pointer">
                     <div className="flex items-center gap-3">
@@ -1160,31 +1056,9 @@ export default function AboutPage() {
         {/* ==========================================
             SECTION: STATS & MEET OUR TEAM
             ========================================== */}
-        {/* Statistics Row Section */}
-        <section className="relative bg-[#000000] py-16 border-t border-b border-neutral-900 z-20">
-          <div className="max-w-[1400px] mx-auto px-[clamp(1rem,4vw,4rem)]">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-              {[
-                { label: "Engineers", val: 45, suffix: "+" },
-                { label: "Projects Completed", val: 120, suffix: "+" },
-                { label: "Years Experience", val: 15, suffix: "+" },
-                { label: "Countries Served", val: 20, suffix: "+" }
-              ].map((stat, i) => (
-                <div key={i} className="text-center group border-r border-neutral-900 last:border-r-0 md:pr-4">
-                  <span className="block text-[32px] md:text-[40px] font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#8CC63F] to-emerald-500 drop-shadow-[0_0_15px_rgba(140,198,63,0.15)]">
-                    <StatCounter target={stat.val} suffix={stat.suffix} />
-                  </span>
-                  <span className="block text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-[#AAAAAA] mt-2 group-hover:text-white transition-colors duration-300">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Our Team Section */}
-        <section id="our-team" className="relative bg-[#000000] py-28 px-[clamp(1rem,4vw,4rem)] border-b border-neutral-900 z-20 overflow-hidden">
+        <section id="our-team" className="about-team-section relative bg-[#000000] py-28 px-[clamp(1rem,4vw,4rem)] border-b border-neutral-900 z-20 overflow-hidden">
           {/* Cyber Canvas Background specifically for Team section */}
           <TeamCanvas />
           
@@ -1206,34 +1080,6 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Department Filter Tabs */}
-            <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
-              {["ALL", "SOFTWARE", "ELECTRICAL", "MECHANICAL", "PROCUREMENT", "IoT", "DESIGN"].map((filter) => {
-                const labelMap: Record<string, string> = {
-                  ALL: "All Divisions",
-                  SOFTWARE: "Software",
-                  ELECTRICAL: "Electrical",
-                  MECHANICAL: "Mechanical",
-                  PROCUREMENT: "Procurement",
-                  IoT: "IoT",
-                  DESIGN: "Design"
-                };
-                const isActive = selectedFilter === filter;
-                return (
-                  <button
-                    key={filter}
-                    onClick={() => setSelectedFilter(filter)}
-                    className={`px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg border transition-all duration-300 ${
-                      isActive
-                        ? "bg-[#005900]/30 border-[#8CC63F] text-[#8CC63F] shadow-[0_0_12px_rgba(140,198,63,0.15)]"
-                        : "bg-transparent border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700"
-                    }`}
-                  >
-                    {labelMap[filter]}
-                  </button>
-                );
-              })}
-            </div>
 
             {/* Team Grid */}
             {teamLoading ? (
@@ -1269,115 +1115,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ==========================================
-            SECTION 4 — WHY TEXAWAVE
-            ========================================== */}
-        <section className="stats-section py-24 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-neutral-900/50">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-4">
-              <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-3">Distinction</span>
-              <h2 className="font-display font-bold text-section text-white mb-5 leading-[1.1]">Why Leading Enterprises Trust Texawave</h2>
-              <p className="text-[#AAAAAA] leading-relaxed mb-6">
-                Hardware development demands unity across mechanics, electronics, procurement, and code. We eliminate structural isolation to align speed, cost, and manufacturability from day one.
-              </p>
-            </div>
-
-            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-6">
-              {[
-                {
-                  id: "01",
-                  title: "Multi-disciplinary Engineering",
-                  desc: "Mechanical, electrical, embedded, and cloud streams unified under cohesive design management.",
-                  stat: 15,
-                  statSuffix: "+ Fields"
-                },
-                {
-                  id: "02",
-                  title: "End-to-End Product Development",
-                  desc: "Complete project ownership from initial feasibility analysis down to physical factory floor handoffs.",
-                  stat: 50,
-                  statSuffix: "+ Products"
-                },
-                {
-                  id: "03",
-                  title: "Hardware + Software Expertise",
-                  desc: "Intelligent software layers matched with custom high-speed board development and telemetry connectivity.",
-                  stat: 10,
-                  statSuffix: "M+ Lines of Code"
-                },
-                {
-                  id: "04",
-                  title: "Scalable Industrial Solutions",
-                  desc: "Robust architecture, components validation, and certifications aligned to international ISO criteria.",
-                  stat: 99.9,
-                  statSuffix: "% Uptime"
-                }
-              ].map((card, i) => (
-                <div
-                  key={i}
-                  className="reveal-stat-cards relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950/40 p-6 transition-all duration-300 hover:border-[#8CC63F] hover:shadow-[0_0_25px_rgba(140,198,63,0.15)] group"
-                >
-                  <div className="absolute top-4 right-6 font-mono text-[24px] font-black text-neutral-800 select-none group-hover:text-[#8CC63F]/20 transition-colors duration-300">
-                    {card.id}
-                  </div>
-                  
-                  <div className="mb-4">
-                    <span className="text-[28px] font-display font-black text-[#8CC63F] drop-shadow-[0_0_10px_rgba(140,198,63,0.2)]">
-                      <StatCounter target={card.stat} suffix={card.statSuffix} />
-                    </span>
-                  </div>
-
-                  <h4 className="font-display font-bold text-[17px] text-white mb-2">{card.title}</h4>
-                  <p className="text-xs text-[#AAAAAA] leading-relaxed">{card.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ==========================================
-            SECTION 5 — ENGINEERING WORKFLOW TIMELINE
-            ========================================== */}
-        <section className="timeline-section py-28 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-neutral-900/50">
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-3">Workflow</span>
-            <h2 className="font-display font-bold text-section text-white mb-4">Engineering Workflow Timeline</h2>
-            <p className="text-[#AAAAAA]">A systematic approach designed to guide projects from abstract design blueprints to validated deployment.</p>
-          </div>
-
-          {/* Timeline Steps Layout */}
-          <div className="relative">
-            {/* Running Glowing Connection Line (Desktop) */}
-            <div className="hidden lg:block absolute top-[44px] left-[6%] right-[6%] h-[2px] bg-neutral-900 pointer-events-none z-0">
-              <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-transparent via-[#8CC63F] to-transparent animate-[marquee_4s_linear_infinite]" />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-7 gap-8 lg:gap-4 relative z-10">
-              {[
-                { step: "01", name: "Discovery", desc: "Target definitions & technical constraint analysis." },
-                { step: "02", name: "Research", desc: "Component exploration & architecture planning." },
-                { step: "03", name: "Engineering", desc: "CAD development, hardware board design & software routing." },
-                { step: "04", name: "Prototyping", desc: "Physically building initial boards & validation enclosures." },
-                { step: "05", name: "Testing", desc: "Rigorous thermal, hardware board & code load evaluation." },
-                { step: "06", name: "Production", desc: "Supplier procurement, board yields & DFM scaling." },
-                { step: "07", name: "Deployment", desc: "Final launch, field telemetry & system optimizations." }
-              ].map((step, idx) => (
-                <div key={idx} className="reveal-timeline-step flex lg:flex-col items-center lg:text-center group relative">
-                  {/* Glow circle indicator */}
-                  <div className="relative w-20 h-20 rounded-full border border-neutral-800 bg-[#060606] flex items-center justify-center mb-0 lg:mb-6 shrink-0 z-15 group-hover:border-[#8CC63F] group-hover:shadow-[0_0_18px_rgba(140,198,63,0.25)] transition-all duration-300 mr-5 lg:mr-0">
-                    <span className="text-[13px] font-mono font-bold text-[#8CC63F]">{step.step}</span>
-                    <div className="absolute inset-1 border border-dashed border-neutral-900 rounded-full group-hover:border-[#8CC63F]/30 group-hover:rotate-45 transition-all duration-500" />
-                  </div>
-
-                  <div>
-                    <h4 className="font-display font-bold text-sm text-white mb-1.5 group-hover:text-[#8CC63F] transition-colors duration-300">{step.name}</h4>
-                    <p className="text-[11px] text-[#999999] leading-relaxed max-w-[160px] lg:mx-auto">{step.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* ==========================================
             SECTION 6 — FINAL CTA SECTION

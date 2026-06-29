@@ -27,8 +27,6 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const { searchParams } = new URL(request.url);
-    const shouldIncrementView = searchParams.get("view") === "true";
     const admin = isAdmin(request);
 
     const studies = readCaseStudies();
@@ -43,11 +41,6 @@ export async function GET(
     // If not published and not admin, return 404 or unauthorized
     if (study.status !== "Published" && !admin) {
       return NextResponse.json({ success: false, error: "Case study not found" }, { status: 404 });
-    }
-
-    if (shouldIncrementView) {
-      study.views = (study.views || 0) + 1;
-      writeCaseStudies(studies);
     }
 
     return NextResponse.json({ success: true, caseStudy: study });

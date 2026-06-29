@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Search, Plus, Eye, ThumbsUp, MessageSquare, Shield } from "lucide-react";
+import { ArrowRight, Search, Plus, Eye, MessageSquare, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CaseStudy {
@@ -22,7 +22,6 @@ interface CaseStudy {
   gallery: string[];
   status: "Draft" | "Published";
   views: number;
-  likes: number;
   comments: any[];
 }
 
@@ -161,9 +160,6 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
                 <div className="flex items-center gap-4 text-text-secondary text-[10px] font-mono font-bold">
                   <span className="flex items-center gap-1.5">
                     <Eye size={12} className="text-text-secondary" /> {study.views || 0}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <ThumbsUp size={11} className="text-text-secondary" /> {study.likes || 0}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <MessageSquare size={11} className="text-text-secondary" /> {study.comments?.filter((c: any) => c.approved).length || 0}

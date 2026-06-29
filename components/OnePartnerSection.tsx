@@ -166,7 +166,8 @@ export function OnePartnerSection() {
             Full-Scale Lifecycle Delivery
           </span>
           <h2 className="one-partner-heading animate-fade-in text-section font-black tracking-tight text-[#010101] dark:text-white leading-tight">
-            One Partner. Infinite Innovation.
+            One Partner. 
+            <span className="text-signal">Infinite Innovation.</span>
           </h2>
           <p className="animate-fade-in mt-6 text-body-large text-text-secondary leading-relaxed">
             TexaWave combines electronics, embedded systems, software development, mechanical engineering, procurement, and manufacturing expertise to help businesses transform innovative ideas into successful market-ready products.

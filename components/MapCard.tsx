@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import { ExternalLink, MapPin } from "lucide-react";
 
 export function MapCard() {
   const position = [12.996456, 80.249596];
   const addressQuery = "93/206, Canal Bank Rd, Indira Nagar, Adyar, Chennai, Tamil Nadu 600020";
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressQuery)}`;
+  const mapsUrl = "https://maps.app.goo.gl/phSVoXA9iMRFxZhc6";
 
   const iframeHtml = `
     <!DOCTYPE html>

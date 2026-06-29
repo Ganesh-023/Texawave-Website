@@ -297,11 +297,18 @@ export default function Home() {
           </section>
 
           {/* Stats Section */}
-          <section className="relative z-20 px-5 lg:px-8 -mt-12 sm:-mt-14 md:-mt-16">
+          <section className="relative z-20 px-5 lg:px-8 my-10 sm:my-12 md:my-16">
             <div className="mx-auto max-w-[1200px] w-full rounded-2xl border border-[#8CC63F]/30 bg-bg-primary/60 backdrop-blur-md shadow-2xl py-6 px-4">
-              <div className="grid grid-cols-4 items-center divide-x divide-white/10">
-                {stats.slice(0, 2).map((stat) => (
-                  <div key={stat.label} className="text-center px-1">
+              <div className="grid grid-cols-2 md:grid-cols-4 items-center">
+                {stats.slice(0, 2).map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className={`text-center px-1 pb-6 md:pb-0 ${
+                      index === 0
+                        ? "border-b border-r border-white/10 md:border-b-0 md:border-r-0"
+                        : "border-b border-white/10 md:border-b-0 md:border-l md:border-white/10"
+                    }`}
+                  >
                     <p className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-text-primary whitespace-nowrap">
                       <span data-count={stat.value}>0</span>
                       {stat.suffix}
@@ -309,11 +316,11 @@ export default function Home() {
                     <p className="mt-1.5 text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wider text-text-secondary">{stat.label}</p>
                   </div>
                 ))}
-                <div className="text-center px-1">
+                <div className="text-center px-1 pt-6 md:pt-0 border-r border-white/10 md:border-r-0 md:border-l md:border-white/10">
                   <p className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-text-primary whitespace-nowrap">Global</p>
                   <p className="mt-1.5 text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wider text-text-secondary">Engineering Support</p>
                 </div>
-                <div className="text-center px-1">
+                <div className="text-center px-1 pt-6 md:pt-0 md:border-l md:border-white/10">
                   <p className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-text-primary whitespace-nowrap">End-to-End</p>
                   <p className="mt-1.5 text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-wider text-text-secondary">Product Development</p>
                 </div>
@@ -434,7 +441,7 @@ export default function Home() {
                 {[...clients, ...clients].map((client, index) => (
                   <div
                     key={`${client.name}-${index}`}
-                    className="group relative flex h-32 w-64 items-center justify-center rounded border border-neutral-200 bg-white px-8 shadow-crisp transition-all duration-300 hover:border-signal/50 hover:shadow-[0_0_25px_rgba(140,198,63,0.3)] hover:-translate-y-1"
+                    className="group relative flex h-32 w-64 items-center justify-center rounded-3xl border border-neutral-200 bg-white px-8 shadow-crisp transition-all duration-300 hover:border-signal/50 hover:shadow-[0_0_25px_rgba(140,198,63,0.3)] hover:-translate-y-1"
                   >
                     <div className="relative h-20 w-full">
                       <Image
