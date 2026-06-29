@@ -3,7 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import {
   createEaseReverseTimeline,
   bindPremiumHover,
@@ -15,6 +15,34 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function AnimatedShell({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Force ScrollTrigger to recalculate after all resources (fonts, images) load.
+  // This is critical on Vercel/production where async asset loading shifts layout
+  // AFTER GSAP has already recorded element positions.
+  useEffect(() => {
+    const refresh = () => {
+      // Double RAF ensures browser has painted at least one frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh(true);
+        });
+      });
+    };
+
+    if (document.readyState === "complete") {
+      // Already loaded — schedule a refresh for any post-mount layout shifts
+      const timer = setTimeout(refresh, 300);
+      return () => clearTimeout(timer);
+    } else {
+      window.addEventListener("load", refresh, { once: true });
+      // Also schedule a delayed refresh as a safety net
+      const timer = setTimeout(refresh, 1000);
+      return () => {
+        window.removeEventListener("load", refresh);
+        clearTimeout(timer);
+      };
+    }
+  }, []);
 
   useGSAP(() => {
     const container = containerRef.current;
@@ -40,7 +68,10 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
           autoAlpha: 1,
           y: 0,
           duration: 0.85,
-          ease: "power3.out"
+          ease: "power3.out",
+          // Prevent GSAP from immediately hiding the element before
+          // ScrollTrigger calculates positions (critical for Vercel/production)
+          immediateRender: false,
         }
       );
 
@@ -49,10 +80,12 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
       ScrollTrigger.create({
         trigger: element,
         start: "top 82%",
+        // Use toggleActions so elements already past the threshold get revealed
+        toggleActions: "play reverse play reverse",
         onEnter: () => tl.play(),
         onLeave: () => tl.reverse(),
         onEnterBack: () => tl.play(),
-        onLeaveBack: () => tl.reverse()
+        onLeaveBack: () => tl.reverse(),
       });
     });
 
@@ -80,22 +113,41 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
       ease: "power2.out"
     });
 
-    // Counter triggers
+    // Counter triggers — handles elements already in viewport on load (critical for Vercel)
     gsap.utils.toArray<HTMLElement>("[data-count]", container).forEach((element) => {
       const end = Number(element.dataset.count || "0");
       const value = { current: 0 };
-      gsap.to(value, {
-        current: end,
-        duration: 1.8,
-        ease: "power2.out",
-        scrollTrigger: {
+
+      const animateCounter = () => {
+        gsap.to(value, {
+          current: end,
+          duration: 1.8,
+          ease: "power2.out",
+          onUpdate: () => {
+            element.textContent =
+              end % 1 === 0
+                ? Math.round(value.current).toString()
+                : value.current.toFixed(1);
+          },
+        });
+      };
+
+      // Check if already in viewport — if so, animate directly without ScrollTrigger
+      const rect = element.getBoundingClientRect();
+      const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+      if (alreadyVisible) {
+        // Small delay so the page entry fade-in completes first
+        gsap.delayedCall(0.5, animateCounter);
+      } else {
+        // Off-screen: use ScrollTrigger
+        ScrollTrigger.create({
           trigger: element,
-          start: "top 88%"
-        },
-        onUpdate: () => {
-          element.textContent = end % 1 === 0 ? Math.round(value.current).toString() : value.current.toFixed(1);
-        }
-      });
+          start: "top 95%",
+          once: true,
+          onEnter: animateCounter,
+        });
+      }
     });
 
     // Stepper scroll progress
@@ -106,6 +158,7 @@ export function AnimatedShell({ children }: { children: React.ReactNode }) {
         {
           autoAlpha: 1,
           x: 0,
+          immediateRender: false,
           scrollTrigger: {
             trigger: element,
             start: "top 78%",

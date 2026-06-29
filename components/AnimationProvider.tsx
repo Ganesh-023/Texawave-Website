@@ -125,10 +125,18 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
         clearProps: "transform",
         onComplete: () => {
           setIsTransitioning(false);
-          // Recalculate ScrollTriggers for elements on new page
+          // Recalculate ScrollTriggers for elements on new page.
+          // Use 200ms to account for Vercel's slower asset hydration,
+          // and a second refresh at 600ms for pages with heavy content.
           setTimeout(() => {
-            ScrollTrigger.refresh();
-          }, 80);
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                ScrollTrigger.refresh(true);
+              });
+            });
+          }, 200);
+          // Safety-net second refresh
+          setTimeout(() => ScrollTrigger.refresh(), 600);
         },
       }
     );
