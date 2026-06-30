@@ -19,7 +19,12 @@ import {
   CheckCircle2,
   Sparkles,
   Layers,
-  Linkedin
+  Linkedin,
+  Lightbulb,
+  Target,
+  Cpu,
+  Eye,
+  Users
 } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
 
@@ -613,6 +618,34 @@ export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const ctaButtonRef = useRef<HTMLAnchorElement>(null);
 
+  const principles = [
+    {
+      title: "Innovation",
+      description: "We continuously explore new technologies, methodologies, and ideas to create future-ready solutions.",
+      icon: Lightbulb,
+    },
+    {
+      title: "Ownership",
+      description: "We take complete responsibility for every project, decision, and outcome we deliver.",
+      icon: Target,
+    },
+    {
+      title: "Engineering Excellence",
+      description: "We maintain the highest standards of technical quality, performance, and reliability.",
+      icon: Cpu,
+    },
+    {
+      title: "Transparency",
+      description: "We build trust through clear communication, honest feedback, and complete visibility.",
+      icon: Eye,
+    },
+    {
+      title: "Collaboration",
+      description: "We believe exceptional products are built when multidisciplinary teams work together seamlessly.",
+      icon: Users,
+    },
+  ];
+
   // Team Section States
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [teamLoading, setTeamLoading] = useState(true);
@@ -668,6 +701,23 @@ export default function AboutPage() {
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".mission-section",
+          start: "top 75%"
+        }
+      }
+    );
+
+    // Staggered core principles cards reveal
+    gsap.fromTo(
+      ".reveal-principles-cards > div",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.85,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".principles-section",
           start: "top 75%"
         }
       }
@@ -804,7 +854,7 @@ export default function AboutPage() {
               Excellence
             </h1>
             <p className="reveal-hero-text text-body-large text-[#4B5563] dark:text-[#CCCCCC] leading-relaxed max-w-xl">
-              TexaWave was founded with a simple belief: great products are built when engineering disciplines work together.Businesses often struggle with multiple vendors for software, electronics, mechanical design, procurement, and manufacturing.
+              TexaWave was founded with a simple belief: Great products are built when engineering disciplines work together. Businesses often struggle with multiple vendors for software, electronics, mechanical design, procurement, and manufacturing.
 
 
 TexaWave brings these disciplines together
@@ -885,12 +935,79 @@ transform ideas into market-ready products.
         </section>
 
         {/* ==========================================
-            SECTION 3 — ENGINEERING EXPERTISE
+            SECTION 2.5 — CORE PRINCIPLES
+            ========================================== */}
+        <section className="principles-section relative py-24 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-[#E5E7EB] dark:border-neutral-900/50 overflow-hidden">
+          {/* Subtle engineering-style background pattern */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-50">
+            <svg className="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="principles-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1" fill="rgba(140, 198, 63, 0.15)" />
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(140, 198, 63, 0.04)" strokeWidth="1" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#principles-grid)" />
+            </svg>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#F8F9FB_100%)] dark:bg-[radial-gradient(circle_at_center,transparent_30%,#0F1115_100%)] pointer-events-none" />
+          </div>
+
+          <div className="relative z-10">
+            {/* Section Header */}
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-3">
+                Values
+              </span>
+              <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4 uppercase">
+                CORE PRINCIPLES
+              </h2>
+              <p className="text-[#4B5563] dark:text-[#AAAAAA] text-sm md:text-base leading-relaxed">
+                The values that define how we engineer, collaborate, and deliver excellence.
+              </p>
+            </div>
+
+            {/* Principles Cards Grid */}
+            <div className="reveal-principles-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              {principles.map((principle, index) => {
+                const Icon = principle.icon;
+                return (
+                  <div
+                    key={index}
+                    className="group relative overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/90 dark:bg-[#060606]/40 p-6 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1.5 hover:border-[#8CC63F]/80 hover:shadow-[0_0_30px_rgba(140,198,63,0.15)] flex flex-col justify-between"
+                  >
+                    {/* Glowing effect inside the card */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-[#1E3A0E]/10 rounded-bl-full blur-xl group-hover:bg-[#8CC63F]/10 transition-all duration-500 pointer-events-none" />
+
+                    <div>
+                      {/* Icon container */}
+                      <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800/60 text-[#374151] dark:text-white mb-6 group-hover:border-[#8CC63F]/60 group-hover:text-[#8CC63F] transition-colors duration-500 shadow-sm">
+                        <Icon size={20} className="group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="font-display font-bold text-base text-[#010101] dark:text-white mb-2.5 group-hover:text-[#8CC63F] transition-colors duration-300">
+                        {principle.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-[#4B5563] dark:text-[#CCCCCC] text-[13px] leading-relaxed">
+                        {principle.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ==========================================
+            SECTION 3 — ENGINEERING SERVICES
             ========================================== */}
         <section className="py-28 px-[clamp(1rem,4vw,4rem)] max-w-[1400px] mx-auto border-t border-[#E5E7EB] dark:border-neutral-900/50">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8CC63F] inline-block mb-3">Ecosystem</span>
-            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Engineering Expertise</h2>
+            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-4">Engineering Services</h2>
             <p className="text-[#4B5563] dark:text-[#AAAAAA]">A multi-disciplinary stack designed to build, scale, and secure complex hardware and software systems.</p>
           </div>
 
@@ -1054,10 +1171,10 @@ transform ideas into market-ready products.
         </section>
 
         {/* ==========================================
-            SECTION: STATS & MEET OUR TEAM
+            SECTION: STATS & MEET THE MINDS
             ========================================== */}
 
-        {/* Our Team Section */}
+        {/* Meet The Minds Section */}
         <section id="our-team" className="about-team-section relative bg-[#000000] py-28 px-[clamp(1rem,4vw,4rem)] border-b border-neutral-900 z-20 overflow-hidden">
           {/* Cyber Canvas Background specifically for Team section */}
           <TeamCanvas />
@@ -1073,7 +1190,7 @@ transform ideas into market-ready products.
                 THE PEOPLE BEHIND TEXAWAVE
               </span>
               <h2 className="font-display font-bold text-section text-white mb-4">
-                Meet Our Engineering Team
+                Meet the Minds
               </h2>
               <p className="text-[#AAAAAA] text-sm md:text-base leading-relaxed">
                 Our multidisciplinary engineers, designers, and innovators collaborate to transform ideas into world-class products and digital experiences.
@@ -1121,11 +1238,13 @@ transform ideas into market-ready products.
             ========================================== */}
         <section className="relative py-32 px-[clamp(1rem,4vw,4rem)] border-t border-neutral-900/50 bg-[radial-gradient(ellipse_at_center,rgba(140,198,63,0.08)_0%,transparent_70%)] overflow-hidden">
           <div className="max-w-[1400px] mx-auto text-center relative z-20">
-            <h2 className="font-display font-bold text-section text-white mb-6 leading-tight max-w-2xl mx-auto">
-              Ready to Elevate Your Technology?
+            <h2 className="font-display font-bold text-section text-[#010101] dark:text-white mb-6 leading-tight max-w-2xl mx-auto">
+              One Partner. <span className="text-[#8CC63F]">Infinite</span>
+              <br />
+              <span className="text-[#8CC63F]">Innovation.</span>
             </h2>
-            <p className="text-body-large text-[#CCCCCC] max-w-xl mx-auto mb-10 leading-relaxed">
-              Whether you are looking to modernize legacy systems, build a groundbreaking new product, or scale your infrastructure, Texawave has the engineering expertise to get you there.
+            <p className="text-body-large text-[#4B5563] dark:text-[#CCCCCC] max-w-xl mx-auto mb-10 leading-relaxed">
+              Whether you are looking to modernize legacy systems, build a groundbreaking new product, or scale your infrastructure, Texawave has the engineering services to get you there.
             </p>
 
             <a

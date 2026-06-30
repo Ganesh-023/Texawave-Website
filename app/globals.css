@@ -140,7 +140,7 @@ html:not(.dark) [data-dropdown] {
   border-color: rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Light mode: Expertise mega menu — left sidebar */
+/* Light mode: Services mega menu — left sidebar */
 html:not(.dark) .mega-menu-left-panel {
   background: #F8F9FB !important;
   border-right-color: #E5E7EB !important;
@@ -172,7 +172,7 @@ html:not(.dark) .mega-cat-btn.is-active-cat .mega-cat-icon {
   color: #8CC63F !important;
 }
 
-/* Light mode: Expertise mega menu — right services grid */
+/* Light mode: Services mega menu — right services grid */
 html:not(.dark) .mega-menu-right-panel {
   background: #FFFFFF !important;
 }
@@ -203,7 +203,7 @@ html:not(.dark) .mega-svc-card:hover .mega-svc-desc {
   color: #374151 !important;
 }
 
-/* Light mode: Expertise mega menu — bottom CTA bar */
+/* Light mode: Services mega menu — bottom CTA bar */
 html:not(.dark) .mega-menu-cta-bar {
   background: #F8F9FB !important;
   border-top-color: #E5E7EB !important;
@@ -2006,7 +2006,7 @@ html:not(.dark) .dashboard-modal .bg-white\/5 {
 }
 
 /* Modal comment items */
-html:not(.dark) .dashboard-modal .bg-\[#080808\] {
+html:not(.dark) .dashboard-modal .bg-\[\#080808\] {
   background: #F8F9FB !important;
 }
 

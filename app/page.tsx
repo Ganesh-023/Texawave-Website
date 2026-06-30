@@ -359,53 +359,54 @@ export default function Home() {
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {csList.length > 0 ? (
                   csList.map((study) => (
-                    <article
+                    <Link
+                      href={`/case-studies/${study.slug}`}
                       key={study.id}
-                      className="dynamic-case-study-card group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-[#111] overflow-hidden transition-all duration-300 hover:border-[#8CC63F]/30 hover:scale-[1.01] shadow-crisp text-left"
+                      className="group block h-full"
                     >
-                      <div>
-                        {/* Cover Image */}
-                        <div className="relative h-48 w-full overflow-hidden border-b border-white/5 bg-black">
-                          <Image
-                            src={study.heroImage}
-                            alt={study.title}
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-                          <span className="absolute top-4 left-4 rounded-full border border-signal/30 bg-black/60 backdrop-blur-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#8CC63F]">
-                            {study.category}
-                          </span>
+                      <article
+                        className="dynamic-case-study-card relative flex flex-col justify-between rounded-2xl border border-white/10 bg-[#111] overflow-hidden transition-all duration-300 hover:border-[#8CC63F]/30 hover:scale-[1.01] shadow-crisp text-left h-full"
+                      >
+                        <div>
+                          {/* Cover Image */}
+                          <div className="relative h-48 w-full overflow-hidden border-b border-white/5 bg-black">
+                            <Image
+                              src={study.heroImage}
+                              alt={study.title}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                            <span className="absolute top-4 left-4 rounded-full border border-signal/30 bg-black/60 backdrop-blur-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#8CC63F]">
+                              {study.category}
+                            </span>
+                          </div>
+
+                          {/* Text Body */}
+                          <div className="p-7">
+                            <h3 className="text-lg font-bold font-display text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
+                              {study.title}
+                            </h3>
+                            <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-[#8CC63F] font-mono">
+                              Problem
+                            </p>
+                            <p className="mt-1 text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                              {study.problemStatement}
+                            </p>
+                          </div>
                         </div>
 
-                        {/* Text Body */}
-                        <div className="p-7">
-                          <h3 className="text-lg font-bold font-display text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
-                            {study.title}
-                          </h3>
-                          <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-[#8CC63F] font-mono">
-                            Problem
-                          </p>
-                          <p className="mt-1 text-xs text-text-secondary line-clamp-3 leading-relaxed">
-                            {study.problemStatement}
-                          </p>
+                        {/* Footer Row */}
+                        <div className="p-7 pt-0 border-t border-white/5 bg-white/[0.01] flex items-center justify-end">
+                          <div
+                            className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-[#8CC63F] transition-all"
+                          >
+                            Read Study <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+                          </div>
                         </div>
-                      </div>
-
-                      {/* Footer Row */}
-                      <div className="p-7 pt-0 border-t border-white/5 bg-white/[0.01] flex items-center justify-between">
-                        <span className="text-[10px] text-text-secondary font-mono">
-                          VIEWS: <strong className="text-white">{study.views || 0}</strong>
-                        </span>
-                        <Link
-                          href={`/case-studies/${study.slug}`}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-[#8CC63F] transition-all"
-                        >
-                          Read Study <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </div>
-                    </article>
+                      </article>
+                    </Link>
                   ))
                 ) : (
                   // Fallback during load / offline

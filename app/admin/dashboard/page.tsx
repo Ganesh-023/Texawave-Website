@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { 
   Lock, LogOut, Plus, Trash2, Edit, Eye, Search, FileText, 
   TrendingUp, Users, Cpu, Calendar, X, Sparkles, PieChart, 
@@ -15,6 +16,9 @@ import {
   INITIAL_APPLICATIONS 
 } from "@/app/careers/initialData";
 import AdminTeamTab from "@/components/AdminTeamTab";
+import { CommunityArticle } from "@/app/blog/page";
+
+const CATEGORIES = ["All", "Software", "Electrical", "Mechanical", "Procurement", "Internship", "Industry Insights"];
 
 interface HRUser {
   name: string;
@@ -28,7 +32,7 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState("");
 
   // Navigation states
-  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings" | "case-studies" | "team">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "hr" | "jobs" | "candidates" | "analytics" | "career-settings" | "system-settings" | "case-studies" | "team" | "blog">("dashboard");
 
   // Core Data States
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -56,6 +60,45 @@ export default function AdminDashboard() {
   const [csResultsImpact, setCsResultsImpact] = useState("");
   const [csGallery, setCsGallery] = useState("");
   const [csStatus, setCsStatus] = useState<"Draft" | "Published">("Draft");
+
+  // Blog Submissions States
+  const [articles, setArticles] = useState<CommunityArticle[]>([]);
+  const [blogSearch, setBlogSearch] = useState("");
+  const [blogFilterStatus, setBlogFilterStatus] = useState("All");
+  const [blogFilterCategory, setBlogFilterCategory] = useState("All");
+  const [editingArticle, setEditingArticle] = useState<CommunityArticle | null>(null);
+  const [showBlogModal, setShowBlogModal] = useState(false);
+
+  // Edit blog form fields
+  const [editTitle, setEditTitle] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [editShortDesc, setEditShortDesc] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [editAuthorName, setEditAuthorName] = useState("");
+  const [editAuthorEmail, setEditAuthorEmail] = useState("");
+  const [editAuthorOrg, setEditAuthorOrg] = useState("");
+  const [editDomain, setEditDomain] = useState("");
+  const [editSkills, setEditSkills] = useState("");
+  const [editDuration, setEditDuration] = useState("");
+  const [editStatus, setEditStatus] = useState<CommunityArticle["status"]>("pending");
+  const [editCoverImage, setEditCoverImage] = useState("");
+  const [editAuthorPhoto, setEditAuthorPhoto] = useState("");
+
+  const resetBlogForm = () => {
+    setEditingArticle(null);
+    setEditTitle("");
+    setEditCategory("");
+    setEditShortDesc("");
+    setEditContent("");
+    setEditAuthorName("");
+    setEditAuthorEmail("");
+    setEditAuthorOrg("");
+    setEditDomain("");
+    setEditSkills("");
+    setEditDuration("");
+    setEditCoverImage("");
+    setEditAuthorPhoto("");
+  };
 
   // Toast notifications state
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -151,6 +194,12 @@ export default function AdminDashboard() {
     // Fetch Case Studies
     fetchCaseStudies();
 
+    // Load Blog Submissions
+    const localArticles = localStorage.getItem("texawave_community_articles");
+    if (localArticles) {
+      setArticles(JSON.parse(localArticles));
+    }
+
     setIsMounted(true);
   }, [router]);
 
@@ -172,11 +221,15 @@ export default function AdminDashboard() {
         if (showResumeViewer) {
           setShowResumeViewer(false);
         }
+        if (showBlogModal) {
+          setShowBlogModal(false);
+          resetBlogForm();
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showCSModal, showJobModal, showCommentsModal, showResumeViewer]);
+  }, [showCSModal, showJobModal, showCommentsModal, showResumeViewer, showBlogModal]);
 
   const fetchCaseStudies = async () => {
     try {
@@ -192,6 +245,115 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error("Failed to load case studies");
     }
+  };
+
+  const saveArticles = (updated: CommunityArticle[]) => {
+    setArticles(updated);
+    localStorage.setItem("texawave_community_articles", JSON.stringify(updated));
+  };
+
+  const handleApproveArticle = (id: string) => {
+    const updated = articles.map(art => {
+      if (art.id === id) {
+        const status: CommunityArticle["status"] = art.category === "Internship" ? "intern-spotlight" : "approved";
+        return { ...art, status };
+      }
+      return art;
+    });
+    saveArticles(updated);
+    showToast("Article approved & published successfully!");
+  };
+
+  const handleRejectArticle = (id: string) => {
+    const updated = articles.map(art => art.id === id ? { ...art, status: "rejected" as const } : art);
+    saveArticles(updated);
+    showToast("Article marked as rejected.");
+  };
+
+  const handleDeleteArticle = (id: string) => {
+    if (confirm("Are you sure you want to delete this submission?")) {
+      const updated = articles.filter(art => art.id !== id);
+      saveArticles(updated);
+      showToast("Article deleted successfully.");
+    }
+  };
+
+  const handleToggleFeatured = (id: string) => {
+    const updated = articles.map(art => {
+      if (art.id === id) {
+        const isFeatured = art.status === "featured";
+        const status: CommunityArticle["status"] = isFeatured ? "approved" : "featured";
+        return { ...art, status };
+      }
+      return art;
+    });
+    saveArticles(updated);
+    showToast("Article featured status updated.");
+  };
+
+  const handleToggleInternSpotlight = (id: string) => {
+    const updated = articles.map(art => {
+      if (art.id === id) {
+        const isSpotlight = art.status === "intern-spotlight";
+        const status: CommunityArticle["status"] = isSpotlight ? "approved" : "intern-spotlight";
+        return { ...art, status };
+      }
+      return art;
+    });
+    saveArticles(updated);
+    showToast("Article spotlight status updated.");
+  };
+
+  const handleEditArticle = (art: CommunityArticle) => {
+    setEditingArticle(art);
+    setEditTitle(art.title);
+    setEditCategory(art.category);
+    setEditShortDesc(art.shortDescription || "");
+    setEditContent(art.content);
+    setEditAuthorName(art.name);
+    setEditAuthorEmail(art.email);
+    setEditAuthorOrg(art.organization);
+    setEditDomain(art.domain || "");
+    setEditSkills(art.skills?.join(", ") || "");
+    setEditDuration(art.duration || "");
+    setEditStatus(art.status);
+    setEditCoverImage(art.coverImage);
+    setEditAuthorPhoto(art.authorPhoto);
+    setShowBlogModal(true);
+  };
+
+  const handleUpdateArticle = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingArticle) return;
+    const updated = articles.map(art => {
+      if (art.id === editingArticle.id) {
+        const wordCount = editContent.split(/\s+/).filter(Boolean).length;
+        const readTime = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
+        const skillsArr = editSkills.split(",").map(s => s.trim()).filter(Boolean);
+        return {
+          ...art,
+          title: editTitle,
+          category: editCategory,
+          shortDescription: editShortDesc,
+          content: editContent,
+          name: editAuthorName,
+          email: editAuthorEmail,
+          organization: editAuthorOrg,
+          domain: editCategory === "Internship" ? editDomain : undefined,
+          skills: editCategory === "Internship" ? skillsArr : undefined,
+          duration: editCategory === "Internship" ? editDuration : undefined,
+          status: editStatus,
+          coverImage: editCoverImage,
+          authorPhoto: editAuthorPhoto,
+          readTime
+        };
+      }
+      return art;
+    });
+    saveArticles(updated);
+    setShowBlogModal(false);
+    resetBlogForm();
+    showToast("Article updated successfully.");
   };
 
   const handleCSChangeStatus = async (cs: any, newStatus: "Draft" | "Published") => {
@@ -808,6 +970,7 @@ export default function AdminDashboard() {
               {[
                 { id: "dashboard", label: "Dashboard", icon: TrendingUp },
                 { id: "case-studies", label: "Case Studies", icon: FileSpreadsheet },
+                { id: "blog", label: "Blog Submissions", icon: FileText },
                 { id: "team", label: "Team Management", icon: Users },
                 { id: "hr", label: "HR Management", icon: UserCheck },
                 { id: "jobs", label: "Job Management", icon: Cpu },
@@ -1415,6 +1578,223 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* Tab: Blog Submissions Panel */}
+          {activeTab === "blog" && (
+            <div className="space-y-8 animate-fade-in text-left">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h1 className="text-3xl font-bold font-display text-white">Blog Submissions Management</h1>
+                  <p className="text-text-secondary text-sm mt-1">Moderate community articles, edit details, toggle Featured or Spotlight stories, and view analytics.</p>
+                </div>
+              </div>
+
+              {/* Blog Analytics Row */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { label: "Total Articles", value: articles.length, desc: "All submissions in DB", color: "text-[#8CC63F]" },
+                  { label: "Pending Review", value: articles.filter(a => a.status === "pending").length, desc: "Needs moderation", color: "text-amber-500" },
+                  { label: "Approved Guest Posts", value: articles.filter(a => a.category !== "Internship" && (a.status === "approved" || a.status === "featured")).length, desc: "Live community posts", color: "text-[#14B8A6]" },
+                  { label: "Intern Spotlights", value: articles.filter(a => a.status === "intern-spotlight").length, desc: "Live student stories", color: "text-purple-400" }
+                ].map((card, idx) => (
+                  <div key={idx} className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-5 shadow-crisp">
+                    <span className="text-[10px] font-bold text-text-secondary uppercase block font-mono">{card.label}</span>
+                    <strong className="text-3xl block mt-2 font-mono font-black text-white">{card.value}</strong>
+                    <span className="text-[10px] text-text-secondary mt-1 block leading-none">{card.desc}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Filters Block */}
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-3 text-text-secondary" size={16} />
+                    <input
+                      type="text"
+                      placeholder="Search title, author, or organization..."
+                      value={blogSearch}
+                      onChange={(e) => setBlogSearch(e.target.value)}
+                      className="w-full bg-[#080808] border border-white/10 text-white text-xs rounded-xl py-3 pl-10 pr-4 outline-none focus:border-[#8CC63F] transition"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    {/* Category Filter */}
+                    <div className="flex flex-col">
+                      <select
+                        value={blogFilterCategory}
+                        onChange={(e) => setBlogFilterCategory(e.target.value)}
+                        className="bg-[#080808] border border-white/10 text-xs text-white rounded-xl py-3 px-4 outline-none focus:border-[#8CC63F] transition"
+                      >
+                        <option value="All">All Categories</option>
+                        {CATEGORIES.slice(1).map(cat => (
+                          <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Status Filter */}
+                    <div className="flex flex-col">
+                      <select
+                        value={blogFilterStatus}
+                        onChange={(e) => setBlogFilterStatus(e.target.value)}
+                        className="bg-[#080808] border border-white/10 text-xs text-white rounded-xl py-3 px-4 outline-none focus:border-[#8CC63F] transition"
+                      >
+                        <option value="All">All Statuses</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="featured">Featured</option>
+                        <option value="intern-spotlight">Intern Spotlight</option>
+                        <option value="draft">Draft</option>
+                      </select>
+                    </div>
+
+                    {(blogSearch || blogFilterCategory !== "All" || blogFilterStatus !== "All") && (
+                      <button
+                        onClick={() => {
+                          setBlogSearch("");
+                          setBlogFilterCategory("All");
+                          setBlogFilterStatus("All");
+                        }}
+                        className="text-xs text-[#8CC63F] hover:underline font-bold transition"
+                      >
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Submissions List */}
+              <div className="dashboard-card bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-crisp">
+                {articles.filter(art => {
+                  const matchSearch = 
+                    art.title.toLowerCase().includes(blogSearch.toLowerCase()) ||
+                    art.name.toLowerCase().includes(blogSearch.toLowerCase()) ||
+                    art.organization.toLowerCase().includes(blogSearch.toLowerCase());
+                  const matchCategory = blogFilterCategory === "All" || art.category === blogFilterCategory;
+                  const matchStatus = blogFilterStatus === "All" || art.status === blogFilterStatus;
+                  return matchSearch && matchCategory && matchStatus;
+                }).length === 0 ? (
+                  <div className="py-20 text-center text-text-secondary text-sm font-mono font-bold">
+                    No matching articles found in submissions.
+                  </div>
+                ) : (
+                  <div className="divide-y divide-white/5 dark:divide-white/5">
+                    {articles
+                      .filter(art => {
+                        const matchSearch = 
+                          art.title.toLowerCase().includes(blogSearch.toLowerCase()) ||
+                          art.name.toLowerCase().includes(blogSearch.toLowerCase()) ||
+                          art.organization.toLowerCase().includes(blogSearch.toLowerCase());
+                        const matchCategory = blogFilterCategory === "All" || art.category === blogFilterCategory;
+                        const matchStatus = blogFilterStatus === "All" || art.status === blogFilterStatus;
+                        return matchSearch && matchCategory && matchStatus;
+                      })
+                      .map((art) => {
+                        let statusBadge = "bg-gray-900 border-gray-700 text-gray-400";
+                        if (art.status === "pending") statusBadge = "bg-orange-950/40 border-orange-500/20 text-orange-400";
+                        else if (art.status === "approved") statusBadge = "bg-green-950/40 border-green-500/20 text-green-400";
+                        else if (art.status === "rejected") statusBadge = "bg-red-950/40 border-red-500/20 text-red-400";
+                        else if (art.status === "featured") statusBadge = "bg-purple-950/40 border-purple-500/20 text-purple-400";
+                        else if (art.status === "intern-spotlight") statusBadge = "bg-blue-950/40 border-blue-500/20 text-blue-400";
+                        
+                        return (
+                          <div key={art.id} className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:bg-bg-primary/40 border-b border-border-primary/50 last:border-b-0 transition duration-200">
+                            <div className="flex gap-4">
+                              <div className="w-20 h-14 bg-bg-primary border border-border-primary rounded-lg overflow-hidden shrink-0">
+                                <img src={art.coverImage} alt={art.title} className="w-full h-full object-cover" />
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[10px] font-bold text-copper font-mono uppercase">{art.category}</span>
+                                  <span className="text-[10px] text-text-secondary font-mono">{new Date(art.submittedAt).toLocaleDateString()}</span>
+                                  <span className={`inline-block px-2.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider ${statusBadge}`}>
+                                    {art.status}
+                                  </span>
+                                </div>
+                                <h4 className="text-sm font-bold text-white leading-snug font-sans">{art.title}</h4>
+                                <p className="text-xs text-text-secondary leading-none">
+                                  By <span className="text-white font-semibold">{art.name}</span> ({art.organization}) • {art.email}
+                                </p>
+                                {art.category === "Internship" && art.domain && (
+                                  <p className="text-[10px] text-text-secondary font-mono">
+                                    Domain: <span className="text-[#8CC63F]">{art.domain}</span> | Duration: {art.duration} | Skills: {art.skills?.join(", ")}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-2 self-end md:self-auto shrink-0">
+                              <button
+                                onClick={() => handleEditArticle(art)}
+                                className="px-3 py-1.5 rounded-lg border border-border-primary hover:border-text-primary text-xs font-bold text-text-primary transition flex items-center gap-1 cursor-pointer"
+                              >
+                                <Edit size={12} /> Edit
+                              </button>
+                              <button
+                                onClick={() => handleDeleteArticle(art.id)}
+                                className="px-3 py-1.5 rounded-lg bg-red-500/10 dark:bg-red-950/20 border border-red-500/20 dark:border-red-900/40 hover:border-red-500 text-red-600 dark:text-red-400 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                              >
+                                <Trash2 size={12} /> Delete
+                              </button>
+
+                              {/* Approvals buttons conditional */}
+                              {art.status === "pending" && (
+                                <>
+                                  <button
+                                    onClick={() => handleApproveArticle(art.id)}
+                                    className="px-3 py-1.5 rounded-lg bg-[#8CC63F] hover:bg-opacity-90 text-black text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                                  >
+                                    <CheckCircle2 size={12} /> Approve
+                                  </button>
+                                  <button
+                                    onClick={() => handleRejectArticle(art.id)}
+                                    className="px-3 py-1.5 rounded-lg border border-red-500/20 dark:border-red-900/40 text-red-600 dark:text-red-400 hover:bg-red-500/10 dark:hover:bg-red-950/30 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                                  >
+                                    Reject
+                                  </button>
+                                </>
+                              )}
+
+                              {art.status !== "pending" && art.status !== "rejected" && (
+                                <>
+                                  {art.category !== "Internship" ? (
+                                    <button
+                                      onClick={() => handleToggleFeatured(art.id)}
+                                      className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition cursor-pointer ${
+                                        art.status === "featured"
+                                          ? "bg-purple-500/10 dark:bg-purple-950/30 border-purple-500/30 dark:border-purple-500 text-purple-600 dark:text-purple-400"
+                                          : "border-border-primary text-text-secondary hover:border-text-primary hover:text-text-primary"
+                                      }`}
+                                    >
+                                      {art.status === "featured" ? "Unfeature" : "Feature"}
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => handleToggleInternSpotlight(art.id)}
+                                      className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition cursor-pointer ${
+                                        art.status === "intern-spotlight"
+                                          ? "bg-blue-500/10 dark:bg-blue-950/30 border-blue-500/30 dark:border-blue-500 text-blue-600 dark:text-blue-400"
+                                          : "border-border-primary text-text-secondary hover:border-text-primary hover:text-text-primary"
+                                      }`}
+                                    >
+                                      {art.status === "intern-spotlight" ? "Remove Spotlight" : "Spotlight"}
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Tab 8: Case Studies Panel */}
           {activeTab === "case-studies" && (
             <div className="space-y-8 animate-fade-in text-left">
@@ -1534,6 +1914,14 @@ export default function AdminDashboard() {
                               </button>
                             </td>
                             <td className="p-4 text-right space-x-2">
+                              <Link
+                                href={`/case-studies/${cs.slug}`}
+                                target="_blank"
+                                className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-[#8CC63F] text-text-secondary hover:text-[#8CC63F] bg-white/5 transition-all"
+                                title="View published work"
+                              >
+                                <Eye size={12} />
+                              </Link>
                               <button
                                 onClick={() => handleEditCSClick(cs)}
                                 className="inline-flex items-center justify-center p-1.5 rounded-lg border border-white/10 hover:border-[#8CC63F] text-text-secondary hover:text-[#8CC63F] bg-white/5 transition-all"
@@ -2108,7 +2496,7 @@ export default function AdminDashboard() {
 
             <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
               {showCommentsModal.comments?.map((comment: any) => (
-                <div key={comment.id} className="bg-[#080808] border border-white/5 rounded-xl p-5 flex justify-between items-start gap-4">
+                <div key={comment.id} className="bg-[#F8F9FB] dark:bg-[#080808] border border-[#E5E7EB] dark:border-white/5 rounded-xl p-5 flex justify-between items-start gap-4">
                   <div className="flex-1 space-y-1">
                     <div className="flex items-center gap-3">
                       <strong className="text-white text-xs">{comment.userName}</strong>
@@ -2149,6 +2537,202 @@ export default function AdminDashboard() {
                 <p className="text-text-secondary text-xs italic text-center py-10">No discussions submitted for this project yet.</p>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Edit Blog Submission */}
+      {showBlogModal && (
+        <div 
+          onClick={() => { setShowBlogModal(false); resetBlogForm(); }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/85 backdrop-blur-md overflow-y-auto"
+          data-lenis-prevent
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="dashboard-modal relative w-full max-w-4xl bg-[#111] border border-white/10 rounded-2xl shadow-premium p-6 md:p-8 max-h-[90vh] overflow-y-auto text-left"
+          >
+            <button
+              onClick={() => { setShowBlogModal(false); resetBlogForm(); }}
+              className="absolute right-4 top-4 text-text-secondary hover:text-white p-1 rounded-full hover:bg-white/5 transition-colors"
+            >
+              <X size={18} />
+            </button>
+
+            <h3 className="text-xl font-bold text-white font-display mb-6 border-b border-white/10 pb-4">
+              Edit Blog Submission: {editingArticle?.title}
+            </h3>
+
+            <form onSubmit={handleUpdateArticle} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Title */}
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Article Title</label>
+                  <input
+                    type="text"
+                    required
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+
+                {/* Category */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Category</label>
+                  <select
+                    value={editCategory}
+                    onChange={(e) => setEditCategory(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
+                  >
+                    {CATEGORIES.slice(1).map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Status */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Status</label>
+                  <select
+                    value={editStatus}
+                    onChange={(e) => setEditStatus(e.target.value as any)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none font-semibold"
+                  >
+                    <option value="draft">Draft</option>
+                    <option value="pending">Pending Review</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="featured">Featured</option>
+                    <option value="intern-spotlight">Intern Spotlight</option>
+                  </select>
+                </div>
+
+                {/* Author Name */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Author Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={editAuthorName}
+                    onChange={(e) => setEditAuthorName(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+
+                {/* Author Email */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Author Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={editAuthorEmail}
+                    onChange={(e) => setEditAuthorEmail(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+
+                {/* Author Org */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Organization / College</label>
+                  <input
+                    type="text"
+                    required
+                    value={editAuthorOrg}
+                    onChange={(e) => setEditAuthorOrg(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+
+                {/* Cover Image URL */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Cover Image URL</label>
+                  <input
+                    type="text"
+                    required
+                    value={editCoverImage}
+                    onChange={(e) => setEditCoverImage(e.target.value)}
+                    className="w-full bg-[#080808] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#8CC63F] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Internship Specific Fields */}
+              {editCategory === "Internship" && (
+                <div className="p-4 rounded-xl border border-white/10 bg-[#080808] bg-opacity-50 space-y-4">
+                  <h4 className="text-xs font-bold text-copper uppercase tracking-wider font-mono">Internship Data Badge & Parameters</h4>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-secondary uppercase mb-2 font-mono">Domain Badge</label>
+                      <input
+                        type="text"
+                        value={editDomain}
+                        onChange={(e) => setEditDomain(e.target.value)}
+                        className="w-full bg-[#080808] border border-white/10 rounded-lg py-2 px-3 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-secondary uppercase mb-2 font-mono">Skills (Comma Split)</label>
+                      <input
+                        type="text"
+                        value={editSkills}
+                        onChange={(e) => setEditSkills(e.target.value)}
+                        className="w-full bg-[#080808] border border-white/10 rounded-lg py-2 px-3 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-secondary uppercase mb-2 font-mono">Duration</label>
+                      <input
+                        type="text"
+                        value={editDuration}
+                        onChange={(e) => setEditDuration(e.target.value)}
+                        className="w-full bg-[#080808] border border-white/10 rounded-lg py-2 px-3 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Short Description */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">Short Description (Excerpt)</label>
+                <textarea
+                  rows={2}
+                  value={editShortDesc}
+                  onChange={(e) => setEditShortDesc(e.target.value)}
+                  className="w-full bg-[#080808] border border-white/10 rounded-xl p-3 text-xs text-white focus:border-[#8CC63F] focus:outline-none"
+                />
+              </div>
+
+              {/* Content Editor */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2 font-mono">HTML Content</label>
+                <textarea
+                  rows={8}
+                  required
+                  value={editContent}
+                  onChange={(e) => setEditContent(e.target.value)}
+                  className="w-full bg-[#080808] border border-white/10 rounded-xl p-4 text-xs text-white focus:border-[#8CC63F] focus:outline-none font-mono"
+                />
+              </div>
+
+              {/* Form buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => { setShowBlogModal(false); resetBlogForm(); }}
+                  className="px-5 py-2.5 rounded-xl border border-white/10 text-text-secondary hover:text-white text-xs font-bold transition cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 rounded-xl bg-[#8CC63F] hover:bg-opacity-90 text-black text-xs font-bold transition flex items-center gap-2 cursor-pointer"
+                >
+                  <CheckCircle2 size={14} /> Update Article
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

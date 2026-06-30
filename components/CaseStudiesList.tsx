@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Search, Plus, Eye, MessageSquare, Shield } from "lucide-react";
+import { ArrowRight, Search, Plus, MessageSquare, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CaseStudy {
@@ -103,77 +103,78 @@ export function CaseStudiesList({ initialStudies, isAdmin: propIsAdmin = false }
       >
         <AnimatePresence mode="popLayout">
           {filteredStudies.map((study) => (
-            <motion.article
-              layout
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.35 }}
+            <Link
+              href={`/case-studies/${study.slug}`}
               key={study.id}
-              className="case-study-card group relative flex flex-col justify-between rounded-2xl border border-[#E5E7EB] dark:border-white/10 bg-white dark:bg-[#111] overflow-hidden transition-all duration-300 shadow-sm dark:shadow-crisp"
+              className="group block"
             >
-              <div>
-                {/* Hero / Cover Image */}
-                <div className="case-study-card-image-bg relative h-48 w-full overflow-hidden border-b border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-[#080808]">
-                  <Image
-                    src={study.heroImage}
-                    alt={study.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                  
-                  {/* Category overlay pill */}
-                  <span className="absolute top-4 left-4 rounded-full border border-signal/30 bg-black/55 backdrop-blur-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#8CC63F]">
-                    {study.category}
-                  </span>
-
-                  {/* Status Indicator for Admin */}
-                  {isAdmin && (
-                    <span className={`absolute top-4 right-4 rounded border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] flex items-center gap-1 ${
-                      study.status === "Published" 
-                        ? "bg-green-500/10 border-green-500/30 text-green-400" 
-                        : "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"
-                    }`}>
-                      <Shield size={9} /> {study.status}
+              <motion.article
+                layout
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                transition={{ duration: 0.35 }}
+                className="case-study-card relative flex flex-col justify-between rounded-2xl border border-[#E5E7EB] dark:border-white/10 bg-white dark:bg-[#111] overflow-hidden transition-all duration-300 shadow-sm dark:shadow-crisp h-full"
+              >
+                <div>
+                  {/* Hero / Cover Image */}
+                  <div className="case-study-card-image-bg relative h-48 w-full overflow-hidden border-b border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-[#080808]">
+                    <Image
+                      src={study.heroImage}
+                      alt={study.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                    
+                    {/* Category overlay pill */}
+                    <span className="absolute top-4 left-4 rounded-full border border-signal/30 bg-black/55 backdrop-blur-md px-3 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#8CC63F]">
+                      {study.category}
                     </span>
-                  )}
+
+                    {/* Status Indicator for Admin */}
+                    {isAdmin && (
+                      <span className={`absolute top-4 right-4 rounded border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] flex items-center gap-1 ${
+                        study.status === "Published" 
+                          ? "bg-green-500/10 border-green-500/30 text-green-400" 
+                          : "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"
+                      }`}>
+                        <Shield size={9} /> {study.status}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Card Info */}
+                  <div className="p-7">
+                    <h3 className="case-study-title text-xl font-bold font-display text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
+                      {study.title}
+                    </h3>
+                    <p className="mt-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#8CC63F] font-mono">
+                      Problem
+                    </p>
+                    <p className="mt-1 text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                      {study.problemStatement}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Card Info */}
-                <div className="p-7">
-                  <h3 className="case-study-title text-xl font-bold font-display text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-colors leading-snug">
-                    {study.title}
-                  </h3>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.15em] text-[#8CC63F] font-mono">
-                    Problem
-                  </p>
-                  <p className="mt-1 text-xs text-text-secondary line-clamp-3 leading-relaxed">
-                    {study.problemStatement}
-                  </p>
+                {/* Bottom stats row & CTA */}
+                <div className="case-study-stats p-7 pt-0 border-t border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-white/[0.01] flex items-center justify-between">
+                  <div className="flex items-center gap-4 text-text-secondary text-[10px] font-mono font-bold">
+                    <span className="flex items-center gap-1.5">
+                      <MessageSquare size={11} className="text-text-secondary" /> {study.comments?.filter((c: any) => c.approved).length || 0}
+                    </span>
+                  </div>
+                  
+                  <div
+                    className="case-study-read-link inline-flex items-center gap-1.5 text-xs font-bold text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-all"
+                  >
+                    Read Study <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+                  </div>
                 </div>
-              </div>
-
-              {/* Bottom stats row & CTA */}
-              <div className="case-study-stats p-7 pt-0 border-t border-[#E5E7EB] dark:border-white/5 bg-[#F8F9FB] dark:bg-white/[0.01] flex items-center justify-between">
-                <div className="flex items-center gap-4 text-text-secondary text-[10px] font-mono font-bold">
-                  <span className="flex items-center gap-1.5">
-                    <Eye size={12} className="text-text-secondary" /> {study.views || 0}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <MessageSquare size={11} className="text-text-secondary" /> {study.comments?.filter((c: any) => c.approved).length || 0}
-                  </span>
-                </div>
-                
-                <Link
-                  href={`/case-studies/${study.slug}`}
-                  className="case-study-read-link inline-flex items-center gap-1.5 text-xs font-bold text-[#010101] dark:text-white group-hover:text-[#8CC63F] transition-all"
-                >
-                  Read Study <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </AnimatePresence>
       </motion.div>

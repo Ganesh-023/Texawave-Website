@@ -114,20 +114,7 @@ export function ServiceSubPage({ sub }: { sub: SubService }) {
                 {sub.description}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/contact"
-                  className="cta-magnetic inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-3.5 font-bold text-white border border-transparent hover:opacity-90 transition-opacity"
-                >
-                  Start a Project <ArrowRight size={18} />
-                </Link>
-                <Link
-                  href={`/${sub.parentSlug}`}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-text-secondary hover:text-signal transition-colors"
-                >
-                  ← Back to {sub.parentTitle}
-                </Link>
-              </div>
+
             </div>
 
             {/* Right — highlights card */}

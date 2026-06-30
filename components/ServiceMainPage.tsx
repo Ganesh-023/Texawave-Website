@@ -19,7 +19,6 @@ import {
   ShieldCheck,
   Gauge,
   CheckCircle2,
-  ArrowUpRight,
   ChevronRight,
 } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
@@ -110,20 +109,7 @@ export function ServiceMainPage({ service }: { service: MainService }) {
                 {service.description}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/contact"
-                  className="cta-magnetic inline-flex items-center gap-2 rounded-xl bg-signal px-6 py-3.5 font-bold text-white border border-transparent hover:opacity-90 transition-opacity"
-                >
-                  Start a Project <ArrowRight size={18} />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-signal hover:opacity-75 transition-opacity"
-                >
-                  Book a free call <ArrowUpRight size={15} />
-                </Link>
-              </div>
+
             </div>
 
             {/* Right — capabilities card */}

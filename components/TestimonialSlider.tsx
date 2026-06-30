@@ -170,7 +170,7 @@ function TestimonialCard({
       }}
     >
       <div
-        className="relative overflow-hidden rounded-3xl p-7 md:p-8 backdrop-blur-xl"
+        className="relative flex flex-col justify-between overflow-hidden rounded-3xl p-6 md:p-7 backdrop-blur-xl h-[500px] md:h-[420px] lg:h-[390px]"
         style={{
           background: "var(--testimonial-card-bg)",
           border: isHoverActive
@@ -203,75 +203,102 @@ function TestimonialCard({
           </>
         )}
 
-        {/* Blueprint ID and Client Badge */}
-        <div className="mb-5 flex items-center justify-between">
-          <span
-            className="font-mono text-[10px] font-bold tracking-[0.2em]"
-            style={{ color: isActive ? "var(--primary-green)" : "var(--text-secondary)", opacity: isActive ? 1 : 0.6 }}
-          >
-            {testimonial.blueprintId}
-          </span>
-          {isActive && (
+        <div className="flex-grow flex flex-col justify-start overflow-hidden">
+          {/* Blueprint ID and Client Badge */}
+          <div className="mb-3.5 flex items-center justify-between shrink-0">
             <span
-              className="flex items-center gap-1.5 rounded-full px-3 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-signal/15 border border-signal/30 text-signal"
+              className="font-mono text-[9px] font-bold tracking-[0.2em]"
+              style={{ color: isActive ? "var(--primary-green)" : "var(--text-secondary)", opacity: isActive ? 1 : 0.6 }}
             >
-              <ShieldCheck size={11} /> Verified Partner
+              {testimonial.blueprintId}
             </span>
+            {isActive && (
+              <span
+                className="flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[8.5px] font-bold uppercase tracking-wider bg-signal/15 border border-signal/30 text-signal"
+              >
+                <ShieldCheck size={10} /> Verified Partner
+              </span>
+            )}
+          </div>
+
+          {/* Stars */}
+          <div className="mb-2.5 flex items-center gap-0.5 shrink-0" aria-label="5 star rating">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Star
+                key={i}
+                size={12}
+                aria-hidden="true"
+                style={{ color: "var(--primary-green)", fill: "var(--primary-green)", opacity: isActive ? 1 : 0.4 }}
+              />
+            ))}
+          </div>
+
+          {/* Quote symbol */}
+          <Quote
+            size={18}
+            className="shrink-0"
+            style={{ color: accent, opacity: isActive ? 0.3 : 0.1, marginBottom: "6px" }}
+            aria-hidden="true"
+          />
+
+          {/* Quote Text */}
+          <p
+            className="text-body-normal font-medium overflow-y-auto pr-2 select-text testimonial-quote-scroll flex-grow max-h-[170px] sm:max-h-[220px] md:max-h-[220px] lg:max-h-[160px]"
+            style={{
+              color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+              transition: "color 0.4s ease",
+              lineHeight: 1.45,
+            }}
+          >
+            &ldquo;{testimonial.quote}&rdquo;
+          </p>
+
+          {/* Tags */}
+          {testimonial.tags && testimonial.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5 shrink-0">
+              {testimonial.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded border px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: isActive ? `${accent}30` : "var(--border-color)",
+                    color: isActive ? accent : "var(--text-secondary)",
+                    backgroundColor: isActive ? `${accent}06` : "transparent",
+                    opacity: isActive ? 1 : 0.5,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Stars */}
-        <div className="mb-4 flex items-center gap-0.5" aria-label="5 star rating">
-          {[0, 1, 2, 3, 4].map((i) => (
-            <Star
-              key={i}
-              size={13}
-              aria-hidden="true"
-              style={{ color: "var(--primary-green)", fill: "var(--primary-green)", opacity: isActive ? 1 : 0.4 }}
-            />
-          ))}
-        </div>
+        {/* Divider and Author Info */}
+        <div className="mt-auto shrink-0">
+          {/* Technical connection line */}
+          <div
+            className="my-3.5 h-px w-full"
+            style={{
+              background: isActive
+                ? "linear-gradient(90deg, transparent, rgba(140, 198, 63, 0.4), transparent)"
+                : "linear-gradient(90deg, transparent, var(--border-color), transparent)",
+              transition: "background 0.4s ease",
+            }}
+          />
 
-        {/* Quote symbol */}
-        <Quote
-          size={24}
-          style={{ color: accent, opacity: isActive ? 0.3 : 0.1, marginBottom: "10px" }}
-          aria-hidden="true"
-        />
-
-        {/* Quote Text */}
-        <p
-          className="text-body-normal font-medium"
-          style={{
-            color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
-            transition: "color 0.4s ease",
-          }}
-        >
-          &ldquo;{testimonial.quote}&rdquo;
-        </p>
-
-        {/* Technical connection line */}
-        <div
-          className="my-5 h-px w-full"
-          style={{
-            background: isActive
-              ? "linear-gradient(90deg, transparent, rgba(140, 198, 63, 0.4), transparent)"
-              : "linear-gradient(90deg, transparent, var(--border-color), transparent)",
-            transition: "background 0.4s ease",
-          }}
-        />
-
-        {/* Author info */}
-        <div className="flex items-center gap-3.5">
-          <InitialsAvatar initials={testimonial.initials} accent={accent} id={testimonial.blueprintId} size={44} />
-          <div>
-            <p className="font-bold text-body-normal text-text-primary leading-tight">{testimonial.name}</p>
-            <p className="mt-0.5 text-small-text font-mono text-text-secondary leading-tight">
-              {testimonial.designation}
-            </p>
-            <p className="mt-0.5 text-small-text font-bold tracking-wide" style={{ color: accent }}>
-              {testimonial.company}
-            </p>
+          {/* Author info */}
+          <div className="flex items-center gap-3">
+            <InitialsAvatar initials={testimonial.initials} accent={accent} id={testimonial.blueprintId} size={36} />
+            <div>
+              <p className="font-bold text-body-normal text-text-primary leading-tight">{testimonial.name}</p>
+              <p className="mt-0.5 text-small-text font-mono text-text-secondary leading-tight">
+                {testimonial.designation}
+              </p>
+              <p className="mt-0.5 text-small-text font-bold tracking-wide" style={{ color: accent }}>
+                {testimonial.company}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -427,6 +454,25 @@ export function TestimonialSlider() {
           animation: drift var(--duration) linear infinite;
           animation-delay: var(--delay);
         }
+        /* Custom scrollbar rules for testimonial card quotes */
+        .testimonial-quote-scroll::-webkit-scrollbar {
+          width: 3px;
+        }
+        .testimonial-quote-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .testimonial-quote-scroll::-webkit-scrollbar-thumb {
+          background: rgba(140, 198, 63, 0.3);
+          border-radius: 99px;
+        }
+        .testimonial-quote-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(140, 198, 63, 0.6);
+        }
+        /* Firefox fallback */
+        .testimonial-quote-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(140, 198, 63, 0.3) transparent;
+        }
       `}</style>
 
       {/* Blueprint grid (coarse green layout) */}
@@ -559,7 +605,7 @@ export function TestimonialSlider() {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className="relative w-full overflow-visible h-[480px] sm:h-[380px] lg:h-[350px]"
+          className="relative w-full overflow-visible h-[580px] sm:h-[480px] lg:h-[430px]"
         >
           {/* Soft green gradient glow behind active card */}
           <div

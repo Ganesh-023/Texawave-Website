@@ -245,7 +245,6 @@ export function CaseStudyDetailClient({ study, relatedStudies }: CaseStudyDetail
             
             {/* Quick Analytics Row */}
             <div className="mt-6 flex items-center gap-6 text-xs text-[#A0A0A0] font-mono">
-              <span>VIEWS: <strong className="text-[#E0E0E0] font-semibold">{viewsCount}</strong></span>
               <span>COMMENTS: <strong className="text-[#E0E0E0] font-semibold">{approvedComments.length}</strong></span>
             </div>
           </div>

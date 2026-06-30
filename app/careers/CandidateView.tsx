@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { 
   Briefcase, 
@@ -252,7 +252,7 @@ export function CandidateView({
       <section className="relative pt-12 pb-20 z-10">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] flex flex-col items-center justify-center text-center">
         
-        <h1 className="fade-in-up-hero text-hero text-white max-w-5xl">
+        <h1 className="fade-in-up-hero text-hero text-text-primary max-w-5xl">
           Build Your Future <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-green)] to-[#14B8A6]">at TEXAWAVE</span>
         </h1>
         
@@ -263,7 +263,7 @@ export function CandidateView({
         <div className="fade-in-up-hero mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <a
             href="#job-feed-section"
-            className="cta-magnetic inline-flex items-center justify-center gap-2 rounded bg-signal px-8 py-4 font-bold text-white shadow-crisp border border-transparent w-full sm:w-auto transition-transform hover:scale-105"
+            className="cta-magnetic inline-flex items-center justify-center gap-2 rounded bg-signal px-8 py-4 font-bold text-black shadow-crisp border border-transparent w-full sm:w-auto transition-transform hover:scale-105"
           >
             View Openings <ArrowRight size={16} />
           </a>
@@ -290,7 +290,7 @@ export function CandidateView({
 
         {/* Application Status Checker */}
         <div className="fade-in-up-hero mt-8 w-full max-w-xl bg-bg-card/60 border border-border-primary rounded-2xl p-6 shadow-crisp backdrop-blur-sm">
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-2 font-mono flex items-center justify-center gap-1.5">
+          <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 font-mono flex items-center justify-center gap-1.5">
             🔍 Check Application Status
           </h3>
           <p className="text-xs text-text-secondary mb-4">Track your submission status in real-time.</p>
@@ -301,7 +301,7 @@ export function CandidateView({
               placeholder="Enter your applied email address..."
               value={statusEmail}
               onChange={(e) => setStatusEmail(e.target.value)}
-              className="flex-1 bg-bg-primary border border-border-primary rounded-xl px-3 py-2 text-xs text-white placeholder-text-secondary/50 focus:border-signal focus:outline-none"
+              className="flex-1 bg-bg-primary border border-border-primary rounded-xl px-3 py-2 text-xs text-text-primary placeholder-text-secondary/50 focus:border-signal focus:outline-none"
             />
             <button
               type="submit"
@@ -316,12 +316,12 @@ export function CandidateView({
           )}
 
           {statusChecked && statusResults && (
-            <div className="mt-4 border-t border-white/5 pt-4 text-left space-y-3.5">
+            <div className="mt-4 border-t border-border-primary/50 pt-4 text-left space-y-3.5">
               {statusResults.length > 0 ? (
                 statusResults.map((app) => (
                   <div key={app.id} className="p-3 bg-bg-primary/40 border border-border-primary rounded-xl space-y-1.5">
                     <div className="flex justify-between items-center">
-                      <span className="text-xs font-bold text-white">{app.jobTitle}</span>
+                      <span className="text-xs font-bold text-text-primary">{app.jobTitle}</span>
                       <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-mono ${
                         app.status === "New" ? "bg-blue-950/45 text-blue-400 border border-blue-500/20" :
                         app.status === "Shortlisted" ? "bg-amber-950/45 text-amber-400 border border-amber-500/20" :
@@ -370,7 +370,7 @@ export function CandidateView({
                 
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex gap-2">
-                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white bg-signal/25 border border-signal/40 rounded-full flex items-center gap-1">
+                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent-light bg-signal/15 border border-signal/30 rounded-full flex items-center gap-1">
                       ⭐ Featured
                     </span>
                     {job.isUrgent && (
@@ -384,7 +384,7 @@ export function CandidateView({
                   </span>
                 </div>
                 
-                <h3 className="text-card text-white group-hover:text-signal transition-colors">
+                <h3 className="text-card text-text-primary group-hover:text-signal transition-colors">
                   {job.title}
                 </h3>
                 
@@ -409,13 +409,13 @@ export function CandidateView({
 
                 <div className="flex flex-wrap gap-1.5 mt-4">
                   {job.skills.slice(0, 4).map((skill) => (
-                    <span key={skill} className="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-white/5 border border-white/5 text-text-secondary">
+                    <span key={skill} className="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-bg-primary border border-border-primary/50 text-text-secondary">
                       {skill}
                     </span>
                   ))}
                 </div>
 
-                <div className="border-t border-white/5 pt-4 mt-6 flex justify-between items-center">
+                <div className="border-t border-border-primary/50 pt-4 mt-6 flex justify-between items-center">
                   <span className="text-xs font-mono font-bold text-signal">
                     {job.salary}
                   </span>
@@ -441,7 +441,7 @@ export function CandidateView({
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="text-center md:text-left mb-10">
           <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Job Feed</span>
-          <h2 className="text-section text-white mt-3">Explore Careers</h2>
+          <h2 className="text-section text-text-primary mt-3">Explore Careers</h2>
           <p className="text-body-large text-text-secondary mt-2">Find active technical vacancies across our engineering divisions.</p>
         </div>
 
@@ -456,7 +456,7 @@ export function CandidateView({
                 placeholder="Search job title, skills, keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-bg-primary/60 border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-white transition-colors"
+                className="w-full bg-bg-primary/60 border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-text-primary transition-colors"
               />
             </div>
             
@@ -464,7 +464,7 @@ export function CandidateView({
             <select
               value={selectedDept}
               onChange={(e) => setSelectedDept(e.target.value)}
-              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
+              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
             >
               <option value="All">All Departments</option>
               <option value="Software">Software</option>
@@ -477,7 +477,7 @@ export function CandidateView({
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-white font-semibold"
+              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
             >
               <option value="All">All Job Types</option>
               <option value="Full Time">Full Time</option>
@@ -504,7 +504,7 @@ export function CandidateView({
                   </span>
                 </div>
                 
-                <h3 className="text-card text-white group-hover:text-signal transition-colors line-clamp-1">
+                <h3 className="text-card text-text-primary group-hover:text-signal transition-colors line-clamp-1">
                   {job.title}
                 </h3>
                 
@@ -524,7 +524,7 @@ export function CandidateView({
                 </div>
               </div>
 
-              <div className="border-t border-white/5 pt-4 mt-6 flex justify-between items-center">
+              <div className="border-t border-border-primary/50 pt-4 mt-6 flex justify-between items-center">
                 <span className="text-xs font-mono font-bold text-signal">
                   {job.salary.split(" ")[0]}
                 </span>
@@ -544,7 +544,7 @@ export function CandidateView({
           {filteredJobs.length === 0 && (
             <div className="col-span-full text-center py-16 rounded-2xl border border-dashed border-border-primary bg-bg-card/40">
               <AlertCircle className="mx-auto text-text-secondary mb-4" size={32} />
-              <h3 className="text-lg font-bold text-white">No Matching Positions Found</h3>
+              <h3 className="text-lg font-bold text-text-primary">No Matching Positions Found</h3>
               <p className="text-text-secondary text-sm max-w-md mx-auto mt-2">
                 We don&apos;t have any open vacancies matching your exact filters right now, but we are always seeking great builders!
               </p>
@@ -553,7 +553,7 @@ export function CandidateView({
                   setFormType("talent");
                   setShowTalentPoolModal(true);
                 }}
-                className="mt-6 inline-flex items-center gap-2 rounded bg-signal/20 px-6 py-2.5 text-xs font-bold text-white border border-signal/30 hover:bg-signal/30 transition-all"
+                className="mt-6 inline-flex items-center gap-2 rounded bg-signal/20 px-6 py-2.5 text-xs font-bold text-accent-light border border-signal/30 hover:bg-signal/30 transition-all"
               >
                 Join Our Talent Pool
               </button>
@@ -568,7 +568,7 @@ export function CandidateView({
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="text-center mb-16">
             <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Special Section</span>
-            <h2 className="text-section text-white mt-3">Internship Corner</h2>
+            <h2 className="text-section text-text-primary mt-3">Internship Corner</h2>
             <p className="text-body-large text-text-secondary mt-3 max-w-2xl mx-auto">
               TEXAWAVE is a hub for talented engineering students. Apply for structured internships to gain real hardware lab experience.
             </p>
@@ -611,7 +611,7 @@ export function CandidateView({
               >
                 <div>
                   <span className="text-small-text font-mono font-bold text-signal">{"0" + (index + 1) + " // PROGRAM"}</span>
-                  <h3 className="text-card text-white mt-3 leading-tight min-h-[3rem] flex items-center">{intern.title}</h3>
+                  <h3 className="text-card text-text-primary mt-3 leading-tight min-h-[3rem] flex items-center">{intern.title}</h3>
                   <p className="text-small-text font-semibold text-accent-light bg-signal/10 rounded px-2.5 py-1 w-fit mt-2 font-mono">
                     ⏱️ {intern.duration}
                   </p>
@@ -620,10 +620,10 @@ export function CandidateView({
                   </p>
                 </div>
                 
-                <div className="border-t border-white/5 pt-4 mt-6">
+                <div className="border-t border-border-primary/50 pt-4 mt-6">
                   <div className="text-xs text-text-secondary font-medium">
-                    <span className="block">🎓 Eligibility: <strong className="text-white">{intern.skills}</strong></span>
-                    <span className="block mt-1">⭐ Perks: <strong className="text-white">{intern.benefit}</strong></span>
+                    <span className="block">🎓 Eligibility: <strong className="text-text-primary">{intern.skills}</strong></span>
+                    <span className="block mt-1">⭐ Perks: <strong className="text-text-primary">{intern.benefit}</strong></span>
                   </div>
                   <button
                     onClick={() => {
@@ -667,7 +667,7 @@ export function CandidateView({
           <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="flex flex-col items-center text-center mb-16">
             <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Fast-Track Hiring</span>
-            <h2 className="text-section text-white mt-3">Walk-in Interviews</h2>
+            <h2 className="text-section text-text-primary mt-3">Walk-in Interviews</h2>
             <p className="text-body-large text-text-secondary mt-2 max-w-xl">
               Skip the application queue. Join us directly at our Chennai labs on event dates for dynamic onsite screening evaluations.
             </p>
@@ -691,7 +691,7 @@ export function CandidateView({
                     <span className="text-small-text font-mono font-bold text-signal tracking-widest block uppercase">
                       📅 Date: {drive.date}
                     </span>
-                    <h3 className="text-card text-white mt-1 group-hover:text-signal transition-colors">
+                    <h3 className="text-card text-text-primary mt-1 group-hover:text-signal transition-colors">
                       {drive.title}
                     </h3>
                     <p className="text-small-text text-text-secondary mt-1 font-semibold flex items-center gap-1">
@@ -703,10 +703,10 @@ export function CandidateView({
                     </p>
                     
                     <div className="mt-4">
-                      <span className="text-xs font-bold text-white">Target Roles:</span>
+                      <span className="text-xs font-bold text-text-primary">Target Roles:</span>
                       <div className="flex flex-wrap gap-1.5 mt-2">
                         {drive.positions.map((pos) => (
-                          <span key={pos} className="px-2 py-0.5 text-[10px] font-semibold rounded bg-white/5 border border-white/5 text-text-secondary">
+                          <span key={pos} className="px-2 py-0.5 text-[10px] font-semibold rounded bg-bg-primary border border-border-primary/50 text-text-secondary">
                             {pos}
                           </span>
                         ))}
@@ -715,9 +715,9 @@ export function CandidateView({
                   </div>
                 </div>
 
-                <div className="border-t border-white/5 pt-4 mt-6 flex justify-between items-center text-xs">
+                <div className="border-t border-border-primary/50 pt-4 mt-6 flex justify-between items-center text-xs">
                   <span className="text-text-secondary font-mono">
-                    Inquiries: <strong className="text-white">{drive.contactEmail}</strong>
+                    Inquiries: <strong className="text-text-primary">{drive.contactEmail}</strong>
                   </span>
                   <button 
                     onClick={() => {
@@ -761,7 +761,7 @@ export function CandidateView({
         <div className="mx-auto w-full max-w-4xl px-[clamp(1rem,4vw,4rem)]">
           <div className="text-center mb-16">
             <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Social Stream</span>
-            <h2 className="text-section text-white mt-3">Life at TEXAWAVE Feed</h2>
+            <h2 className="text-section text-text-primary mt-3">Life at TEXAWAVE Feed</h2>
             <p className="text-body-large text-text-secondary mt-2">
               Explore employee experiences, labs bring-up milestones, cultural activities, and internal hackathons.
             </p>
@@ -796,7 +796,7 @@ export function CandidateView({
                     <span>{update.date}</span>
                   </div>
                   
-                  <h3 className="text-card text-white">
+                  <h3 className="text-card text-text-primary">
                     {update.title}
                   </h3>
                   
@@ -804,7 +804,7 @@ export function CandidateView({
                     {update.content}
                   </p>
 
-                  <div className="border-t border-white/5 pt-4 mt-6 flex items-center justify-between">
+                  <div className="border-t border-border-primary/50 pt-4 mt-6 flex items-center justify-between">
                     <button
                       onClick={() => onLikeUpdate(update.id)}
                       className="flex items-center gap-2 text-xs font-bold text-text-secondary hover:text-red-400 transition-colors group"
@@ -830,7 +830,7 @@ export function CandidateView({
       </section>
 
       {/* Staff Login Link */}
-      <div className="py-12 border-t border-white/5 text-center flex flex-col items-center justify-center bg-bg-primary">
+      <div className="py-12 border-t border-border-primary/50 text-center flex flex-col items-center justify-center bg-bg-primary">
         <button
           onClick={onToggleAdmin}
           className="text-xs text-text-secondary hover:text-[#8CC63F] transition-colors inline-flex items-center gap-1 font-mono uppercase font-bold tracking-wider"
@@ -847,7 +847,7 @@ export function CandidateView({
             {/* Close Button */}
             <button
               onClick={handleCloseModal}
-              className="absolute right-4 top-4 z-10 bg-bg-primary/60 text-white hover:text-signal p-1.5 rounded-full border border-white/5 hover:border-signal/30 transition-colors"
+              className="absolute right-4 top-4 z-10 bg-bg-primary/60 text-text-primary hover:text-signal p-1.5 rounded-full border border-border-primary/50 hover:border-signal/30 transition-colors"
             >
               <X size={18} />
             </button>
@@ -859,7 +859,7 @@ export function CandidateView({
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-signal block">
                     {activeJobForModal.department} Division
                   </span>
-                  <h3 className="text-subtitle text-white mt-2">
+                  <h3 className="text-subtitle text-text-primary mt-2">
                     {activeJobForModal.title}
                   </h3>
                   
@@ -870,12 +870,12 @@ export function CandidateView({
                   </div>
 
                   <div className="mt-6">
-                    <h4 className="text-small-text font-bold text-white uppercase tracking-wider font-display">Salary Range</h4>
+                    <h4 className="text-small-text font-bold text-text-primary uppercase tracking-wider font-display">Salary Range</h4>
                     <p className="text-body-normal font-mono font-bold text-signal mt-1">{activeJobForModal.salary}</p>
                   </div>
 
-                  <div className="mt-6 border-t border-white/5 pt-4">
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-2">Primary Requirements</h4>
+                  <div className="mt-6 border-t border-border-primary/50 pt-4">
+                    <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider mb-2">Primary Requirements</h4>
                     <ul className="space-y-1.5">
                       {activeJobForModal.requirements.slice(0, 3).map((req, idx) => (
                         <li key={idx} className="text-[11px] text-text-secondary list-disc list-inside">
@@ -886,10 +886,10 @@ export function CandidateView({
                   </div>
 
                   <div className="mt-6">
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-2">Required Skills</h4>
+                    <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider mb-2">Required Skills</h4>
                     <div className="flex flex-wrap gap-1">
                       {activeJobForModal.skills.map((s) => (
-                        <span key={s} className="px-1.5 py-0.5 text-[9px] font-mono rounded bg-white/5 border border-white/5 text-text-secondary">
+                        <span key={s} className="px-1.5 py-0.5 text-[9px] font-mono rounded bg-bg-primary border border-border-primary/50 text-text-secondary">
                           {s}
                         </span>
                       ))}
@@ -901,7 +901,7 @@ export function CandidateView({
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-signal block">
                     Global Sourcing
                   </span>
-                  <h3 className="text-subtitle text-white mt-2">
+                  <h3 className="text-subtitle text-text-primary mt-2">
                     TEXAWAVE Talent Pool
                   </h3>
                   <p className="text-body-normal text-text-secondary mt-3">
@@ -909,16 +909,16 @@ export function CandidateView({
                   </p>
                   
                   <div className="mt-6 space-y-4 font-sans">
-                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
-                      <span className="text-[10px] font-bold text-white block">Step 1</span>
+                    <div className="p-3 bg-bg-primary/40 border border-border-primary/50 rounded-xl">
+                      <span className="text-[10px] font-bold text-text-primary block">Step 1</span>
                       <p className="text-[11px] text-text-secondary mt-1">Submit your engineering division interest and capabilities profile.</p>
                     </div>
-                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
-                      <span className="text-[10px] font-bold text-white block">Step 2</span>
+                    <div className="p-3 bg-bg-primary/40 border border-border-primary/50 rounded-xl">
+                      <span className="text-[10px] font-bold text-text-primary block">Step 2</span>
                       <p className="text-[11px] text-text-secondary mt-1">Your cv is indexed inside our matching skills database.</p>
                     </div>
-                    <div className="p-3 bg-bg-primary/40 border border-white/5 rounded-xl">
-                      <span className="text-[10px] font-bold text-white block">Step 3</span>
+                    <div className="p-3 bg-bg-primary/40 border border-border-primary/50 rounded-xl">
+                      <span className="text-[10px] font-bold text-text-primary block">Step 3</span>
                       <p className="text-[11px] text-text-secondary mt-1">When matching vacancies open, we reach out to schedule assessments.</p>
                     </div>
                   </div>
@@ -933,7 +933,7 @@ export function CandidateView({
                   <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-signal/15 text-signal mb-4">
                     <Check size={28} />
                   </div>
-                  <h3 className="text-2xl font-black text-white">Application Submitted!</h3>
+                  <h3 className="text-2xl font-black text-text-primary">Application Submitted!</h3>
                   <p className="text-text-secondary mt-3 max-w-sm text-xs leading-relaxed">
                     Thank you. We have received your profile and CV. A hiring manager will review your credentials and get back to you shortly.
                   </p>
@@ -947,7 +947,7 @@ export function CandidateView({
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 font-sans text-left">
                   <div>
-                    <h3 className="text-card text-white">
+                    <h3 className="text-card text-text-primary">
                       {formType === "apply" && activeJobForModal 
                         ? `Apply for: ${activeJobForModal.title}` 
                         : "Join General Talent Pool"}
@@ -970,7 +970,7 @@ export function CandidateView({
                       required
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
-                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary"
                       placeholder="e.g., Jane Doe"
                     />
                   </div>
@@ -984,7 +984,7 @@ export function CandidateView({
                         required
                         value={formEmail}
                         onChange={(e) => setFormEmail(e.target.value)}
-                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary"
                         placeholder="yourname@domain.com"
                       />
                     </div>
@@ -995,7 +995,7 @@ export function CandidateView({
                         required
                         value={formPhone}
                         onChange={(e) => setFormPhone(e.target.value)}
-                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                        className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary"
                         placeholder="+91 XXXXX XXXXX"
                       />
                     </div>
@@ -1009,7 +1009,7 @@ export function CandidateView({
                         <select
                           value={formDeptInterest}
                           onChange={(e) => setFormDeptInterest(e.target.value)}
-                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary"
                         >
                           <option value="Software">Software</option>
                           <option value="Electrical">Electrical</option>
@@ -1023,7 +1023,7 @@ export function CandidateView({
                           type="text"
                           value={formSkillsInput}
                           onChange={(e) => setFormSkillsInput(e.target.value)}
-                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white"
+                          className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary"
                           placeholder="React, PCB, SolidWorks, ESP32"
                         />
                       </div>
@@ -1048,7 +1048,7 @@ export function CandidateView({
                       <div className="flex flex-col items-center justify-center">
                         <Upload size={18} className="text-signal mb-1.5" />
                         {formResume ? (
-                          <p className="text-body-normal font-semibold text-white truncate max-w-xs">{formResume.name}</p>
+                          <p className="text-body-normal font-semibold text-text-primary truncate max-w-xs">{formResume.name}</p>
                         ) : (
                           <>
                             <p className="text-body-normal font-semibold text-text-primary">Click or drag-and-drop to upload resume</p>
@@ -1066,7 +1066,7 @@ export function CandidateView({
                       value={formMessage}
                       onChange={(e) => setFormMessage(e.target.value)}
                       rows={3}
-                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-white resize-none"
+                      className="w-full bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-lg px-3 py-2 text-body-normal text-text-primary resize-none"
                       placeholder="Briefly share any projects, hardware lab experience, or details you want to highlight..."
                     />
                   </div>

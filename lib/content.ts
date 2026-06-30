@@ -203,80 +203,96 @@ export const clients: Client[] = [
 export const testimonials = [
   {
     quote:
-      "Our product prototype was completed faster than expected. The Texawave team provided clear communication and exceptional engineering support throughout the project.",
-    name: "Alexander Chen",
-    designation: "Product Development Manager",
-    company: "AeroTech Solutions",
-    initials: "AC",
+      "Working with Texawave has been a great experience. Their custom ERP solution streamlined our operations, improved process visibility, and reduced manual work. In addition, their support in mechanical projects and PLC automation helped us improve productivity and efficiency across our manufacturing processes. Texawave has been a reliable partner, consistently delivering solutions that add real value to our business.",
+    name: "FCS Fluoro Carbon Seals",
+    designation: "Industrial Manufacturing Solutions",
+    company: "FCS Fluoro Carbon Seals",
+    initials: "FC",
     blueprintId: "TXW-TS-01",
     accentColor: "#8CC63F",
+    tags: ["Custom ERP", "Mechanical Projects", "PLC Automation"]
   },
   {
     quote:
-      "Texawave helped us source critical electronic components during supply chain challenges. Their network and responsiveness saved us valuable time.",
-    name: "Sarah Jenkins",
-    designation: "Procurement Head",
-    company: "Vortex Electronics",
-    initials: "SJ",
+      "We’ve had an excellent experience working with TexaWave Innovations for our component sourcing needs across India. Their ability to provide high-quality components at competitive prices is truly impressive. The team is professional, responsive, and consistently goes the extra mile to meet our requirements. We highly recommend TexaWave Innovations to organizations seeking reliable and cost-effective sourcing solutions.",
+    name: "Prabakaran",
+    designation: "Co-Founder & COO",
+    company: "AtumX Innovations Pvt. Ltd.",
+    initials: "P",
     blueprintId: "TXW-TS-02",
     accentColor: "#14B8A6",
+    tags: ["Component Sourcing", "Electronics Procurement", "Supply Chain Support", "Vendor Management"]
   },
   {
     quote:
-      "The PCB design and manufacturing guidance was outstanding. Every milestone was delivered professionally and on schedule.",
-    name: "Marcus Sterling",
-    designation: "Hardware Engineer",
-    company: "Lumen Robotics",
-    initials: "MS",
+      "Working with TexaWave Innovations for manufacturing our prototype was an excellent experience. Their attention to detail, technical expertise, and commitment to quality resulted in a final product that exceeded our expectations. The team was professional, responsive, and supportive throughout the development process. We highly recommend TexaWave Innovations for product design, prototyping, and manufacturing solutions.",
+    name: "Vishnu S",
+    designation: "Automation Engineering Mechanical Packaging – India",
+    company: "HBT Engineering Pvt. Ltd.",
+    initials: "VS",
     blueprintId: "TXW-TS-03",
     accentColor: "#8CC63F",
+    tags: ["Product Design", "Prototype Development", "Manufacturing Support"]
   },
   {
     quote:
-      "We needed a rapid proof-of-concept. Texawave transformed our requirements into a working prototype with remarkable speed.",
-    name: "Elena Rostova",
-    designation: "Startup Founder",
-    company: "Kinetix IoT",
-    initials: "ER",
+      "Working with TexaWave Innovations was a positive experience. They understood our requirements well, provided accurate drawings, and delivered them within the agreed timeline. The team was friendly, approachable, and professional throughout the project.",
+    name: "Karthic",
+    designation: "Engineering Lead",
+    company: "Inlab Equipments",
+    initials: "K",
     blueprintId: "TXW-TS-04",
     accentColor: "#14B8A6",
+    tags: ["Mechanical Design", "Engineering Drawings", "Product Development Support"]
   },
   {
     quote:
-      "The team understood our technical requirements immediately and provided practical engineering solutions that reduced development costs.",
-    name: "Robert Chen",
-    designation: "Manufacturing Director",
-    company: "Apex Automations",
-    initials: "RC",
+      "We've had a great experience working with TexaWave Innovations. Their customer service is excellent, and the team consistently delivers with impressive speed and reliability. The lead times were significantly shorter compared to other vendors, helping us meet our project requirements efficiently. We look forward to continuing our partnership with TexaWave.",
+    name: "Anisha A",
+    designation: "Procurement Manager",
+    company: "Sourcing Partner",
+    initials: "AA",
     blueprintId: "TXW-TS-05",
     accentColor: "#8CC63F",
+    tags: ["Component Sourcing", "Procurement Support", "Fast Turnaround", "Supply Chain Solutions"]
+  },
+  {
+    quote:
+      "Working with TexaWave Innovations on our PCB assembly project was a great experience. Their professionalism, attention to detail, and commitment to quality were evident throughout the project. The team consistently went above and beyond to meet our requirements, and their expertise contributed significantly to the successful outcome. We highly recommend TexaWave Innovations to organizations seeking reliable manufacturing and engineering support.",
+    name: "M. Rajkumar",
+    designation: "Senior Procurement Engineer",
+    company: "Salem Technologies Private Limited",
+    initials: "MR",
+    blueprintId: "TXW-TS-06",
+    accentColor: "#14B8A6",
+    tags: ["PCB Assembly", "Electronics Manufacturing", "Procurement Support", "Engineering Services"]
+  },
+  {
+    quote:
+      "We have purchased components from TexaWave Innovations, and we are very pleased with the overall experience. The product quality met our expectations, and the team was responsive and helpful in addressing our requirements. We were particularly impressed by the wide range of components available, which made sourcing the right parts for our project both convenient and efficient. We look forward to continuing our partnership with TexaWave Innovations.",
+    name: "Arun Babu R.S",
+    designation: "Engineering",
+    company: "United Industries Plastic Pvt. Ltd.",
+    initials: "AB",
+    blueprintId: "TXW-TS-07",
+    accentColor: "#8CC63F",
+    tags: ["Electronic Components", "Industrial Components", "Procurement Support", "Component Sourcing"]
+  },
+  {
+    quote:
+      "We partnered with TexaWave Innovations to support our product development initiatives, and the experience has been excellent. Their team successfully developed our web dashboard and mobile applications for both Android and iOS platforms, delivering solutions that aligned perfectly with our requirements. Their expertise in electrical product design also added significant value to our development process. The team was responsive, technically skilled, and committed to delivering high-quality results. We appreciate their professionalism and look forward to continuing our partnership.",
+    name: "Shape 3DTech",
+    designation: "Product Development Partners",
+    company: "Shape 3DTech",
+    initials: "S3",
+    blueprintId: "TXW-TS-08",
+    accentColor: "#14B8A6",
+    tags: ["Web Dashboard Development", "Android App Development", "iOS App Development", "Electrical Product Design"]
   }
 ];
 
 
-export const blogPosts = [
-  {
-    slug: "hardware-product-development-process-2025",
-    title: "Hardware Product Development Process: From Concept to Prototype in 2025",
-    excerpt:
-      "A practical roadmap for turning early product intent into CAD, electronics, firmware, prototypes, and supplier-ready documentation.",
-    category: "Industry Insights"
-  },
-  {
-    slug: "mechanical-design-smart-devices",
-    title: "Mechanical Design for Smart Devices: 5 Key Factors in Hardware Product Development",
-    excerpt:
-      "How enclosure strategy, material choices, thermal behavior, assembly, and manufacturing constraints shape connected products.",
-    category: "Mechanical"
-  },
-  {
-    slug: "iot-software-development-smart-hardware",
-    title: "IoT Software Development for Smart Hardware: How Connected Devices Work Seamlessly",
-    excerpt:
-      "What global product teams should align across firmware, cloud, dashboards, mobile apps, and device monitoring.",
-    category: "Software"
-  }
-];
+export const blogPosts = [];
 
 export const stats = [
   { value: 50, suffix: "+", label: "Projects Delivered" },

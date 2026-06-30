@@ -66,7 +66,7 @@ type DropdownItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Expertise", href: "/services", hasDropdown: true, isMega: true },
+  { label: "Services", href: "/services", hasDropdown: true, isMega: true },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Blog", href: "/blog" },
   { label: "Resources", href: "/resources", hasDropdown: true },
@@ -78,7 +78,7 @@ const RESOURCES_ITEMS = [
     label: "About Us",
     href: "/about",
     icon: Info,
-    desc: "Learn about Texawave, our mission, vision, values, and engineering expertise.",
+    desc: "Learn about Texawave, our mission, vision, values, and engineering services.",
   },
   {
     label: "Contact Us",
@@ -311,7 +311,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
     if (pathname === "/") {
       const sections = [
         { id: "home", label: "Home" },
-        { id: "services", label: "Expertise" },
+        { id: "services", label: "Services" },
         { id: "about", label: "Resources" },
         { id: "contact", label: "Talk to an Expert" },
       ];
@@ -600,7 +600,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
               const active = isActive(item.href);
 
               /* ── Services → Mega Menu Button ── */
-              if (item.label === "Expertise") {
+              if (item.label === "Services") {
                 return (
                   <button
                     key={item.label}
@@ -611,10 +611,10 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                         ? "navbar-link-active"
                         : "navbar-link",
                     ].join(" ")}
-                    data-nav-label="Expertise"
+                    data-nav-label="Services"
                     onMouseEnter={() => {
                       handleServicesEnter();
-                      setHoveredNavItem("Expertise");
+                      setHoveredNavItem("Services");
                     }}
                     onMouseLeave={() => {
                       handleServicesLeave();
@@ -869,7 +869,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                       <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> End-to-End Product Development
                     </span>
                     <span className="mega-check-item flex items-center gap-2 font-medium">
-                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Hardware + Software Expertise
+                      <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Hardware + Software Services
                     </span>
                     <span className="mega-check-item flex items-center gap-2 font-medium">
                       <Check size={14} className="text-[#8CC63F] flex-shrink-0" /> Manufacturing Ready Solutions
@@ -1038,7 +1038,7 @@ export function Header({ delayEntrance = false }: HeaderProps) {
                   onClick={() => setMobileMegaOpen((v) => !v)}
                   aria-expanded={mobileMegaOpen}
                 >
-                  Expertise
+                  Services
                   <ChevronDown
                     size={16}
                     className={[

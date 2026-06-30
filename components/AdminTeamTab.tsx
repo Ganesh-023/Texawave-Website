@@ -533,7 +533,7 @@ export default function AdminTeamTab() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-text-secondary font-mono">Short Expertise Description</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-text-secondary font-mono">Short Bio/Services Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}

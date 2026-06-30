@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -13,29 +13,33 @@ import {
   Mail,
   FileText,
   Image as ImageIcon,
-  Settings,
-  ShieldCheck,
   Sparkles,
   Clock,
-  Trash2,
-  Eye
+  Eye,
+  BookOpen
 } from "lucide-react";
 import { PageChrome } from "@/components/PageChrome";
 import { blogPosts } from "@/lib/content";
 
 // --- TYPES ---
-interface CommunityArticle {
+export interface CommunityArticle {
   id: string;
   name: string;
   email: string;
-  organization: string;
+  organization: string; // Used as College for interns
   authorPhoto: string; // base64 or URL
   title: string;
   category: string;
   coverImage: string; // base64 or URL
   content: string; // rich text HTML
-  status: "pending" | "approved";
+  status: "draft" | "pending" | "approved" | "rejected" | "featured" | "intern-spotlight";
   submittedAt: string;
+  shortDescription?: string;
+  skills?: string[];
+  duration?: string;
+  domain?: string;
+  viewCount?: number;
+  readTime?: string;
 }
 
 // --- INITIAL SEED DATA ---
@@ -60,7 +64,10 @@ const DEFAULT_COMMUNITY_ARTICLES: CommunityArticle[] = [
       <p>Before sending designs to production, ensure that bend radius calculations align with your fabricator's tooling. Proper nesting of sheet parts on a 4x8 sheet can reduce waste scrap rates to under 8%, directly improving project unit economics.</p>
     `,
     status: "approved",
-    submittedAt: "2026-06-01T09:15:00.000Z"
+    submittedAt: "2026-06-01T09:15:00.000Z",
+    shortDescription: "Optimizing sheet metal enclosure designs for industrial SPMs. Shaving weight using generative design & bends nesting.",
+    viewCount: 342,
+    readTime: "4 min read"
   },
   {
     id: "comm-2",
@@ -83,7 +90,10 @@ const DEFAULT_COMMUNITY_ARTICLES: CommunityArticle[] = [
       </ul>
     `,
     status: "approved",
-    submittedAt: "2026-06-03T11:45:00.000Z"
+    submittedAt: "2026-06-03T11:45:00.000Z",
+    shortDescription: "A guide to component procurement, BOM optimization, and multi-source strategies for electronics design in 2026.",
+    viewCount: 215,
+    readTime: "5 min read"
   },
   {
     id: "comm-3",
@@ -105,7 +115,10 @@ const DEFAULT_COMMUNITY_ARTICLES: CommunityArticle[] = [
       <p>By compiling neural network inferences into lightweight WebAssembly (WASM) binaries and running them on edge gateways with Rust, we process vibration data locally. Only anomaly flags are transmitted to the cloud, reducing bandwidth costs by 90%.</p>
     `,
     status: "pending",
-    submittedAt: "2026-06-08T12:00:00.000Z"
+    submittedAt: "2026-06-08T12:00:00.000Z",
+    shortDescription: "Running lightweight WebAssembly inferences at edge IoT gateways with memory-safe Rust code.",
+    viewCount: 0,
+    readTime: "6 min read"
   },
   {
     id: "intern-1",
@@ -128,8 +141,14 @@ const DEFAULT_COMMUNITY_ARTICLES: CommunityArticle[] = [
       </ul>
       <p>The fast-paced engineering culture at Texawave taught me how to move rapidly from simulation models to working factory floors.</p>
     `,
-    status: "approved",
-    submittedAt: "2026-05-15T10:00:00.000Z"
+    status: "intern-spotlight",
+    submittedAt: "2026-05-15T10:00:00.000Z",
+    shortDescription: "Hands-on PLC debugging and automation logic programming for the Espin Nano Machine prototype.",
+    domain: "Embedded Systems",
+    skills: ["PLC", "Embedded", "PCB", "Testing"],
+    duration: "Jan 2026 – May 2026",
+    viewCount: 148,
+    readTime: "4 min read"
   },
   {
     id: "intern-2",
@@ -149,8 +168,14 @@ const DEFAULT_COMMUNITY_ARTICLES: CommunityArticle[] = [
       
       <p>The direct exposure to supply chain dynamics and hardware troubleshooting gave me practical engineering skills that textbooks simply cannot cover.</p>
     `,
-    status: "approved",
-    submittedAt: "2026-05-20T14:30:00.000Z"
+    status: "intern-spotlight",
+    submittedAt: "2026-05-20T14:30:00.000Z",
+    shortDescription: "Verifying BOM alternatives and managing component stack-up constraints for multi-layer PCBs.",
+    domain: "Supply Chain & PCB Sourcing",
+    skills: ["Procurement", "Gerbers", "BOM", "Logistics"],
+    duration: "Jan 2026 – May 2026",
+    viewCount: 95,
+    readTime: "5 min read"
   }
 ];
 
@@ -159,11 +184,20 @@ const CATEGORIES = ["All", "Software", "Electrical", "Mechanical", "Procurement"
 export default function BlogPage() {
   const [articles, setArticles] = useState<CommunityArticle[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  // Contributions Tracking states
+  const [trackerEmail, setTrackerEmail] = useState("");
+  const [activeTrackerEmail, setActiveTrackerEmail] = useState("");
+  const [userContributions, setUserContributions] = useState<CommunityArticle[]>([]);
 
   // Modals state
   const [isUploadOpen, setIsUploadOpen] = useState(false);
-  const [isModeratorOpen, setIsModeratorOpen] = useState(false);
   const [activeReaderArticle, setActiveReaderArticle] = useState<CommunityArticle | null>(null);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
 
@@ -176,32 +210,94 @@ export default function BlogPage() {
     title: "",
     category: "Software",
     coverImage: "",
-    content: ""
+    content: "",
+    shortDescription: "",
+    // Internship fields
+    domain: "Embedded Systems",
+    skills: "PLC, Embedded, PCB, Testing",
+    duration: "Jan 2026 – May 2026"
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Initialize and Seed localStorage
+  // Hydrate local storage state
   useEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem("texawave_community_articles");
+    let loadedArticles: CommunityArticle[] = [];
     if (stored) {
       try {
-        setArticles(JSON.parse(stored));
+        loadedArticles = JSON.parse(stored);
       } catch {
-        setArticles(DEFAULT_COMMUNITY_ARTICLES);
+        loadedArticles = DEFAULT_COMMUNITY_ARTICLES;
         localStorage.setItem("texawave_community_articles", JSON.stringify(DEFAULT_COMMUNITY_ARTICLES));
       }
     } else {
-      setArticles(DEFAULT_COMMUNITY_ARTICLES);
+      loadedArticles = DEFAULT_COMMUNITY_ARTICLES;
       localStorage.setItem("texawave_community_articles", JSON.stringify(DEFAULT_COMMUNITY_ARTICLES));
     }
+    setArticles(loadedArticles);
+
+    // Retrieve last submitted email to auto-fill contributions tracker
+    const savedEmail = localStorage.getItem("texawave_my_email");
+    if (savedEmail) {
+      setTrackerEmail(savedEmail);
+      setActiveTrackerEmail(savedEmail);
+      const filtered = loadedArticles.filter((art) => art.email.toLowerCase() === savedEmail.toLowerCase());
+      setUserContributions(filtered);
+    }
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  // Save articles to local storage helper
+  // Save articles helper
   const saveArticles = (updated: CommunityArticle[]) => {
     setArticles(updated);
     localStorage.setItem("texawave_community_articles", JSON.stringify(updated));
+
+    // Update contributions list in active tracker
+    if (activeTrackerEmail) {
+      const filtered = updated.filter((art) => art.email.toLowerCase() === activeTrackerEmail.toLowerCase());
+      setUserContributions(filtered);
+    }
   };
+
+  // Tracking Search
+  const handleTrackerSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!trackerEmail.trim()) return;
+    setActiveTrackerEmail(trackerEmail);
+    localStorage.setItem("texawave_my_email", trackerEmail);
+    const filtered = articles.filter((art) => art.email.toLowerCase() === trackerEmail.toLowerCase());
+    setUserContributions(filtered);
+  };
+
+  const handleClearTracker = () => {
+    setActiveTrackerEmail("");
+    setTrackerEmail("");
+    localStorage.removeItem("texawave_my_email");
+    setUserContributions([]);
+  };
+
+  // View count incrementing helper
+  const incrementViewCount = (id: string, isStatic: boolean) => {
+    if (isStatic) return;
+    const updated = articles.map((art) => {
+      if (art.id === id) {
+        return { ...art, viewCount: (art.viewCount || 0) + 1 };
+      }
+      return art;
+    });
+    saveArticles(updated);
+  };
+
+  // Reset pagination when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
 
   // Insert Rich-Text Helper Tags
   const insertTag = (tagOpen: string, tagClose: string) => {
@@ -222,12 +318,11 @@ export default function BlogPage() {
     }, 0);
   };
 
-  // Handle image upload and base64 conversion
+  // Image Upload handler
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: "authorPhoto" | "coverImage") => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Limit size to ~1MB for localStorage safety
     if (file.size > 1024 * 1024 * 1.5) {
       setFormErrors((prev) => ({ ...prev, [field]: "Image must be less than 1.5MB" }));
       return;
@@ -241,7 +336,7 @@ export default function BlogPage() {
     reader.readAsDataURL(file);
   };
 
-  // Handle Form Submission
+  // Form Submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors: Record<string, string> = {};
@@ -252,7 +347,9 @@ export default function BlogPage() {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "Invalid email format";
     }
-    if (!formData.organization.trim()) errors.organization = "Organization/College is required";
+    if (!formData.organization.trim()) {
+      errors.organization = formData.category === "Internship" ? "College name is required" : "Organization is required";
+    }
     if (!formData.title.trim()) errors.title = "Blog Title is required";
     if (!formData.content.trim()) errors.content = "Content is required";
 
@@ -261,9 +358,17 @@ export default function BlogPage() {
       return;
     }
 
-    // Default placeholders if images weren't uploaded
+    const wordCount = formData.content.split(/\s+/).filter(Boolean).length;
+    const readTimeVal = Math.max(1, Math.ceil(wordCount / 200)) + " min read";
+
     const finalAuthorPhoto = formData.authorPhoto || `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80`;
     const finalCoverImage = formData.coverImage || `https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80`;
+
+    // Process skills if internship
+    let processedSkills: string[] = [];
+    if (formData.category === "Internship" && formData.skills) {
+      processedSkills = formData.skills.split(",").map(s => s.trim()).filter(Boolean);
+    }
 
     const newArticle: CommunityArticle = {
       id: "user-" + Date.now(),
@@ -275,11 +380,22 @@ export default function BlogPage() {
       category: formData.category,
       coverImage: finalCoverImage,
       content: formData.content,
-      status: "pending", // enter review queue
-      submittedAt: new Date().toISOString()
+      status: "pending", // enters moderator queue as pending
+      submittedAt: new Date().toISOString(),
+      shortDescription: formData.shortDescription || formData.content.replace(/<[^>]*>/g, "").substring(0, 140) + "...",
+      viewCount: 0,
+      readTime: readTimeVal,
+      domain: formData.category === "Internship" ? formData.domain : undefined,
+      skills: formData.category === "Internship" ? processedSkills : undefined,
+      duration: formData.category === "Internship" ? formData.duration : undefined
     };
 
     saveArticles([newArticle, ...articles]);
+
+    // Save tracking email
+    localStorage.setItem("texawave_my_email", formData.email);
+    setTrackerEmail(formData.email);
+    setActiveTrackerEmail(formData.email);
 
     // Reset Form
     setFormData({
@@ -290,79 +406,68 @@ export default function BlogPage() {
       title: "",
       category: "Software",
       coverImage: "",
-      content: ""
+      content: "",
+      shortDescription: "",
+      domain: "Embedded Systems",
+      skills: "PLC, Embedded, PCB, Testing",
+      duration: "Jan 2026 – May 2026"
     });
     setFormErrors({});
     setIsUploadOpen(false);
     setIsSuccessOpen(true);
   };
 
-  // Moderator actions
-  const approveArticle = (id: string) => {
-    const updated = articles.map((art) => (art.id === id ? { ...art, status: "approved" as const } : art));
-    saveArticles(updated);
-  };
+  // Filters for public displays (Approved, Featured, and Intern Spotlight entries ONLY)
+  // Unpublished / pending content is strictly hidden
+  const publicArticles = articles.filter(
+    (art) => art.status === "approved" || art.status === "featured" || art.status === "intern-spotlight"
+  );
 
-  const rejectArticle = (id: string) => {
-    const updated = articles.filter((art) => art.id !== id);
-    saveArticles(updated);
-  };
-
-  // Data processing
-  const approvedCommunity = articles.filter((art) => art.status === "approved");
-  const pendingArticles = articles.filter((art) => art.status === "pending");
-
-  // Merge static and approved community blogs for general Recent Blogs feed
+  // Merge static posts and public community posts
   const allRecentBlogs = [
     ...blogPosts.map((post) => ({
       ...post,
       id: post.slug,
       isStatic: true,
-      authorPhoto: null,
-      name: "Texawave Engineering",
-      organization: "Core Team",
-      submittedAt: "2025-01-01T00:00:00.000Z"
+      status: (post.isFeatured ? "featured" : "approved") as any
     })),
-    ...approvedCommunity.map((art) => ({
+    ...publicArticles.map((art) => ({
       slug: art.id,
       id: art.id,
       title: art.title,
-      excerpt: art.content.replace(/<[^>]*>/g, "").substring(0, 140) + "...",
+      excerpt: art.shortDescription || art.content.replace(/<[^>]*>/g, "").substring(0, 140) + "...",
       category: art.category,
       isStatic: false,
       authorPhoto: art.authorPhoto,
       name: art.name,
       organization: art.organization,
-      submittedAt: art.submittedAt
+      submittedAt: art.submittedAt,
+      coverImage: art.coverImage,
+      readTime: art.readTime,
+      viewCount: art.viewCount,
+      isFeatured: art.status === "featured"
     }))
   ];
 
-  // Filter based on category select
+  // Filter based on category selection
   const filteredRecentBlogs = allRecentBlogs.filter((post) => {
     if (selectedCategory === "All") return true;
     return post.category.toLowerCase() === selectedCategory.toLowerCase();
   });
 
-  // Extract community guest articles specifically (excluding Internships) for the distinct Community Contributions section
-  const communityContributions = approvedCommunity.filter((art) => art.category !== "Internship");
+  // Pagination bounds
+  const totalPages = Math.ceil(filteredRecentBlogs.length / itemsPerPage);
+  const paginatedBlogs = filteredRecentBlogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Extract Intern Spotlight experiences (Internship category approved submissions)
-  const internSpotlights = approvedCommunity.filter((art) => art.category === "Internship");
+  // Community Contributions cards redesign parameters (guest posts, not Internship category)
+  const communityContributions = publicArticles.filter(
+    (art) => art.category !== "Internship"
+  );
 
-  if (!mounted) {
-    return (
-      <PageChrome>
-        <section className="bg-bg-secondary border-b border-border-primary py-20">
-          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-            <p className="text-small-text font-bold uppercase tracking-[0.18em] text-signal">Blog</p>
-            <h1 className="mt-3 max-w-4xl text-hero text-text-primary">
-              Engineering insights for faster, cleaner product development.
-            </h1>
-          </div>
-        </section>
-      </PageChrome>
-    );
-  }
+  // Intern Spotlight experiences
+  const internSpotlights = publicArticles.filter(
+    (art) => art.category === "Internship" || art.status === "intern-spotlight"
+  );
 
   return (
     <PageChrome>
@@ -370,33 +475,22 @@ export default function BlogPage() {
       <section className="bg-bg-secondary border-b border-border-primary py-20 relative overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
-              <Sparkles size={12} className="text-signal" /> Texawave Knowledge Base
+          <div className="text-left">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-[#8CC63F]/20 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider mb-4">
+              <Sparkles size={12} className="text-[#8CC63F]" /> Texawave Knowledge Base
             </span>
             <h1 className="max-w-4xl text-hero text-text-primary">
-              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8CC63F] via-[#3FAE49] to-[#1E3A0E]">Insights</span>
+              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8CC63F] via-[#8CC63F] to-[#1E3A0E]">Insights</span>
             </h1>
             <p className="mt-4 max-w-xl text-body-large text-text-secondary">
               Practical roadmap guides, embedded schematics, procurement metrics, and custom automation case studies.
             </p>
           </div>
-
-          {/* Admin Indicator */}
-          {pendingArticles.length > 0 && (
-            <button
-              onClick={() => setIsModeratorOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-950/40 border border-orange-500/30 hover:border-orange-500 text-orange-400 text-xs font-bold transition self-start md:self-auto cursor-pointer"
-            >
-              <Settings className="animate-spin duration-400" size={16} />
-              Review Queue ({pendingArticles.length} Pending)
-            </button>
-          )}
         </div>
       </section>
 
       {/* 2. CATEGORIES FILTER SECTION */}
-      <section className="bg-bg-primary pt-12 border-b border-border-primary/50">
+      <section className="bg-bg-primary pt-12 border-b border-border-primary/50 text-left">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <h2 className="text-small-text font-bold uppercase tracking-widest text-text-secondary">Filter by Topic</h2>
           <div className="mt-4 flex flex-wrap gap-2 pb-6 overflow-x-auto">
@@ -408,8 +502,8 @@ export default function BlogPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-5 py-2.5 rounded-full text-sm font-bold border transition duration-300 ${
                     isActive
-                      ? "bg-signal border-signal text-white shadow-lg shadow-signal/20"
-                      : "bg-bg-secondary border-border-primary text-text-secondary hover:text-text-primary hover:border-signal/50"
+                      ? "bg-[#8CC63F] border-[#8CC63F] text-black shadow-lg shadow-[#8CC63F]/20"
+                      : "bg-bg-secondary border-border-primary text-text-secondary hover:text-text-primary hover:border-[#8CC63F]/50"
                   }`}
                 >
                   {cat}
@@ -421,123 +515,317 @@ export default function BlogPage() {
       </section>
 
       {/* 3. UPLOAD YOUR ARTICLE CTA CARD */}
-      <section className="bg-bg-primary py-8">
+      <section className="bg-bg-primary py-8 text-left">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <div className="relative overflow-hidden rounded-2xl border border-dashed border-signal/60 bg-bg-secondary/40 p-8 text-center md:text-left md:flex md:items-center md:justify-between gap-6 transition duration-300 hover:border-signal">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-signal/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative overflow-hidden rounded-2xl border border-dashed border-[#8CC63F]/60 bg-bg-secondary/40 p-8 text-center md:text-left md:flex md:items-center md:justify-between gap-6 transition duration-300 hover:border-[#8CC63F]">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#8CC63F]/5 rounded-full blur-3xl pointer-events-none" />
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
-                <Sparkles size={12} /> Share Your Expertise
-              </span>
-              <h3 className="mt-3 text-card text-text-primary">Have an Engineering Story or Project to share?</h3>
-              <p className="mt-2 text-text-secondary max-w-2xl text-body-normal">
-                Contribute to the Texawave Knowledge Hub. Submit articles on software engineering, electronics, custom hardware, or your internship experiences.
-              </p>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-[#8CC63F]/15 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider">
+                <Sparkles size={12} /> Share Your Knowledge
+                  </span>
+                  <h3 className="mt-3 text-card text-text-primary font-bold">Have an Engineering Story or Project to share?</h3>
+                  <p className="mt-2 text-text-secondary max-w-2xl text-body-normal">
+                    Contribute to the Texawave Knowledge Hub. Submit articles on software engineering, electronics, custom hardware, or your internship experiences.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsUploadOpen(true)}
+                  className="mt-6 md:mt-0 flex-shrink-0 px-6 py-3 bg-[#8CC63F] hover:bg-opacity-95 text-black font-bold rounded-xl transition inline-flex items-center gap-2 cursor-pointer shadow-md hover:shadow-lg shadow-[#8CC63F]/10"
+                >
+                  <Upload size={18} /> Upload Your Article
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => setIsUploadOpen(true)}
-              className="mt-6 md:mt-0 flex-shrink-0 btn-premium px-6 py-3 bg-signal hover:bg-opacity-90 text-white font-bold rounded-xl transition inline-flex items-center gap-2 cursor-pointer"
-            >
-              <Upload size={18} /> Upload Your Article
-            </button>
+          </section>
+
+          {/* 4. MY CONTRIBUTIONS TRACKER */}
+          <section className="bg-bg-primary py-6 text-left">
+            <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+              <div className="rounded-2xl border border-border-primary bg-bg-secondary/30 p-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-primary/50 pb-4 mb-4">
+                  <div>
+                    <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider font-mono flex items-center gap-2">
+                      <BookOpen size={16} className="text-[#8CC63F]" />
+                      My Contributions
+                    </h3>
+                    <p className="text-xs text-text-secondary mt-1">Track the processing status of your submitted articles.</p>
+                  </div>
+
+                  <form onSubmit={handleTrackerSearch} className="flex items-center gap-2">
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-2.5 text-text-secondary" size={14} />
+                      <input
+                        type="email"
+                        required
+                        placeholder="Enter submission email..."
+                        value={trackerEmail}
+                        onChange={(e) => setTrackerEmail(e.target.value)}
+                        className="bg-bg-primary border border-border-primary text-text-primary text-xs focus:border-[#8CC63F] outline-none rounded-lg py-2 pl-9 pr-3 w-64 transition"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 rounded-lg bg-bg-secondary border border-border-primary hover:border-[#8CC63F] text-xs font-bold text-text-primary transition cursor-pointer"
+                    >
+                  Track
+                </button>
+                {activeTrackerEmail && (
+                  <button
+                    type="button"
+                    onClick={handleClearTracker}
+                    className="text-xs text-red-400 hover:text-red-300 font-bold transition ml-1"
+                  >
+                    Clear
+                  </button>
+                )}
+              </form>
+            </div>
+
+            {activeTrackerEmail ? (
+              userContributions.length === 0 ? (
+                <div className="py-6 text-center text-text-secondary text-xs font-mono">
+                  No submissions found for email: <span className="text-text-primary font-bold">{activeTrackerEmail}</span>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs font-mono">
+                    <thead>
+                      <tr className="border-b border-border-primary/50 text-text-secondary">
+                        <th className="pb-2 font-bold">Article Title</th>
+                        <th className="pb-2 font-bold">Category</th>
+                        <th className="pb-2 font-bold">Submitted Date</th>
+                        <th className="pb-2 font-bold text-right">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border-primary/30">
+                      {userContributions.map((art) => {
+                        let badgeColor = "bg-gray-900 border-gray-700 text-gray-400";
+                        let statusLabel = art.status;
+                        if (art.status === "pending") {
+                          badgeColor = "bg-orange-950/40 border-orange-500/20 text-orange-400";
+                          statusLabel = "Pending Review";
+                        } else if (art.status === "approved") {
+                          badgeColor = "bg-green-950/40 border-green-500/20 text-green-400";
+                          statusLabel = "Approved";
+                        } else if (art.status === "rejected") {
+                          badgeColor = "bg-red-950/40 border-red-500/20 text-red-400";
+                          statusLabel = "Rejected";
+                        } else if (art.status === "featured") {
+                          badgeColor = "bg-purple-950/40 border-purple-500/20 text-purple-400";
+                          statusLabel = "Featured";
+                        } else if (art.status === "intern-spotlight") {
+                          badgeColor = "bg-blue-950/40 border-blue-500/20 text-blue-400";
+                          statusLabel = "Intern Spotlight";
+                        }
+
+                        return (
+                          <tr key={art.id} className="hover:bg-bg-primary/20">
+                            <td className="py-2.5 pr-4 text-text-primary max-w-xs md:max-w-md truncate font-sans font-bold">
+                              {art.title}
+                            </td>
+                            <td className="py-2.5 text-text-secondary">{art.category}</td>
+                            <td className="py-2.5 text-text-secondary">
+                              {new Date(art.submittedAt).toLocaleDateString()}
+                            </td>
+                            <td className="py-2.5 text-right">
+                              <span className={`inline-block px-2.5 py-0.5 rounded-full border text-[10px] font-bold uppercase tracking-wider ${badgeColor}`}>
+                                {statusLabel}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            ) : (
+              <div className="py-4 text-center text-text-secondary text-xs font-mono">
+                Enter your email above to track review workflow progress.
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* 4. RECENT BLOGS SECTION */}
-      <section className="bg-bg-primary py-10">
+      {/* 5. RECENT BLOGS SECTION */}
+      <section className="bg-bg-primary py-10 text-left">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <h2 className="text-section text-text-primary mb-8">Recent Blogs & Publications</h2>
+          <h2 className="text-section text-text-primary mb-8 font-bold">Recent Blogs & Publications</h2>
 
-          {filteredRecentBlogs.length === 0 ? (
+          {loading ? (
+            // Skeleton Loader States
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3].map((s) => (
+                <div key={s} className="animate-pulse rounded-2xl border border-border-primary bg-bg-secondary h-[450px] overflow-hidden flex flex-col justify-between p-5">
+                  <div className="h-48 bg-bg-primary rounded-xl mb-4 w-full" />
+                  <div className="space-y-3 flex-1">
+                    <div className="h-3 bg-bg-primary rounded w-1/3" />
+                    <div className="h-5 bg-bg-primary rounded w-3/4" />
+                    <div className="h-3 bg-bg-primary rounded w-full" />
+                    <div className="h-3 bg-bg-primary rounded w-5/6" />
+                  </div>
+                  <div className="flex items-center gap-3 pt-4 border-t border-border-primary/50 mt-4">
+                    <div className="w-8 h-8 rounded-full bg-bg-primary" />
+                    <div className="space-y-2 flex-1">
+                      <div className="h-3 bg-bg-primary rounded w-1/2" />
+                      <div className="h-2 bg-bg-primary rounded w-1/4" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredRecentBlogs.length === 0 ? (
             <div className="text-center py-20 border border-border-primary rounded-2xl bg-bg-secondary/20">
-              <AlertCircle className="mx-auto text-text-secondary" size={40} />
+              <AlertCircle className="mx-auto text-text-secondary animate-bounce" size={40} />
               <p className="mt-4 text-text-secondary font-bold">No articles found in this category.</p>
               <button
                 onClick={() => setSelectedCategory("All")}
-                className="mt-4 text-signal hover:underline font-bold text-sm"
+                className="mt-4 text-[#8CC63F] hover:underline font-bold text-sm"
               >
                 Clear Filters
               </button>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredRecentBlogs.map((post) => (
-                <div
-                  key={post.id}
-                  data-reveal
-                  onClick={() => {
-                    if (post.isStatic) {
-                      // Static route redirection
-                      window.location.href = `/blog/${post.slug}`;
-                    } else {
-                      // Open community article inside reader modal
-                      const matched = articles.find((a) => a.id === post.id);
-                      if (matched) setActiveReaderArticle(matched);
-                    }
-                  }}
-                  className="service-card-premium rounded-2xl border border-border-primary bg-bg-secondary p-7 transition duration-300 flex flex-col justify-between cursor-pointer"
-                >
-                  <div>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-small-text font-black uppercase tracking-[0.16em] text-copper">{post.category}</span>
-                      {!post.isStatic && (
-                        <span className="text-small-text font-bold px-2 py-0.5 rounded bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
-                          Guest Post
+            <>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {paginatedBlogs.map((post) => (
+                  <div
+                    key={post.id}
+                    onClick={() => {
+                      incrementViewCount(post.id, post.isStatic);
+                      if (post.isStatic) {
+                        window.location.href = `/blog/${post.slug}`;
+                      } else {
+                        const matched = articles.find((a) => a.id === post.id);
+                        if (matched) setActiveReaderArticle(matched);
+                      }
+                    }}
+                    className="group flex flex-col justify-between h-[450px] rounded-2xl border border-border-primary bg-bg-secondary overflow-hidden transition-all duration-300 hover:border-[#8CC63F] hover:shadow-[0_0_20px_rgba(140,198,63,0.12)] cursor-pointer text-left"
+                  >
+                    {/* Cover Image & Badges */}
+                    <div className="relative h-48 w-full bg-bg-primary overflow-hidden shrink-0">
+                      <img
+                        src={post.coverImage}
+                        alt={post.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      {/* Overlay badges */}
+                      <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
+                        <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-bg-secondary/95 border border-border-primary text-copper uppercase tracking-wider">
+                          {post.category}
                         </span>
-                      )}
-                    </div>
-                    <h3 className="text-card text-text-primary hover:text-signal transition duration-200">
-                      {post.title}
-                    </h3>
-                    <p className="mt-4 text-body-normal text-text-secondary line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-border-primary/50 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {post.authorPhoto ? (
-                        <img
-                          src={post.authorPhoto}
-                          alt={post.name}
-                          className="w-8 h-8 rounded-full border border-border-primary object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full border border-border-primary bg-bg-primary flex items-center justify-center text-text-secondary text-xs font-bold">
-                          TW
-                        </div>
-                      )}
-                      <div>
-                        <p className="text-xs font-bold text-text-primary">{post.name}</p>
-                        <p className="text-[10px] text-text-secondary">{post.organization}</p>
+                        {post.isFeatured && (
+                          <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-[#8CC63F] text-black uppercase tracking-wider flex items-center gap-1">
+                            <Sparkles size={10} /> Featured
+                          </span>
+                        )}
                       </div>
                     </div>
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-signal hover:text-green-400 transition">
-                      Read <ArrowRight size={14} />
-                    </span>
+
+                    {/* Content Area */}
+                    <div className="flex-1 p-5 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        {/* Metadata Row */}
+                        <div className="flex items-center gap-3 text-[10px] text-text-secondary font-mono">
+                          <span className="flex items-center gap-1">
+                            <Clock size={10} /> {post.readTime || "5 min read"}
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Eye size={10} /> {post.viewCount !== undefined ? `${post.viewCount} views` : "120 views"}
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-bold text-text-primary group-hover:text-[#8CC63F] transition duration-200 line-clamp-2 leading-snug">
+                          {post.title}
+                        </h3>
+
+                        <p className="text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                          {post.excerpt}
+                        </p>
+                      </div>
+
+                      {/* Footer Area */}
+                      <div className="pt-4 mt-4 border-t border-border-primary/50 flex items-center justify-between">
+                        <div className="flex items-center gap-2.5 overflow-hidden">
+                          {post.authorPhoto ? (
+                            <img
+                              src={post.authorPhoto}
+                              alt={post.name}
+                              className="w-8 h-8 rounded-full border border-border-primary object-cover shrink-0"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full border border-border-primary bg-bg-primary flex items-center justify-center text-text-secondary text-xs font-bold shrink-0">
+                              TW
+                            </div>
+                          )}
+                          <div className="overflow-hidden">
+                            <p className="text-xs font-bold text-text-primary truncate leading-tight">{post.name}</p>
+                            <p className="text-[9px] text-text-secondary truncate">{post.organization}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-end shrink-0">
+                          <span className="text-[9px] text-text-secondary font-mono mb-1">
+                            {new Date(post.submittedAt).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric"
+                            })}
+                          </span>
+                          <span className="text-[10px] font-bold text-[#8CC63F] inline-flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                            Read <ArrowRight size={10} />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="mt-12 flex justify-center items-center gap-4">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((p) => p - 1)}
+                    className="px-4 py-2 rounded-lg border border-border-primary bg-bg-secondary text-xs font-bold text-text-primary hover:border-[#8CC63F] disabled:opacity-50 disabled:hover:border-border-primary transition cursor-pointer"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-xs text-text-secondary font-mono">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage((p) => p + 1)}
+                    className="px-4 py-2 rounded-lg border border-border-primary bg-bg-secondary text-xs font-bold text-text-primary hover:border-[#8CC63F] disabled:opacity-50 disabled:hover:border-border-primary transition cursor-pointer"
+                  >
+                    Next
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
 
-      {/* 5. COMMUNITY CONTRIBUTIONS SECTION */}
-      <section className="bg-bg-secondary/50 border-y border-border-primary py-20">
+      {/* 5. COMMUNITY CONTRIBUTIONS SECTION (Redesigned Compact Cards) */}
+      <section className="bg-bg-secondary/50 border-y border-border-primary py-20 text-left">
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
             <div>
               <p className="text-small-text font-bold uppercase tracking-[0.18em] text-copper">Knowledge Exchange</p>
-              <h2 className="mt-2 text-section text-text-primary">Community Contributions</h2>
+              <h2 className="mt-2 text-section text-text-primary font-bold">Community Contributions</h2>
               <p className="mt-3 text-text-secondary max-w-xl text-body-normal">
                 Engineering deep-dives, tooling tips, and hardware analyses shared by industry professionals and researchers.
               </p>
             </div>
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="mt-6 md:mt-0 flex items-center gap-2 px-5 py-3 rounded-xl border border-border-primary hover:border-signal/50 hover:bg-signal/10 transition text-text-primary font-bold text-sm cursor-pointer"
+              className="mt-6 md:mt-0 flex items-center gap-2 px-5 py-3 rounded-xl border border-border-primary hover:border-[#8CC63F]/50 hover:bg-[#8CC63F]/10 transition text-text-primary font-bold text-sm cursor-pointer"
             >
               <Upload size={16} /> Share Your Article
             </button>
@@ -549,47 +837,64 @@ export default function BlogPage() {
               <p className="text-xs text-text-secondary mt-1">Be the first to upload and share your article!</p>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {communityContributions.map((art) => (
                 <div
                   key={art.id}
-                  onClick={() => setActiveReaderArticle(art)}
-                  className="group relative overflow-hidden rounded-2xl border border-border-primary bg-bg-secondary p-6 transition duration-300 hover:border-signal/70 cursor-pointer flex flex-col md:flex-row gap-6"
+                  onClick={() => {
+                    incrementViewCount(art.id, false);
+                    setActiveReaderArticle(art);
+                  }}
+                  className="group flex flex-col justify-between h-[360px] rounded-2xl border border-border-primary bg-bg-secondary hover:bg-bg-secondary/80 p-6 transition-all duration-300 hover:border-[#8CC63F] hover:shadow-[0_0_20px_rgba(140,198,63,0.15)] cursor-pointer text-left"
                 >
-                  <div className="md:w-1/3 relative h-40 md:h-auto rounded-xl overflow-hidden bg-bg-primary">
-                    <img
-                      src={art.coverImage}
-                      alt={art.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                    />
-                    <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-bg-secondary/90 border border-border-primary text-[10px] font-bold text-copper uppercase tracking-wider">
-                      {art.category}
+                  <div className="space-y-4">
+                    {/* Category & Guest Post Badge */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-black uppercase tracking-[0.16em] text-copper">
+                        {art.category}
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#8CC63F]/15 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider">
+                        Guest Post
+                      </span>
                     </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-lg font-bold text-text-primary group-hover:text-[#8CC63F] transition duration-200 line-clamp-2 leading-tight">
+                      {art.title}
+                    </h3>
+
+                    {/* Short Description */}
+                    <p className="text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                      {art.shortDescription || art.content.replace(/<[^>]*>/g, "").substring(0, 120) + "..."}
+                    </p>
                   </div>
-                  <div className="md:w-2/3 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-card text-text-primary group-hover:text-signal transition duration-200">
-                        {art.title}
-                      </h3>
-                      <p className="mt-2 text-body-normal text-text-secondary line-clamp-3">
-                        {art.content.replace(/<[^>]*>/g, "")}
-                      </p>
+
+                  <div className="space-y-4">
+                    {/* Author Info */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-border-primary/50">
+                      <img
+                        src={art.authorPhoto}
+                        alt={art.name}
+                        loading="lazy"
+                        className="w-8 h-8 rounded-full border border-border-primary object-cover shrink-0"
+                      />
+                      <div className="overflow-hidden">
+                        <p className="text-xs font-bold text-text-primary truncate">{art.name}</p>
+                        <p className="text-[10px] text-text-secondary truncate">{art.organization}</p>
+                      </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-border-primary/50 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={art.authorPhoto}
-                          alt={art.name}
-                          className="w-8 h-8 rounded-full border border-border-primary object-cover"
-                        />
-                        <div>
-                          <p className="text-xs font-bold text-text-primary">{art.name}</p>
-                          <p className="text-[10px] text-text-secondary">{art.organization}</p>
-                        </div>
-                      </div>
-                      <span className="text-xs font-bold text-signal inline-flex items-center gap-1 group-hover:text-green-400 transition">
-                        View Article <ArrowRight size={14} />
+                    {/* Date & View Link */}
+                    <div className="flex items-center justify-between text-[10px]">
+                      <span className="text-text-secondary font-mono">
+                        {new Date(art.submittedAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric"
+                        })}
+                      </span>
+                      <span className="font-bold text-[#8CC63F] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        View Article <ArrowRight size={12} />
                       </span>
                     </div>
                   </div>
@@ -600,15 +905,15 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* 6. INTERN SPOTLIGHT SECTION */}
-      <section className="bg-bg-primary py-20 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-signal/5 rounded-full blur-3xl pointer-events-none" />
+      {/* 6. INTERN SPOTLIGHT SECTION (Redesigned Compact Cards) */}
+      <section className="bg-bg-primary py-20 relative overflow-hidden text-left">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8CC63F]/5 rounded-full blur-3xl pointer-events-none" />
         <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)] relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-signal/20 text-signal border border-signal/30 uppercase tracking-wider mb-4">
-              <GraduationCap size={12} className="text-signal" /> Talent Hub
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-small-text font-bold bg-[#8CC63F]/20 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider mb-4">
+              <GraduationCap size={12} className="text-[#8CC63F]" /> Talent Hub
             </span>
-            <h2 className="text-section text-text-primary">Intern Spotlight</h2>
+            <h2 className="text-section text-text-primary font-bold">Intern Spotlight</h2>
             <p className="mt-4 text-text-secondary text-body-normal">
               Showcasing approved student experiences, product prototypes, and engineering takeaways from the Texawave internship program.
             </p>
@@ -619,52 +924,67 @@ export default function BlogPage() {
               <p className="text-text-secondary font-bold">No intern spotlight experiences approved yet.</p>
             </div>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2">
               {internSpotlights.map((art) => (
                 <div
                   key={art.id}
-                  onClick={() => setActiveReaderArticle(art)}
-                  className="glassmorphism-hub-panel rounded-2xl p-8 hover:border-signal/80 transition duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden"
+                  onClick={() => {
+                    incrementViewCount(art.id, false);
+                    setActiveReaderArticle(art);
+                  }}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-border-primary hover:border-[#8CC63F]/70 bg-bg-secondary hover:bg-bg-secondary/80 p-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(140,198,63,0.1)] cursor-pointer text-left overflow-hidden border-l-4 border-l-[#8CC63F]"
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-copper/5 rounded-full blur-2xl pointer-events-none" />
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
+                  <div className="space-y-4">
+                    {/* Profile Photo, Intern Name, College & Domain Badge */}
+                    <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
                         <img
                           src={art.authorPhoto}
                           alt={art.name}
-                          className="w-12 h-12 rounded-full border border-signal/30 object-cover shadow-lg"
+                          loading="lazy"
+                          className="w-12 h-12 rounded-full border border-border-primary object-cover shrink-0 shadow-sm"
                         />
                         <div>
-                          <h4 className="font-bold text-text-primary text-sm">{art.name}</h4>
-                          <p className="text-xs text-copper font-semibold">{art.organization}</p>
+                          <h4 className="font-bold text-text-primary text-sm leading-snug">{art.name}</h4>
+                          <p className="text-xs text-text-secondary">{art.organization}</p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
-                        Intern Experience
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-[#8CC63F]/15 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider shrink-0">
+                        {art.domain || "Internship"}
                       </span>
                     </div>
 
-                    <h3 className="text-card text-text-primary hover:text-signal transition mb-4">
-                      {art.title}
-                    </h3>
-                    <p className="text-body-normal text-text-secondary line-clamp-4 bg-bg-primary/30 p-4 rounded-xl border border-border-primary/50">
-                      {art.content.replace(/<[^>]*>/g, "")}
+                    {/* Project Title */}
+                    <div>
+                      <h3 className="text-base font-bold text-text-primary group-hover:text-[#8CC63F] transition leading-snug line-clamp-2">
+                        {art.title}
+                      </h3>
+                    </div>
+
+                    {/* Excerpt */}
+                    <p className="text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                      {art.shortDescription || art.content.replace(/<[^>]*>/g, "").substring(0, 140) + "..."}
                     </p>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-border-primary/40 flex items-center justify-between text-xs font-bold">
-                    <span className="text-text-secondary flex items-center gap-1.5">
-                      <Clock size={12} />
-                      {new Date(art.submittedAt).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      })}
-                    </span>
-                    <span className="text-signal inline-flex items-center gap-1 group hover:text-green-400 transition">
-                      Read Intern Story <ArrowRight size={14} className="ml-1" />
-                    </span>
+                  <div className="mt-6 pt-4 border-t border-border-primary/50 space-y-3">
+                    {/* Skills Tagline */}
+                    {art.skills && art.skills.length > 0 && (
+                      <div className="text-[10px] font-mono text-text-secondary flex flex-wrap gap-x-1.5 items-center">
+                        <span className="font-bold text-text-primary">Skills:</span>
+                        <span>{art.skills.join(" • ")}</span>
+                      </div>
+                    )}
+
+                    {/* Duration & Read Story */}
+                    <div className="flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-text-secondary">
+                        {art.duration || "Jan 2026 – May 2026"}
+                      </span>
+                      <span className="font-bold text-[#8CC63F] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Read Story <ArrowRight size={12} />
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -675,16 +995,15 @@ export default function BlogPage() {
 
       {/* --- FORM MODAL: UPLOAD YOUR ARTICLE --- */}
       {isUploadOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent>
+        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent="true">
           <div
-            data-reveal
-            className="relative w-full max-w-3xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+            className="relative w-full max-w-3xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden text-left animate-fade-in"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-border-primary p-6">
               <div>
                 <h2 className="text-2xl font-black text-text-primary flex items-center gap-2">
-                  <Upload className="text-signal" size={24} /> Submit Your Article
+                  <Upload className="text-[#8CC63F]" size={24} /> Submit Your Article
                 </h2>
                 <p className="text-xs text-text-secondary mt-1">
                   Share your knowledge. Once approved, it will be published in Community Contributions or Intern Spotlight.
@@ -713,7 +1032,7 @@ export default function BlogPage() {
                       placeholder="e.g. Alexander Chen"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
+                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
                     />
                   </div>
                   {formErrors.name && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.name}</p>}
@@ -731,28 +1050,10 @@ export default function BlogPage() {
                       placeholder="e.g. alex@aerotech.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
+                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
                     />
                   </div>
                   {formErrors.email && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.email}</p>}
-                </div>
-
-                {/* Organization or College */}
-                <div>
-                  <label className="block text-xs font-bold text-text-primary uppercase tracking-wider mb-2">
-                    Organization / College <span className="text-copper">*</span>
-                  </label>
-                  <div className="relative">
-                    <Building2 className="absolute left-3 top-3.5 text-text-secondary" size={16} />
-                    <input
-                      type="text"
-                      placeholder="e.g. Stanford University / Texawave"
-                      value={formData.organization}
-                      onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
-                    />
-                  </div>
-                  {formErrors.organization && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.organization}</p>}
                 </div>
 
                 {/* Blog Category */}
@@ -763,7 +1064,7 @@ export default function BlogPage() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-xl py-3 px-4 text-sm transition"
+                    className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl py-3 px-4 text-sm transition"
                   >
                     {CATEGORIES.slice(1).map((cat) => (
                       <option key={cat} value={cat} className="bg-bg-secondary text-text-primary">
@@ -772,7 +1073,64 @@ export default function BlogPage() {
                     ))}
                   </select>
                 </div>
+
+                {/* Organization or College */}
+                <div>
+                  <label className="block text-xs font-bold text-text-primary uppercase tracking-wider mb-2">
+                    {formData.category === "Internship" ? "College Name *" : "Organization / Company *"}
+                  </label>
+                  <div className="relative">
+                    <Building2 className="absolute left-3 top-3.5 text-text-secondary" size={16} />
+                    <input
+                      type="text"
+                      placeholder={formData.category === "Internship" ? "e.g. IIT Madras" : "e.g. Stanford University / Texawave"}
+                      value={formData.organization}
+                      onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
+                      className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
+                    />
+                  </div>
+                  {formErrors.organization && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.organization}</p>}
+                </div>
               </div>
+
+              {/* Dynamic Internship Fields */}
+              {formData.category === "Internship" && (
+                <div className="p-4 rounded-xl border border-border-primary bg-bg-primary/20 space-y-4">
+                  <h4 className="text-xs font-bold text-copper uppercase tracking-wider">Internship Details</h4>
+                  <div className="grid gap-6 md:grid-cols-3">
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-primary uppercase mb-2">Domain Badge</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Embedded Systems"
+                        value={formData.domain}
+                        onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                        className="w-full bg-bg-primary border border-border-primary text-text-primary text-xs focus:border-[#8CC63F] outline-none rounded-lg py-2 px-3 transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-primary uppercase mb-2">Skills (Comma Split)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. PLC, Embedded, PCB"
+                        value={formData.skills}
+                        onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                        className="w-full bg-bg-primary border border-border-primary text-text-primary text-xs focus:border-[#8CC63F] outline-none rounded-lg py-2 px-3 transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-text-primary uppercase mb-2">Duration</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Jan 2026 – May 2026"
+                        value={formData.duration}
+                        onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                        className="w-full bg-bg-primary border border-border-primary text-text-primary text-xs focus:border-[#8CC63F] outline-none rounded-lg py-2 px-3 transition"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Blog Title */}
               <div>
@@ -786,10 +1144,24 @@ export default function BlogPage() {
                     placeholder="e.g. Design Considerations for High-Frequency PCBs"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
+                    className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl py-3 pl-10 pr-4 text-sm transition"
                   />
                 </div>
                 {formErrors.title && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.title}</p>}
+              </div>
+
+              {/* Short Description */}
+              <div>
+                <label className="block text-xs font-bold text-text-primary uppercase tracking-wider mb-2">
+                  Short Description (2-3 lines max)
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. A brief overview of the article contents for the preview cards..."
+                  value={formData.shortDescription}
+                  onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                  className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-xl p-3 text-sm transition"
+                />
               </div>
 
               {/* Photo Uploads Grid */}
@@ -804,10 +1176,10 @@ export default function BlogPage() {
                       <img
                         src={formData.authorPhoto}
                         alt="Preview"
-                        className="w-12 h-12 rounded-full object-cover border border-signal"
+                        className="w-12 h-12 rounded-full object-cover border border-[#8CC63F]"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-full border border-border-primary bg-bg-primary flex items-center justify-center text-text-secondary text-xs">
+                      <div className="w-12 h-12 rounded-full border border-border-primary bg-bg-primary flex items-center justify-center text-text-secondary text-[10px]">
                         No Pic
                       </div>
                     )}
@@ -821,14 +1193,13 @@ export default function BlogPage() {
                       />
                       <label
                         htmlFor="author-photo-input"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-primary border border-border-primary hover:border-signal text-xs font-bold text-text-primary transition cursor-pointer"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-primary border border-border-primary hover:border-[#8CC63F] text-xs font-bold text-text-primary transition cursor-pointer"
                       >
                         <ImageIcon size={14} /> Upload Image
                       </label>
                       <p className="text-[10px] text-text-secondary mt-1">PNG, JPG up to 1.5MB. Auto placeholder if left empty.</p>
                     </div>
                   </div>
-                  {formErrors.authorPhoto && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.authorPhoto}</p>}
                 </div>
 
                 {/* Cover Image */}
@@ -841,10 +1212,10 @@ export default function BlogPage() {
                       <img
                         src={formData.coverImage}
                         alt="Preview"
-                        className="w-16 h-10 object-cover rounded border border-signal"
+                        className="w-16 h-10 object-cover rounded border border-[#8CC63F]"
                       />
                     ) : (
-                      <div className="w-16 h-10 border border-border-primary bg-bg-primary rounded flex items-center justify-center text-text-secondary text-xs">
+                      <div className="w-16 h-10 border border-border-primary bg-bg-primary rounded flex items-center justify-center text-text-secondary text-[10px]">
                         No Cover
                       </div>
                     )}
@@ -858,14 +1229,13 @@ export default function BlogPage() {
                       />
                       <label
                         htmlFor="cover-image-input"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-primary border border-border-primary hover:border-signal text-xs font-bold text-text-primary transition cursor-pointer"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-primary border border-border-primary hover:border-[#8CC63F] text-xs font-bold text-text-primary transition cursor-pointer"
                       >
                         <ImageIcon size={14} /> Upload Image
                       </label>
                       <p className="text-[10px] text-text-secondary mt-1">PNG, JPG up to 1.5MB. Auto placeholder if left empty.</p>
                     </div>
                   </div>
-                  {formErrors.coverImage && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.coverImage}</p>}
                 </div>
               </div>
 
@@ -933,7 +1303,7 @@ export default function BlogPage() {
                   placeholder="Start writing your rich-text article... You can use HTML tags or the formatting buttons above."
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-signal outline-none rounded-b-xl p-4 text-sm transition font-sans leading-relaxed"
+                  className="w-full bg-bg-primary border border-border-primary text-text-primary focus:border-[#8CC63F] outline-none rounded-b-xl p-4 text-sm transition font-sans leading-relaxed"
                 />
                 {formErrors.content && <p className="text-xs text-orange-500 mt-1 flex items-center gap-1"><AlertCircle size={12} /> {formErrors.content}</p>}
               </div>
@@ -949,7 +1319,7 @@ export default function BlogPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-signal hover:bg-opacity-90 text-white text-sm font-bold transition flex items-center gap-2 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-[#8CC63F] hover:bg-opacity-90 text-black text-sm font-bold transition flex items-center gap-2 cursor-pointer"
                 >
                   <Check size={16} /> Submit to Queue
                 </button>
@@ -963,129 +1333,22 @@ export default function BlogPage() {
       {isSuccessOpen && (
         <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4">
           <div
-            data-reveal
-            className="w-full max-w-md rounded-2xl border border-border-primary bg-bg-secondary p-8 text-center shadow-2xl relative"
+            className="w-full max-w-md rounded-2xl border border-border-primary bg-bg-secondary p-8 text-center shadow-2xl relative text-left"
           >
-            <div className="w-16 h-16 rounded-full bg-signal/20 border border-signal text-signal mx-auto flex items-center justify-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-[#8CC63F]/20 border border-[#8CC63F] text-[#8CC63F] mx-auto flex items-center justify-center mb-6">
               <Check size={32} />
             </div>
-            <h3 className="text-2xl font-black text-text-primary">Article Submitted!</h3>
-            <p className="mt-3 text-text-secondary text-sm leading-relaxed">
+            <h3 className="text-2xl font-black text-text-primary text-center">Article Submitted!</h3>
+            <p className="mt-3 text-text-secondary text-sm leading-relaxed text-center">
               Thank you for contributing! Your article has entered the **moderator review queue**. Once approved by an administrator, it will be published live on the Texawave Blog.
             </p>
-            <div className="mt-8">
+            <div className="mt-6">
               <button
-                onClick={() => {
-                  setIsSuccessOpen(false);
-                  setIsModeratorOpen(true); // Open the queue immediately so the user can see and approve it!
-                }}
-                className="w-full py-3 rounded-xl bg-signal hover:bg-opacity-90 text-white font-bold transition flex items-center justify-center gap-2 cursor-pointer"
+                onClick={() => setIsSuccessOpen(false)}
+                className="w-full py-3 rounded-xl bg-[#8CC63F] hover:bg-opacity-95 text-black font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
-                Open Moderator Queue <ArrowRight size={16} />
+                Done
               </button>
-            </div>
-            <button
-              onClick={() => setIsSuccessOpen(false)}
-              className="mt-3 text-xs text-text-secondary hover:underline cursor-pointer"
-            >
-              Back to Blog
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* --- MODAL: MODERATOR REVIEW QUEUE --- */}
-      {isModeratorOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm p-4" data-lenis-prevent>
-          <div
-            data-reveal
-            className="relative w-full max-w-4xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
-          >
-            <div className="flex items-center justify-between border-b border-border-primary p-6">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="text-signal" size={24} />
-                <div>
-                  <h2 className="text-2xl font-black text-text-primary">Moderator Review Panel</h2>
-                  <p className="text-xs text-text-secondary">Approve or reject community submissions in real-time.</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsModeratorOpen(false)}
-                className="rounded-lg p-1.5 hover:bg-bg-primary text-text-secondary hover:text-text-primary transition cursor-pointer"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-bg-secondary/30">
-              {pendingArticles.length === 0 ? (
-                <div className="text-center py-20">
-                  <ShieldCheck className="mx-auto text-green-500 mb-4" size={48} />
-                  <h4 className="text-xl font-bold text-text-primary">Review Queue is Clear!</h4>
-                  <p className="text-xs text-text-secondary mt-1">There are no pending article submissions at this time.</p>
-                  <button
-                    onClick={() => {
-                      setIsModeratorOpen(false);
-                      setIsUploadOpen(true);
-                    }}
-                    className="mt-6 px-5 py-2 rounded-lg bg-signal text-white font-bold text-xs hover:bg-opacity-90 transition cursor-pointer"
-                  >
-                    Submit a Test Article
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {pendingArticles.map((art) => (
-                    <div
-                      key={art.id}
-                      className="border border-border-primary rounded-xl p-5 bg-bg-primary flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-copper/20 text-copper border border-copper/30 uppercase tracking-wider">
-                            {art.category}
-                          </span>
-                          <span className="text-[10px] text-text-secondary">
-                            Submitted {new Date(art.submittedAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                        <h4 className="text-lg font-black text-text-primary">{art.title}</h4>
-                        <div className="flex items-center gap-2 pt-1">
-                          <img
-                            src={art.authorPhoto}
-                            alt={art.name}
-                            className="w-5 h-5 rounded-full object-cover border border-border-primary"
-                          />
-                          <p className="text-xs text-text-secondary">
-                            By <span className="text-text-primary font-semibold">{art.name}</span> ({art.organization})
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-end md:self-auto">
-                        <button
-                          onClick={() => setActiveReaderArticle(art)}
-                          className="px-3.5 py-2 rounded-lg border border-border-primary hover:border-signal/50 text-text-primary text-xs font-bold transition flex items-center gap-1 cursor-pointer"
-                        >
-                          <Eye size={14} /> Preview
-                        </button>
-                        <button
-                          onClick={() => approveArticle(art.id)}
-                          className="px-3.5 py-2 rounded-lg bg-signal hover:bg-opacity-90 text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer"
-                        >
-                          <Check size={14} /> Approve
-                        </button>
-                        <button
-                          onClick={() => rejectArticle(art.id)}
-                          className="px-3.5 py-2 rounded-lg bg-red-950/30 border border-red-900/50 hover:border-red-500 text-red-400 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
-                        >
-                          <Trash2 size={14} /> Reject
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -1093,15 +1356,14 @@ export default function BlogPage() {
 
       {/* --- FULL ARTICLE READER MODAL --- */}
       {activeReaderArticle && (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent>
+        <div className="fixed inset-0 z-[20000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 overflow-y-auto" data-lenis-prevent="true">
           <div
-            data-reveal
-            className="relative w-full max-w-4xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+            className="relative w-full max-w-4xl rounded-2xl border border-border-primary bg-bg-secondary shadow-2xl flex flex-col max-h-[90vh] overflow-hidden text-left"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-border-primary p-6 bg-bg-secondary">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-signal/15 text-signal border border-signal/30 uppercase tracking-wider">
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#8CC63F]/15 text-[#8CC63F] border border-[#8CC63F]/30 uppercase tracking-wider">
                   {activeReaderArticle.category}
                 </span>
                 {activeReaderArticle.status === "pending" && (
@@ -1135,7 +1397,7 @@ export default function BlogPage() {
                   <img
                     src={activeReaderArticle.authorPhoto}
                     alt={activeReaderArticle.name}
-                    className="w-12 h-12 rounded-full border border-signal object-cover"
+                    className="w-12 h-12 rounded-full border border-[#8CC63F] object-cover"
                   />
                   <div>
                     <h4 className="font-bold text-text-primary">{activeReaderArticle.name}</h4>
@@ -1166,30 +1428,6 @@ export default function BlogPage() {
                 />
               </div>
             </div>
-
-            {/* Reader Modal Footer: Show moderation buttons if reviewing pending post */}
-            {activeReaderArticle.status === "pending" && (
-              <div className="border-t border-border-primary p-4 bg-bg-secondary flex justify-end gap-2">
-                <button
-                  onClick={() => {
-                    approveArticle(activeReaderArticle.id);
-                    setActiveReaderArticle(null);
-                  }}
-                  className="px-5 py-2.5 rounded-lg bg-signal hover:bg-opacity-90 text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer"
-                >
-                  <Check size={14} /> Approve & Publish
-                </button>
-                <button
-                  onClick={() => {
-                    rejectArticle(activeReaderArticle.id);
-                    setActiveReaderArticle(null);
-                  }}
-                  className="px-5 py-2.5 rounded-lg bg-red-950/30 border border-red-900/50 hover:border-red-500 text-red-400 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
-                >
-                  <Trash2 size={14} /> Reject & Delete
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
