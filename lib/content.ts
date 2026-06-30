@@ -292,7 +292,22 @@ export const testimonials = [
 ];
 
 
-export const blogPosts = [];
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  coverImage: string;
+  readTime: string;
+  viewCount: number;
+  authorPhoto: string;
+  name: string;
+  organization: string;
+  submittedAt: string;
+  isFeatured?: boolean;
+}
+
+export const blogPosts: BlogPost[] = [];
 
 export const stats = [
   { value: 50, suffix: "+", label: "Projects Delivered" },

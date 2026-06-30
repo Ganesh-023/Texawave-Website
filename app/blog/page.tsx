@@ -600,7 +600,7 @@ export default function BlogPage() {
                     <tbody className="divide-y divide-border-primary/30">
                       {userContributions.map((art) => {
                         let badgeColor = "bg-gray-900 border-gray-700 text-gray-400";
-                        let statusLabel = art.status;
+                        let statusLabel: string = art.status;
                         if (art.status === "pending") {
                           badgeColor = "bg-orange-950/40 border-orange-500/20 text-orange-400";
                           statusLabel = "Pending Review";
