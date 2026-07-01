@@ -13,21 +13,15 @@ import {
   Upload, 
   Check, 
   X, 
-  Heart, 
-  Calendar, 
   AlertCircle, 
-  Sparkles,
-  Lock,
-  MessageSquare
+  Sparkles
 } from "lucide-react";
-import { Job, WalkInDrive, CareerUpdate } from "./types";
+import { Job } from "./types";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 interface CandidateViewProps {
   jobs: Job[];
-  walkins: WalkInDrive[];
-  updates: CareerUpdate[];
   onApply: (formData: {
     jobId: string;
     jobTitle: string;
@@ -46,18 +40,12 @@ interface CandidateViewProps {
     message: string;
     resumeName: string;
   }) => void;
-  onLikeUpdate: (id: string) => void;
-  onToggleAdmin: () => void;
 }
 
 export function CandidateView({
   jobs,
-  walkins,
-  updates,
   onApply,
-  onJoinTalentPool,
-  onLikeUpdate,
-  onToggleAdmin
+  onJoinTalentPool
 }: CandidateViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -140,6 +128,30 @@ export function CandidateView({
     
     return () => clearInterval(timer);
   }, [targetCount]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    const isModalOpen = activeJobForModal !== null || showTalentPoolModal;
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeJobForModal, showTalentPoolModal]);
 
   // Entrance animations via GSAP
   useGSAP(() => {
@@ -446,7 +458,7 @@ export function CandidateView({
         </div>
 
         {/* Filter Toolbar */}
-        <div className="flex flex-col gap-4 bg-bg-card/60 p-4 rounded-2xl border border-border-primary backdrop-blur-sm mb-8">
+        <div className="flex flex-col gap-4 bg-bg-card p-4 rounded-2xl border border-border-primary backdrop-blur-sm mb-8">
           <div className="grid md:grid-cols-[2fr_1fr_1fr] gap-4">
             {/* Search Input */}
             <div className="relative flex items-center">
@@ -456,7 +468,7 @@ export function CandidateView({
                 placeholder="Search job title, skills, keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-bg-primary/60 border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-text-primary transition-colors"
+                className="w-full bg-bg-primary border border-border-primary hover:border-white/20 focus:border-signal focus:outline-none rounded-xl pl-10 pr-4 py-3 text-sm text-text-primary transition-colors"
               />
             </div>
             
@@ -464,7 +476,7 @@ export function CandidateView({
             <select
               value={selectedDept}
               onChange={(e) => setSelectedDept(e.target.value)}
-              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
+              className="bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
             >
               <option value="All">All Departments</option>
               <option value="Software">Software</option>
@@ -477,7 +489,7 @@ export function CandidateView({
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="bg-bg-primary/60 border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
+              className="bg-bg-primary border border-border-primary focus:border-signal focus:outline-none rounded-xl px-4 py-3 text-sm text-text-primary font-semibold"
             >
               <option value="All">All Job Types</option>
               <option value="Full Time">Full Time</option>
@@ -563,286 +575,18 @@ export function CandidateView({
         </div>
       </section>
 
-      {/* Internship Corner */}
-      <section className="bg-bg-secondary py-20 border-y border-border-primary">
-        <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <div className="text-center mb-16">
-            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Special Section</span>
-            <h2 className="text-section text-text-primary mt-3">Internship Corner</h2>
-            <p className="text-body-large text-text-secondary mt-3 max-w-2xl mx-auto">
-              TEXAWAVE is a hub for talented engineering students. Apply for structured internships to gain real hardware lab experience.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                title: "Mechanical Design Intern",
-                duration: "3 - 6 Months",
-                desc: "Design premium sheet metal and injection molded enclosures using SolidWorks. Perform FEA thermal & stress simulations in Ansys.",
-                skills: "SolidWorks, GD&T, FEA Analysis",
-                benefit: "Hands-on Prototyping & Lab Access"
-              },
-              {
-                title: "Embedded Systems Intern",
-                duration: "3 - 6 Months",
-                desc: "Develop firmware drivers for ESP32 and STM32 MCUs in C/C++. soldering, diagnostic tests, logic analyzer bring-up.",
-                skills: "Embedded C, Microcontrollers, UART/SPI",
-                benefit: "Stipend, Hardware Labs Bring-up"
-              },
-              {
-                title: "Software Developer Intern",
-                duration: "3 - 6 Months",
-                desc: "Build animated web interfaces with React, Next.js, and TypeScript. Set up real-time telemetry graphs and MQTT streams.",
-                skills: "Next.js, TypeScript, TailwindCSS, APIs",
-                benefit: "Wfh kit, structured coding cohorts"
-              },
-              {
-                title: "Electronics Design Intern",
-                duration: "3 - 6 Months",
-                desc: "PCB schematic design, layout optimization, signal integrity analysis, EMI/EMC compliance, board soldering & diagnosis.",
-                skills: "Altium Designer, PCB Layouts, Multimeter",
-                benefit: "Altium workshops, lab equipment access"
-              }
-            ].map((intern, index) => (
-              <div 
-                key={index}
-                className="rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp hover:border-signal transition-colors flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-small-text font-mono font-bold text-signal">{"0" + (index + 1) + " // PROGRAM"}</span>
-                  <h3 className="text-card text-text-primary mt-3 leading-tight min-h-[3rem] flex items-center">{intern.title}</h3>
-                  <p className="text-small-text font-semibold text-accent-light bg-signal/10 rounded px-2.5 py-1 w-fit mt-2 font-mono">
-                    ⏱️ {intern.duration}
-                  </p>
-                  <p className="text-xs text-text-secondary mt-4 leading-relaxed">
-                    {intern.desc}
-                  </p>
-                </div>
-                
-                <div className="border-t border-border-primary/50 pt-4 mt-6">
-                  <div className="text-xs text-text-secondary font-medium">
-                    <span className="block">🎓 Eligibility: <strong className="text-text-primary">{intern.skills}</strong></span>
-                    <span className="block mt-1">⭐ Perks: <strong className="text-text-primary">{intern.benefit}</strong></span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      const mockJob: Job = {
-                        id: `intern-program-${index}`,
-                        title: intern.title,
-                        department: "Electrical",
-                        location: "Chennai / Onsite",
-                        type: "Internship",
-                        experience: "Students",
-                        salary: "Paid Stipend",
-                        description: intern.desc,
-                        responsibilities: ["Participate in daily engineering scrums", "Perform testing and documentation", "Build demo prototypes"],
-                        requirements: ["Currently enrolled in Engineering degree", "Basic coding or drafting knowledge"],
-                        benefits: ["Certificate", "Stipend"],
-                        skills: [intern.skills],
-                        deadline: "2026-06-30",
-                        status: "Open",
-                        isFeatured: false,
-                        isUrgent: false,
-                        isInternship: true,
-                        postedDate: new Date().toISOString().split("T")[0]
-                      };
-                      setFormType("apply");
-                      setActiveJobForModal(mockJob);
-                    }}
-                    className="mt-6 w-full text-center py-2.5 rounded bg-signal/10 hover:bg-signal/20 font-bold text-xs text-accent-light border border-signal/20 transition-all font-mono"
-                  >
-                    Apply For Internship
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Walk-in Drives Section */}
-      {walkins.length > 0 && (
-        <section className="py-20 z-10">
-          <div className="mx-auto w-full max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
-          <div className="flex flex-col items-center text-center mb-16">
-            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Fast-Track Hiring</span>
-            <h2 className="text-section text-text-primary mt-3">Walk-in Interviews</h2>
-            <p className="text-body-large text-text-secondary mt-2 max-w-xl">
-              Skip the application queue. Join us directly at our Chennai labs on event dates for dynamic onsite screening evaluations.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {walkins.map((drive) => (
-              <div 
-                key={drive.id}
-                className="relative rounded-2xl border border-border-primary bg-bg-card p-6 shadow-crisp overflow-hidden group hover:border-signal/50 transition-colors"
-              >
-                <div className="absolute right-0 top-0 w-24 h-24 bg-gradient-to-bl from-signal/10 to-transparent pointer-events-none" />
-                
-                <div className="flex gap-4 items-start">
-                  <div className="bg-signal/15 border border-signal/30 text-signal rounded-xl p-3 flex flex-col items-center justify-center min-w-16">
-                    <Calendar size={20} />
-                    <span className="text-xs font-mono font-bold mt-1">EVENT</span>
-                  </div>
-                  
-                  <div>
-                    <span className="text-small-text font-mono font-bold text-signal tracking-widest block uppercase">
-                      📅 Date: {drive.date}
-                    </span>
-                    <h3 className="text-card text-text-primary mt-1 group-hover:text-signal transition-colors">
-                      {drive.title}
-                    </h3>
-                    <p className="text-small-text text-text-secondary mt-1 font-semibold flex items-center gap-1">
-                      <MapPin size={12} className="text-signal" />
-                      {drive.location}
-                    </p>
-                    <p className="text-body-normal text-text-secondary mt-3">
-                      {drive.description}
-                    </p>
-                    
-                    <div className="mt-4">
-                      <span className="text-xs font-bold text-text-primary">Target Roles:</span>
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {drive.positions.map((pos) => (
-                          <span key={pos} className="px-2 py-0.5 text-[10px] font-semibold rounded bg-bg-primary border border-border-primary/50 text-text-secondary">
-                            {pos}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-border-primary/50 pt-4 mt-6 flex justify-between items-center text-xs">
-                  <span className="text-text-secondary font-mono">
-                    Inquiries: <strong className="text-text-primary">{drive.contactEmail}</strong>
-                  </span>
-                  <button 
-                    onClick={() => {
-                      const mockJob: Job = {
-                        id: `walkin-${drive.id}`,
-                        title: drive.positions[0] || "Walkin Candidate",
-                        department: "Mechanical",
-                        location: "Chennai / Onsite",
-                        type: "Full Time",
-                        experience: "Variable",
-                        salary: "TBD Onsite",
-                        description: `Walk-in interview registration for ${drive.title}`,
-                        responsibilities: ["Attend walkin screening"],
-                        requirements: ["Come with physical CV"],
-                        benefits: ["Fast track process"],
-                        skills: drive.positions,
-                        deadline: drive.date,
-                        status: "Open",
-                        isFeatured: false,
-                        isUrgent: false,
-                        isInternship: false,
-                        postedDate: drive.date
-                      };
-                      setFormType("apply");
-                      setActiveJobForModal(mockJob);
-                    }}
-                    className="text-signal font-bold hover:underline"
-                  >
-                    Register Interest &rarr;
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          </div>
-        </section>
-      )}
-
-      {/* Premium Feature: Life at TEXAWAVE Feed */}
-      <section className="bg-bg-secondary/60 py-20 border-t border-border-primary">
-        <div className="mx-auto w-full max-w-4xl px-[clamp(1rem,4vw,4rem)]">
-          <div className="text-center mb-16">
-            <span className="text-small-text font-bold uppercase tracking-[0.2em] text-signal font-display">Social Stream</span>
-            <h2 className="text-section text-text-primary mt-3">Life at TEXAWAVE Feed</h2>
-            <p className="text-body-large text-text-secondary mt-2">
-              Explore employee experiences, labs bring-up milestones, cultural activities, and internal hackathons.
-            </p>
-          </div>
-
-          <div className="space-y-8">
-            {updates.map((update) => (
-              <div 
-                key={update.id}
-                className="bg-bg-card rounded-2xl border border-border-primary overflow-hidden shadow-crisp"
-              >
-                {/* Image panel */}
-                {update.image && (
-                  <div className="relative h-60 md:h-80 w-full bg-bg-primary border-b border-border-primary">
-                    <Image
-                      src={update.image}
-                      alt={update.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-w-768px) 100vw, 800px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  </div>
-                )}
-                
-                {/* Content */}
-                <div className="p-6 md:p-8">
-                  <div className="flex justify-between items-center text-xs text-text-secondary font-mono mb-3">
-                    <span className="uppercase text-signal font-bold tracking-wider">
-                      {update.type === "life" ? "📷 Culture & Team" : "📢 Company Update"}
-                    </span>
-                    <span>{update.date}</span>
-                  </div>
-                  
-                  <h3 className="text-card text-text-primary">
-                    {update.title}
-                  </h3>
-                  
-                  <p className="text-body-normal text-text-secondary mt-4 whitespace-pre-line">
-                    {update.content}
-                  </p>
-
-                  <div className="border-t border-border-primary/50 pt-4 mt-6 flex items-center justify-between">
-                    <button
-                      onClick={() => onLikeUpdate(update.id)}
-                      className="flex items-center gap-2 text-xs font-bold text-text-secondary hover:text-red-400 transition-colors group"
-                    >
-                      <Heart 
-                        size={16} 
-                        className="text-text-secondary group-hover:text-red-400 group-hover:scale-125 transition-all" 
-                        fill={update.likes > 42 ? "currentColor" : "none"} 
-                      />
-                      <span>Like ({update.likes})</span>
-                    </button>
-                    
-                    <div className="flex items-center gap-2 text-xs text-text-secondary font-semibold">
-                      <MessageSquare size={16} />
-                      <span>{update.commentsCount} Comments</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Staff Login Link */}
-      <div className="py-12 border-t border-border-primary/50 text-center flex flex-col items-center justify-center bg-bg-primary">
-        <button
-          onClick={onToggleAdmin}
-          className="text-xs text-text-secondary hover:text-[#8CC63F] transition-colors inline-flex items-center gap-1 font-mono uppercase font-bold tracking-wider"
-        >
-          Staff Login &rarr;
-        </button>
-      </div>
 
       {/* Modal - Apply Job / Join Talent Pool */}
       {(activeJobForModal || showTalentPoolModal) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-4xl bg-bg-card border border-border-primary rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[1.2fr_1.8fr] max-h-[90vh]">
+        <div 
+          onClick={handleCloseModal}
+          data-lenis-prevent="true"
+          className="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-bg-primary/80 backdrop-blur-md overflow-y-auto cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl bg-bg-card border border-border-primary rounded-2xl shadow-premium overflow-hidden flex flex-col md:grid md:grid-cols-[1.2fr_1.8fr] h-[85vh] md:h-[680px] max-h-[85vh] cursor-default"
+          >
             
             {/* Close Button */}
             <button
@@ -927,7 +671,7 @@ export function CandidateView({
             </div>
 
             {/* Right Column: Interactive Form */}
-            <div className="p-6 md:p-8 overflow-y-auto flex flex-col justify-center">
+            <div className="p-6 md:p-8 overflow-y-auto flex flex-col">
               {isSuccess ? (
                 <div className="text-center py-10 flex flex-col items-center">
                   <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-signal/15 text-signal mb-4">
@@ -947,7 +691,7 @@ export function CandidateView({
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 font-sans text-left">
                   <div>
-                    <h3 className="text-card text-text-primary">
+                    <h3 className="text-card text-text-primary pr-8">
                       {formType === "apply" && activeJobForModal 
                         ? `Apply for: ${activeJobForModal.title}` 
                         : "Join General Talent Pool"}

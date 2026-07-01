@@ -4,8 +4,8 @@ import { PageChrome } from "@/components/PageChrome";
 import { CaseStudiesList } from "@/components/CaseStudiesList";
 
 export const metadata = {
-  title: "Case Studies | Texawave",
-  description: "Texawave hardware engineering case studies across machine design, SPM manufacturing support, and performance improvement."
+  title: "Engineering Case Studies & Portfolio",
+  description: "Explore Texawave’s engineering case studies. Discover how we deliver measurable results across custom mechanical design, PCB fabrication, and smart IoT solutions."
 };
 
 export default function CaseStudiesPage() {

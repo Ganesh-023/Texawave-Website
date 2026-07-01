@@ -311,7 +311,7 @@ export const blogPosts: BlogPost[] = [];
 
 export const stats = [
   { value: 50, suffix: "+", label: "Projects Delivered" },
-  { value: 98, suffix: "%", label: "Client Satisfaction" },
+  { value: 98, suffix: "%", label: "Happy clients" },
   { value: 24, suffix: "", label: "Clutch Reviews" },
   { value: 4.9, suffix: "/5", label: "Average Rating" }
 ];

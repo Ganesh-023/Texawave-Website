@@ -1,5 +1,8 @@
 "use client";
 
+// Note: Metadata (title and description) for this page is defined in layout.tsx
+// because Client Components cannot export metadata directly.
+
 import { useState, useEffect } from "react";
 import {
   ArrowRight,

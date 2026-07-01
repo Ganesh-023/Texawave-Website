@@ -301,9 +301,9 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "ERP systems built around your workflows, not the other way around.",
     description:
       "We design and deploy high-performance, tailor-made Enterprise Resource Planning (ERP) systems built around your specific operational workflows. Instead of forcing your business into the constraints of rigid, off-the-shelf software, we build scalable platforms that unify your data, optimise resource allocation, and give your teams the real-time intelligence they need to scale with confidence.",
-    metaTitle: "Custom ERP Solutions | Texawave",
+    metaTitle: "Custom Software & Product Engineering",
     metaDescription:
-      "Tailor-made ERP systems built around your operational workflows. Centralised inventory, HR, finance, and real-time reporting dashboards.",
+      "TexaWave offers end-to-end product engineering, custom software, PCB layout design, and cloud IoT platform solutions for global startups and enterprises.",
     highlights: [
       "Custom Enterprise Backends",
       "Centralised Inventory & HR Modules",
@@ -350,9 +350,9 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Production-ready digital platforms built for scale and retention.",
     description:
       "Turn your product vision into flawless, production-ready digital platforms. Our full-stack engineering teams combine robust frontend frameworks with highly scalable backends to deliver exceptional user experiences, high retention rates, and enterprise-grade security. From concept to app store, we handle the complete engineering lifecycle.",
-    metaTitle: "Web & Mobile App Development | Texawave",
+    metaTitle: "Web & Mobile Applications Development Service",
     metaDescription:
-      "Full-stack web platforms and native iOS/Android apps. PWAs, cross-platform frameworks, UI/UX design, and enterprise-grade security.",
+      "TexaWave designs scalable Web & Mobile Applications for enterprise scale. We engineer responsive web apps, iOS/Android mobile apps, and device-connected dashboards.",
     highlights: [
       "Native iOS & Android Apps",
       "Progressive Web Apps (PWA)",
@@ -399,9 +399,9 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Zero infrastructure headaches. Maximum uptime.",
     description:
       "Maximise your uptime and accelerate development velocity with zero infrastructure headaches. We design and maintain cloud-native frameworks and continuous deployment pipelines that grow effortlessly with your business demands. From day-one architecture to ongoing operations, we ensure your platform is always available, always secure, and always cost-efficient.",
-    metaTitle: "Cloud & Infrastructure Solutions | Texawave",
+    metaTitle: "Cloud & Infrastructure Solutions for IoT Systems",
     metaDescription:
-      "AWS and Azure cloud architecture, serverless deployments, CI/CD pipelines, and cost optimisation. Resilient, secure cloud architectures by Texawave.",
+      "TexaWave delivers secure Cloud & Infrastructure Solutions for hardware. We build automated AWS/Azure DevOps pipelines, serverless setups, and robust IoT data networks.",
     highlights: [
       "AWS & Azure Architecture",
       "Serverless & Microservices",
@@ -448,9 +448,9 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Stop guessing. Start predicting.",
     description:
       "We construct the intelligent data pipelines and advanced AI models required to process raw data, automate repetitive workflows, and uncover high-value business insights. From deploying computer vision neural networks on the edge to building enterprise-wide business intelligence platforms, we bring the full spectrum of modern AI engineering to your operations.",
-    metaTitle: "AI & Data Analytics Solutions | Texawave",
+    metaTitle: "AI & Data Analytics Services & Engineering ",
     metaDescription:
-      "Custom AI models, data pipelines, and business intelligence dashboards. Predictive modelling, anomaly detection, and NLP applications by Texawave.",
+      "TexaWave delivers predictive AI & Data Analytics models for edge and enterprise systems. We engineer machine learning pipelines, computer vision, and BI tools.",
     highlights: [
       "Custom Machine Learning Models",
       "Computer Vision & Edge AI",
@@ -499,7 +499,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "From design research to production-ready architecture.",
     description:
       "At Texawave, our industrial and mechanical design services bridge the gap between creative concepts and production reality. We transform complex ideas into user-centric physical products—optimising form, functionality, and ergonomics while ensuring seamless manufacturability. From initial 3D modelling to production-ready architecture, we design products that stand out in the market and are built to scale.",
-    metaTitle: "Industrial & Mechanical Design Services | Texawave",
+    metaTitle: "Industrial & Mechanical Design Services",
     metaDescription:
       "Transform complex engineering into beautiful, manufacturable products. Discover Texawave's expert industrial and mechanical design services.",
     highlights: [
@@ -548,7 +548,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Reliable, compliance-ready circuits from schematic to layout.",
     description:
       "The electrical architecture is the central nervous system of your product. A single design flaw in your power rails or signal lines can lead to costly field failures and market delays. We provide elite custom hardware development and PCB design services, engineering energy-efficient, high-performance electronic systems for medical, industrial, consumer, and automotive applications.",
-    metaTitle: "Custom Hardware Development & PCB Design | Texawave",
+    metaTitle: "Custom Hardware Development & PCB Design",
     metaDescription:
       "Expert custom hardware development & PCB design services. From schematics to multilayer layouts, we design reliable, compliance-ready circuits.",
     highlights: [      
@@ -597,7 +597,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Reliable, secure firmware for edge devices and connected products.",
     description:
       "Many connected products fail not because of hardware design, but due to unstable software. Bugs, memory leaks, and unencrypted data transmissions stall launches and compromise user trust. We engineer hardware-aware embedded firmware and IoT solutions built for reliability, security, and long-term field deployment.",
-    metaTitle: "Custom Embedded Firmware & IoT Solutions | Texawave",
+    metaTitle: "Custom Embedded Firmware & IoT Solutions",
     metaDescription:
       "Secure your edge devices with custom embedded firmware & IoT solutions. We integrate hardware root of trust, encryption, and secure boot protocols.",
     highlights: [
@@ -646,9 +646,9 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "From CAD to validated hardware before you commit to tooling.",
     description:
       "The bridge between a digital CAD design and high-volume manufacturing is a critical phase. Engineering oversights, unverified tolerances, or undetected material fatigue can lead to catastrophic tooling failures, costly production delays, and unexpected field rejections. We provide high-fidelity rapid prototyping and uncompromising product testing and validation services—subjecting your concepts to rigorous physical, mechanical, and environmental stress protocols before you commit to mass production tooling.",
-    metaTitle: "Rapid Prototyping & Product Validation Services | Texawave",
+    metaTitle: "Rapid Prototyping & Product Validation Services",
     metaDescription:
-      "Transform 3D designs into functional prototypes. Explore Texawave's rapid 3D printing, CNC machining, and comprehensive validation services.",
+      "Get expert rapid prototyping services and product validation. We provide SLA/SLS 3D printing and precision CNC machining to test your hardware before mass production.",
     highlights: [
       "SLA / SLS / FDM 3D Printing",
       "Precision CNC Machining",
@@ -697,7 +697,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "The exact parts you need, at the best price, without the wait.",
     description:
       "Finding the exact parts required for sophisticated hardware should not stall your entire product roadmap. At Texawave, we utilise a vetted network of international distributors and manufacturers to secure premium parts while actively designing out single-source vulnerabilities. From semiconductors to custom enclosures, we close the supply gaps that delay production.",
-    metaTitle: "Global Component Sourcing Services | Texawave",
+    metaTitle: "Global Component Sourcing Services",
     metaDescription:
       "Global component sourcing, alternative part engineering, counterfeit prevention, and direct factory relationships for reliable hardware supply.",
     highlights: [
@@ -746,7 +746,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Your goods arrive exactly when and where they are needed.",
     description:
       "Volatile global markets require aggressive risk planning. We manage the heavy lifting of international transit, warehousing, and inventory management so your physical goods arrive exactly when and where they are needed. From dual-sourcing strategies to customs compliance, we build supply chains that absorb global shocks without halting your production line.",
-    metaTitle: "Supply Chain Management Services | Texawave",
+    metaTitle: "Supply Chain Management Services",
     metaDescription:
       "Resilient supply chain management and manufacturing logistics. Multi-tiered risk mitigation, JIT coordination, and end-to-end compliance management.",
     highlights: [
@@ -795,7 +795,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Cut costs, eliminate risk, and future-proof your component strategy.",
     description:
       "Your Bill of Materials is one of the highest-leverage documents in your product's lifecycle. Poorly structured BOMs inflate unit costs, expose you to supply chain risk, and slow down procurement at every production run. We conduct deep-dive BOM audits and implement strategic optimisation to reduce material spend, extend component lifecycles, and align your supply chain to your production goals.",
-    metaTitle: "BOM Optimisation Services | Texawave",
+    metaTitle: "Bill of materials optimisation services",
     metaDescription:
       "Strategic Bill of Materials optimisation for cost reduction, lifecycle management, and supply chain resilience. Expert BOM audits by Texawave.",
     highlights: [
@@ -846,7 +846,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "A brilliant design only succeeds if it can be reliably built.",
     description:
       "Our engineers perform rigorous diagnostic reviews on your product designs to simplify assembly processes, minimise component count, and reduce the risk of manufacturing defects before production tooling begins. We analyse every interface, fastener, and tolerance stack—transforming complex, difficult-to-assemble designs into streamlined, production-floor-ready architectures.",
-    metaTitle: "DFM/DFA Design for Manufacturing Optimisation | Texawave",
+    metaTitle: "DFM/DFA Design for Manufacturing Optimisation",
     metaDescription:
       "Design for Manufacturing & Assembly optimisation. Part simplification, tolerance analysis, and fastener reduction for cost-efficient production.",
     highlights: [
@@ -895,7 +895,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "From bench to production line without losing a single specification.",
     description:
       "Moving a physical product from a laboratory bench to a commercial assembly line is a critical, risk-heavy milestone. We manage the entire transition process, ensuring that all engineering documentation, tooling specifications, and assembly instructions are flawlessly transferred to your mass production partners—with experienced engineers on the ground to oversee every detail.",
-    metaTitle: "Production Transfer & NPI Services | Texawave",
+    metaTitle: "Production Transfer & NPI Services",
     metaDescription:
       "Seamless production transfer from prototype to high-volume assembly lines. Manufacturing documentation, tooling development, and NPI supervision.",
     highlights: [
@@ -944,7 +944,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Quality control at the speed of your assembly line.",
     description:
       "Quality control must run at the speed of your assembly line. We engineer custom, high-throughput testing systems that fit seamlessly into your factory layout, verifying the electrical, mechanical, and software functionality of every single unit before it gets boxed for shipment. Zero defective units leave the building.",
-    metaTitle: "Production Test Solutions & Custom Test Jigs | Texawave",
+    metaTitle: "Production Test Solutions & Custom Test Jigs",
     metaDescription:
       "Custom production line test solutions and test jigs. ICT, functional testing, bed-of-nails fixtures, and data logging for 100% unit coverage.",
     highlights: [
@@ -993,7 +993,7 @@ export const SUB_SERVICES: SubService[] = [
     tagline: "Small inefficiencies at scale become large losses. We stop them early.",
     description:
       "As production volumes surge from hundreds to hundreds of thousands, small inefficiencies quickly balloon into costly losses. We provide ongoing, on-the-ground support to stabilise manufacturing yields, audit factory workflows, and build an unshakeable quality assurance ecosystem that sustains excellence at any volume.",
-    metaTitle: "Manufacturing Scale-Up Support & Quality Auditing | Texawave",
+    metaTitle: "Manufacturing Scale-Up Support & Quality Auditing",
     metaDescription:
       "End-to-end scale-up support with yield optimisation, factory auditing, supplier compliance, and continuous cost engineering as volumes grow.",
     highlights: [

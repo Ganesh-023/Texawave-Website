@@ -1480,7 +1480,8 @@ html:not(.dark) .timeline-step-node {
    LIGHT MODE: Scrollbar Styling
    ═══════════════════════════════════════════════════════════════════════════ */
 html:not(.dark) ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
+  height: 5px;
 }
 
 html:not(.dark) ::-webkit-scrollbar-track {
@@ -1818,7 +1819,7 @@ html:not(.dark) .hr-dashboard h2.text-white {
 }
 
 /* Progress bar tracks */
-html:not(.dark) .dashboard-card .bg-\[#080808\] {
+html:not(.dark) .dashboard-card .bg-\[\#080808\] {
   background: #E5E7EB !important;
 }
 
@@ -1870,7 +1871,7 @@ html:not(.dark) .dashboard-card button.bg-white\/5:hover {
 }
 
 /* Notes/comments area */
-html:not(.dark) .dashboard-card .bg-\[#080808\] {
+html:not(.dark) .dashboard-card .bg-\[\#080808\] {
   background: #F8F9FB !important;
 }
 
@@ -1885,7 +1886,7 @@ html:not(.dark) .dashboard-card .bg-neutral-800 {
 
 /* Candidate status dropdown bg on internal pages */
 html:not(.dark) .dashboard-card select.bg-bg-primary,
-html:not(.dark) .dashboard-card select.bg-\[#0F1115\] {
+html:not(.dark) .dashboard-card select.bg-\[\#0F1115\] {
   background: #FFFFFF !important;
   color: #000000 !important;
   border-color: #DADADA !important;
@@ -2097,8 +2098,8 @@ html:not(.dark) .dashboard-toast {
    LIGHT MODE: Empty States
    ═══════════════════════════════════════════════════════════════════════════ */
 
-html:not(.dark) .admin-dashboard .bg-\[#111\],
-html:not(.dark) .hr-dashboard .bg-\[#111\] {
+html:not(.dark) .admin-dashboard .bg-\[\#111\],
+html:not(.dark) .hr-dashboard .bg-\[\#111\] {
   background: #FFFFFF !important;
   border-color: #E5E7EB !important;
 }
@@ -2118,4 +2119,15 @@ html:not(.dark) .dashboard-modal option,
 html:not(.dark) .dashboard-filter-row option {
   background: #FFFFFF !important;
   color: #000000 !important;
+}
+
+/* Date input calendar picker indicator - white in dark mode, default in light mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+html.light input[type="date"]::-webkit-calendar-picker-indicator,
+html:not(.dark) input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: none;
 }

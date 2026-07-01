@@ -157,7 +157,7 @@ export function Footer() {
           </a>
           {/* X (formerly Twitter) */}
           <a
-            href="https://x.com"
+            href="https://x.com/Texawave"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X"

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -158,12 +158,8 @@ export default function CareersPage() {
     <PageChrome>
       <CandidateView
         jobs={jobs}
-        walkins={walkins}
-        updates={updates}
         onApply={handleApply}
         onJoinTalentPool={handleJoinTalentPool}
-        onLikeUpdate={handleLikeUpdate}
-        onToggleAdmin={() => router.push("/login")}
       />
     </PageChrome>
   );
